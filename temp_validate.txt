@@ -1,0 +1,2740 @@
+
+ÔòöÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòù
+Ôòæ AETHER SELF-VALIDATION
+Ôòæ (Eat your own dog food)
+ÔòáÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòú
+Ôòæ Files checked: 91
+Ôòæ Files with issues: 85
+Ôòæ
+Ôòæ crates\aether-api\src\auth.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keys
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keys
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keys
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: key
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: key
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: validated
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ crates\aether-api\src\handlers.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: start
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: context
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: results
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: total_violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: total_violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layers
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: response
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keypair
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: response
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: response
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: stats
+Ôòæ   ÔÜá [MIL050] TODO: Unfinished code detected
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-api\src\lib.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ crates\aether-api\src\main.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST007] Box<dyn Error> is verbose
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-api\src\server.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST007] Box<dyn Error> is verbose
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: addr_str
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: addr
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: terminate
+Ôòæ   Ô£ù [MIL010] UNSAFE UNWRAP: .unwrap() can panic and crash the application
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ crates\aether-api\src\state.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ crates\aether-certification\src\audit.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ crates\aether-certification\src\certificate.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   Ô£ù [MIL010] UNSAFE UNWRAP: .unwrap() can panic and crash the application
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-certification\src\chain.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEMANTIC001] Unused variable: _parent
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: anchor
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keypair
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: anchor
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: chain
+Ôòæ   Ô£ù [MIL010] UNSAFE UNWRAP: .unwrap() can panic and crash the application
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ crates\aether-certification\src\error.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ crates\aether-certification\src\lib.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ crates\aether-certification\src\revocation.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: entry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: revoked
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: id
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: revoked
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: id
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: crl
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: id
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: crl
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: id
+Ôòæ   Ô£ù [MIL010] UNSAFE UNWRAP: .unwrap() can panic and crash the application
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ crates\aether-certification\src\signer.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: signing_key
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: signature_bytes
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: signature
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: message
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keypair
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: public
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-certification\src\storage.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: file
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: cert
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: id
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: store
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: cert
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: id
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ crates\aether-cli\src\commands\analyze.rs:
+Ôòæ   ÔÜá [RUST007] Box<dyn Error> is verbose
+Ôòæ   ÔÜá [RUST007] Box<dyn Error> is verbose
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-cli\src\commands\certify.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST007] Box<dyn Error> is verbose
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [LOGIC008] Function is 92 lines long (max 50)
+Ôòæ crates\aether-cli\src\commands\contracts.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST026] Thread-unsafe static mutable variable
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: cwd
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: contracts_dir
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: content
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: path
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: path
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   ÔÜá [MIL050] TODO: Unfinished code detected
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [LOGIC008] Function is 70 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-cli\src\commands\executor.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: show
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: contracts_dir
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: registry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: total_errors
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: total_warnings
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: total_infos
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: _ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pipeline
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: loader
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: contract_rules
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: evaluator
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: output
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: show
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: language
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: registry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: output
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: language
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keypair
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: key_bytes
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: json
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: registry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: _ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pipeline
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: json
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: cert
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: public_bytes
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: contracts_dir
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: loader
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keypair
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: public_path
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: key_bytes
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: json
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: selected_platform
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: selected_level
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: contracts_dir
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: loader
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: contracts_dir
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [LOGIC008] Function is 195 lines long (max 50)
+Ôòæ   Ôä╣ [LOGIC008] Function is 102 lines long (max 50)
+Ôòæ   Ôä╣ [LOGIC008] Function is 129 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 7 levels
+Ôòæ crates\aether-cli\src\commands\init.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: input
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [LOGIC008] Function is 117 lines long (max 50)
+Ôòæ crates\aether-cli\src\commands\keypair.rs:
+Ôòæ   ÔÜá [MIL050] TODO: Unfinished code detected
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-cli\src\commands\list.rs:
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST007] Box<dyn Error> is verbose
+Ôòæ   ÔÜá [RUST007] Box<dyn Error> is verbose
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [LOGIC008] Function is 60 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 6 levels
+Ôòæ crates\aether-cli\src\commands\mod.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ crates\aether-cli\src\commands\rag.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: home
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: home
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: path
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: score
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: json
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: entry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: path
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: entry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: entry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: json
+Ôòæ   Ô£ù [MIL010] UNSAFE UNWRAP: .unwrap() can panic and crash the application
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 8 levels
+Ôòæ crates\aether-cli\src\commands\validate.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST007] Box<dyn Error> is verbose
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ô£ù [MIL010] UNSAFE UNWRAP: .unwrap() can panic and crash the application
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [LOGIC008] Function is 75 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-cli\src\commands\verify.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [MIL050] TODO: Unfinished code detected
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [LOGIC008] Function is 85 lines long (max 50)
+Ôòæ crates\aether-cli\src\main.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rag
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rag
+Ôòæ   Ôä╣ [LOGIC008] Function is 107 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 8 levels
+Ôòæ crates\aether-cli\src\platforms.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: settings
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: settings
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: config
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: config
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-cli\src\ui.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-contracts\src\contract.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ crates\aether-contracts\src\error.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ crates\aether-contracts\src\evaluator.rs:
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC002] unsafe block without safety comment
+Ôòæ   ÔÜá [SYNTAX004] 1 unmatched opening parenthesis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: evaluator
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rule
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: evaluator
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rule
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: evaluator
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rule
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: evaluator
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rule
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: evaluator
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rule
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: evaluator
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rule
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: evaluator
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rule
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ crates\aether-contracts\src\lib.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ crates\aether-contracts\src\loader.rs:
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC006] File read - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC006] File read - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC006] File read - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: path
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: content
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 6 levels
+Ôòæ crates\aether-contracts\src\pattern.rs:
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC002] unsafe block without safety comment
+Ôòæ   ÔÜá [SYNTAX004] 2 unmatched opening parenthesis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: patterns
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: patterns
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: patterns
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: inner
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: patterns
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: regex
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: patterns
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: patterns
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: factory
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: factory
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: factory
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: factory
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-contracts\src\registry.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST026] Thread-unsafe static mutable variable
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-core\src\config.rs:
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: config
+Ôòæ crates\aether-core\src\error.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ crates\aether-core\src\lib.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ crates\aether-core\src\orchestrator.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: sessions
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: id
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ crates\aether-core\src\pipeline.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [MIL050] TODO: Unfinished code detected
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ crates\aether-core\src\session.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [SEMANTIC001] Unused variable: _elapsed
+Ôòæ crates\aether-desktop\src-tauri\src\commands.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ crates\aether-desktop\src-tauri\src\config.rs:
+Ôòæ   ÔÜá [SEC006] File read - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC006] File write - verify path is not user-controlled
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: path
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: path
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: content
+Ôòæ crates\aether-desktop\src-tauri\src\lib.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: win
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: win
+Ôòæ   Ô£ù [MIL010] UNSAFE UNWRAP: .unwrap() can panic and crash the application
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [LOGIC008] Function is 98 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 8 levels
+Ôòæ crates\aether-desktop\src-tauri\src\state.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ crates\aether-parsers\src\ast.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ crates\aether-parsers\src\ast_matcher.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matcher
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matcher
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: root
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matcher
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pattern
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: matches
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-parsers\src\cpp.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-parsers\src\error.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ crates\aether-parsers\src\go.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-parsers\src\java.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-parsers\src\javascript.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-parsers\src\lex.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX002] 2 unmatched opening brace(s)
+Ôòæ   Ô£ù [SYNTAX005] Unmatched closing bracket at position 18479
+Ôòæ crates\aether-parsers\src\lib.rs:
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ crates\aether-parsers\src\lua.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX002] 1 unmatched opening brace(s)
+Ôòæ   ÔÜá [SYNTAX004] 2 unmatched opening parenthesis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: name
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ô£ù [MIL010] UNSAFE UNWRAP: .unwrap() can panic and crash the application
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [LOGIC008] Function is 106 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 6 levels
+Ôòæ crates\aether-parsers\src\python.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [SYNTAX004] 1 unmatched opening parenthesis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ast
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-parsers\src\registry.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST026] Thread-unsafe static mutable variable
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: registry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: registry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: registry
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: registry
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-parsers\src\rust.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX002] 1 unmatched opening brace(s)
+Ôòæ   ÔÜá [SYNTAX004] 1 unmatched opening parenthesis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: child
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: child
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: child
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: child
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: child
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: child
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ast
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-parsers\src\tree_sitter\converter.rs:
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST020] unwrap() in non-test code
+Ôòæ   ÔÜá [RUST026] Thread-unsafe static mutable variable
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: text
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: cursor
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ crates\aether-parsers\src\typescript.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-sdk\src\client.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [SEC006] File read - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC006] File read - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: code
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rt
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: parser
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: stats
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keypair
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: client
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: client
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: code
+Ôòæ   ÔÜá [MIL050] TODO: Unfinished code detected
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [LOGIC008] Function is 69 lines long (max 50)
+Ôòæ   Ôä╣ [LOGIC008] Function is 55 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 7 levels
+Ôòæ crates\aether-sdk\src\error.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ crates\aether-sdk\src\lib.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ crates\aether-sdk\src\types.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ crates\aether-validation\src\context.rs:
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ crates\aether-validation\src\feedback.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [SEC002] unsafe block without safety comment
+Ôòæ   ÔÜá [SEC002] unsafe block without safety comment
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: provider
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: feedback
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: provider
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violation
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: desc
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: provider
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violation
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: feedback
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: provider
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violation
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: feedback
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: desc
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ   Ôä╣ [LOGIC008] Function is 91 lines long (max 50)
+Ôòæ crates\aether-validation\src\layer.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ crates\aether-validation\src\layers\architecture.rs:
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX002] 1 unmatched opening brace(s)
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: imports
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: imports
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: imports
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: imports
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: trimmed
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: path
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-validation\src\layers\ast.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX002] 1 unmatched opening brace(s)
+Ôòæ   ÔÜá [SYNTAX004] 1 unmatched opening parenthesis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violations
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ crates\aether-validation\src\layers\logic.rs:
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST008] panic! in library code
+Ôòæ   ÔÜá [RUST008] panic! in library code
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST002] panic! used for error handling
+Ôòæ   ÔÜá [RUST002] panic! used for error handling
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC002] unsafe block without safety comment
+Ôòæ   ÔÜá [SEC002] unsafe block without safety comment
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX002] 1 unmatched opening brace(s)
+Ôòæ   ÔÜá [SYNTAX004] 5 unmatched opening parenthesis
+Ôòæ   Ô£ù [SYNTAX007] Unclosed string starting at position 22310
+Ôòæ crates\aether-validation\src\layers\mod.rs:
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ crates\aether-validation\src\layers\private.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX004] 6 unmatched opening parenthesis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violation
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violation
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: lines
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [LOGIC008] Function is 88 lines long (max 50)
+Ôòæ   Ôä╣ [LOGIC008] Function is 57 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 7 levels
+Ôòæ crates\aether-validation\src\layers\security.rs:
+Ôòæ   ÔÜá [RUST019] Unsafe block without safety comment
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC004] Command execution - verify inputs are sanitized
+Ôòæ   ÔÜá [SEC005] Raw SQL query detected
+Ôòæ   ÔÜá [SEC006] File read - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC006] File read - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC006] File write - verify path is not user-controlled
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX004] 6 unmatched opening parenthesis
+Ôòæ   ÔÜá [SYNTAX006] 1 unmatched opening bracket(s)
+Ôòæ   ÔÜá [SEMANTIC001] Unused variable: _single_quotes
+Ôòæ   ÔÜá [SEMANTIC001] Unused variable: content
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violation
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: violation
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [LOGIC008] Function is 277 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 6 levels
+Ôòæ crates\aether-validation\src\layers\semantic.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   Ô£ù [SYNTAX001] Unmatched closing brace at position 4155
+Ôòæ   ÔÜá [SYNTAX004] 1 unmatched opening parenthesis
+Ôòæ   ÔÜá [SYNTAX006] 1 unmatched opening bracket(s)
+Ôòæ crates\aether-validation\src\layers\style.rs:
+Ôòæ   ÔÜá [RUST026] Thread-unsafe static mutable variable
+Ôòæ   ÔÜá [RUST026] Thread-unsafe static mutable variable
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX002] 2 unmatched opening brace(s)
+Ôòæ   ÔÜá [SYNTAX004] 2 unmatched opening parenthesis
+Ôòæ   ÔÜá [SYNTAX006] 1 unmatched opening bracket(s)
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: lines
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: lines
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: lines
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: trimmed
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: lines
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: trimmed
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: trimmed
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: start
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rest
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: end
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: trimmed
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keyword
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: start
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: rest
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: end
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: source
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 6 levels
+Ôòæ crates\aether-validation\src\layers\syntax.rs:
+Ôòæ   ÔÜá [RUST028] Public struct without Debug implementation
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX002] 1 unmatched opening brace(s)
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: depth
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: depth
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: layer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 6 levels
+Ôòæ crates\aether-validation\src\lib.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ crates\aether-validation\src\pipeline.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST026] Thread-unsafe static mutable variable
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: pipeline
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ctx
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ crates\aether-validation\src\prompt\ambiguity.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ambiguities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: detector
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: scope
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ambiguities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: detector
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: scope
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ambiguities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: detector
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: scope
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ambiguities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: detector
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: scope
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ambiguities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: detector
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: scope
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: ambiguities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: request
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 7 levels
+Ôòæ crates\aether-validation\src\prompt\analyzer.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST001] unwrap() called without context
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] String allocation inside loop
+Ôòæ   ÔÜá [RUST012] String::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SYNTAX006] 2 unmatched opening bracket(s)
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analysis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analyzer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analysis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analyzer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analysis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analyzer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analysis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analyzer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analysis
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: enhanced
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analyzer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analyzer
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: analysis
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-validation\src\prompt\domain.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST025] Clone called - verify if necessary
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST003] clone() called
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: map
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: mapper
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: mapper
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: mapper
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: mapper
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: mapper
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL060] CLONE: Review if clone is necessary
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ   Ôä╣ [LOGIC008] Function is 52 lines long (max 50)
+Ôòæ   Ôä╣ [LOGIC008] Function is 71 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-validation\src\prompt\intent.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: map
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: classifier
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: classifier
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: classifier
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL011] Consider .unwrap_or_else() for expensive defaults
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ   Ôä╣ [MIL081] HASHMAP_NEW: Consider HashMap::with_capacity() if size is known
+Ôòæ   Ôä╣ [LOGIC008] Function is 51 lines long (max 50)
+Ôòæ   ÔÜá [LOGIC009] Deep nesting detected: 5 levels
+Ôòæ crates\aether-validation\src\prompt\mod.rs:
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST021] Result type without explicit error handling
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ   ÔÜá [RUST024] Public field without documentation
+Ôòæ crates\aether-validation\src\prompt\scope.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+Ôòæ   ÔÜá [RUST026] Thread-unsafe static mutable variable
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST010] Vec allocation inside loop
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [RUST012] Vec::new() called without known capacity
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   ÔÜá [SEC007] Potential timing attack when comparing secrets
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: entities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: entities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: entities
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: patterns
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: after
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: keywords
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: extractor
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: extractor
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: extractor
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: extractor
+Ôòæ   Ôä╣ [SEMANTIC003] Variable shadowing: result
+Ôòæ   Ôä╣ [MIL062] TO_STRING: Review if allocation is needed
+Ôòæ   Ôä╣ [MIL080] VECT_NEW: Consider Vec::with_capacity() if size is known
+Ôòæ crates\aether-validation\src\violation.rs:
+Ôòæ   ÔÜá [RUST023] Large enum definition - consider Box for large variants
+ÔòáÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòú
+Ôòæ SUMMARY: 3315
+Ôòæ   ÔÇó 22 errors
+Ôòæ   ÔÇó 2083 warnings
+Ôòæ   ÔÇó 1210 infos
+Ôòæ
+Ôòæ Ô£ù Fix errors in Aether source code
+ÔòÜÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòØ

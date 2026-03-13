@@ -1,0 +1,17 @@
+{
+  "id": "132dfe93-25c6-4c83-a534-80b162331d71",
+  "file_hash": "bee158778243ef0787d855a6791308ce4c327de1400a1be9ffadbbf142f1f130",
+  "validation": {
+    "passed": true,
+    "total_violations": 0,
+    "errors": 0,
+    "warnings": 0,
+    "duration_ms": 1
+  },
+  "timestamp": 1773164476,
+  "agent": {
+    "name": "aether",
+    "version": "0.1.0"
+  },
+  "signature": "TS1p3dhWmLBaSzde91nmKiyERLXEbsCCSBM8DiT8ydvu3d8pJIPMek6qctCeDE+DechFQRBES3CriU35hpprAA=="
+}

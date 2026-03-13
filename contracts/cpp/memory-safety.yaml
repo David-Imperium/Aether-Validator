@@ -1,0 +1,127 @@
+# Aether C++ Contracts - Memory Safety
+# Version: 1.0
+
+meta:
+  version: "1.0"
+  language: cpp
+  domain: memory-safety
+  author: Aether Team
+
+contracts:
+  # CPP001: No owning raw pointers
+  - id: CPP001
+    name: no-raw-pointers-owning
+    description: "Owning raw pointers are forbidden. Use smart pointers."
+    severity: error
+    pattern: "\\bnew\\s+\\w+\\s*\\("
+    suggestion: "Use std::unique_ptr<T> or std::shared_ptr<T>"
+    example_fix: "auto obj = std::make_unique<MyClass>();"
+    ai_hint: |
+      Smart pointers automatically manage memory lifecycle:
+      - unique_ptr: Single ownership, zero overhead
+      - shared_ptr: Shared ownership, reference counted
+    tags:
+      - memory
+      - raii
+      - modern-cpp
+    
+  # CPP002: No malloc/free
+  - id: CPP002
+    name: no-malloc-free
+    description: "Use RAII containers instead of malloc/free"
+    severity: warning
+    pattern: "\\b(malloc|free|realloc|calloc)\\s*\\("
+    suggestion: "Use std::vector, std::string, or smart pointers"
+    ai_hint: "C++ RAII containers handle memory automatically and are exception-safe"
+    tags:
+      - memory
+      - raii
+
+  # CPP003: Include guards required
+  - id: CPP003
+    name: include-guards
+    description: "Header files must have include guards"
+    severity: error
+    pattern: "#ifndef\\s+\\w+_H"
+    suggestion: "Add #ifndef/#define/#endif guards or #pragma once"
+    tags:
+      - style
+      - headers
+
+  # CPP004: No using namespace in headers
+  - id: CPP004
+    name: no-using-namespace-header
+    description: "Avoid 'using namespace' in header files"
+    severity: warning
+    pattern: "using\\s+namespace\\s+\\w+"
+    suggestion: "Use full qualified names or specific using declarations"
+    ai_hint: "Using namespace in headers pollutes the global namespace for all users"
+    tags:
+      - style
+      - headers
+
+  # CPP005: Prefer const
+  - id: CPP005
+    name: prefer-const
+    description: "Prefer const for variables that don't change"
+    severity: hint
+    pattern: "\\b\\w+\\s+\\w+\\s*=[^;]+;"
+    suggestion: "Consider adding 'const' if the variable shouldn't be modified"
+    tags:
+      - style
+      - const-correctness
+
+  # CPP006: No goto
+  - id: CPP006
+    name: no-goto
+    description: "Avoid goto statements"
+    severity: error
+    pattern: "\\bgoto\\s+\\w+"
+    suggestion: "Restructure code to avoid goto (use loops, functions, or early returns)"
+    tags:
+      - style
+      - readability
+
+  # CPP007: Explicit virtual
+  - id: CPP007
+    name: explicit-virtual-override
+    description: "Use 'override' keyword when overriding virtual functions"
+    severity: warning
+    pattern: "virtual\\s+\\w+\\s+\\w+\\s*\\([^)]*\\)\\s*(const)?\\s*;"
+    suggestion: "Add 'override' keyword: void foo() override;"
+    ai_hint: "The override keyword helps catch errors when base class signature changes"
+    tags:
+      - modern-cpp
+      - oop
+
+  # CPP008: No C-style casts
+  - id: CPP008
+    name: no-c-style-casts
+    description: "Avoid C-style casts, use C++ cast operators"
+    severity: warning
+    pattern: "\\(\\w+\\)\\s*\\w+"
+    suggestion: "Use static_cast, dynamic_cast, const_cast, or reinterpret_cast"
+    tags:
+      - modern-cpp
+      - type-safety
+
+  # CPP009: Use nullptr
+  - id: CPP009
+    name: use-nullptr
+    description: "Use nullptr instead of NULL or 0 for null pointers"
+    severity: warning
+    pattern: "\\bNULL\\b|\\b0\\s*==\\s*\\w+\\s*\\)|\\(\\s*\\w+\\s*==\\s*0\\s*\\)"
+    suggestion: "Replace NULL or 0 with nullptr"
+    tags:
+      - modern-cpp
+
+  # CPP010: Prefer constexpr
+  - id: CPP010
+    name: prefer-constexpr
+    description: "Consider constexpr for compile-time constants"
+    severity: hint
+    pattern: "\\bconst\\s+\\w+\\s+\\w+\\s*=[^;]+;"
+    suggestion: "Consider using constexpr if the value can be computed at compile time"
+    tags:
+      - modern-cpp
+      - optimization

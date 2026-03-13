@@ -1,0 +1,23 @@
+[package]
+name = "aether-core"
+description = "Core types and orchestrator for Aether validation"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+aether-validation = { path = "../aether-validation" }
+aether-contracts = { path = "../aether-contracts" }
+aether-certification = { path = "../aether-certification" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

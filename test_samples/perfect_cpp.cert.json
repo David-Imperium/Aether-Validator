@@ -1,0 +1,17 @@
+{
+  "id": "5f887797-704d-470a-9fdb-9f9e914b74d9",
+  "file_hash": "1d8bf01b94a2ef30c7a90ad033bab4be93a8ae69a105a1971385ad624a7c061c",
+  "validation": {
+    "passed": true,
+    "total_violations": 0,
+    "errors": 0,
+    "warnings": 0,
+    "duration_ms": 0
+  },
+  "timestamp": 1773164756,
+  "agent": {
+    "name": "aether",
+    "version": "0.1.0"
+  },
+  "signature": "Ok3MrPGM4q52ivYBx/GFeGPUYUNEzQrJzZyahN4WUlzskfVRfywN3vtuIr4wZ3qjTe8l1sE4R7p5zNxfa7S3AQ=="
+}

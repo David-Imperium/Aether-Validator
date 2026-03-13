@@ -1,0 +1,129 @@
+{
+  "name": "Prism Private Rules",
+  "version": "1.0.0",
+  "description": "Project-specific validation rules for Prism engine",
+  "rules": {
+    "forbidden": [
+      {
+        "id": "PRISM001",
+        "pattern": "std::cout",
+        "message": "Use Prism::Log instead of std::cout",
+        "severity": "warning",
+        "suggestion": "Use PRISM_INFO(), PRISM_WARN(), or PRISM_ERROR() macros"
+      },
+      {
+        "id": "PRISM002",
+        "pattern": "std::cerr",
+        "message": "Use Prism::Log instead of std::cerr",
+        "severity": "warning",
+        "suggestion": "Use PRISM_ERROR() for error logging"
+      },
+      {
+        "id": "PRISM003",
+        "pattern": "printf(",
+        "message": "Use Prism::Log instead of printf",
+        "severity": "error",
+        "suggestion": "Use PRISM_INFO() or PRISM_DEBUG() for logging"
+      },
+      {
+        "id": "PRISM004",
+        "pattern": "malloc(",
+        "message": "Use Prism::Memory::Allocate instead of malloc",
+        "severity": "error",
+        "suggestion": "Use PRISM_ALLOC() or Prism::Memory::Allocate()"
+      },
+      {
+        "id": "PRISM005",
+        "pattern": "free(",
+        "message": "Use Prism::Memory::Free instead of free",
+        "severity": "error",
+        "suggestion": "Use PRISM_FREE() or Prism::Memory::Free()"
+      },
+      {
+        "id": "PRISM006",
+        "pattern": "new ",
+        "message": "Use Prism memory allocation instead of new",
+        "severity": "warning",
+        "suggestion": "Use PRISM_NEW() or Prism::Memory::Allocate()"
+      },
+      {
+        "id": "PRISM007",
+        "pattern": "delete ",
+        "message": "Use Prism memory deallocation instead of delete",
+        "severity": "warning",
+        "suggestion": "Use PRISM_DELETE() or Prism::Memory::Free()"
+      },
+      {
+        "id": "PRISM010",
+        "pattern": "#include <iostream>",
+        "message": "Use Prism::Log for logging, not iostream",
+        "severity": "info",
+        "file_pattern": "src/**/*.cpp"
+      },
+      {
+        "id": "PRISM011",
+        "pattern": "using namespace std;",
+        "message": "Avoid 'using namespace std' in headers",
+        "severity": "warning",
+        "file_pattern": "include/**/*.h"
+      },
+      {
+        "id": "PRISM020",
+        "pattern": "__declspec(dllexport)",
+        "message": "Use PRISM_API macro instead of __declspec",
+        "severity": "error",
+        "suggestion": "Use PRISM_API or PRISM_EXPORT"
+      }
+    ],
+    "required": [
+      {
+        "id": "PRISM100",
+        "pattern": "#pragma once",
+        "message": "Header files must use #pragma once",
+        "severity": "warning",
+        "file_pattern": "include/**/*.h"
+      },
+      {
+        "id": "PRISM101",
+        "pattern": "PRISM_NAMESPACE",
+        "message": "Source files should use PRISM_NAMESPACE",
+        "severity": "info",
+        "file_pattern": "src/**/*.cpp"
+      }
+    ],
+    "naming": [
+      {
+        "kind": "class",
+        "pattern": "^[A-Z][a-zA-Z0-9]*$",
+        "message": "Class names must be PascalCase"
+      },
+      {
+        "kind": "function",
+        "pattern": "^[a-z][a-zA-Z0-9]*$",
+        "message": "Function names must be camelCase"
+      },
+      {
+        "kind": "constant",
+        "pattern": "^[A-Z][A-Z0-9_]*$",
+        "message": "Constants must be SCREAMING_SNAKE_CASE"
+      },
+      {
+        "kind": "member",
+        "pattern": "^m_[a-z][a-zA-Z0-9]*$",
+        "message": "Member variables must be prefixed with m_"
+      }
+    ],
+    "structure": [
+      {
+        "requirement": "max_file_lines",
+        "max": 800,
+        "message": "File exceeds 800 lines - consider splitting"
+      },
+      {
+        "requirement": "max_function_lines",
+        "max": 100,
+        "message": "Function exceeds 100 lines - consider refactoring"
+      }
+    ]
+  }
+}

@@ -1,0 +1,152 @@
+# Java Complexity Contracts
+# Domain: complexity
+
+contracts:
+  - id: JAVACOMP001
+    name: "Maximum cyclomatic complexity"
+    domain: complexity
+    severity: warning
+    description: "Method cyclomatic complexity exceeds threshold"
+    tags:
+      - java
+      - complexity
+      - maintainability
+    rules:
+      - metric: cyclomatic_complexity
+        max: 15
+        message: "Method has cyclomatic complexity > 15"
+        suggestion: "Break down complex method into smaller methods"
+
+  - id: JAVACOMP002
+    name: "Maximum method length"
+    domain: complexity
+    severity: warning
+    description: "Method is too long"
+    tags:
+      - java
+      - complexity
+      - readability
+    rules:
+      - metric: method_lines
+        max: 50
+        message: "Method exceeds 50 lines"
+        suggestion: "Extract helper methods"
+
+  - id: JAVACOMP003
+    name: "Maximum nesting depth"
+    domain: complexity
+    severity: warning
+    description: "Code is deeply nested"
+    tags:
+      - java
+      - complexity
+      - readability
+    rules:
+      - metric: nesting_depth
+        max: 4
+        message: "Nesting depth exceeds 4 levels"
+        suggestion: "Use early returns or extract nested logic"
+
+  - id: JAVACOMP004
+    name: "Maximum parameter count"
+    domain: complexity
+    severity: warning
+    description: "Method has too many parameters"
+    tags:
+      - java
+      - complexity
+      - api
+    rules:
+      - metric: parameter_count
+        max: 5
+        message: "Method has more than 5 parameters"
+        suggestion: "Use parameter object or builder pattern"
+
+  - id: JAVACOMP005
+    name: "No deep nesting in loops"
+    domain: complexity
+    severity: info
+    description: "Deeply nested loops are hard to understand"
+    tags:
+      - java
+      - complexity
+      - performance
+    rules:
+      - pattern: 'for.*for.*for'
+        message: "Triple-nested loop - potential O(n³) complexity"
+        suggestion: "Consider algorithm optimization"
+
+  - id: JAVACOMP006
+    name: "Avoid long files"
+    domain: complexity
+    severity: info
+    description: "File is too long"
+    tags:
+      - java
+      - complexity
+      - maintainability
+    rules:
+      - metric: file_lines
+        max: 500
+        message: "File exceeds 500 lines"
+        suggestion: "Split into multiple classes"
+
+  - id: JAVACOMP007
+    name: "Maximum cognitive complexity"
+    domain: complexity
+    severity: warning
+    description: "Cognitive complexity exceeds threshold"
+    tags:
+      - java
+      - complexity
+      - readability
+    rules:
+      - metric: cognitive_complexity
+        max: 25
+        message: "Method cognitive complexity > 25"
+        suggestion: "Reduce complexity by extracting methods"
+
+  - id: JAVACOMP008
+    name: "Avoid too many methods in class"
+    domain: complexity
+    severity: warning
+    description: "Class has too many methods"
+    tags:
+      - java
+      - complexity
+      - design
+    rules:
+      - metric: method_count
+        max: 20
+        message: "Class has more than 20 methods"
+        suggestion: "Consider splitting class responsibilities"
+
+  - id: JAVACOMP009
+    name: "Avoid deep class hierarchy"
+    domain: complexity
+    severity: warning
+    description: "Deep inheritance hierarchies are hard to understand"
+    tags:
+      - java
+      - complexity
+      - design
+    rules:
+      - metric: inheritance_depth
+        max: 4
+        message: "Inheritance depth exceeds 4 levels"
+        suggestion: "Prefer composition over inheritance"
+
+  - id: JAVACOMP010
+    name: "Avoid god classes"
+    domain: complexity
+    severity: warning
+    description: "Class with too many responsibilities"
+    tags:
+      - java
+      - complexity
+      - design
+    rules:
+      - metric: class_coupling
+        max: 15
+        message: "Class coupled to more than 15 other classes"
+        suggestion: "Apply Single Responsibility Principle"

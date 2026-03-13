@@ -1,0 +1,118 @@
+# C++ Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: CPP_PERF001
+    name: "Pass large objects by reference"
+    domain: performance
+    severity: warning
+    description: "Passing large objects by value causes unnecessary copies"
+    tags:
+      - cpp
+      - performance
+      - copying
+    rules:
+      - pattern: "std::string %NAME%"
+        message: "std::string passed by value - potential copy"
+        suggestion: "Pass by const reference: const std::string&"
+      - pattern: "std::vector<%TYPE%> %NAME%"
+        message: "std::vector passed by value - potential copy"
+        suggestion: "Pass by const reference: const std::vector<T>&"
+
+  - id: CPP_PERF002
+    name: "Reserve capacity for vectors"
+    domain: performance
+    severity: info
+    description: "Vectors without reserve may cause multiple reallocations"
+    tags:
+      - cpp
+      - performance
+      - containers
+    rules:
+      - pattern: "push_back"
+        message: "push_back without reserve - check if size is known"
+        suggestion: "Call reserve() before push_back loop if size is known"
+
+  - id: CPP_PERF003
+    name: "Use emplace instead of push"
+    domain: performance
+    severity: info
+    description: "emplace_back is more efficient than push_back for complex types"
+    tags:
+      - cpp
+      - performance
+      - containers
+    rules:
+      - pattern: "push_back(%TYPE%("
+        message: "push_back with constructor - prefer emplace_back"
+        suggestion: "Use emplace_back(args...) instead of push_back(Type(args...))"
+
+  - id: CPP_PERF004
+    name: "Avoid unnecessary copies with auto&"
+    domain: performance
+    severity: info
+    description: "Range-based for loops can cause copies"
+    tags:
+      - cpp
+      - performance
+      - modern-cpp
+    rules:
+      - pattern: "for (auto %NAME% :"
+        message: "Copy in range-for - consider reference"
+        suggestion: "Use 'for (const auto& item : container)' to avoid copies"
+
+  - id: CPP_PERF005
+    name: "Use move semantics"
+    domain: performance
+    severity: info
+    description: "std::move enables move semantics for efficient transfers"
+    tags:
+      - cpp
+      - performance
+      - move-semantics
+    rules:
+      - pattern: "return %NAME%"
+        message: "Return might copy - consider NRVO or std::move"
+        suggestion: "Let NRVO work or use std::move for explicit move"
+
+  - id: CPP_PERF006
+    name: "String concatenation efficiency"
+    domain: performance
+    severity: warning
+    description: "Repeated string concatenation is inefficient"
+    tags:
+      - cpp
+      - performance
+      - strings
+    rules:
+      - pattern: "s = s +"
+        message: "String concatenation in loop - use stringstream or reserve"
+        suggestion: "Use std::stringstream or reserve() capacity"
+
+  - id: CPP_PERF007
+    name: "Prefer prefix increment"
+    domain: performance
+    severity: info
+    description: "Prefix ++ is generally more efficient than postfix"
+    tags:
+      - cpp
+      - performance
+      - operators
+    rules:
+      - pattern: "%NAME%++"
+        message: "Postfix increment - prefer prefix when possible"
+        suggestion: "Use ++i instead of i++ when result value not needed"
+
+  - id: CPP_PERF008
+    name: "No virtual calls in constructor"
+    domain: performance
+    severity: warning
+    description: "Virtual calls in constructor don't call derived overrides"
+    tags:
+      - cpp
+      - performance
+      - oop
+    rules:
+      - pattern: "%NAME%() { %FUNC%("
+        message: "Check if virtual call in constructor/destructor"
+        suggestion: "Avoid virtual calls in constructors - base version called"

@@ -1,0 +1,142 @@
+# C++ Advanced Contracts (Phase 2)
+# Domain: advanced - Uses composite patterns
+
+contracts:
+  - id: CPP011
+    name: "Raw pointer ownership"
+    domain: memory-safety
+    severity: warning
+    description: "Raw pointers with ownership semantics should use smart pointers"
+    tags:
+      - cpp
+      - memory-safety
+      - modern-cpp
+    rules:
+      - pattern: "and:[new, not:unique_ptr, not:shared_ptr]"
+        message: "Raw new without smart pointer wrapper"
+        suggestion: "Use std::unique_ptr or std::make_unique"
+
+  - id: CPP012
+    name: "Missing noexcept on move constructor"
+    domain: performance
+    severity: info
+    description: "Move constructors should be noexcept for optimal performance"
+    tags:
+      - cpp
+      - performance
+      - modern-cpp
+    rules:
+      - pattern: "and:[move, not:noexcept]"
+        message: "Move constructor without noexcept"
+        suggestion: "Add noexcept specifier to move constructor"
+
+  - id: CPP013
+    name: "C-style cast"
+    domain: modern-cpp
+    severity: warning
+    description: "C-style casts are unsafe and should be replaced"
+    tags:
+      - cpp
+      - modern-cpp
+      - safety
+    rules:
+      - pattern: "regex:\\([^)]+\\)\\s*\\w+"
+        message: "C-style cast detected"
+        suggestion: "Use static_cast, dynamic_cast, or reinterpret_cast"
+
+  - id: CPP014
+    name: "Unprotected shared state"
+    domain: concurrency
+    severity: error
+    description: "Shared mutable state without synchronization"
+    tags:
+      - cpp
+      - concurrency
+      - safety
+    rules:
+      - pattern: "and:[std::shared_ptr, mut, not:mutex]"
+        message: "Shared mutable state without mutex protection"
+        suggestion: "Protect shared state with std::mutex or use atomic types"
+
+  - id: CPP015
+    name: "Missing virtual destructor"
+    domain: memory-safety
+    severity: error
+    description: "Base classes with virtual methods need virtual destructor"
+    tags:
+      - cpp
+      - memory-safety
+      - oop
+    rules:
+      - pattern: "and:[virtual, not:virtual ~]"
+        message: "Class with virtual methods but no virtual destructor"
+        suggestion: "Add virtual destructor to base class"
+
+  - id: CPP016
+    name: "Exception in destructor"
+    domain: safety
+    severity: error
+    description: "Throwing exceptions in destructors is dangerous"
+    tags:
+      - cpp
+      - safety
+      - error-handling
+    rules:
+      - pattern: "and:[~, throw]"
+        message: "Potential exception in destructor"
+        suggestion: "Catch all exceptions in destructors"
+
+  - id: CPP017
+    name: "Copy instead of move"
+    domain: performance
+    severity: info
+    description: "Unnecessary copy when move is available"
+    tags:
+      - cpp
+      - performance
+      - modern-cpp
+    rules:
+      - pattern: "regex:\\w+\\s+\\w+\\s*=\\s*\\w+;(?!.*)"
+        message: "Potential unnecessary copy"
+        suggestion: "Use std::move() for rvalue references"
+
+  - id: CPP018
+    name: "Missing const reference"
+    domain: performance
+    severity: warning
+    description: "Passing large objects by value instead of const reference"
+    tags:
+      - cpp
+      - performance
+    rules:
+      - pattern: "regex:\\(\\s*\\w+\\s+\\w+\\s*\\)"
+        message: "Parameter passed by value - consider const reference"
+        suggestion: "Use const& for non-trivial types"
+
+  - id: CPP019
+    name: "Global mutable state"
+    domain: code-quality
+    severity: warning
+    description: "Global mutable variables make code harder to reason about"
+    tags:
+      - cpp
+      - code-quality
+      - testing
+    rules:
+      - pattern: "and:[static, not:const]"
+        message: "Global mutable static variable"
+        suggestion: "Use dependency injection or singleton pattern"
+
+  - id: CPP020
+    name: "Missing include guard"
+    domain: code-quality
+    severity: warning
+    description: "Header files should have include guards"
+    tags:
+      - cpp
+      - code-quality
+      - build
+    rules:
+      - pattern: "and:[.h, not:#pragma once, not:#ifndef]"
+        message: "Header file without include guard"
+        suggestion: "Add #pragma once or #ifndef guard"

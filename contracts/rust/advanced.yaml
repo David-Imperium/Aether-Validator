@@ -1,0 +1,137 @@
+# Rust Advanced Contracts (Phase 2)
+# Domain: advanced - Uses composite patterns
+
+contracts:
+  - id: RUST019
+    name: "Unsafe block without comment"
+    domain: safety
+    severity: warning
+    description: "Unsafe blocks should have safety comments explaining why they are safe"
+    tags:
+      - rust
+      - safety
+      - documentation
+    rules:
+      - pattern: "and:[unsafe, not:// SAFETY]"
+        message: "Unsafe block without safety comment"
+        suggestion: "Add a // SAFETY comment explaining why this is safe"
+
+  - id: RUST020
+    name: "Unwrap in production code"
+    domain: safety
+    severity: error
+    description: "unwrap() in production code can cause panics"
+    tags:
+      - rust
+      - safety
+      - error-handling
+    rules:
+      - pattern: "and:[unwrap, not:test]"
+        message: "unwrap() in non-test code"
+        suggestion: "Use expect() with context or proper error handling"
+
+  - id: RUST021
+    name: "Missing error handling"
+    domain: error-handling
+    severity: warning
+    description: "Functions returning Result should handle errors explicitly"
+    tags:
+      - rust
+      - error-handling
+    rules:
+      - pattern: "and:[Result, not:match, not:?]"
+        message: "Result type without explicit error handling"
+        suggestion: "Use match, ?, or .map_err() to handle errors"
+
+  - id: RUST022
+    name: "Empty impl block"
+    domain: code-quality
+    severity: info
+    description: "Empty impl blocks are usually unintended"
+    tags:
+      - rust
+      - code-quality
+    rules:
+      - pattern: "regex:impl\\s+\\w+\\s*\\{\\s*\\}"
+        message: "Empty impl block"
+        suggestion: "Remove empty impl block or add methods"
+
+  - id: RUST023
+    name: "Large enum variant"
+    domain: performance
+    severity: info
+    description: "Enum variants with large size differences can waste memory"
+    tags:
+      - rust
+      - performance
+    rules:
+      - pattern: "regex:enum\\s+\\w+\\s*\\{[^}]{100,}"
+        message: "Large enum definition - consider Box for large variants"
+        suggestion: "Box large variants to reduce enum size"
+
+  - id: RUST024
+    name: "Public field without documentation"
+    domain: documentation
+    severity: info
+    description: "Public struct fields should be documented"
+    tags:
+      - rust
+      - documentation
+    rules:
+      - pattern: "and:[pub, not:///]"
+        message: "Public field without documentation"
+        suggestion: "Add documentation comment for public field"
+
+  - id: RUST025
+    name: "Clone on large type"
+    domain: performance
+    severity: warning
+    description: "Clone on large types can be expensive"
+    tags:
+      - rust
+      - performance
+    rules:
+      - pattern: "regex:\\b\\w+\\.clone\\(\\)"
+        message: "Clone called - verify if necessary"
+        suggestion: "Consider using a reference or Arc if cloning is expensive"
+
+  - id: RUST026
+    name: "Thread-unsafe static"
+    domain: concurrency
+    severity: error
+    description: "Static mutable variables are not thread-safe"
+    tags:
+      - rust
+      - concurrency
+      - safety
+    rules:
+      - pattern: "and:[static, mut, not:Mutex, not:RwLock]"
+        message: "Thread-unsafe static mutable variable"
+        suggestion: "Use Mutex, RwLock, or atomic types for thread-safe statics"
+
+  - id: RUST027
+    name: "Deprecated unwrap_or pattern"
+    domain: idioms
+    severity: info
+    description: "Prefer unwrap_or_default over unwrap_or with default value"
+    tags:
+      - rust
+      - idioms
+    rules:
+      - pattern: "regex:\\.unwrap_or\\(\\s*\\w+::default\\(\\)\\s*\\)"
+        message: "Use unwrap_or_default() instead of unwrap_or(Default::default())"
+        suggestion: "Replace with .unwrap_or_default()"
+
+  - id: RUST028
+    name: "Missing Debug implementation"
+    domain: code-quality
+    severity: info
+    description: "Public types should implement Debug for debugging"
+    tags:
+      - rust
+      - code-quality
+      - debugging
+    rules:
+      - pattern: "and:[pub struct, not:Debug]"
+        message: "Public struct without Debug implementation"
+        suggestion: "Add #[derive(Debug)] or implement Debug trait"

@@ -1,0 +1,32 @@
+[package]
+name = "aether-cli"
+version = "0.1.0"
+edition = "2021"
+description = "Aether CLI - Real-time code validator and certifier"
+authors = ["David"]
+
+[[bin]]
+name = "aether"
+path = "src/main.rs"
+
+[dependencies]
+aether-core = { path = "../aether-core" }
+aether-sdk = { path = "../aether-sdk" }
+aether-parsers = { path = "../aether-parsers" }
+aether-validation = { path = "../aether-validation" }
+aether-certification = { path = "../aether-certification" }
+aether-contracts = { path = "../aether-contracts" }
+
+clap = { version = "4", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+colored = "2"
+anyhow = "1"
+dirs = "5"
+hex = "0.4"
+inquire = "0.7"
+reqwest = { version = "0.12", features = ["json"] }
+which = "6"
+walkdir = "2"

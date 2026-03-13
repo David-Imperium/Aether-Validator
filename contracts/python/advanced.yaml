@@ -1,0 +1,177 @@
+# Python Advanced Patterns Contracts
+# Domain: advanced
+# Patterns for advanced Python usage
+
+contracts:
+  - id: PYADV001
+    name: "Use dataclasses for data containers"
+    domain: advanced
+    severity: info
+    description: "dataclasses reduce boilerplate for data classes"
+    tags:
+      - python
+      - patterns
+      - python37
+    rules:
+      - pattern: 'class \w+:\s*\n\s*def __init__\(self'
+        message: "Consider using @dataclass for data containers"
+        suggestion: "Use @dataclass decorator to reduce boilerplate"
+
+  - id: PYADV002
+    name: "Use @property for computed attributes"
+    domain: advanced
+    severity: info
+    description: "Use @property for attributes that need computation"
+    tags:
+      - python
+      - patterns
+      - properties
+    rules:
+      - pattern: 'def get_\w+\(self\):'
+        message: "Getter method - consider using @property"
+        suggestion: "Use @property decorator for computed attributes"
+      - pattern: 'def set_\w+\(self'
+        message: "Setter method - consider using @property setter"
+        suggestion: "Use @property.setter decorator"
+
+  - id: PYADV003
+    name: "Use contextlib for custom context managers"
+    domain: advanced
+    severity: info
+    description: "contextlib.contextmanager simplifies context manager creation"
+    tags:
+      - python
+      - patterns
+      - context-managers
+    rules:
+      - pattern: 'def __enter__\(self\):'
+        message: "Consider using @contextlib.contextmanager decorator"
+        suggestion: "Use @contextlib.contextmanager for simpler context managers"
+
+  - id: PYADV004
+    name: "Use functools.lru_cache for memoization"
+    domain: advanced
+    severity: info
+    description: "lru_cache provides automatic memoization"
+    tags:
+      - python
+      - patterns
+      - caching
+    rules:
+      - pattern: 'def \w+\(.*\):\s*\n\s*if.*in.*cache'
+        message: "Manual cache implementation detected"
+        suggestion: "Use @functools.lru_cache() for automatic memoization"
+
+  - id: PYADV005
+    name: "Use functools.partial for partial application"
+    domain: advanced
+    severity: info
+    description: "partial() creates new functions with fixed arguments"
+    tags:
+      - python
+      - patterns
+      - functional
+    rules:
+      - pattern: 'lambda.*:.*\w+\(.*,'
+        message: "Lambda for partial application"
+        suggestion: "Use functools.partial() for cleaner partial application"
+
+  - id: PYADV006
+    name: "Use typing Protocol for duck typing"
+    domain: advanced
+    severity: info
+    description: "Protocol defines structural subtyping"
+    tags:
+      - python
+      - patterns
+      - typing
+    rules:
+      - pattern: 'class \w+\(ABC\):'
+        message: "ABC for structural typing - consider Protocol"
+        suggestion: "Use typing.Protocol for structural subtyping"
+
+  - id: PYADV007
+    name: "Use singledispatch for type-based dispatch"
+    domain: advanced
+    severity: info
+    description: "singledispatch enables function overloading"
+    tags:
+      - python
+      - patterns
+      - dispatch
+    rules:
+      - pattern: 'if isinstance\(.*,.*\):'
+        message: "Type checking for dispatch"
+        suggestion: "Consider @functools.singledispatch for type-based dispatch"
+
+  - id: PYADV008
+    name: "Use __all__ for public API"
+    domain: advanced
+    severity: info
+    description: "__all__ defines the public interface of a module"
+    tags:
+      - python
+      - patterns
+      - api-design
+    rules:
+      - pattern: '^import'
+        # Hint to check for __all__
+        message: ""
+        suggestion: "Consider defining __all__ for explicit public API"
+
+  - id: PYADV009
+    name: "Use attrs or pydantic for validation"
+    domain: advanced
+    severity: info
+    description: "Third-party libraries provide validation and serialization"
+    tags:
+      - python
+      - patterns
+      - libraries
+    rules:
+      - pattern: 'def validate_\w+\(self\):'
+        message: "Manual validation method"
+        suggestion: "Consider pydantic or attrs for automatic validation"
+
+  - id: PYADV010
+    name: "Use asyncio for I/O-bound concurrency"
+    domain: advanced
+    severity: info
+    description: "asyncio is ideal for I/O-bound operations"
+    tags:
+      - python
+      - patterns
+      - async
+    rules:
+      - pattern: 'def \w+\(.*\):\s*\n.*await'
+        message: "Sync function with await - should be async"
+        suggestion: "Use 'async def' for functions with await"
+
+  - id: PYADV011
+    name: "Use typing.NewType for distinct types"
+    domain: advanced
+    severity: info
+    description: "NewType creates semantically distinct types"
+    tags:
+      - python
+      - patterns
+      - typing
+    rules:
+      - pattern: 'UserId = int'
+        message: "Type alias doesn't prevent mixing"
+        suggestion: "Use UserId = NewType('UserId', int) for type safety"
+
+  - id: PYADV012
+    name: "Use __repr__ for debugging"
+    domain: advanced
+    severity: info
+    description: "__repr__ should provide unambiguous representation"
+    tags:
+      - python
+      - patterns
+      - debugging
+    rules:
+      - pattern: 'class \w+:'
+        # Hint
+        message: ""
+        suggestion: "Consider implementing __repr__ for easier debugging"

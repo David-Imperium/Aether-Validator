@@ -1,0 +1,149 @@
+# JavaScript Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: JSPERF001
+    name: "Avoid blocking the main thread"
+    domain: performance
+    severity: warning
+    description: "Long-running operations should be async"
+    tags:
+      - javascript
+      - performance
+      - async
+    rules:
+      - pattern: 'while\\s*\\(true\\)'
+        message: "Infinite loop can block main thread"
+        suggestion: "Use setInterval or requestAnimationFrame instead"
+
+  - id: JSPERF002
+    name: "Use document fragments for DOM updates"
+    domain: performance
+    severity: info
+    description: "Batch DOM updates for better performance"
+    tags:
+      - javascript
+      - performance
+      - dom
+    rules:
+      - pattern: 'for.*{[^}]*appendChild\\('
+        message: "appendChild in loop causes reflows"
+        suggestion: "Use DocumentFragment to batch DOM updates"
+
+  - id: JSPERF003
+    name: "Debounce/throttle event handlers"
+    domain: performance
+    severity: warning
+    description: "Frequent events should be debounced"
+    tags:
+      - javascript
+      - performance
+      - events
+    rules:
+      - pattern: 'addEventListener\\(["\']scroll'
+        message: "Scroll handler without debounce"
+        suggestion: "Debounce or throttle scroll handlers"
+      - pattern: 'addEventListener\\(["\']resize'
+        message: "Resize handler without debounce"
+        suggestion: "Debounce or throttle resize handlers"
+
+  - id: JSPERF004
+    name: "Avoid memory leaks with event listeners"
+    domain: performance
+    severity: warning
+    description: "Remove event listeners when not needed"
+    tags:
+      - javascript
+      - performance
+      - memory
+    rules:
+      - pattern: 'addEventListener\\('
+        message: "Event listener added - ensure it's removed when needed"
+        suggestion: "Use removeEventListener or AbortController"
+
+  - id: JSPERF005
+    name: "Use efficient array operations"
+    domain: performance
+    severity: info
+    description: "Some array operations are O(n)"
+    tags:
+      - javascript
+      - performance
+      - arrays
+    rules:
+      - pattern: '\\.indexOf\\('
+        message: "indexOf is O(n) - consider using Set for frequent lookups"
+        suggestion: "Use Set.has() for O(1) lookups"
+      - pattern: '\\.includes\\('
+        message: "includes is O(n) for arrays"
+        suggestion: "Use Set for frequent membership tests"
+
+  - id: JSPERF006
+    name: "Cache DOM queries"
+    domain: performance
+    severity: info
+    description: "Repeated DOM queries are expensive"
+    tags:
+      - javascript
+      - performance
+      - dom
+    rules:
+      - pattern: 'for.*{[^}]*querySelector\\('
+        message: "querySelector in loop"
+        suggestion: "Cache the element reference outside the loop"
+
+  - id: JSPERF007
+    name: "Use requestAnimationFrame for animations"
+    domain: performance
+    severity: warning
+    description: "setTimeout is not synchronized with display refresh"
+    tags:
+      - javascript
+      - performance
+      - animation
+    rules:
+      - pattern: 'setTimeout\\([^)]*,\\s*\\d+\\)\\s*;[^;]*animate'
+        message: "setTimeout for animations - use requestAnimationFrame"
+        suggestion: "Use requestAnimationFrame for smooth animations"
+
+  - id: JSPERF008
+    name: "Avoid forced reflows"
+    domain: performance
+    severity: warning
+    description: "Reading layout properties causes reflows"
+    tags:
+      - javascript
+      - performance
+      - dom
+    rules:
+      - pattern: '\\.offsetHeight.*\\.style\\.'
+        message: "Layout read followed by style write causes reflow"
+        suggestion: "Batch style reads and writes separately"
+
+  - id: JSPERF009
+    name: "Use Web Workers for CPU-intensive work"
+    domain: performance
+    severity: info
+    description: "Offload heavy computation to Web Workers"
+    tags:
+      - javascript
+      - performance
+      - web-workers
+    rules:
+      - pattern: 'for\\s*\\(let.*100000'
+        message: "Heavy computation in main thread"
+        suggestion: "Consider Web Workers for CPU-intensive tasks"
+
+  - id: JSPERF010
+    name: "Lazy load images"
+    domain: performance
+    severity: info
+    description: "Load images when they enter viewport"
+    tags:
+      - javascript
+      - performance
+      - images
+    rules:
+      - pattern: '<img[^>]*src='
+        message: "Image without lazy loading"
+        suggestion: "Add loading='lazy' attribute for offscreen images"

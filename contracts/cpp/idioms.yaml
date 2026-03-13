@@ -1,0 +1,143 @@
+# C++ Idioms Contracts
+# Domain: idioms
+
+contracts:
+  - id: CPP_IDM001
+    name: "Use const appropriately"
+    domain: idioms
+    severity: info
+    description: "const correctness improves code clarity and optimization"
+    tags:
+      - cpp
+      - const
+      - best-practices
+    rules:
+      - pattern: "%TYPE% %FUNC%(%PARAMS%)"
+        message: "Check if return type should be const"
+        suggestion: "Return const references for getters, values for small types"
+
+  - id: CPP_IDM002
+    name: "Prefer range-based for loops"
+    domain: idioms
+    severity: info
+    description: "Range-based for loops are cleaner and safer"
+    tags:
+      - cpp
+      - modern-cpp
+      - loops
+    rules:
+      - pattern: "for (int %NAME% = 0"
+        message: "Index-based for loop - consider range-based for"
+        suggestion: "Use 'for (const auto& item : container)' for cleaner code"
+
+  - id: CPP_IDM003
+    name: "Use nullptr instead of NULL"
+    domain: idioms
+    severity: warning
+    description: "nullptr is type-safe, NULL/0 are not"
+    tags:
+      - cpp
+      - modern-cpp
+      - null
+    rules:
+      - pattern: "NULL"
+        message: "NULL macro used - prefer nullptr"
+        suggestion: "Use nullptr instead of NULL or 0 for pointers"
+
+  - id: CPP_IDM004
+    name: "Use auto for complex types"
+    domain: idioms
+    severity: info
+    description: "auto reduces verbosity and prevents type mismatches"
+    tags:
+      - cpp
+      - modern-cpp
+      - type-deduction
+    rules:
+      - pattern: "std::%CONTAINER%<%TYPE%>::iterator"
+        message: "Verbose iterator type - use auto"
+        suggestion: "Use 'auto it = container.begin()' instead of full type"
+
+  - id: CPP_IDM005
+    name: "Initialize variables in declaration"
+    domain: idioms
+    severity: warning
+    description: "Uninitialized variables lead to undefined behavior"
+    tags:
+      - cpp
+      - initialization
+      - safety
+    rules:
+      - pattern: "%TYPE% %NAME%;"
+        message: "Uninitialized variable - potential undefined behavior"
+        suggestion: "Initialize variables at declaration: Type name{value}"
+
+  - id: CPP_IDM006
+    name: "Use constexpr for compile-time constants"
+    domain: idioms
+    severity: info
+    description: "constexpr enables compile-time evaluation"
+    tags:
+      - cpp
+      - modern-cpp
+      - constexpr
+    rules:
+      - pattern: "const %TYPE% %NAME% = %VALUE%"
+        message: "const could be constexpr for compile-time evaluation"
+        suggestion: "Use constexpr for constants known at compile time"
+
+  - id: CPP_IDM007
+    name: "Prefer STL algorithms over raw loops"
+    domain: idioms
+    severity: info
+    description: "STL algorithms are more expressive and often optimized"
+    tags:
+      - cpp
+      - stl
+      - algorithms
+    rules:
+      - pattern: "for ("
+        message: "Raw for loop - consider STL algorithms"
+        suggestion: "Use std::for_each, std::transform, etc. for cleaner code"
+
+  - id: CPP_IDM008
+    name: "Use structured bindings"
+    domain: idioms
+    severity: info
+    description: "Structured bindings simplify pair/tuple access"
+    tags:
+      - cpp
+      - modern-cpp
+      - c++17
+    rules:
+      - pattern: "%NAME%.first"
+        message: "Accessing .first/.second - consider structured binding"
+        suggestion: "Use 'auto [key, value] = pair' for cleaner code"
+
+  - id: CPP_IDM009
+    name: "Follow rule of five/six/zero"
+    domain: idioms
+    severity: warning
+    description: "Classes managing resources need special member functions"
+    tags:
+      - cpp
+      - raii
+      - rule-of-five
+    rules:
+      - pattern: "~%NAME%() {"
+        message: "Destructor defined - check if copy/move needed"
+        suggestion: "Follow rule of five or use smart pointers for zero"
+
+  - id: CPP_IDM010
+    name: "Use namespaces"
+    domain: idioms
+    severity: info
+    description: "Namespaces prevent naming conflicts"
+    tags:
+      - cpp
+      - namespaces
+      - organization
+    rules:
+      - pattern: "class %NAME% {"
+        message: "Class at global scope - consider namespace"
+        suggestion: "Wrap classes in namespaces to avoid name collisions"

@@ -1,0 +1,318 @@
+# Java Security Contracts
+# Domain: security
+
+contracts:
+  - id: JAVASEC001
+    name: "No hardcoded credentials"
+    domain: security
+    severity: error
+    description: "Hardcoded passwords or secrets in source code"
+    tags:
+      - java
+      - security
+      - secrets
+    rules:
+      - pattern: 'password\\s*=\\s*"'
+        message: "Hardcoded password detected"
+        suggestion: "Use environment variables or secrets manager"
+      - pattern: 'apiKey\\s*=\\s*"'
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables"
+      - pattern: 'secret\\s*=\\s*"'
+        message: "Hardcoded secret detected"
+        suggestion: "Use environment variables"
+
+  - id: JAVASEC002
+    name: "Use PreparedStatement for SQL"
+    domain: security
+    severity: error
+    description: "SQL injection vulnerability"
+    tags:
+      - java
+      - security
+      - injection
+    rules:
+      - pattern: 'executeQuery\\(.*\\+'
+        message: "SQL string concatenation - potential injection"
+        suggestion: "Use PreparedStatement with parameterized queries"
+      - pattern: 'createStatement\\(\\)'
+        message: "Statement without parameters - potential injection"
+        suggestion: "Use PreparedStatement for parameterized queries"
+
+  - id: JAVASEC003
+    name: "Sanitize user input"
+    domain: security
+    severity: warning
+    description: "User input should be validated"
+    tags:
+      - java
+      - security
+      - input-validation
+    rules:
+      - pattern: 'getParameter\\('
+        message: "Request parameter - validate before use"
+        suggestion: "Validate and sanitize all user input"
+
+  - id: JAVASEC004
+    name: "Avoid command injection"
+    domain: security
+    severity: error
+    description: "Command execution with user input"
+    tags:
+      - java
+      - security
+      - injection
+    rules:
+      - pattern: 'Runtime\\.getRuntime\\(\\)\\.exec'
+        message: "Command execution - ensure input is sanitized"
+        suggestion: "Use ProcessBuilder with argument list"
+
+  - id: JAVASEC005
+    name: "Use secure random for security"
+    domain: security
+    severity: warning
+    description: "java.util.Random is not cryptographically secure"
+    tags:
+      - java
+      - security
+      - cryptography
+    rules:
+      - pattern: 'new Random\\(\\)'
+        message: "java.util.Random is not cryptographically secure"
+        suggestion: "Use java.security.SecureRandom for security-sensitive randomness"
+
+  - id: JAVASEC006
+    name: "Close resources properly"
+    domain: security
+    severity: warning
+    description: "Resource leaks can cause denial of service"
+    tags:
+      - java
+      - security
+      - resources
+    rules:
+      - pattern: 'new FileInputStream\\('
+        message: "File opened without try-with-resources"
+        suggestion: "Use try-with-resources: try (FileInputStream fis = ...)"
+      - pattern: 'new FileOutputStream\\('
+        message: "File opened without try-with-resources"
+        suggestion: "Use try-with-resources for automatic resource closure"
+
+  - id: JAVASEC007
+    name: "Avoid deserialization vulnerabilities"
+    domain: security
+    severity: error
+    description: "Deserialization of untrusted data is dangerous"
+    tags:
+      - java
+      - security
+      - deserialization
+    rules:
+      - pattern: 'ObjectInputStream'
+        message: "ObjectInputStream with untrusted data can execute code"
+        suggestion: "Validate input or use safe serialization formats"
+
+  - id: JAVASEC008
+    name: "Use strong encryption algorithms"
+    domain: security
+    severity: warning
+    description: "Weak encryption algorithms are insecure"
+    tags:
+      - java
+      - security
+      - cryptography
+    rules:
+      - pattern: 'DES'
+        message: "DES is weak encryption"
+        suggestion: "Use AES-256-GCM for symmetric encryption"
+      - pattern: 'MD5'
+        message: "MD5 is broken for security purposes"
+        suggestion: "Use SHA-256 or SHA-3 for hashing"
+
+  - id: JAVASEC009
+    name: "Avoid XXE vulnerabilities"
+    domain: security
+    severity: error
+    description: "XML External Entity attacks"
+    tags:
+      - java
+      - security
+      - xml
+    rules:
+      - pattern: 'SAXParser'
+        message: "XML parser - disable external entities"
+        suggestion: "Set SAXParserFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)"
+
+  - id: JAVASEC010
+    name: "Use prepared statements correctly"
+    domain: security
+    severity: warning
+    description: "Improper use of prepared statements"
+    tags:
+      - java
+      - security
+      - injection
+    rules:
+      - pattern: 'setString\\(.*\\+'
+        message: "String concatenation in setString - potential injection"
+        suggestion: "Pass values directly to setString"
+
+  # === Additional FindSecBugs patterns ===
+
+  - id: JAVASEC011
+    name: "No weak hash for passwords"
+    domain: security
+    severity: error
+    description: "Weak hashing for passwords"
+    tags:
+      - java
+      - security
+      - cryptography
+    rules:
+      - pattern: 'MessageDigest\.getInstance\("MD5"\)'
+        message: "MD5 is broken for security"
+        suggestion: "Use SHA-256 or SHA-3"
+      - pattern: 'MessageDigest\.getInstance\("SHA-1"\)'
+        message: "SHA-1 is weak for security"
+        suggestion: "Use SHA-256 or SHA-3"
+      - pattern: 'MessageDigest\.getInstance\("SHA1"\)'
+        message: "SHA-1 is weak for security"
+        suggestion: "Use SHA-256 or SHA-3"
+
+  - id: JAVASEC012
+    name: "Use secure cookie settings"
+    domain: security
+    severity: warning
+    description: "Cookie security flags missing"
+    tags:
+      - java
+      - security
+      - web
+    rules:
+      - pattern: 'Cookie\s+\w+\s*=\s*new\s+Cookie'
+        message: "Cookie - set HttpOnly and Secure flags"
+        suggestion: "cookie.setHttpOnly(true); cookie.setSecure(true)"
+
+  - id: JAVASEC013
+    name: "Avoid LDAP injection"
+    domain: security
+    severity: error
+    description: "LDAP query injection vulnerability"
+    tags:
+      - java
+      - security
+      - injection
+    rules:
+      - pattern: 'DirContext\.search\('
+        message: "LDAP search - validate input"
+        suggestion: "Use parameterized LDAP queries"
+
+  - id: JAVASEC014
+    name: "Avoid path traversal in file operations"
+    domain: security
+    severity: error
+    description: "File path from user input"
+    tags:
+      - java
+      - security
+      - filesystem
+    rules:
+      - pattern: 'new\s+File\(.*request'
+        message: "File path from request - potential traversal"
+        suggestion: "Validate and canonicalize file paths"
+
+  - id: JAVASEC015
+    name: "No weak SSL/TLS context"
+    domain: security
+    severity: warning
+    description: "Weak SSL/TLS protocol version"
+    tags:
+      - java
+      - security
+      - tls
+    rules:
+      - pattern: 'SSLContext\.getInstance\("SSL"\)'
+        message: "SSL protocol is deprecated"
+        suggestion: "Use TLSv1.2 or TLSv1.3"
+      - pattern: 'SSLContext\.getInstance\("TLS"\)'
+        message: "TLS without version - use explicit version"
+        suggestion: "Use SSLContext.getInstance("TLSv1.2")"
+
+  - id: JAVASEC016
+    name: "Avoid script engine injection"
+    domain: security
+    severity: error
+    description: "ScriptEngine can execute arbitrary code"
+    tags:
+      - java
+      - security
+      - injection
+    rules:
+      - pattern: 'ScriptEngine\.eval'
+        message: "ScriptEngine.eval is dangerous"
+        suggestion: "Avoid dynamic code execution"
+
+  - id: JAVASEC017
+    name: "Use proper logging"
+    domain: security
+    severity: warning
+    description: "System.out may expose sensitive data"
+    tags:
+      - java
+      - security
+      - logging
+    rules:
+      - pattern: 'System\.out\.print'
+        message: "System.out - use proper logging framework"
+        suggestion: "Use SLF4J or Log4j for logging"
+      - pattern: 'System\.err\.print'
+        message: "System.err - use proper logging framework"
+        suggestion: "Use SLF4J or Log4j for logging"
+
+  - id: JAVASEC018
+    name: "No SQL in string format"
+    domain: security
+    severity: error
+    description: "String.format for SQL is dangerous"
+    tags:
+      - java
+      - security
+      - injection
+    rules:
+      - pattern: 'String\.format\(.*SELECT'
+        message: "String.format with SQL - injection risk"
+        suggestion: "Use PreparedStatement"
+      - pattern: 'String\.format\(.*INSERT'
+        message: "String.format with SQL - injection risk"
+        suggestion: "Use PreparedStatement"
+      - pattern: 'String\.format\(.*UPDATE'
+        message: "String.format with SQL - injection risk"
+        suggestion: "Use PreparedStatement"
+
+  - id: JAVASEC019
+    name: "Check regex for ReDoS"
+    domain: security
+    severity: warning
+    description: "Regex vulnerable to denial of service"
+    tags:
+      - java
+      - security
+      - regex
+    rules:
+      - pattern: 'Pattern\.compile\('
+        message: "Regex - check for ReDoS vulnerability"
+        suggestion: "Avoid nested quantifiers like (a+)+"
+
+  - id: JAVASEC020
+    name: "No telnet URL connection"
+    domain: security
+    severity: warning
+    description: "Telnet is unencrypted"
+    tags:
+      - java
+      - security
+      - network
+    rules:
+      - pattern: 'URL\(.*telnet:'
+        message: "Telnet URL is unencrypted"
+        suggestion: "Use SSH or HTTPS"

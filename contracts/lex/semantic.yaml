@@ -1,0 +1,150 @@
+# Lex Semantic Contracts
+# Domain: semantic
+# Validates cross-references and semantic consistency
+
+contracts:
+  - id: LEX101
+    name: "Era reference valid"
+    domain: semantic
+    severity: error
+    description: "Era references must point to defined eras"
+    tags:
+      - lex
+      - era
+      - reference
+      - semantic
+    rules:
+      - query: |
+          SELECT e.name, e.type
+          FROM definitions e
+          WHERE e.type IN ('structure', 'unit', 'technology')
+            AND e.properties NOT CONTAINS 'era'
+        message: "Definition references undefined era"
+        suggestion: "Define era '%ERA%' before referencing it"
+
+  - id: LEX102
+    name: "Resource reference valid"
+    domain: semantic
+    severity: warning
+    description: "Resource references in costs should point to defined resources"
+    tags:
+      - lex
+      - resource
+      - reference
+      - semantic
+    rules:
+      - query: |
+          SELECT d.name, r.name
+          FROM definitions d
+          JOIN resource_references r ON d.id = r.definition_id
+          WHERE r.name NOT IN (SELECT name FROM resources)
+        message: "Cost references undefined resource"
+        suggestion: "Define resource '%RESOURCE%' before using it in costs"
+
+  - id: LEX103
+    name: "Technology prerequisite valid"
+    domain: semantic
+    severity: error
+    description: "Technology prerequisites must reference earlier technologies"
+    tags:
+      - lex
+      - technology
+      - prerequisite
+      - semantic
+    rules:
+      - query: |
+          SELECT t.name, p.prerequisite
+          FROM technologies t
+          JOIN prerequisites p ON t.id = p.tech_id
+          WHERE p.prerequisite NOT IN (SELECT name FROM technologies)
+        message: "Technology prerequisite not found"
+        suggestion: "Ensure '%PREREQ%' is defined before '%TECH%'"
+
+  - id: LEX104
+    name: "Unlocks reference valid"
+    domain: semantic
+    severity: warning
+    description: "Technology unlocks should reference defined structures/units"
+    tags:
+      - lex
+      - technology
+      - unlocks
+      - semantic
+    rules:
+      - query: |
+          SELECT t.name, u.unlocked
+          FROM technologies t
+          JOIN unlocks u ON t.id = u.tech_id
+          WHERE u.unlocked NOT IN (SELECT name FROM structures UNION SELECT name FROM units)
+        message: "Technology unlocks undefined entity"
+        suggestion: "Ensure '%ENTITY%' is defined as a structure or unit"
+
+  - id: LEX105
+    name: "Unique definition names"
+    domain: semantic
+    severity: error
+    description: "Each definition must have a unique name within its type"
+    tags:
+      - lex
+      - unique
+      - naming
+      - semantic
+    rules:
+      - query: |
+          SELECT name, type, COUNT(*) as count
+          FROM definitions
+          GROUP BY name, type
+          HAVING COUNT(*) > 1
+        message: "Duplicate definition name"
+        suggestion: "Rename one of the '%NAME%' definitions to avoid confusion"
+
+  - id: LEX106
+    name: "No circular technology dependencies"
+    domain: semantic
+    severity: error
+    description: "Technology prerequisite chains must not be circular"
+    tags:
+      - lex
+      - technology
+      - circular
+      - semantic
+    rules:
+      - pattern: "circular_dependency"
+        message: "Circular technology dependency detected"
+        suggestion: "Remove circular prerequisite between technologies"
+
+  - id: LEX107
+    name: "Era ordering valid"
+    domain: semantic
+    severity: info
+    description: "Eras should be ordered logically for gameplay progression"
+    tags:
+      - lex
+      - era
+      - ordering
+      - semantic
+    rules:
+      - query: |
+          SELECT e1.name, e2.name
+          FROM eras e1, eras e2
+          WHERE e1.order > e2.order AND e1.prerequisites CONTAINS e2.name
+        message: "Era ordering may cause progression issues"
+        suggestion: "Ensure earlier eras are defined before later ones"
+
+  - id: LEX108
+    name: "Resource categories valid"
+    domain: semantic
+    severity: warning
+    description: "Resources should have valid categories"
+    tags:
+      - lex
+      - resource
+      - category
+      - semantic
+    rules:
+      - query: |
+          SELECT name, category
+          FROM resources
+          WHERE category NOT IN ('currency', 'material', 'fuel', 'utility', 'production', 'knowledge')
+        message: "Invalid resource category"
+        suggestion: "Use one of: currency, material, fuel, utility, production, knowledge"

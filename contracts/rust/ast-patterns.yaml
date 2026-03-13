@@ -1,0 +1,140 @@
+# Rust AST-Based Contracts (Phase 2)
+# Domain: ast-patterns - Uses AST pattern matching
+
+contracts:
+  - id: RUST029
+    name: "Large struct"
+    domain: code-quality
+    severity: info
+    description: "Structs with many fields may indicate need for decomposition"
+    tags:
+      - rust
+      - code-quality
+      - refactoring
+    rules:
+      - pattern: "ast:struct:fields>10"
+        message: "Struct has more than 10 fields - consider decomposition"
+        suggestion: "Split into multiple smaller structs or use the builder pattern"
+
+  - id: RUST030
+    name: "Missing trait bound"
+    domain: correctness
+    severity: warning
+    description: "Generic types without trait bounds may not compile"
+    tags:
+      - rust
+      - correctness
+      - generics
+    rules:
+      - pattern: "ast:impl:generic:no_bounds"
+        message: "Generic impl without trait bounds"
+        suggestion: "Add appropriate trait bounds or document why they're not needed"
+
+  - id: RUST031
+    name: "Deeply nested function"
+    domain: code-quality
+    severity: warning
+    description: "Functions with deep nesting are hard to understand"
+    tags:
+      - rust
+      - code-quality
+      - readability
+    rules:
+      - pattern: "ast:function:nesting>4"
+        message: "Function has more than 4 levels of nesting"
+        suggestion: "Extract nested logic into helper functions"
+
+  - id: RUST032
+    name: "Empty trait"
+    domain: code-quality
+    severity: info
+    description: "Empty traits are usually marker traits or mistakes"
+    tags:
+      - rust
+      - code-quality
+    rules:
+      - pattern: "ast:trait:empty"
+        message: "Empty trait definition"
+        suggestion: "If this is a marker trait, consider using a marker type instead"
+
+  - id: RUST033
+    name: "Recursive impl"
+    domain: correctness
+    severity: warning
+    description: "Impl blocks that reference themselves can cause issues"
+    tags:
+      - rust
+      - correctness
+    rules:
+      - pattern: "ast:impl:self_reference"
+        message: "Impl block references its own type"
+        suggestion: "Check for potential infinite recursion"
+
+  - id: RUST034
+    name: "Public enum without variants"
+    domain: api-design
+    severity: info
+    description: "Public enums should have documented variants"
+    tags:
+      - rust
+      - api-design
+      - documentation
+    rules:
+      - pattern: "ast:enum:public:no_doc"
+        message: "Public enum without documentation"
+        suggestion: "Add documentation for each variant"
+
+  - id: RUST035
+    name: "Tuple struct with many fields"
+    domain: code-quality
+    severity: info
+    description: "Tuple structs with many fields are hard to read"
+    tags:
+      - rust
+      - code-quality
+      - readability
+    rules:
+      - pattern: "ast:struct:tuple:fields>4"
+        message: "Tuple struct has more than 4 fields"
+        suggestion: "Consider using a regular struct with named fields"
+
+  - id: RUST036
+    name: "Large enum"
+    domain: code-quality
+    severity: info
+    description: "Enums with many variants may indicate need for decomposition"
+    tags:
+      - rust
+      - code-quality
+    rules:
+      - pattern: "ast:enum:variants>10"
+        message: "Enum has more than 10 variants"
+        suggestion: "Consider grouping related variants into nested enums"
+
+  - id: RUST037
+    name: "Wildcard import"
+    domain: code-quality
+    severity: warning
+    description: "Wildcard imports pollute the namespace"
+    tags:
+      - rust
+      - code-quality
+      - idioms
+    rules:
+      - pattern: "ast:use:wildcard"
+        message: "Wildcard import found"
+        suggestion: "Import only the items you need explicitly"
+
+  - id: RUST038
+    name: "Impl without trait"
+    domain: api-design
+    severity: info
+    description: "Inherent impl blocks for types defined elsewhere"
+    tags:
+      - rust
+      - api-design
+      - extensions
+    rules:
+      - pattern: "ast:impl:inherent:foreign"
+        message: "Impl for type not defined in this module"
+        suggestion: "Consider if this should be a trait implementation instead"

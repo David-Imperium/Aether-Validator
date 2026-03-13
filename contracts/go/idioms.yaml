@@ -1,0 +1,174 @@
+# Go Idioms Contracts
+# Domain: idioms
+
+contracts:
+  - id: GOIDM001
+    name: "Use meaningful error messages"
+    domain: idioms
+    severity: info
+    description: "Error messages should explain what went wrong"
+    tags:
+      - go
+      - idioms
+      - error-handling
+    rules:
+      - pattern: 'errors\\.New\\(""'
+        message: "Empty error message"
+        suggestion: "Provide descriptive error message"
+      - pattern: 'return\\s+nil,\\s*err'
+        message: "Error returned without context"
+        suggestion: "Wrap errors with fmt.Errorf(\"context: %w\", err)"
+
+  - id: GOIDM002
+    name: "Use defer for cleanup"
+    domain: idioms
+    severity: info
+    description: "defer ensures cleanup runs"
+    tags:
+      - go
+      - idioms
+      - resources
+    rules:
+      - pattern: '\\.Close\\(\\)'
+        message: "Close call - ensure it's deferred"
+        suggestion: "Use defer f.Close() immediately after opening"
+
+  - id: GOIDM003
+    name: "Return early for error conditions"
+    domain: idioms
+    severity: info
+    description: "Guard clauses reduce nesting"
+    tags:
+      - go
+      - idioms
+      - style
+    rules:
+      - pattern: 'if\\s+err\\s*==\\s*nil\\s*{'
+        message: "Positive error check - consider returning early"
+        suggestion: "if err != nil { return err } - return early on error"
+
+  - id: GOIDM004
+    name: "Use context for cancellation"
+    domain: idioms
+    severity: info
+    description: "context.Context enables cancellation and timeouts"
+    tags:
+      - go
+      - idioms
+      - concurrency
+    rules:
+      - pattern: 'func\\s+\\w+\\([^)]*\\)\\s+\\('
+        message: "Function without context parameter"
+        suggestion: "Add context.Context as first parameter for long operations"
+
+  - id: GOIDM005
+    name: "Use sync.Pool for reusable objects"
+    domain: idioms
+    severity: info
+    description: "sync.Pool reduces allocations"
+    tags:
+      - go
+      - idioms
+      - performance
+    rules:
+      - pattern: 'new\\(\\w+\\)'
+        message: "Frequent allocations - consider sync.Pool"
+        suggestion: "Use sync.Pool for objects created frequently"
+
+  - id: GOIDM006
+    name: "Use channels for communication"
+    domain: idioms
+    severity: info
+    description: "Channels enable safe goroutine communication"
+    tags:
+      - go
+      - idioms
+      - concurrency
+    rules:
+      - pattern: 'go\\s+func'
+        message: "Goroutine - ensure communication is safe"
+        suggestion: "Use channels or sync primitives for coordination"
+
+  - id: GOIDM007
+    name: "Use io interfaces"
+    domain: idioms
+    severity: info
+    description: "io.Reader/Writer enable composability"
+    tags:
+      - go
+      - idioms
+      - interfaces
+    rules:
+      - pattern: '\\[\\]byte'
+        message: "Byte slice - consider io.Reader/Writer"
+        suggestion: "Use io.Reader/Writer for streaming data"
+
+  - id: GOIDM008
+    name: "Use struct tags for configuration"
+    domain: idioms
+    severity: info
+    description: "Struct tags configure serialization"
+    tags:
+      - go
+      - idioms
+      - serialization
+    rules:
+      - pattern: 'type\\s+\\w+\\s+struct'
+        message: "Struct without tags - consider JSON/DB tags"
+        suggestion: "Add json:\"field_name\" tags for serialization"
+
+  - id: GOIDM009
+    name: "Use pointer receivers for mutation"
+    domain: idioms
+    severity: info
+    description: "Pointer receivers allow mutation"
+    tags:
+      - go
+      - idioms
+      - methods
+    rules:
+      - pattern: 'func\\s+\\(\\w+\\s+\\w+\\)'
+        message: "Value receiver - use pointer for mutation"
+        suggestion: "Use (t *Type) for methods that modify the receiver"
+
+  - id: GOIDM010
+    name: "Use interfaces for testing"
+    domain: idioms
+    severity: info
+    description: "Interfaces enable mocking"
+    tags:
+      - go
+      - idioms
+      - testing
+    rules:
+      - pattern: 'interface\\s*{'
+        message: "Interface definition"
+        suggestion: "Define small interfaces for better testability"
+
+  - id: GOIDM011
+    name: "Use go fmt"
+    domain: idioms
+    severity: info
+    description: "Consistent formatting improves readability"
+    tags:
+      - go
+      - idioms
+      - style
+    rules:
+      - pattern: 'go fmt'
+        message: ""
+        suggestion: ""
+
+  - id: GOIDM012
+    name: "Avoid global variables"
+    domain: idioms
+    severity: warning
+    description: "Global variables make testing hard"
+    tags:
+      - go
+      - idioms
+      - patterns
+    rules:
+      - pattern: '^var\\s+\\w+\\s+='
+        message: "Global variable - consider dependency injection"
+        suggestion: "Pass dependencies as function parameters"

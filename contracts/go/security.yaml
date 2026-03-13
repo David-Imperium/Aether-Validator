@@ -1,0 +1,306 @@
+# Go Security Contracts
+# Domain: security
+
+contracts:
+  - id: GOSEC001
+    name: "No hardcoded credentials"
+    domain: security
+    severity: error
+    description: "Hardcoded passwords or secrets in source code"
+    tags:
+      - go
+      - security
+      - secrets
+    rules:
+      - pattern: 'password\s*=\s*"'
+        message: "Hardcoded password detected"
+        suggestion: "Use environment variables: os.Getenv(\"PASSWORD\")"
+      - pattern: 'api_key\s*=\s*"'
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables"
+      - pattern: 'secret\s*=\s*"'
+        message: "Hardcoded secret detected"
+        suggestion: "Use environment variables"
+
+  - id: GOSEC002
+    name: "Sanitize SQL queries"
+    domain: security
+    severity: error
+    description: "SQL injection vulnerability"
+    tags:
+      - go
+      - security
+      - injection
+    rules:
+      - pattern: 'fmt\\.Sprintf.*SELECT'
+        message: "SQL string formatting - potential injection"
+        suggestion: "Use parameterized queries: db.Query(query, args...)"
+      - pattern: '\\+.*SELECT'
+        message: "SQL string concatenation - potential injection"
+        suggestion: "Use parameterized queries"
+
+  - id: GOSEC003
+    name: "Handle errors"
+    domain: security
+    severity: warning
+    description: "Ignored errors can hide vulnerabilities"
+    tags:
+      - go
+      - security
+      - error-handling
+    rules:
+      - pattern: '\\w+\\s*\\)\\s*(?:\\n\\s*){'
+        message: "Possible ignored error"
+        suggestion: "Always handle errors: if err != nil { ... }"
+
+  - id: GOSEC004
+    name: "Use constant-time comparison for secrets"
+    domain: security
+    severity: warning
+    description: "Timing attacks can leak secrets"
+    tags:
+      - go
+      - security
+      - cryptography
+    rules:
+      - pattern: 'bytes\\.Equal.*password'
+        message: "Non-constant-time password comparison"
+        suggestion: "Use crypto/subtle.ConstantTimeCompare"
+
+  - id: GOSEC005
+    name: "Validate file paths"
+    domain: security
+    severity: warning
+    description: "Path traversal vulnerability"
+    tags:
+      - go
+      - security
+      - filesystem
+    rules:
+      - pattern: 'os\\.Open\\('
+        message: "File open - validate path is not user-controlled"
+        suggestion: "Use filepath.Clean() and validate path"
+
+  - id: GOSEC006
+    name: "Use proper TLS configuration"
+    domain: security
+    severity: warning
+    description: "Insecure TLS settings"
+    tags:
+      - go
+      - security
+      - tls
+    rules:
+      - pattern: 'InsecureSkipVerify\\s*:\\s*true'
+        message: "TLS certificate verification disabled"
+        suggestion: "Enable certificate verification"
+
+  - id: GOSEC007
+    name: "Avoid command injection"
+    domain: security
+    severity: error
+    description: "Command execution with user input"
+    tags:
+      - go
+      - security
+      - injection
+    rules:
+      - pattern: 'exec\\.Command.*\\+'
+        message: "Command execution with string concatenation"
+        suggestion: "Pass arguments separately: exec.Command(\"cmd\", arg1, arg2)"
+
+  - id: GOSEC008
+    name: "Use crypto/rand for random numbers"
+    domain: security
+    severity: warning
+    description: "math/rand is not cryptographically secure"
+    tags:
+      - go
+      - security
+      - cryptography
+    rules:
+      - pattern: 'math/rand'
+        message: "math/rand is not cryptographically secure"
+        suggestion: "Use crypto/rand for security-sensitive randomness"
+
+  - id: GOSEC009
+    name: "Avoid weak hash functions for passwords"
+    domain: security
+    severity: error
+    description: "Weak hashing algorithms for passwords"
+    tags:
+      - go
+      - security
+      - cryptography
+    rules:
+      - pattern: 'md5\\.New\\(\\)'
+        message: "MD5 is not secure for passwords"
+        suggestion: "Use bcrypt or argon2 for password hashing"
+      - pattern: 'sha1\\.New\\(\\)'
+        message: "SHA1 is not secure for passwords"
+        suggestion: "Use bcrypt or argon2 for password hashing"
+
+  - id: GOSEC010
+    name: "Close HTTP response body"
+    domain: security
+    severity: warning
+    description: "Unclosed response body causes resource leak"
+    tags:
+      - go
+      - security
+      - resources
+    rules:
+      - pattern: 'http\\.Get\\('
+        message: "HTTP request without defer resp.Body.Close()"
+        suggestion: "Add defer resp.Body.Close() after error check"
+
+  # === Additional gosec-style rules ===
+
+  - id: GOSEC011
+    name: "Check file permissions"
+    domain: security
+    severity: warning
+    description: "File created with overly permissive permissions"
+    tags:
+      - go
+      - security
+      - filesystem
+    rules:
+      - pattern: 'os\.OpenFile.*0666'
+        message: "File created with world-writable permissions"
+        suggestion: "Use 0600 for sensitive files, 0644 for others"
+      - pattern: 'ioutil\.WriteFile.*0666'
+        message: "File written with world-writable permissions"
+        suggestion: "Restrict file permissions to 0600 or 0644"
+
+  - id: GOSEC012
+    name: "No hardcoded cryptographic keys"
+    domain: security
+    severity: error
+    description: "Hardcoded cryptographic keys are dangerous"
+    tags:
+      - go
+      - security
+      - cryptography
+    rules:
+      - pattern: 'key\s*=\s*\[\]byte\{'
+        message: "Hardcoded byte array key"
+        suggestion: "Load keys from secure storage"
+      - pattern: 'aes\.Key\('
+        message: "Hardcoded AES key"
+        suggestion: "Use key derivation or secure key storage"
+
+  - id: GOSEC013
+    name: "Avoid unsafe pointer conversion"
+    domain: security
+    severity: error
+    description: "unsafe.Pointer can cause memory corruption"
+    tags:
+      - go
+      - security
+      - memory
+    rules:
+      - pattern: 'unsafe\.Pointer'
+        message: "unsafe.Pointer bypasses type system"
+        suggestion: "Use safe type conversions"
+
+  - id: GOSEC014
+    name: "No defer in loops"
+    domain: security
+    severity: warning
+    description: "defer in loop defers all iterations until function returns"
+    tags:
+      - go
+      - security
+      - resources
+    rules:
+      - pattern: 'for.*\{[^}]*defer'
+        message: "defer inside loop - resources accumulate"
+        suggestion: "Move defer outside loop or use closure"
+
+  - id: GOSEC015
+    name: "Validate context timeouts"
+    domain: security
+    severity: warning
+    description: "Operations without timeout can hang indefinitely"
+    tags:
+      - go
+      - security
+      - timeout
+    rules:
+      - pattern: 'context\.Background\(\)'
+        message: "Background context has no timeout"
+        suggestion: "Use context.WithTimeout for bounded operations"
+
+  - id: GOSEC016
+    name: "Check strconv usage"
+    domain: security
+    severity: warning
+    description: "strconv functions should check errors"
+    tags:
+      - go
+      - security
+      - error-handling
+    rules:
+      - pattern: 'strconv\.Atoi\([^)]+\)\s*$'
+        message: "strconv.Atoi return value not checked"
+        suggestion: "Check error: i, err := strconv.Atoi(s)"
+      - pattern: 'strconv\.ParseInt\([^)]+\)\s*$'
+        message: "strconv.ParseInt return value not checked"
+        suggestion: "Check error from ParseInt"
+
+  - id: GOSEC017
+    name: "Avoid writing to stdout in production"
+    domain: security
+    severity: info
+    description: "fmt.Print statements may expose sensitive data"
+    tags:
+      - go
+      - security
+      - logging
+    rules:
+      - pattern: 'fmt\.Print'
+        message: "fmt.Print may expose data in production logs"
+        suggestion: "Use structured logging library"
+
+  - id: GOSEC018
+    name: "Check SQL NULL handling"
+    domain: security
+    severity: warning
+    description: "NULL values can cause unexpected behavior"
+    tags:
+      - go
+      - security
+      - database
+    rules:
+      - pattern: 'sql\.NullString'
+        message: "Handle NULL values explicitly"
+        suggestion: "Check .Valid field before using .String"
+
+  - id: GOSEC019
+    name: "No cookie without HttpOnly"
+    domain: security
+    severity: warning
+    description: "Cookies without HttpOnly are vulnerable to XSS"
+    tags:
+      - go
+      - security
+      - web
+    rules:
+      - pattern: 'http\.Cookie\{'
+        message: "Cookie - ensure HttpOnly and Secure flags set"
+        suggestion: "Set HttpOnly: true, Secure: true"
+
+  - id: GOSEC020
+    name: "Avoid SSH with password auth"
+    domain: security
+    severity: warning
+    description: "SSH password authentication is less secure"
+    tags:
+      - go
+      - security
+      - ssh
+    rules:
+      - pattern: 'PasswordCallback'
+        message: "SSH password authentication - prefer key-based"
+        suggestion: "Use PublicKeyCallback for key-based auth"

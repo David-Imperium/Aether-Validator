@@ -1,0 +1,89 @@
+# Java Supply Chain Contracts
+# Domain: supply_chain
+
+contracts:
+  - id: JAVASUPP001
+    name: "Pin dependency versions"
+    domain: supply_chain
+    severity: warning
+    description: "Dependency versions should be pinned"
+    tags:
+      - java
+      - supply-chain
+      - reproducibility
+    rules:
+      - file: pom.xml
+        pattern: '<version>\${'
+        message: "Property-based versions can change unexpectedly"
+        suggestion: "Pin exact versions in pom.xml"
+
+  - id: JAVASUPP002
+    name: "Check for known vulnerabilities"
+    domain: supply_chain
+    severity: error
+    description: "Scan for vulnerable dependencies"
+    tags:
+      - java
+      - supply-chain
+      - security
+    rules:
+      - command: dependency-check
+        message: "Run OWASP Dependency Check"
+        suggestion: "Run: mvn org.owasp:dependency-check-maven:check"
+
+  - id: JAVASUPP003
+    name: "Avoid SNAPSHOT dependencies"
+    domain: supply_chain
+    severity: warning
+    description: "SNAPSHOT versions are mutable"
+    tags:
+      - java
+      - supply-chain
+      - reproducibility
+    rules:
+      - pattern: '-SNAPSHOT'
+        message: "SNAPSHOT dependencies are not reproducible"
+        suggestion: "Use release versions"
+
+  - id: JAVASUPP004
+    name: "Verify dependency signatures"
+    domain: supply_chain
+    severity: warning
+    description: "Unsigned dependencies are not verified"
+    tags:
+      - java
+      - supply-chain
+      - integrity
+    rules:
+      - file: pom.xml
+        message: "Enable PGP verification for dependencies"
+        suggestion: "Configure pgpVerify in Maven settings"
+
+  - id: JAVASUPP005
+    name: "Use dependency management"
+    domain: supply_chain
+    severity: info
+    description: "Centralize dependency versions"
+    tags:
+      - java
+      - supply-chain
+      - maintenance
+    rules:
+      - file: pom.xml
+        pattern: '<dependencyManagement>'
+        message: "Use dependencyManagement for version control"
+        suggestion: "Centralize versions in dependencyManagement section"
+
+  - id: JAVASUPP006
+    name: "No runtime dependencies in test scope"
+    domain: supply_chain
+    severity: warning
+    description: "Test dependencies should not leak to runtime"
+    tags:
+      - java
+      - supply-chain
+      - packaging
+    rules:
+      - pattern: '<scope>compile</scope>.*junit'
+        message: "JUnit in compile scope"
+        suggestion: "Set JUnit scope to test"

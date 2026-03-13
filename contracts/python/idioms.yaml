@@ -1,0 +1,172 @@
+# Python Idioms Contracts
+# Domain: idioms
+# Based on PEP 8 and Python best practices
+
+contracts:
+  - id: PYIDM001
+    name: "Use snake_case for functions and variables"
+    domain: idioms
+    severity: warning
+    description: "PEP 8 recommends snake_case for function and variable names"
+    tags:
+      - python
+      - pep8
+      - naming
+    rules:
+      - pattern: 'def [a-z][a-zA-Z0-9]*[A-Z]'
+        message: "Function name uses mixedCase instead of snake_case"
+        suggestion: "Use snake_case: my_function instead of myFunction"
+
+  - id: PYIDM002
+    name: "Use PascalCase for classes"
+    domain: idioms
+    severity: warning
+    description: "PEP 8 recommends PascalCase (CapWords) for class names"
+    tags:
+      - python
+      - pep8
+      - naming
+    rules:
+      - pattern: 'class [a-z]'
+        message: "Class name should use PascalCase"
+        suggestion: "Use PascalCase: MyClass instead of myClass"
+
+  - id: PYIDM003
+    name: "Use context managers for resources"
+    domain: idioms
+    severity: warning
+    description: "Use 'with' statement for resource management"
+    tags:
+      - python
+      - idioms
+      - resources
+    rules:
+      - pattern: '\.open\('
+        message: "File opened without context manager"
+        suggestion: "Use 'with open(...) as f:' for automatic resource cleanup"
+      - pattern: '\.connect\('
+        message: "Connection opened without context manager"
+        suggestion: "Use 'with ...connect() as conn:' for automatic cleanup"
+
+  - id: PYIDM004
+    name: "Use list/dict comprehensions for simple transformations"
+    domain: idioms
+    severity: info
+    description: "List/dict comprehensions are more Pythonic than map/filter"
+    tags:
+      - python
+      - idioms
+      - performance
+    rules:
+      - pattern: 'map\(lambda'
+        message: "map() with lambda is less readable than list comprehension"
+        suggestion: "Use [x for x in ...] instead of map(lambda x: x, ...)"
+      - pattern: 'filter\(lambda'
+        message: "filter() with lambda is less readable than list comprehension"
+        suggestion: "Use [x for x in ... if ...] instead of filter(lambda, ...)"
+
+  - id: PYIDM005
+    name: "Use 'if item in list' instead of 'if item == list[0] or ...'"
+    domain: idioms
+    severity: info
+    description: "Use 'in' operator for membership tests"
+    tags:
+      - python
+      - idioms
+    rules:
+      - pattern: 'if \w+ == \w+\[\d+\] or'
+        message: "Multiple equality comparisons can be simplified"
+        suggestion: "Use 'if item in [a, b, c]' instead"
+
+  - id: PYIDM006
+    name: "Avoid bare except"
+    domain: idioms
+    severity: warning
+    description: "Bare except catches too many exceptions including KeyboardInterrupt"
+    tags:
+      - python
+      - idioms
+      - error-handling
+    rules:
+      - pattern: 'except:'
+        message: "Bare except catches SystemExit, KeyboardInterrupt, and GeneratorExit"
+        suggestion: "Use 'except Exception:' or be more specific"
+
+  - id: PYIDM007
+    name: "Use f-strings for formatting"
+    domain: idioms
+    severity: info
+    description: "f-strings are more readable and faster than % or .format()"
+    tags:
+      - python
+      - idioms
+      - python38
+    rules:
+      - pattern: '\.format\('
+        message: ".format() is less readable than f-strings"
+        suggestion: "Use f'{variable}' instead of '{}'.format(variable)"
+      - pattern: '% \('
+        message: "% formatting is less readable than f-strings"
+        suggestion: "Use f'{variable}' instead of '%s' % variable"
+
+  - id: PYIDM008
+    name: "Use type hints for function signatures"
+    domain: idioms
+    severity: info
+    description: "Type hints improve code readability and enable static analysis"
+    tags:
+      - python
+      - idioms
+      - typing
+    rules:
+      - pattern: 'def \w+\([^)]*\)\s*->'
+        # This is a positive pattern - has type hints
+        message: ""
+        suggestion: ""
+      - pattern: 'def \w+\([^)]*\):'
+        message: "Function lacks type hints"
+        suggestion: "Add type hints: def func(x: int) -> str:"
+
+  - id: PYIDM009
+    name: "Use enumerate() for indexed loops"
+    domain: idioms
+    severity: info
+    description: "enumerate() is more Pythonic than range(len())"
+    tags:
+      - python
+      - idioms
+    rules:
+      - pattern: 'for \w+ in range\(len\('
+        message: "range(len()) pattern can be simplified"
+        suggestion: "Use 'for i, item in enumerate(items)' instead"
+
+  - id: PYIDM010
+    name: "Use 'with' for file operations"
+    domain: idioms
+    severity: warning
+    description: "Files should be closed properly"
+    tags:
+      - python
+      - idioms
+      - resources
+    rules:
+      - pattern: '=\s*open\('
+        message: "File opened without 'with' statement"
+        suggestion: "Use 'with open(...) as f:' for automatic file closing"
+
+  - id: PYIDM011
+    name: "Use 'is' for None comparisons"
+    domain: idioms
+    severity: warning
+    description: "Use 'is None' instead of '== None'"
+    tags:
+      - python
+      - idioms
+      - pep8
+    rules:
+      - pattern: '== None'
+        message: "Use 'is None' instead of '== None'"
+        suggestion: "Use 'if x is None:' instead of 'if x == None:'"
+      - pattern: '!= None'
+        message: "Use 'is not None' instead of '!= None'"
+        suggestion: "Use 'if x is not None:' instead of 'if x != None:'"

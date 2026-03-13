@@ -1,0 +1,73 @@
+# Go Supply Chain Contracts
+# Domain: supply_chain
+
+contracts:
+  - id: GOSUPP001
+    name: "Pin dependency versions"
+    domain: supply_chain
+    severity: warning
+    description: "Unpinned dependency versions can change unexpectedly"
+    tags:
+      - go
+      - supply-chain
+      - reproducibility
+    rules:
+      - file: go.mod
+        message: "Check go.mod for unpinned versions"
+        suggestion: "Use go.mod with exact versions or vendoring"
+
+  - id: GOSUPP002
+    name: "Verify go.sum"
+    domain: supply_chain
+    severity: warning
+    description: "Missing go.sum checksums"
+    tags:
+      - go
+      - supply-chain
+      - integrity
+    rules:
+      - file: go.sum
+        message: "Ensure go.sum is committed for dependency verification"
+        suggestion: "Run go mod tidy and commit go.sum"
+
+  - id: GOSUPP003
+    name: "No deprecated packages"
+    domain: supply_chain
+    severity: info
+    description: "Deprecated packages should be replaced"
+    tags:
+      - go
+      - supply-chain
+      - maintenance
+    rules:
+      - pattern: 'ioutil\.'
+        message: "io/ioutil is deprecated since Go 1.16"
+        suggestion: "Use io and os packages instead"
+
+  - id: GOSUPP004
+    name: "Check for vulnerable dependencies"
+    domain: supply_chain
+    severity: error
+    description: "Known vulnerable packages"
+    tags:
+      - go
+      - supply-chain
+      - security
+    rules:
+      - command: govulncheck
+        message: "Run govulncheck to scan for vulnerabilities"
+        suggestion: "Run: go install golang.org/x/vuln/cmd/govulncheck && govulncheck ./..."
+
+  - id: GOSUPP005
+    name: "Use vendored dependencies"
+    domain: supply_chain
+    severity: info
+    description: "Vendoring ensures reproducible builds"
+    tags:
+      - go
+      - supply-chain
+      - reproducibility
+    rules:
+      - directory: vendor/
+        message: "Consider vendoring dependencies for reproducibility"
+        suggestion: "Run go mod vendor"

@@ -1,0 +1,49 @@
+# Rust Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: RUST010
+    name: "Avoid allocations in loops"
+    domain: performance
+    severity: warning
+    description: "Allocations inside loops can cause significant performance degradation"
+    tags:
+      - rust
+      - performance
+    rules:
+      - pattern: "String::new()"
+        message: "String allocation inside loop"
+        suggestion: "Consider reusing a String outside the loop or using String::with_capacity"
+      - pattern: "Vec::new()"
+        message: "Vec allocation inside loop"
+        suggestion: "Consider reusing a Vec outside the loop or using Vec::with_capacity"
+
+  - id: RUST011
+    name: "Use iter for collection"
+    domain: performance
+    severity: info
+    description: "Prefer .iter() over indexing for collections"
+    tags:
+      - rust
+      - performance
+      - idioms
+    rules:
+      - pattern: "for i in 0..%COLL%.len()"
+        message: "Index-based iteration is less idiomatic"
+        suggestion: "Use for item in coll.iter() instead"
+
+  - id: RUST012
+    name: "Use with_capacity"
+    domain: performance
+    severity: info
+    description: "Use with_capacity when size is known"
+    tags:
+      - rust
+      - performance
+    rules:
+      - pattern: "Vec::new()"
+        message: "Vec::new() called without known capacity"
+        suggestion: "Use Vec::with_capacity(n) if you know the approximate size"
+      - pattern: "String::new()"
+        message: "String::new() called without known capacity"
+        suggestion: "Use String::with_capacity(n) if you know the approximate size"

@@ -1,0 +1,89 @@
+# Aether — Code Validation & Certification
+# Workspace configuration
+
+[workspace]
+resolver = "2"
+members = [
+    "crates/aether-core",
+    "crates/aether-parsers",
+    "crates/aether-validation",
+    "crates/aether-contracts",
+    "crates/aether-certification",
+    "crates/aether-api",
+    "crates/aether-sdk",
+    "crates/aether-cli",
+    # "crates/aether-proxy",      # REMOVED: MCP-driven approach doesn't need HTTP proxy
+    # "crates/aether-watcher",    # REMOVED: MCP-driven approach - AI calls tools directly
+    "crates/aether-desktop/src-tauri",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+authors = ["David <david@imperium.dev>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/imperium/aether"
+
+[workspace.dependencies]
+# Parser
+syn = { version = "2.0", features = ["full", "parsing", "visit"] }
+quote = "1.0"
+proc-macro2 = "1.0"
+tree-sitter = "0.24"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.9"
+
+# Crypto
+ed25519-dalek = { version = "2.1", features = ["rand_core"] }
+rand = "0.8"
+base64 = "0.22"
+sha2 = "0.10"
+
+# Utils
+uuid = { version = "1.0", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+dirs = "5.0"
+
+# Embeddings
+fastembed = { version = "5", features = ["default"] }
+
+# Async
+tokio = { version = "1.0", features = ["full"] }
+async-trait = "0.1"
+
+# CLI
+clap = { version = "4.0", features = ["derive"] }
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# HTTP (for interfaces)
+axum = "0.7"
+tower = "0.4"
+tower-lsp = "0.20"
+
+# Testing
+criterion = "0.5"
+pretty_assertions = "1.4"
+regex = "1.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.bench]
+inherits = "release"

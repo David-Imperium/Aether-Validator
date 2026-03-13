@@ -1,0 +1,104 @@
+name: Aether Code Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+    inputs:
+      contracts:
+        description: 'Contracts to enforce (comma-separated)'
+        required: false
+        default: ''
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  validate:
+    name: Validate Code with Aether
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build Aether CLI
+        run: cargo build --release -p aether-cli
+
+      - name: Validate Rust code
+        run: |
+          # Find all Rust files
+          find . -name "*.rs" -not -path "./target/*" | while read file; do
+            echo "Validating $file..."
+            ./target/release/aether validate "$file" --lang rust --format json >> validation-results.jsonl || true
+          done
+
+      - name: Validate other languages
+        run: |
+          # C/C++
+          find . -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" | grep -v target | while read file; do
+            echo "Validating $file..."
+            ./target/release/aether validate "$file" --format json >> validation-results.jsonl || true
+          done
+
+          # Python
+          find . -name "*.py" | grep -v "__pycache__" | while read file; do
+            echo "Validating $file..."
+            ./target/release/aether validate "$file" --lang python --format json >> validation-results.jsonl || true
+          done
+
+          # TypeScript/JavaScript
+          find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | grep -v node_modules | while read file; do
+            echo "Validating $file..."
+            ./target/release/aether validate "$file" --format json >> validation-results.jsonl || true
+          done
+
+      - name: Check validation results
+        run: |
+          if [ -f validation-results.jsonl ]; then
+            echo "=== Aether Validation Results ==="
+            cat validation-results.jsonl
+
+            # Check for critical errors
+            if grep -q '"severity":"critical"' validation-results.jsonl; then
+              echo "::error::Critical validation errors found!"
+              exit 1
+            fi
+
+            # Report warnings
+            if grep -q '"severity":"warning"' validation-results.jsonl; then
+              echo "::warning::Validation warnings found"
+            fi
+          else
+            echo "No validation results (no source files found)"
+          fi
+
+      - name: Upload validation results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aether-validation-results
+          path: validation-results.jsonl
+          retention-days: 30
+
+      - name: Generate report
+        if: always()
+        run: |
+          if [ -f validation-results.jsonl ]; then
+            echo "## Aether Validation Report" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # Count errors by severity
+            critical=$(grep -c '"severity":"critical"' validation-results.jsonl 2>/dev/null || echo 0)
+            warning=$(grep -c '"severity":"warning"' validation-results.jsonl 2>/dev/null || echo 0)
+            info=$(grep -c '"severity":"info"' validation-results.jsonl 2>/dev/null || echo 0)
+
+            echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
+            echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Critical | $critical |" >> $GITHUB_STEP_SUMMARY
+            echo "| Warning | $warning |" >> $GITHUB_STEP_SUMMARY
+            echo "| Info | $info |" >> $GITHUB_STEP_SUMMARY
+          fi

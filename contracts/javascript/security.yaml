@@ -1,0 +1,165 @@
+# JavaScript Security Contracts
+# Domain: security
+
+contracts:
+  - id: JSSEC001
+    name: "No hardcoded secrets"
+    domain: security
+    severity: error
+    description: "Hardcoded passwords or secrets in source code"
+    tags:
+      - javascript
+      - security
+      - secrets
+    rules:
+      - pattern: 'password\s*=\s*["\']'
+        message: "Hardcoded password detected"
+        suggestion: "Use environment variables: process.env.PASSWORD"
+      - pattern: 'apiKey\s*=\s*["\']'
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables: process.env.API_KEY"
+      - pattern: 'api_key\s*=\s*["\']'
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables: process.env.API_KEY"
+      - pattern: 'secret\s*=\s*["\']'
+        message: "Hardcoded secret detected"
+        suggestion: "Use environment variables"
+
+  - id: JSSEC002
+    name: "No eval() or Function() with user input"
+    domain: security
+    severity: error
+    description: "eval() and Function() can execute arbitrary code"
+    tags:
+      - javascript
+      - security
+      - code-injection
+    rules:
+      - pattern: "eval("
+        message: "eval() is dangerous with user input"
+        suggestion: "Use JSON.parse() for JSON data or avoid eval entirely"
+      - pattern: "new Function("
+        message: "new Function() can execute arbitrary code"
+        suggestion: "Avoid dynamic code execution"
+
+  - id: JSSEC003
+    name: "No innerHTML with user input"
+    domain: security
+    severity: error
+    description: "innerHTML can lead to XSS vulnerabilities"
+    tags:
+      - javascript
+      - security
+      - xss
+    rules:
+      - pattern: "\\.innerHTML\\s*="
+        message: "innerHTML can cause XSS if value is user-controlled"
+        suggestion: "Use textContent or DOM APIs to create elements safely"
+      - pattern: "\\.outerHTML\\s*="
+        message: "outerHTML can cause XSS if value is user-controlled"
+        suggestion: "Use DOM APIs to create elements safely"
+
+  - id: JSSEC004
+    name: "Sanitize user input for URLs"
+    domain: security
+    severity: warning
+    description: "URL parameters should be sanitized"
+    tags:
+      - javascript
+      - security
+      - url-manipulation
+    rules:
+      - pattern: "window\\.location\\.href\\s*="
+        message: "Direct location.href assignment with potential user input"
+        suggestion: "Validate and sanitize URL before redirect"
+
+  - id: JSSEC005
+    name: "Use parameterized queries"
+    domain: security
+    severity: error
+    description: "Avoid SQL injection in database queries"
+    tags:
+      - javascript
+      - security
+      - injection
+    rules:
+      - pattern: '\\.execute\\(.*\\+'
+        message: "SQL string concatenation detected"
+        suggestion: "Use parameterized queries: db.query(sql, [params])"
+      - pattern: '`.+SELECT.+\\$\\{'
+        message: "Template literal SQL injection"
+        suggestion: "Use parameterized queries instead"
+
+  - id: JSSEC006
+    name: "No document.write()"
+    domain: security
+    severity: error
+    description: "document.write() can cause XSS and overwrites page"
+    tags:
+      - javascript
+      - security
+      - xss
+    rules:
+      - pattern: "document\\.write("
+        message: "document.write() is dangerous and can cause XSS"
+        suggestion: "Use DOM manipulation methods instead"
+
+  - id: JSSEC007
+    name: "Use strict mode"
+    domain: security
+    severity: warning
+    description: "'use strict' catches common mistakes"
+    tags:
+      - javascript
+      - security
+      - best-practices
+    rules:
+      - pattern: "'use strict'"
+        # This is a positive check
+        message: ""
+        suggestion: ""
+
+  - id: JSSEC008
+    name: "Avoid localStorage for sensitive data"
+    domain: security
+    severity: warning
+    description: "localStorage is not secure for sensitive data"
+    tags:
+      - javascript
+      - security
+      - storage
+    rules:
+      - pattern: "localStorage\\.setItem\\(['\"]token"
+        message: "Token stored in localStorage is vulnerable to XSS"
+        suggestion: "Use httpOnly cookies for tokens"
+      - pattern: "localStorage\\.setItem\\(['\"]password"
+        message: "Password stored in localStorage"
+        suggestion: "Never store passwords in client-side storage"
+
+  - id: JSSEC009
+    name: "Validate JSON.parse input"
+    domain: security
+    severity: warning
+    description: "JSON.parse can throw on invalid input"
+    tags:
+      - javascript
+      - security
+      - error-handling
+    rules:
+      - pattern: "JSON\\.parse("
+        message: "JSON.parse without try-catch can crash"
+        suggestion: "Wrap JSON.parse in try-catch block"
+
+  - id: JSSEC010
+    name: "Use crypto for randomness"
+    domain: security
+    severity: warning
+    description: "Math.random() is not cryptographically secure"
+    tags:
+      - javascript
+      - security
+      - cryptography
+    rules:
+      - pattern: "Math\\.random()"
+        message: "Math.random() is not cryptographically secure"
+        suggestion: "Use crypto.getRandomValues() for security-sensitive randomness"

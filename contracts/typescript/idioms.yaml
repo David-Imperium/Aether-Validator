@@ -1,0 +1,173 @@
+# TypeScript Idioms Contracts
+# Domain: idioms
+# Extends JavaScript idioms with TypeScript-specific rules
+
+contracts:
+  - id: TSIDM001
+    name: "Use strict mode in tsconfig"
+    domain: idioms
+    severity: warning
+    description: "strict mode catches more errors"
+    tags:
+      - typescript
+      - idioms
+      - strict
+    rules:
+      - pattern: '"strict": true'
+        # This is positive - has strict mode
+        message: ""
+        suggestion: ""
+
+  - id: TSIDM002
+    name: "Prefer interfaces for object shapes"
+    domain: idioms
+    severity: info
+    description: "interfaces are extendable and more readable"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: 'type\s+\w+\s*=\s*\{'
+        message: "Type alias for object shape - consider interface"
+        suggestion: "Use interface for object shapes, type for unions/primitives"
+
+  - id: TSIDM003
+    name: "Use union types for finite sets"
+    domain: idioms
+    severity: info
+    description: "Union types are more precise than enums"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: 'enum\s+\w+'
+        message: "Enum - consider union type for better tree-shaking"
+        suggestion: "Use 'type Status = \"active\" | \"inactive\"' instead of enum"
+
+  - id: TSIDM004
+    name: "Use type inference"
+    domain: idioms
+    severity: info
+    description: "Let TypeScript infer types when obvious"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: 'const\s+\w+:\s*\w+\s*=\s*\d+'
+        message: "Type annotation for obvious type"
+        suggestion: "Remove type annotation, let TypeScript infer"
+
+  - id: TSIDM005
+    name: "Use 'is' for type guards"
+    domain: idioms
+    severity: info
+    description: "Type predicates narrow types"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: 'function\\s+\\w+\\(.*\\)\\s*:\\s*boolean'
+        message: "Type check function - consider using type predicate"
+        suggestion: "Use 'function isX(v: unknown): v is X' for type narrowing"
+
+  - id: TSIDM006
+    name: "Use 'satisfies' for type checking"
+    domain: idioms
+    severity: info
+    description: "'satisfies' checks type while preserving inference"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: ':\\s*\\w+\\s*='
+        message: "Type annotation loses inference"
+        suggestion: "Consider 'satisfies Type' to check without losing inference"
+
+  - id: TSIDM007
+    name: "Use 'readonly' for immutable data"
+    domain: idioms
+    severity: info
+    description: "'readonly' prevents accidental mutation"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: 'interface.*\{[^}]*\w+:\s*\w+\[\]'
+        message: "Mutable array property - consider readonly"
+        suggestion: "Use 'readonly array: readonly T[]' for immutable arrays"
+
+  - id: TSIDM008
+    name: "Use 'keyof' for property names"
+    domain: idioms
+    severity: info
+    description: "'keyof' ensures type-safe property access"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: 'function\\s+\\w+\\(.*key:\\s*string'
+        message: "String key parameter - use keyof for type safety"
+        suggestion: "Use 'key: keyof T' for type-safe property names"
+
+  - id: TSIDM009
+    name: "Use utility types"
+    domain: idioms
+    severity: info
+    description: "Utility types like Partial, Pick reduce boilerplate"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: 'interface.*extends.*\{[^}]*\\w+\\?:'
+        message: "Optional properties - consider Partial<T>"
+        suggestion: "Use Partial<T> for all-optional properties"
+
+  - id: TSIDM010
+    name: "Use 'as const' for literal types"
+    domain: idioms
+    severity: info
+    description: "'as const' makes literals readonly and literal types"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: 'const\s+\w+\s*=\s*\['
+        message: "Array without const assertion"
+        suggestion: "Add 'as const' for readonly literal tuple type"
+
+  - id: TSIDM011
+    name: "Avoid non-null assertions"
+    domain: idioms
+    severity: warning
+    description: "'!' operator can hide null errors"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: '!\s*\\.'
+        message: "Non-null assertion - ensure the value is not null"
+        suggestion: "Use optional chaining '?.' or explicit null check"
+
+  - id: TSIDM012
+    name: "Use 'Record' for object types"
+    domain: idioms
+    severity: info
+    description: "Record<K, V> is cleaner than index signature"
+    tags:
+      - typescript
+      - idioms
+      - types
+    rules:
+      - pattern: '\\[key:\\s*string\\]:\\s*\\w+'
+        message: "Index signature - consider Record<string, T>"
+        suggestion: "Use Record<string, Type> for cleaner object types"

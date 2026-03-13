@@ -1,0 +1,109 @@
+# C++ Error Handling Contracts
+# Domain: error-handling
+
+contracts:
+  - id: CPP_EH001
+    name: "No raw pointers for ownership"
+    domain: error-handling
+    severity: error
+    description: "Raw pointers should not be used for ownership semantics"
+    tags:
+      - cpp
+      - memory
+      - ownership
+    rules:
+      - pattern: "%TYPE%* %NAME% = new"
+        message: "Raw pointer with new - potential memory leak"
+        suggestion: "Use std::unique_ptr or std::shared_ptr instead"
+
+  - id: CPP_EH002
+    name: "Check nullptr before dereference"
+    domain: error-handling
+    severity: warning
+    description: "Pointer dereference without null check"
+    tags:
+      - cpp
+      - null-safety
+    rules:
+      - pattern: "->%NAME%"
+        message: "Potential null pointer dereference"
+        suggestion: "Add nullptr check before dereferencing"
+
+  - id: CPP_EH003
+    name: "Use exceptions consistently"
+    domain: error-handling
+    severity: info
+    description: "Mix of error codes and exceptions can lead to inconsistent error handling"
+    tags:
+      - cpp
+      - exceptions
+    rules:
+      - pattern: "return -1"
+        message: "Error code return - consider using exceptions"
+        suggestion: "Use exceptions or std::expected for error propagation"
+
+  - id: CPP_EH004
+    name: "Catch by reference"
+    domain: error-handling
+    severity: error
+    description: "Catch exceptions by reference, not by value"
+    tags:
+      - cpp
+      - exceptions
+    rules:
+      - pattern: "catch (%TYPE% %NAME%)"
+        message: "Catch by value - potential slicing"
+        suggestion: "Catch by reference: catch (const %TYPE%& %NAME%)"
+
+  - id: CPP_EH005
+    name: "No throw in destructor"
+    domain: error-handling
+    severity: error
+    description: "Throwing from destructor is dangerous"
+    tags:
+      - cpp
+      - exceptions
+      - destructors
+    rules:
+      - pattern: "~%NAME%() {"
+        message: "Check for throw in destructor"
+        suggestion: "Never throw from destructor - catch all exceptions inside"
+
+  - id: CPP_EH006
+    name: "Use std::optional for optional values"
+    domain: error-handling
+    severity: info
+    description: "Prefer std::optional over sentinel values"
+    tags:
+      - cpp
+      - modern-cpp
+    rules:
+      - pattern: "return -1"
+        message: "Sentinel value - consider std::optional"
+        suggestion: "Use std::optional for values that may not exist"
+
+  - id: CPP_EH007
+    name: "RAII for resource management"
+    domain: error-handling
+    severity: warning
+    description: "Manual resource management is error-prone"
+    tags:
+      - cpp
+      - raii
+    rules:
+      - pattern: "delete %NAME%"
+        message: "Manual delete - prefer RAII"
+        suggestion: "Use smart pointers or RAII wrappers"
+
+  - id: CPP_EH008
+    name: "No memory leaks in loops"
+    domain: error-handling
+    severity: error
+    description: "Potential memory leak in loop"
+    tags:
+      - cpp
+      - memory
+    rules:
+      - pattern: "new %TYPE%("
+        message: "Allocation without matching delete - potential leak"
+        suggestion: "Use smart pointers to ensure cleanup"

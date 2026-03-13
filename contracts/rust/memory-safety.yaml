@@ -1,0 +1,69 @@
+# Rust Memory Safety Contracts
+# Domain: memory-safety
+
+contracts:
+  - id: RUST001
+    name: "No unwrap without context"
+    domain: memory-safety
+    severity: warning
+    description: "Using unwrap() without context message can cause panics in production"
+    tags:
+      - rust
+      - error-handling
+      - panic
+    rules:
+      - pattern: ".unwrap()"
+        message: "unwrap() called without context"
+        suggestion: "Use unwrap_or(), unwrap_or_default(), or provide context with .expect(\"reason\")"
+
+  - id: RUST002
+    name: "Prefer Result for errors"
+    domain: memory-safety
+    severity: error
+    description: "Use Result instead of panic for error handling"
+    tags:
+      - rust
+      - error-handling
+    rules:
+      - pattern: "panic!(\""
+        message: "panic! used for error handling"
+        suggestion: "Return Result<T, E> instead of panicking"
+
+  - id: RUST003
+    name: "No clone unnecessarily"
+    domain: memory-safety
+    severity: info
+    description: "Unnecessary clone() calls indicate potential ownership issues"
+    tags:
+      - rust
+      - performance
+    rules:
+      - pattern: ".clone()"
+        message: "clone() called"
+        suggestion: "Consider if clone is necessary, or if you can use a reference"
+
+  - id: RUST004
+    name: "Use unwrap_or_default"
+    domain: memory-safety
+    severity: info
+    description: "Prefer unwrap_or_default() over unwrap_or(Default::default())"
+    tags:
+      - rust
+      - idioms
+    rules:
+      - pattern: ".unwrap_or(Default::default())"
+        message: "unwrap_or(Default::default()) is verbose"
+        suggestion: "Use .unwrap_or_default() instead"
+
+  - id: RUST005
+    name: "Prefer borrow"
+    domain: memory-safety
+    severity: info
+    description: "Prefer &T over T when possible to avoid unnecessary moves"
+    tags:
+      - rust
+      - ownership
+    rules:
+      - pattern: "fn %NAME%(%PARAM%: %TYPE%) -> %TYPE%"
+        message: "Consider taking reference instead of ownership"
+        suggestion: "Use &T or &mut T parameters when you don't need ownership"

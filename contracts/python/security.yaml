@@ -1,0 +1,255 @@
+# Python Security Contracts
+# Domain: security
+
+contracts:
+  - id: PYSEC001
+    name: "No hardcoded passwords"
+    domain: security
+    severity: error
+    description: "Hardcoded passwords or secrets in source code"
+    tags:
+      - python
+      - security
+      - secrets
+    rules:
+      - pattern: "regex:password\\s*=\\s*[\"']"
+        message: "Hardcoded password detected"
+        suggestion: "Use environment variables with os.environ or python-dotenv"
+      - pattern: "regex:api_key\\s*=\\s*[\"']"
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables or a secrets manager"
+      - pattern: "regex:secret\\s*=\\s*[\"']"
+        message: "Hardcoded secret detected"
+        suggestion: "Use environment variables or a secrets manager"
+      - pattern: "regex:token\\s*=\\s*[\"']"
+        message: "Hardcoded token detected"
+        suggestion: "Use environment variables or a secrets manager"
+
+  - id: PYSEC002
+    name: "No eval() or exec() with user input"
+    domain: security
+    severity: error
+    description: "eval() and exec() can execute arbitrary code"
+    tags:
+      - python
+      - security
+      - code-injection
+    rules:
+      - pattern: "eval("
+        message: "eval() is dangerous, especially with user input"
+        suggestion: "Use ast.literal_eval() for safe evaluation or avoid eval entirely"
+      - pattern: "exec("
+        message: "exec() can execute arbitrary code"
+        suggestion: "Refactor to avoid exec() or use restricted environments"
+
+  - id: PYSEC003
+    name: "No SQL injection"
+    domain: security
+    severity: error
+    description: "Potential SQL injection vulnerability"
+    tags:
+      - python
+      - security
+      - injection
+    rules:
+      - pattern: "regex:execute\\(.*\\+"
+        message: "SQL string concatenation - potential injection"
+        suggestion: "Use parameterized queries: cursor.execute(query, params)"
+      - pattern: "regex:f\".*SELECT"
+        message: "f-string SQL query - potential injection"
+        suggestion: "Use parameterized queries instead"
+      - pattern: "regex:\".*SELECT.*\".*%"
+        message: "String formatting in SQL - potential injection"
+        suggestion: "Use parameterized queries: cursor.execute(query, params)"
+
+  - id: PYSEC004
+    name: "No command injection"
+    domain: security
+    severity: error
+    description: "Potential command injection vulnerability"
+    tags:
+      - python
+      - security
+      - injection
+    rules:
+      - pattern: "os.system("
+        message: "os.system() is vulnerable to command injection"
+        suggestion: "Use subprocess.run() with a list of arguments"
+      - pattern: "regex:subprocess\\.call.*shell=True"
+        message: "subprocess with shell=True is dangerous"
+        suggestion: "Remove shell=True and pass arguments as a list"
+      - pattern: "regex:subprocess\\.Popen.*shell=True"
+        message: "subprocess.Popen with shell=True is dangerous"
+        suggestion: "Remove shell=True and pass arguments as a list"
+
+  - id: PYSEC005
+    name: "No pickle with untrusted data"
+    domain: security
+    severity: error
+    description: "pickle can execute arbitrary code during deserialization"
+    tags:
+      - python
+      - security
+      - deserialization
+    rules:
+      - pattern: "pickle.loads("
+        message: "pickle.loads() with untrusted data can execute arbitrary code"
+        suggestion: "Use JSON or other safe serialization formats"
+      - pattern: "pickle.load("
+        message: "pickle.load() with untrusted data can execute arbitrary code"
+        suggestion: "Use JSON or other safe serialization formats"
+
+  - id: PYSEC006
+    name: "Use assert only for debugging"
+    domain: security
+    severity: warning
+    description: "assert statements are removed when running with -O flag"
+    tags:
+      - python
+      - security
+      - assertions
+    rules:
+      - pattern: "assert "
+        message: "assert is removed with -O optimization flag"
+        suggestion: "Use explicit if/raise for runtime checks"
+
+  - id: PYSEC007
+    name: "Verify SSL certificates"
+    domain: security
+    severity: warning
+    description: "Disabling SSL certificate verification is dangerous"
+    tags:
+      - python
+      - security
+      - ssl
+    rules:
+      - pattern: "verify=False"
+        message: "SSL certificate verification is disabled"
+        suggestion: "Enable certificate verification or use proper certificates"
+      - pattern: "CERT_NONE"
+        message: "SSL certificate verification is disabled"
+        suggestion: "Use CERT_REQUIRED for proper certificate verification"
+
+  - id: PYSEC008
+    name: "No weak hashing for passwords"
+    domain: security
+    severity: error
+    description: "Weak hashing algorithms should not be used for passwords"
+    tags:
+      - python
+      - security
+      - cryptography
+    rules:
+      - pattern: "hashlib.md5("
+        message: "MD5 is not secure for passwords"
+        suggestion: "Use bcrypt, argon2, or hashlib.scrypt for password hashing"
+      - pattern: "hashlib.sha1("
+        message: "SHA1 is not secure for passwords"
+        suggestion: "Use bcrypt, argon2, or hashlib.scrypt for password hashing"
+
+  - id: PYSEC009
+    name: "No bare except"
+    domain: security
+    severity: warning
+    description: "Bare except catches all exceptions including KeyboardInterrupt"
+    tags:
+      - python
+      - security
+      - error-handling
+    rules:
+      - pattern: "except:"
+        message: "Bare except catches all exceptions including KeyboardInterrupt"
+        suggestion: "Use except Exception: or specify the exception type"
+
+  - id: PYSEC010
+    name: "No debug mode in production"
+    domain: security
+    severity: error
+    description: "Debug mode exposes sensitive information"
+    tags:
+      - python
+      - security
+      - flask
+    rules:
+      - pattern: "debug=True"
+        message: "Debug mode enabled - do not use in production"
+        suggestion: "Set debug=False in production or use environment variable"
+      - pattern: "app.run(debug"
+        message: "Debug mode in Flask app"
+        suggestion: "Remove debug=True in production"
+
+  - id: PYSEC011
+    name: "No random for security"
+    domain: security
+    severity: error
+    description: "random module is not cryptographically secure"
+    tags:
+      - python
+      - security
+      - cryptography
+    rules:
+      - pattern: "random.randint"
+        message: "random.randint is not cryptographically secure"
+        suggestion: "Use secrets.randbelow() or secrets.choice() for security"
+      - pattern: "random.choice"
+        message: "random.choice is not cryptographically secure"
+        suggestion: "Use secrets.choice() for security-sensitive operations"
+      - pattern: "random.getrandbits"
+        message: "random.getrandbits is not cryptographically secure"
+        suggestion: "Use secrets.token_bytes() or secrets.token_hex()"
+
+  - id: PYSEC012
+    name: "No timing attacks"
+    domain: security
+    severity: warning
+    description: "Direct string comparison is vulnerable to timing attacks"
+    tags:
+      - python
+      - security
+      - timing
+    rules:
+      - pattern: "regex:==\\s*stored"
+        message: "Direct comparison vulnerable to timing attacks"
+        suggestion: "Use hmac.compare_digest() for constant-time comparison"
+
+  - id: PYSEC013
+    name: "No insecure CORS"
+    domain: security
+    severity: error
+    description: "Allowing all origins is a security risk"
+    tags:
+      - python
+      - security
+      - cors
+    rules:
+      - pattern: "regex:Access-Control-Allow-Origin.*\\*"
+        message: "CORS allows all origins"
+        suggestion: "Specify allowed origins explicitly"
+
+  - id: PYSEC014
+    name: "No XXE vulnerability"
+    domain: security
+    severity: error
+    description: "XML parsing without protection is vulnerable to XXE"
+    tags:
+      - python
+      - security
+      - xml
+    rules:
+      - pattern: "ET.fromstring"
+        message: "ElementTree may be vulnerable to XXE"
+        suggestion: "Use defusedxml or disable external entities"
+
+  - id: PYSEC015
+    name: "No insecure file upload"
+    domain: security
+    severity: error
+    description: "File uploads without validation are dangerous"
+    tags:
+      - python
+      - security
+      - upload
+    rules:
+      - pattern: "file.save"
+        message: "File upload without validation"
+        suggestion: "Validate file type, size, and sanitize filename"

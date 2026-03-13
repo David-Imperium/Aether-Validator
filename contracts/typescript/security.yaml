@@ -1,0 +1,75 @@
+# TypeScript Security Contracts
+# Domain: security
+# Extends JavaScript security with TypeScript-specific rules
+
+contracts:
+  - id: TSSEC001
+    name: "No 'any' type for security-sensitive code"
+    domain: security
+    severity: warning
+    description: "'any' type bypasses type checking"
+    tags:
+      - typescript
+      - security
+      - types
+    rules:
+      - pattern: ':\s*any\b'
+        message: "'any' type bypasses type safety"
+        suggestion: "Use 'unknown' for truly unknown types, or a more specific type"
+
+  - id: TSSEC002
+    name: "Type user input"
+    domain: security
+    severity: warning
+    description: "User input should be typed and validated"
+    tags:
+      - typescript
+      - security
+      - input-validation
+    rules:
+      - pattern: 'interface.*Request'
+        message: "Ensure request types are validated at runtime"
+        suggestion: "Use validation libraries like zod for runtime validation"
+
+  - id: TSSEC003
+    name: "Use 'unknown' over 'any'"
+    domain: security
+    severity: info
+    description: "'unknown' requires type narrowing before use"
+    tags:
+      - typescript
+      - security
+      - types
+    rules:
+      - pattern: ':\s*any'
+        message: "'any' loses type safety"
+        suggestion: "Use 'unknown' which requires type checking before use"
+
+  - id: TSSEC004
+    name: "Avoid type assertions with user data"
+    domain: security
+    severity: warning
+    description: "Type assertions bypass type checking"
+    tags:
+      - typescript
+      - security
+      - types
+    rules:
+      - pattern: 'as\s+\w+'
+        message: "Type assertion - ensure the type is correct"
+        suggestion: "Use type guards or validation libraries for runtime checks"
+
+  - id: TSSEC005
+    name: "Use const assertions for literals"
+    domain: security
+    severity: info
+    description: "const assertions prevent mutation"
+    tags:
+      - typescript
+      - security
+      - types
+    rules:
+      - pattern: '=\s*\[[^\]]*\]\s*as\s+const'
+        # This is positive - has const assertion
+        message: ""
+        suggestion: ""

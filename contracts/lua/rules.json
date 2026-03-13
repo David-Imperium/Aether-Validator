@@ -1,0 +1,229 @@
+{
+  "name": "Love2D Rules",
+  "version": "1.0.0",
+  "description": "Validation rules for Love2D game development",
+  "rules": {
+    "forbidden": [
+      {
+        "id": "LUV001",
+        "pattern": "global_",
+        "message": "Avoid global variables in Love2D - use local or require",
+        "severity": "warning",
+        "suggestion": "Use 'local' prefix or require() for module imports"
+      },
+      {
+        "id": "LUV002",
+        "pattern": "_G[",
+        "message": "Direct global table access is dangerous",
+        "severity": "warning",
+        "suggestion": "Use proper module system or local variables"
+      },
+      {
+        "id": "LUV003",
+        "pattern": "loadstring(",
+        "message": "loadstring can execute arbitrary code - security risk",
+        "severity": "error",
+        "suggestion": "Avoid dynamic code execution"
+      },
+      {
+        "id": "LUV010",
+        "pattern": "love.load()",
+        "message": "love.load should only be defined once in main.lua",
+        "severity": "info",
+        "file_pattern": "**/*.lua"
+      },
+      {
+        "id": "LUV011",
+        "pattern": "love.graphics.newImage",
+        "message": "Loading images in love.update or love.draw is slow",
+        "severity": "warning",
+        "suggestion": "Load images in love.load() and reuse"
+      },
+      {
+        "id": "LUV012",
+        "pattern": "love.graphics.newFont",
+        "message": "Loading fonts every frame is slow - load once",
+        "severity": "warning",
+        "suggestion": "Load fonts in love.load() and store reference"
+      },
+      {
+        "id": "LUV020",
+        "pattern": "love.filesystem.load",
+        "message": "love.filesystem.load can execute arbitrary code",
+        "severity": "warning",
+        "suggestion": "Use love.filesystem.read for data files"
+      },
+      {
+        "id": "LUV030",
+        "pattern": "collectgarbage(",
+        "message": "Explicit garbage collection can cause frame drops",
+        "severity": "info",
+        "suggestion": "Let Lua manage garbage collection automatically"
+      },
+      {
+        "id": "LUV031",
+        "pattern": "os.execute",
+        "message": "os.execute is blocked in some Love2D distributions",
+        "severity": "warning",
+        "suggestion": "Use love.system.openURL for URLs"
+      },
+      {
+        "id": "LUV032",
+        "pattern": "os.getenv",
+        "message": "os.getenv access - validate environment variables",
+        "severity": "info",
+        "suggestion": "Check return value is not nil"
+      },
+      {
+        "id": "LUV033",
+        "pattern": "io.popen",
+        "message": "io.popen executes shell commands - security risk",
+        "severity": "error",
+        "suggestion": "Avoid shell command execution"
+      },
+      {
+        "id": "LUV034",
+        "pattern": "io.open",
+        "message": "io.open - validate file path",
+        "severity": "warning",
+        "suggestion": "Validate path doesn't contain ../ or user input"
+      },
+      {
+        "id": "LUV035",
+        "pattern": "io.tmpfile",
+        "message": "io.tmpfile creates temp file - ensure secure handling",
+        "severity": "info",
+        "suggestion": "Use love.filesystem for Love2D compatibility"
+      },
+      {
+        "id": "LUV040",
+        "pattern": "debug.sethook",
+        "message": "debug.sethook affects performance significantly",
+        "severity": "warning",
+        "suggestion": "Remove debug hooks in production"
+      },
+      {
+        "id": "LUV041",
+        "pattern": "debug.getregistry",
+        "message": "Accessing debug registry is dangerous",
+        "severity": "warning",
+        "suggestion": "Avoid debug module in production code"
+      },
+      {
+        "id": "LUV050",
+        "pattern": "string.dump",
+        "message": "string.dump creates bytecode - potential security issue",
+        "severity": "warning",
+        "suggestion": "Avoid bytecode manipulation"
+      },
+      {
+        "id": "LUV051",
+        "pattern": "setfenv",
+        "message": "setfenv deprecated in Lua 5.2+",
+        "severity": "warning",
+        "suggestion": "Use _ENV variable in Lua 5.2+"
+      },
+      {
+        "id": "LUV052",
+        "pattern": "getfenv",
+        "message": "getfenv deprecated in Lua 5.2+",
+        "severity": "warning",
+        "suggestion": "Use _ENV variable in Lua 5.2+"
+      },
+      {
+        "id": "LUV060",
+        "pattern": "tonumber",
+        "message": "tonumber may return nil - check return value",
+        "severity": "info",
+        "suggestion": "Use assert(tonumber(x)) or check for nil"
+      },
+      {
+        "id": "LUV061",
+        "pattern": "tostring",
+        "message": "tostring on nil returns 'nil' string",
+        "severity": "info",
+        "suggestion": "Check for nil before tostring"
+      },
+      {
+        "id": "LUV070",
+        "pattern": "pairs(",
+        "message": "pairs iterates in undefined order",
+        "severity": "info",
+        "suggestion": "Use ipairs for arrays or sorted iteration for deterministic behavior"
+      },
+      {
+        "id": "LUV080",
+        "pattern": "next(",
+        "message": "next used for table iteration",
+        "severity": "info",
+        "suggestion": "Use pairs() for clearer iteration"
+      },
+      {
+        "id": "LUV090",
+        "pattern": "rawset(",
+        "message": "rawset bypasses __newindex metamethod",
+        "severity": "warning",
+        "suggestion": "Use normal table assignment unless necessary"
+      },
+      {
+        "id": "LUV091",
+        "pattern": "rawget(",
+        "message": "rawget bypasses __index metamethod",
+        "severity": "warning",
+        "suggestion": "Use normal table access unless necessary"
+      }
+    ],
+    "required": [
+      {
+        "id": "LUV100",
+        "pattern": "function love.load",
+        "message": "love.load callback recommended in main.lua",
+        "severity": "info",
+        "file_pattern": "main.lua"
+      },
+      {
+        "id": "LUV101",
+        "pattern": "function love.update",
+        "message": "love.update callback recommended in main.lua",
+        "severity": "info",
+        "file_pattern": "main.lua"
+      },
+      {
+        "id": "LUV102",
+        "pattern": "function love.draw",
+        "message": "love.draw callback required for rendering",
+        "severity": "warning",
+        "file_pattern": "main.lua"
+      }
+    ],
+    "naming": [
+      {
+        "kind": "function",
+        "pattern": "^[a-z][a-z0-9_]*$",
+        "message": "Function names must be snake_case"
+      },
+      {
+        "kind": "table",
+        "pattern": "^[A-Z][a-zA-Z0-9]*$",
+        "message": "Class-like tables should be PascalCase"
+      },
+      {
+        "kind": "constant",
+        "pattern": "^[A-Z][A-Z0-9_]*$",
+        "message": "Constants must be SCREAMING_SNAKE_CASE"
+      }
+    ],
+    "structure": [
+      {
+        "requirement": "max_file_lines",
+        "max": 300,
+        "message": "Lua file exceeds 300 lines - split into modules"
+      },
+      {
+        "requirement": "max_function_lines",
+        "max": 40,
+        "message": "Function exceeds 40 lines - extract helpers"
+      }
+    ]
+  }
+}

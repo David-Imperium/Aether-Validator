@@ -1,0 +1,171 @@
+# JavaScript Idioms Contracts
+# Domain: idioms
+
+contracts:
+  - id: JSIDM001
+    name: "Use const/let instead of var"
+    domain: idioms
+    severity: warning
+    description: "var has function scope, const/let have block scope"
+    tags:
+      - javascript
+      - idioms
+      - es6
+    rules:
+      - pattern: 'var\s+\w+'
+        message: "var has hoisting issues and function scope"
+        suggestion: "Use const for immutable references, let for mutable"
+
+  - id: JSIDM002
+    name: "Use arrow functions for callbacks"
+    domain: idioms
+    severity: info
+    description: "Arrow functions preserve 'this' context"
+    tags:
+      - javascript
+      - idioms
+      - es6
+    rules:
+      - pattern: 'function\s*\([^)]*\)\s*{[^}]*this\.'
+        message: "Regular function with 'this' - consider arrow function"
+        suggestion: "Arrow functions preserve the outer 'this' context"
+
+  - id: JSIDM003
+    name: "Use template literals"
+    domain: idioms
+    severity: info
+    description: "Template literals are more readable than string concatenation"
+    tags:
+      - javascript
+      - idioms
+      - es6
+    rules:
+      - pattern: '\+\s*["\']'
+        message: "String concatenation - consider template literals"
+        suggestion: "Use template literals: `${var}` instead of ' + var + '"
+
+  - id: JSIDM004
+    name: "Use destructuring"
+    domain: idioms
+    severity: info
+    description: "Destructuring extracts values concisely"
+    tags:
+      - javascript
+      - idioms
+      - es6
+    rules:
+      - pattern: 'const\s+\w+\s*=\s*\w+\.\w+;'
+        message: "Property assignment can use destructuring"
+        suggestion: "Use const { prop } = obj; instead of const prop = obj.prop;"
+
+  - id: JSIDM005
+    name: "Use spread operator for arrays"
+    domain: idioms
+    severity: info
+    description: "Spread operator is cleaner than concat"
+    tags:
+      - javascript
+      - idioms
+      - es6
+    rules:
+      - pattern: '\\.concat\\('
+        message: "concat() can be replaced with spread operator"
+        suggestion: "Use [...arr1, ...arr2] instead of arr1.concat(arr2)"
+
+  - id: JSIDM006
+    name: "Use optional chaining"
+    domain: idioms
+    severity: info
+    description: "Optional chaining prevents undefined errors"
+    tags:
+      - javascript
+      - idioms
+      - es2020
+    rules:
+      - pattern: '&&\s*\w+\.\w+'
+        message: "Chained && checks can use optional chaining"
+        suggestion: "Use obj?.prop instead of obj && obj.prop"
+
+  - id: JSIDM007
+    name: "Use nullish coalescing"
+    domain: idioms
+    severity: info
+    description: "Nullish coalescing handles null/undefined only"
+    tags:
+      - javascript
+      - idioms
+      - es2020
+    rules:
+      - pattern: '\\|\\|\\s*["\']'
+        message: "|| operator treats empty string as falsy"
+        suggestion: "Use ?? for null/undefined only, || for other falsy values"
+
+  - id: JSIDM008
+    name: "Use async/await over raw promises"
+    domain: idioms
+    severity: info
+    description: "async/await is more readable than .then() chains"
+    tags:
+      - javascript
+      - idioms
+      - async
+    rules:
+      - pattern: '\\.then\\('
+        message: "Promise chain - consider async/await"
+        suggestion: "Use async/await for more readable async code"
+
+  - id: JSIDM009
+    name: "Avoid callback hell"
+    domain: idioms
+    severity: warning
+    description: "Deeply nested callbacks are hard to read"
+    tags:
+      - javascript
+      - idioms
+      - async
+    rules:
+      - pattern: 'function.*{.*function.*{.*function.*{'
+        message: "Deeply nested callbacks detected"
+        suggestion: "Refactor to use async/await or named functions"
+
+  - id: JSIDM010
+    name: "Use Object.hasOwn() for property check"
+    domain: idioms
+    severity: info
+    description: "Object.hasOwn() is safer than hasOwnProperty"
+    tags:
+      - javascript
+      - idioms
+      - es2022
+    rules:
+      - pattern: '\\.hasOwnProperty\\('
+        message: "hasOwnProperty can be shadowed"
+        suggestion: "Use Object.hasOwn(obj, prop) instead"
+
+  - id: JSIDM011
+    name: "Use Array methods instead of loops"
+    domain: idioms
+    severity: info
+    description: "map/filter/reduce are more declarative"
+    tags:
+      - javascript
+      - idioms
+      - functional
+    rules:
+      - pattern: 'for\s*\\(let.*\\)\\s*{[^}]*\\.push\\('
+        message: "for loop with push can use map"
+        suggestion: "Use .map() for transformation, .filter() for filtering"
+
+  - id: JSIDM012
+    name: "Use default parameters"
+    domain: idioms
+    severity: info
+    description: "Default parameters are cleaner than || checks"
+    tags:
+      - javascript
+      - idioms
+      - es6
+    rules:
+      - pattern: '=\\s*\\w+\\s*\\|\\|\\s*["\']'
+        message: "Default value with || operator"
+        suggestion: "Use default parameter: function(a = 'default')"

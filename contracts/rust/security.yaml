@@ -1,0 +1,122 @@
+# Rust Security Contracts
+# Domain: security
+
+contracts:
+  - id: SEC001
+    name: "No hardcoded passwords"
+    domain: security
+    severity: error
+    description: "Hardcoded passwords or secrets in source code"
+    tags:
+      - rust
+      - security
+      - secrets
+    rules:
+      - pattern: 'password\s*=\s*"'
+        message: "Hardcoded password detected"
+        suggestion: "Use environment variables or a secrets manager"
+      - pattern: 'api_key\s*=\s*"'
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables or a secrets manager"
+      - pattern: 'secret\s*=\s*"'
+        message: "Hardcoded secret detected"
+        suggestion: "Use environment variables or a secrets manager"
+
+  - id: SEC002
+    name: "No unsafe blocks without comment"
+    domain: security
+    severity: warning
+    description: "unsafe blocks should have safety comments explaining why they're safe"
+    tags:
+      - rust
+      - security
+      - unsafe
+    rules:
+      - pattern: "unsafe {"
+        message: "unsafe block without safety comment"
+        suggestion: "Add a // SAFETY: comment explaining why this is safe"
+
+  - id: SEC003
+    name: "No unvalidated user input"
+    domain: security
+    severity: error
+    description: "User input should be validated before use"
+    tags:
+      - rust
+      - security
+      - input-validation
+    rules:
+      - pattern: "std::io::stdin()"
+        message: "stdin() used without validation"
+        suggestion: "Validate and sanitize user input before use"
+
+  - id: SEC004
+    name: "No command injection"
+    domain: security
+    severity: error
+    description: "Potential command injection vulnerability"
+    tags:
+      - rust
+      - security
+      - injection
+    rules:
+      - pattern: "std::process::Command::new"
+        message: "Command execution - verify inputs are sanitized"
+        suggestion: "Use argument vectors instead of shell strings"
+
+  - id: SEC005
+    name: "No SQL injection"
+    domain: security
+    severity: error
+    description: "Potential SQL injection vulnerability"
+    tags:
+      - rust
+      - security
+      - injection
+    rules:
+      - pattern: "SELECT * FROM"
+        message: "Raw SQL query detected"
+        suggestion: "Use parameterized queries or an ORM"
+      - pattern: "format!(\"SELECT"
+        message: "Formatted SQL query - potential injection"
+        suggestion: "Use parameterized queries instead"
+
+  - id: SEC006
+    name: "No path traversal"
+    domain: security
+    severity: warning
+    description: "Potential path traversal vulnerability"
+    tags:
+      - rust
+      - security
+      - filesystem
+    rules:
+      - pattern: "std::fs::read"
+        message: "File read - verify path is not user-controlled"
+        suggestion: "Validate and canonicalize paths before use"
+      - pattern: "std::fs::write"
+        message: "File write - verify path is not user-controlled"
+        suggestion: "Validate and canonicalize paths before use"
+
+  - id: SEC007
+    name: "Use constant-time comparison for secrets"
+    domain: security
+    severity: warning
+    description: "Comparing secrets should use constant-time algorithms"
+    tags:
+      - rust
+      - security
+      - cryptography
+    rules:
+      - pattern: "password =="
+        message: "Potential timing attack when comparing password"
+        suggestion: "Use subtle::Ct or constant_time_eq for secret comparison"
+      - pattern: "token =="
+        message: "Potential timing attack when comparing token"
+        suggestion: "Use subtle::Ct or constant_time_eq for secret comparison"
+      - pattern: "secret =="
+        message: "Potential timing attack when comparing secret"
+        suggestion: "Use subtle::Ct or constant_time_eq for secret comparison"
+      - pattern: "api_key =="
+        message: "Potential timing attack when comparing api_key"
+        suggestion: "Use subtle::Ct or constant_time_eq for secret comparison"

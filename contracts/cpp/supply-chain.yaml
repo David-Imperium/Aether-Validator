@@ -1,0 +1,78 @@
+# C++ Supply Chain Contracts
+# Domain: supply_chain
+
+contracts:
+  - id: CPPSUPP001
+    name: "Use package manager"
+    domain: supply_chain
+    severity: info
+    description: "C++ should use a package manager"
+    tags:
+      - cpp
+      - supply-chain
+      - dependency-management
+    rules:
+      - files:
+          - vcpkg.json
+          - conanfile.txt
+          - CPM.cmake
+        message: "Consider using vcpkg, Conan, or CPM for dependencies"
+        suggestion: "Use vcpkg or Conan for reproducible dependency management"
+
+  - id: CPPSUPP002
+    name: "Pin dependency versions"
+    domain: supply_chain
+    severity: warning
+    description: "Dependency versions should be pinned"
+    tags:
+      - cpp
+      - supply-chain
+      - reproducibility
+    rules:
+      - file: vcpkg.json
+        message: "Pin versions in vcpkg.json baseline"
+        suggestion: "Use builtin-baseline in vcpkg.json"
+
+  - id: CPPSUPP003
+    name: "Fetch from verified sources"
+    domain: supply_chain
+    severity: warning
+    description: "Fetch dependencies from verified sources"
+    tags:
+      - cpp
+      - supply-chain
+      - security
+    rules:
+      - pattern: 'FetchContent_Declare\('
+        message: "FetchContent - verify URL is trusted"
+        suggestion: "Use official package managers instead of FetchContent"
+
+  - id: CPPSUPP004
+    name: "No arbitrary network fetch"
+    domain: supply_chain
+    severity: error
+    description: "Fetching code at build time is risky"
+    tags:
+      - cpp
+      - supply-chain
+      - security
+    rules:
+      - pattern: 'file\(DOWNLOAD'
+        message: "file(DOWNLOAD) at build time - verify URL"
+        suggestion: "Use package manager for dependency resolution"
+
+  - id: CPPSUPP005
+    name: "Use lock files"
+    domain: supply_chain
+    severity: info
+    description: "Lock files ensure reproducibility"
+    tags:
+      - cpp
+      - supply-chain
+      - reproducibility
+    rules:
+      - files:
+          - conan.lock
+          - vcpkg-lock.json
+        message: "Use lock files for reproducible builds"
+        suggestion: "Generate and commit lock files"

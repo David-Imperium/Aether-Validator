@@ -1,0 +1,121 @@
+# C++ Complexity Contracts
+# Domain: complexity
+
+contracts:
+  - id: CPPCOMP001
+    name: "Maximum cyclomatic complexity"
+    domain: complexity
+    severity: warning
+    description: "Function cyclomatic complexity exceeds threshold"
+    tags:
+      - cpp
+      - complexity
+      - maintainability
+    rules:
+      - metric: cyclomatic_complexity
+        max: 15
+        message: "Function has cyclomatic complexity > 15"
+        suggestion: "Break down complex function into smaller functions"
+
+  - id: CPPCOMP002
+    name: "Maximum function length"
+    domain: complexity
+    severity: warning
+    description: "Function is too long"
+    tags:
+      - cpp
+      - complexity
+      - readability
+    rules:
+      - metric: function_lines
+        max: 50
+        message: "Function exceeds 50 lines"
+        suggestion: "Extract helper functions"
+
+  - id: CPPCOMP003
+    name: "Maximum nesting depth"
+    domain: complexity
+    severity: warning
+    description: "Code is deeply nested"
+    tags:
+      - cpp
+      - complexity
+      - readability
+    rules:
+      - metric: nesting_depth
+        max: 4
+        message: "Nesting depth exceeds 4 levels"
+        suggestion: "Use early returns or extract nested logic"
+
+  - id: CPPCOMP004
+    name: "Maximum parameter count"
+    domain: complexity
+    severity: warning
+    description: "Function has too many parameters"
+    tags:
+      - cpp
+      - complexity
+      - api
+    rules:
+      - metric: parameter_count
+        max: 6
+        message: "Function has more than 6 parameters"
+        suggestion: "Use parameter object or builder pattern"
+
+  - id: CPPCOMP005
+    name: "No deep nesting in loops"
+    domain: complexity
+    severity: info
+    description: "Deeply nested loops are hard to understand"
+    tags:
+      - cpp
+      - complexity
+      - performance
+    rules:
+      - pattern: 'for.*for.*for'
+        message: "Triple-nested loop - potential O(n³) complexity"
+        suggestion: "Consider algorithm optimization"
+
+  - id: CPPCOMP006
+    name: "Avoid long files"
+    domain: complexity
+    severity: info
+    description: "File is too long"
+    tags:
+      - cpp
+      - complexity
+      - maintainability
+    rules:
+      - metric: file_lines
+        max: 800
+        message: "File exceeds 800 lines"
+        suggestion: "Split into header and implementation files"
+
+  - id: CPPCOMP007
+    name: "Maximum cognitive complexity"
+    domain: complexity
+    severity: warning
+    description: "Cognitive complexity exceeds threshold"
+    tags:
+      - cpp
+      - complexity
+      - readability
+    rules:
+      - metric: cognitive_complexity
+        max: 25
+        message: "Function cognitive complexity > 25"
+        suggestion: "Reduce complexity by extracting methods"
+
+  - id: CPPCOMP008
+    name: "No complex ternary chains"
+    domain: complexity
+    severity: info
+    description: "Chained ternary operators are hard to read"
+    tags:
+      - cpp
+      - complexity
+      - readability
+    rules:
+      - pattern: '\?\s*[^:]*:\s*[^;]*\?'
+        message: "Chained ternary operator detected"
+        suggestion: "Use if-else for clarity"

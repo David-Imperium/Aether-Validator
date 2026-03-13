@@ -1,0 +1,149 @@
+# Python Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: PYPERF001
+    name: "Use list comprehension instead of append in loop"
+    domain: performance
+    severity: info
+    description: "List comprehensions are faster than append() in loops"
+    tags:
+      - python
+      - performance
+    rules:
+      - pattern: 'for.*:\s*\n\s*\w+\.append\('
+        message: "append() in loop can be replaced with list comprehension"
+        suggestion: "Use [x for x in ...] instead of loop with append()"
+
+  - id: PYPERF002
+    name: "Use join() for string concatenation in loops"
+    domain: performance
+    severity: warning
+    description: "String concatenation in loops is slow"
+    tags:
+      - python
+      - performance
+      - strings
+    rules:
+      - pattern: '\w+ \+= .*in.*for'
+        message: "String concatenation in loop is O(n^2)"
+        suggestion: "Use ''.join(list) instead of s += string in loop"
+
+  - id: PYPERF003
+    name: "Use local variables for frequently accessed globals"
+    domain: performance
+    severity: info
+    description: "Local variable access is faster than global"
+    tags:
+      - python
+      - performance
+    rules:
+      - pattern: 'for.*:\s*\n.*\w+\.\w+\('
+        # Method calls in loops
+        message: "Consider binding method to local variable for loop"
+        suggestion: "Use 'method = obj.method' outside loop for faster access"
+
+  - id: PYPERF004
+    name: "Use set for membership tests"
+    domain: performance
+    severity: info
+    description: "Set membership is O(1), list membership is O(n)"
+    tags:
+      - python
+      - performance
+      - data-structures
+    rules:
+      - pattern: 'if \w+ in \['
+        message: "List membership test in hot path"
+        suggestion: "Use set {} instead of list [] for membership tests"
+
+  - id: PYPERF005
+    name: "Use generators for large datasets"
+    domain: performance
+    severity: info
+    description: "Generators use less memory than lists for large datasets"
+    tags:
+      - python
+      - performance
+      - memory
+    rules:
+      - pattern: 'range\(10000'
+        message: "Large range - consider if all values are needed at once"
+        suggestion: "Use range() as generator, don't convert to list unless needed"
+
+  - id: PYPERF006
+    name: "Avoid repeated function calls in default arguments"
+    domain: performance
+    severity: warning
+    description: "Default arguments are evaluated once at function definition"
+    tags:
+      - python
+      - performance
+      - bugs
+    rules:
+      - pattern: 'def \w+\([^)]*=\[\]'
+        message: "Mutable default argument - shared across all calls"
+        suggestion: "Use 'def f(x=None): x = x or []' instead"
+      - pattern: 'def \w+\([^)]*=\{\}'
+        message: "Mutable default argument - shared across all calls"
+        suggestion: "Use 'def f(x=None): x = x or {}' instead"
+
+  - id: PYPERF007
+    name: "Use __slots__ for memory efficiency"
+    domain: performance
+    severity: info
+    description: "__slots__ reduces memory usage for many instances"
+    tags:
+      - python
+      - performance
+      - memory
+    rules:
+      - pattern: 'class \w+:'
+        # This is a hint, not a hard rule
+        message: ""
+        suggestion: "Consider __slots__ for classes with many instances"
+
+  - id: PYPERF008
+    name: "Use appropriate data structures"
+    domain: performance
+    severity: info
+    description: "Choose the right data structure for the operation"
+    tags:
+      - python
+      - performance
+      - data-structures
+    rules:
+      - pattern: '\.index\('
+        message: "list.index() is O(n) - consider using dict for lookups"
+        suggestion: "Use dict for O(1) lookups by key"
+      - pattern: 'sorted\(.*\)\['
+        message: "Sorting entire list to get top elements"
+        suggestion: "Use heapq.nlargest() for top-k elements"
+
+  - id: PYPERF009
+    name: "Avoid deep copying when unnecessary"
+    domain: performance
+    severity: warning
+    description: "deepcopy is slow and often unnecessary"
+    tags:
+      - python
+      - performance
+      - memory
+    rules:
+      - pattern: 'copy\.deepcopy\('
+        message: "deepcopy is slow - consider if shallow copy suffices"
+        suggestion: "Use copy.copy() or construct new object directly"
+
+  - id: PYPERF010
+    name: "Use dict.get() with default"
+    domain: performance
+    severity: info
+    description: "dict.get() with default is cleaner than try-except"
+    tags:
+      - python
+      - performance
+      - idioms
+    rules:
+      - pattern: 'if \w+ in \w+:\s*\n\s*\w+ = \w+\[\w+\]'
+        message: "Key existence check followed by access"
+        suggestion: "Use 'value = dict.get(key, default)' instead"

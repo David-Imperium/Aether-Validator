@@ -1,0 +1,17 @@
+{
+  "_comment": "Alternative settings for Windows without WSL/Git Bash",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Create",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -File \"$FACTORY_PROJECT_DIR\\.factory\\hooks\\aether-validate.ps1\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

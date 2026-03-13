@@ -1,0 +1,295 @@
+# C++ Security Contracts
+# Domain: security
+
+contracts:
+  - id: CPP_SEC001
+    name: "No hardcoded passwords"
+    domain: security
+    severity: error
+    description: "Hardcoded passwords or secrets in source code"
+    tags:
+      - cpp
+      - security
+      - secrets
+    rules:
+      - pattern: 'password\s*=\s*"'
+        message: "Hardcoded password detected"
+        suggestion: "Use environment variables or a secrets manager"
+      - pattern: 'api_key\s*=\s*"'
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables or a secrets manager"
+      - pattern: 'secret\s*=\s*"'
+        message: "Hardcoded secret detected"
+        suggestion: "Use environment variables or a secrets manager"
+
+  - id: CPP_SEC002
+    name: "No sprintf for strings"
+    domain: security
+    severity: error
+    description: "sprintf is vulnerable to buffer overflows"
+    tags:
+      - cpp
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: "sprintf("
+        message: "sprintf is unsafe - potential buffer overflow"
+        suggestion: "Use std::format, std::snprintf, or std::ostringstream"
+
+  - id: CPP_SEC003
+    name: "No gets() function"
+    domain: security
+    severity: error
+    description: "gets() is dangerous and removed in C++11"
+    tags:
+      - cpp
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: "gets("
+        message: "gets() is unsafe and removed"
+        suggestion: "Use std::cin.getline() or std::getline()"
+
+  - id: CPP_SEC004
+    name: "Validate user input"
+    domain: security
+    severity: warning
+    description: "User input should be validated before use"
+    tags:
+      - cpp
+      - security
+      - input-validation
+    rules:
+      - pattern: "std::cin"
+        message: "cin used - verify input validation"
+        suggestion: "Validate input bounds and format before use"
+
+  - id: CPP_SEC005
+    name: "No command injection"
+    domain: security
+    severity: error
+    description: "Potential command injection vulnerability"
+    tags:
+      - cpp
+      - security
+      - injection
+    rules:
+      - pattern: "system("
+        message: "system() call - verify inputs are sanitized"
+        suggestion: "Avoid system() with user input, use exec family with arguments"
+
+  - id: CPP_SEC006
+    name: "No SQL injection"
+    domain: security
+    severity: error
+    description: "Potential SQL injection vulnerability"
+    tags:
+      - cpp
+      - security
+      - injection
+    rules:
+      - pattern: "SELECT * FROM"
+        message: "Raw SQL query detected"
+        suggestion: "Use parameterized queries or an ORM"
+
+  - id: CPP_SEC007
+    name: "Check file path traversal"
+    domain: security
+    severity: warning
+    description: "Potential path traversal vulnerability"
+    tags:
+      - cpp
+      - security
+      - filesystem
+    rules:
+      - pattern: "std::ifstream("
+        message: "File stream - verify path is not user-controlled"
+        suggestion: "Validate and canonicalize paths before use"
+      - pattern: "fopen("
+        message: "File open - verify path is not user-controlled"
+        suggestion: "Validate and canonicalize paths before use"
+
+  - id: CPP_SEC008
+    name: "Use secure random"
+    domain: security
+    severity: warning
+    description: "rand() is not cryptographically secure"
+    tags:
+      - cpp
+      - security
+      - random
+    rules:
+      - pattern: "rand()"
+        message: "rand() is not secure for cryptographic use"
+        suggestion: "Use std::random_device for cryptographic randomness"
+
+  - id: CPP_SEC009
+    name: "No memcpy with unchecked size"
+    domain: security
+    severity: error
+    description: "memcpy with unchecked size can cause buffer overflows"
+    tags:
+      - cpp
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: "memcpy("
+        message: "memcpy - verify size is bounds-checked"
+        suggestion: "Use std::copy with bounds-checked containers"
+
+  - id: CPP_SEC010
+    name: "Initialize sensitive memory"
+    domain: security
+    severity: warning
+    description: "Uninitialized memory can leak sensitive data"
+    tags:
+      - cpp
+      - security
+      - initialization
+    rules:
+      - pattern: "char %NAME%["
+        message: "Uninitialized char array - may contain sensitive data"
+        suggestion: "Initialize buffers: char buf[SIZE] = {0}"
+
+  # === Additional Clang-Tidy CERT patterns ===
+
+  - id: CPP_SEC011
+    name: "No strcpy"
+    domain: security
+    severity: error
+    description: "strcpy is vulnerable to buffer overflows"
+    tags:
+      - cpp
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: "strcpy("
+        message: "strcpy is unsafe - no bounds checking"
+        suggestion: "Use strncpy with explicit size or std::string"
+
+  - id: CPP_SEC012
+    name: "No strcat"
+    domain: security
+    severity: error
+    description: "strcat is vulnerable to buffer overflows"
+    tags:
+      - cpp
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: "strcat("
+        message: "strcat is unsafe - no bounds checking"
+        suggestion: "Use strncat or std::string::append"
+
+  - id: CPP_SEC013
+    name: "No scanf without bounds"
+    domain: security
+    severity: error
+    description: "scanf without length limit is vulnerable"
+    tags:
+      - cpp
+      - security
+      - input-validation
+    rules:
+      - pattern: 'scanf\("%s"'
+        message: "scanf with %s has no buffer limit"
+        suggestion: "Use scanf(\"%Ns\", buf) with size limit"
+
+  - id: CPP_SEC014
+    name: "No printf with user format"
+    domain: security
+    severity: error
+    description: "printf with user-controlled format string"
+    tags:
+      - cpp
+      - security
+      - format-string
+    rules:
+      - pattern: "printf(user"
+        message: "User-controlled format string is dangerous"
+        suggestion: "Use printf(\"%s\", user_string)"
+
+  - id: CPP_SEC015
+    name: "Avoid C-style casts"
+    domain: security
+    severity: warning
+    description: "C-style casts bypass type safety"
+    tags:
+      - cpp
+      - security
+      - type-safety
+    rules:
+      - pattern: '\([A-Za-z]+\)'
+        message: "C-style cast detected"
+        suggestion: "Use static_cast, const_cast, or reinterpret_cast"
+
+  - id: CPP_SEC016
+    name: "Check array bounds"
+    domain: security
+    severity: warning
+    description: "Array access without bounds checking"
+    tags:
+      - cpp
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: '\[[^\]]*\][^;]*$'
+        message: "Array access - verify bounds checked"
+        suggestion: "Use std::array::at() for bounds checking"
+
+  - id: CPP_SEC017
+    name: "No goto statements"
+    domain: security
+    severity: warning
+    description: "goto makes code hard to verify"
+    tags:
+      - cpp
+      - security
+      - readability
+    rules:
+      - pattern: "goto "
+        message: "goto statement - consider restructuring"
+        suggestion: "Use loops or functions for control flow"
+
+  - id: CPP_SEC018
+    name: "No explicit delete"
+    domain: security
+    severity: warning
+    description: "Manual memory management is error-prone"
+    tags:
+      - cpp
+      - security
+      - memory
+    rules:
+      - pattern: "delete "
+        message: "Manual delete - use smart pointers"
+        suggestion: "Use std::unique_ptr or std::shared_ptr"
+
+  - id: CPP_SEC019
+    name: "No explicit new"
+    domain: security
+    severity: warning
+    description: "Manual memory allocation is error-prone"
+    tags:
+      - cpp
+      - security
+      - memory
+    rules:
+      - pattern: "new [A-Z]"
+        message: "Manual new - use smart pointers"
+        suggestion: "Use std::make_unique or std::make_shared"
+
+  - id: CPP_SEC020
+    name: "No null pointer dereference"
+    domain: security
+    severity: warning
+    description: "Potential null pointer dereference"
+    tags:
+      - cpp
+      - security
+      - null-pointer
+    rules:
+      - pattern: '->'
+        message: "Pointer dereference - verify not null"
+        suggestion: "Check pointer before dereferencing"
+

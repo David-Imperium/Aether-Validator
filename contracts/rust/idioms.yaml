@@ -1,0 +1,73 @@
+# Rust Idioms Contracts
+# Domain: idioms
+
+contracts:
+  - id: RUST013
+    name: "Prefer newtype"
+    domain: idioms
+    severity: warning
+    description: "Use newtype pattern for domain types instead of type aliases"
+    tags:
+      - rust
+      - idioms
+      - design
+    rules:
+      - pattern: "type %NAME% = %TYPE%;"
+        message: "Type alias used for domain type"
+        suggestion: "Consider using a newtype: struct Name(%TYPE%);"
+
+  - id: RUST014
+    name: "Use derive where possible"
+    domain: idioms
+    severity: info
+    description: "Use derive macros instead of implementing traits manually"
+    tags:
+      - rust
+      - idioms
+    rules:
+      - pattern: "impl Clone for %NAME%"
+        message: "Manual Clone implementation"
+        suggestion: "Use #[derive(Clone)] instead"
+      - pattern: "impl Debug for %NAME%"
+        message: "Manual Debug implementation"
+        suggestion: "Use #[derive(Debug)] instead"
+
+  - id: RUST015
+    name: "Avoid deep nesting"
+    domain: idioms
+    severity: warning
+    description: "Deeply nested code is hard to read and maintain"
+    tags:
+      - rust
+      - idioms
+      - readability
+    rules:
+      - pattern: "if %COND% { if %COND2% { if %COND3% {"
+        message: "Deeply nested conditionals"
+        suggestion: "Extract to helper functions or use early returns"
+
+  - id: RUST016
+    name: "Use Result combinators"
+    domain: idioms
+    severity: info
+    description: "Prefer Result combinators over match for simple transformations"
+    tags:
+      - rust
+      - idioms
+    rules:
+      - pattern: "match %EXPR% { Ok(v) => Some(v), Err(_) => None }"
+        message: "Manual Option conversion"
+        suggestion: "Use .ok() instead"
+
+  - id: RUST017
+    name: "Use if let for single variant"
+    domain: idioms
+    severity: info
+    description: "Use if let instead of match when only one variant matters"
+    tags:
+      - rust
+      - idioms
+    rules:
+      - pattern: "match %EXPR% { Some(v) => { %BODY% }, _ => {} }"
+        message: "Match with single variant"
+        suggestion: "Use if let Some(v) = expr { body }"

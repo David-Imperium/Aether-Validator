@@ -1,0 +1,117 @@
+# JavaScript Error Handling Contracts
+# Domain: error-handling
+
+contracts:
+  - id: JSERR001
+    name: "Handle promise rejections"
+    domain: error-handling
+    severity: error
+    description: "Unhandled promise rejections can crash Node.js"
+    tags:
+      - javascript
+      - error-handling
+      - promises
+    rules:
+      - pattern: '\\.then\\(\\s*function'
+        message: ".then() without .catch()"
+        suggestion: "Add .catch() to handle rejections"
+
+  - id: JSERR002
+    name: "Use try-catch with async/await"
+    domain: error-handling
+    severity: warning
+    description: "async/await errors should be caught"
+    tags:
+      - javascript
+      - error-handling
+      - async
+    rules:
+      - pattern: 'await\\s+'
+        message: "await without try-catch"
+        suggestion: "Wrap await in try-catch or use .catch()"
+
+  - id: JSERR003
+    name: "Don't catch and ignore"
+    domain: error-handling
+    severity: error
+    description: "Silent error catching hides bugs"
+    tags:
+      - javascript
+      - error-handling
+      - anti-pattern
+    rules:
+      - pattern: 'catch\\s*\\(.*\\)\\s*{\\s*}'
+        message: "Empty catch block - errors are hidden"
+        suggestion: "Handle the error or log it, don't ignore it"
+
+  - id: JSERR004
+    name: "Log errors properly"
+    domain: error-handling
+    severity: warning
+    description: "Use console.error for errors, not console.log"
+    tags:
+      - javascript
+      - error-handling
+      - logging
+    rules:
+      - pattern: 'console\\.log\\(["\'].*[Ee]rror'
+        message: "Logging errors with console.log"
+        suggestion: "Use console.error() or a proper logging library"
+
+  - id: JSERR005
+    name: "Throw meaningful errors"
+    domain: error-handling
+    severity: warning
+    description: "Generic errors make debugging harder"
+    tags:
+      - javascript
+      - error-handling
+    rules:
+      - pattern: 'throw\\s+["\']'
+        message: "String throw - use Error objects"
+        suggestion: "throw new Error('message') for proper stack trace"
+      - pattern: 'throw\\s+{'
+        message: "Object throw - use Error objects"
+        suggestion: "throw new Error('message') for proper stack trace"
+
+  - id: JSERR006
+    name: "Use custom error types"
+    domain: error-handling
+    severity: info
+    description: "Custom error types enable specific handling"
+    tags:
+      - javascript
+      - error-handling
+      - patterns
+    rules:
+      - pattern: 'throw new Error\\(["\'].*not found'
+        message: "Generic error for not found"
+        suggestion: "Create a NotFoundError class for specific handling"
+
+  - id: JSERR007
+    name: "Use error.cause for chaining"
+    domain: error-handling
+    severity: info
+    description: "Error cause preserves error chain"
+    tags:
+      - javascript
+      - error-handling
+      - es2022
+    rules:
+      - pattern: 'catch.*{[^}]*throw'
+        message: "Rethrow without preserving original error"
+        suggestion: "Use new Error('msg', { cause: originalError })"
+
+  - id: JSERR008
+    name: "Handle fetch errors"
+    domain: error-handling
+    severity: warning
+    description: "fetch doesn't reject on HTTP errors"
+    tags:
+      - javascript
+      - error-handling
+      - http
+    rules:
+      - pattern: 'await\\s+fetch\\('
+        message: "fetch without response.ok check"
+        suggestion: "Check response.ok and throw for non-2xx responses"

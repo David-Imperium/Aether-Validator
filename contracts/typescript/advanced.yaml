@@ -1,0 +1,143 @@
+# TypeScript Advanced Contracts
+# Domain: advanced
+
+contracts:
+  - id: TSADV001
+    name: "Use generic constraints"
+    domain: advanced
+    severity: info
+    description: "Constraints ensure type parameters have required properties"
+    tags:
+      - typescript
+      - advanced
+      - generics
+    rules:
+      - pattern: 'function\\s+\\w+<T>\\s*\\('
+        message: "Unconstrained generic - consider adding constraints"
+        suggestion: "Use <T extends SomeType> to constrain the generic"
+
+  - id: TSADV002
+    name: "Use conditional types"
+    domain: advanced
+    severity: info
+    description: "Conditional types enable advanced type logic"
+    tags:
+      - typescript
+      - advanced
+      - types
+    rules:
+      - pattern: 'T\\s+extends\\s+'
+        message: "Conditional type detected"
+        suggestion: ""
+
+  - id: TSADV003
+    name: "Use mapped types"
+    domain: advanced
+    severity: info
+    description: "Mapped types transform types"
+    tags:
+      - typescript
+      - advanced
+      - types
+    rules:
+      - pattern: '\\[K\\s+in\\s+keyof'
+        message: "Mapped type - consider using built-in utility types"
+        suggestion: "Use Partial<T>, Required<T>, Readonly<T> etc. when applicable"
+
+  - id: TSADV004
+    name: "Use template literal types"
+    domain: advanced
+    severity: info
+    description: "Template literal types create string patterns"
+    tags:
+      - typescript
+      - advanced
+      - types
+    rules:
+      - pattern: '`\\$\\{'
+        message: "Template literal type"
+        suggestion: ""
+
+  - id: TSADV005
+    name: "Use declaration merging wisely"
+    domain: advanced
+    severity: info
+    description: "Declaration merging can extend existing types"
+    tags:
+      - typescript
+      - advanced
+      - patterns
+    rules:
+      - pattern: 'declare\\s+module'
+        message: "Module augmentation"
+        suggestion: ""
+
+  - id: TSADV006
+    name: "Use brand types for nominal typing"
+    domain: advanced
+    severity: info
+    description: "Brand types create distinct types from same base"
+    tags:
+      - typescript
+      - advanced
+      - types
+    rules:
+      - pattern: 'interface.*\\{\\s*__brand'
+        message: "Brand type pattern"
+        suggestion: ""
+
+  - id: TSADV007
+    name: "Use function overloads"
+    domain: advanced
+    severity: info
+    description: "Overloads provide multiple type signatures"
+    tags:
+      - typescript
+      - advanced
+      - functions
+    rules:
+      - pattern: 'function\\s+\\w+\\s*\\([^)]*\\):'
+        message: "Function with multiple signatures - use overloads"
+        suggestion: "Define overload signatures before implementation"
+
+  - id: TSADV008
+    name: "Use infer in conditional types"
+    domain: advanced
+    severity: info
+    description: "infer extracts types from patterns"
+    tags:
+      - typescript
+      - advanced
+      - types
+    rules:
+      - pattern: 'infer\\s+\\w+'
+        message: "Type inference in conditional types"
+        suggestion: ""
+
+  - id: TSADV009
+    name: "Use variadic tuple types"
+    domain: advanced
+    severity: info
+    description: "Variadic tuples enable type-safe spread"
+    tags:
+      - typescript
+      - advanced
+      - types
+    rules:
+      - pattern: '\\.\\.\\.\\s*T'
+        message: "Variadic tuple pattern"
+        suggestion: ""
+
+  - id: TSADV010
+    name: "Use template literal types for event names"
+    domain: advanced
+    severity: info
+    description: "Template literals can type event handlers"
+    tags:
+      - typescript
+      - advanced
+      - patterns
+    rules:
+      - pattern: 'on\\w+\\s*\\('
+        message: "Event handler - consider typed event names"
+        suggestion: "Use template literal types for type-safe event names"

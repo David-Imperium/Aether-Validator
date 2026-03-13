@@ -1,0 +1,92 @@
+# Go Complexity Contracts
+# Domain: complexity
+
+contracts:
+  - id: GOCOMP001
+    name: "Maximum cyclomatic complexity"
+    domain: complexity
+    severity: warning
+    description: "Function cyclomatic complexity exceeds threshold"
+    tags:
+      - go
+      - complexity
+      - maintainability
+    rules:
+      - metric: cyclomatic_complexity
+        max: 15
+        message: "Function has cyclomatic complexity > 15"
+        suggestion: "Break down complex function into smaller functions"
+
+  - id: GOCOMP002
+    name: "Maximum function length"
+    domain: complexity
+    severity: warning
+    description: "Function is too long"
+    tags:
+      - go
+      - complexity
+      - readability
+    rules:
+      - metric: function_lines
+        max: 50
+        message: "Function exceeds 50 lines"
+        suggestion: "Extract helper functions"
+
+  - id: GOCOMP003
+    name: "Maximum nesting depth"
+    domain: complexity
+    severity: warning
+    description: "Code is deeply nested"
+    tags:
+      - go
+      - complexity
+      - readability
+    rules:
+      - metric: nesting_depth
+        max: 4
+        message: "Nesting depth exceeds 4 levels"
+        suggestion: "Use early returns or extract nested logic"
+
+  - id: GOCOMP004
+    name: "Maximum parameter count"
+    domain: complexity
+    severity: warning
+    description: "Function has too many parameters"
+    tags:
+      - go
+      - complexity
+      - api
+    rules:
+      - metric: parameter_count
+        max: 5
+        message: "Function has more than 5 parameters"
+        suggestion: "Use option struct or configuration object"
+
+  - id: GOCOMP005
+    name: "No deep nesting in loops"
+    domain: complexity
+    severity: info
+    description: "Deeply nested loops are hard to understand"
+    tags:
+      - go
+      - complexity
+      - performance
+    rules:
+      - pattern: 'for.*for.*for'
+        message: "Triple-nested loop - potential O(n³) complexity"
+        suggestion: "Consider algorithm optimization"
+
+  - id: GOCOMP006
+    name: "Avoid long files"
+    domain: complexity
+    severity: info
+    description: "File is too long"
+    tags:
+      - go
+      - complexity
+      - maintainability
+    rules:
+      - metric: file_lines
+        max: 500
+        message: "File exceeds 500 lines"
+        suggestion: "Split into multiple files"

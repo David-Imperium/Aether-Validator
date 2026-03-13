@@ -1,0 +1,113 @@
+# Python Error Handling Contracts
+# Domain: error-handling
+
+contracts:
+  - id: PYERR001
+    name: "No silent exception catching"
+    domain: error-handling
+    severity: error
+    description: "Catching exceptions without handling them hides bugs"
+    tags:
+      - python
+      - error-handling
+      - anti-pattern
+    rules:
+      - pattern: 'except.*:\s*pass'
+        message: "Silent exception caught - errors are hidden"
+        suggestion: "Handle the exception or log it, don't just pass"
+
+  - id: PYERR002
+    name: "Log exceptions, don't just print"
+    domain: error-handling
+    severity: warning
+    description: "Use logging instead of print for error messages"
+    tags:
+      - python
+      - error-handling
+      - logging
+    rules:
+      - pattern: 'except.*:\s*print'
+        message: "Use logging instead of print for errors"
+        suggestion: "Use 'logger.exception()' or 'logger.error()'"
+
+  - id: PYERR003
+    name: "Raise specific exceptions"
+    domain: error-handling
+    severity: warning
+    description: "Generic exceptions make debugging harder"
+    tags:
+      - python
+      - error-handling
+    rules:
+      - pattern: 'raise Exception\('
+        message: "Generic Exception raised"
+        suggestion: "Use a specific exception type (ValueError, TypeError, etc.)"
+
+  - id: PYERR004
+    name: "Use try-finally for cleanup"
+    domain: error-handling
+    severity: info
+    description: "Ensure cleanup code runs even if exception occurs"
+    tags:
+      - python
+      - error-handling
+      - cleanup
+    rules:
+      - pattern: 'try:\s*\n.*\n.*=\s*open\('
+        message: "Resource allocation in try block without finally"
+        suggestion: "Use 'try-finally' or context manager for cleanup"
+
+  - id: PYERR005
+    name: "Don't catch BaseException"
+    domain: error-handling
+    severity: error
+    description: "BaseException catches SystemExit and KeyboardInterrupt"
+    tags:
+      - python
+      - error-handling
+    rules:
+      - pattern: 'except BaseException'
+        message: "Catching BaseException catches SystemExit and KeyboardInterrupt"
+        suggestion: "Catch Exception or a more specific exception type"
+
+  - id: PYERR006
+    name: "Use exception chaining"
+    domain: error-handling
+    severity: info
+    description: "Use 'raise ... from' for exception chaining"
+    tags:
+      - python
+      - error-handling
+      - python3
+    rules:
+      - pattern: 'except.*:\s*\n\s*raise'
+        message: "Consider using 'raise ... from' for exception chaining"
+        suggestion: "Use 'raise NewError() from original_error' to preserve stack trace"
+
+  - id: PYERR007
+    name: "Handle specific file exceptions"
+    domain: error-handling
+    severity: info
+    description: "Handle FileNotFoundError and IOError separately"
+    tags:
+      - python
+      - error-handling
+      - file-io
+    rules:
+      - pattern: 'except IOError:'
+        message: "Consider handling specific file exceptions"
+        suggestion: "Handle FileNotFoundError, PermissionError separately"
+
+  - id: PYERR008
+    name: "Don't use exceptions for control flow"
+    domain: error-handling
+    severity: warning
+    description: "Exceptions should be exceptional, not for normal control flow"
+    tags:
+      - python
+      - error-handling
+      - anti-pattern
+    rules:
+      - pattern: 'try:\s*\n\s*for'
+        message: "Potential misuse of exceptions for control flow"
+        suggestion: "Use conditional checks instead of try-except for expected cases"

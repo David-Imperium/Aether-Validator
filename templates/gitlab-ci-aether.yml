@@ -1,0 +1,151 @@
+# Aether Code Validation for GitLab CI/CD
+#
+# Usage: Include this file in your .gitlab-ci.yml
+#
+# include:
+#   - remote: 'https://raw.githubusercontent.com/your-org/aether/main/templates/gitlab-ci-aether.yml'
+#
+# Or copy the job definitions below into your .gitlab-ci.yml
+
+.aether-base:
+  image: rust:latest
+  before_script:
+    - cargo build --release -p aether-cli || cargo install aether-cli
+  artifacts:
+    reports:
+      codequality: aether-report.json
+    expire_in: 1 week
+  allow_failure: false
+
+aether:validate:
+  extends: .aether-base
+  stage: test
+  script:
+    - echo "Running Aether validation..."
+    - |
+      # Create results file
+      touch aether-results.jsonl
+
+      # Find and validate all source files
+      for file in $(find . -type f \( -name "*.rs" -o -name "*.py" -o -name "*.ts" -o -name "*.js" -o -name "*.c" -o -name "*.cpp" \) -not -path "./target/*" -not -path "./node_modules/*"); do
+        echo "Validating $file..."
+
+        # Detect language
+        case "$file" in
+          *.rs) lang="rust" ;;
+          *.py) lang="python" ;;
+          *.ts|*.tsx) lang="typescript" ;;
+          *.js|*.jsx) lang="javascript" ;;
+          *.c|*.h) lang="c" ;;
+          *.cpp|*.hpp|*.cc) lang="cpp" ;;
+          *) lang="auto" ;;
+        esac
+
+        # Run validation
+        ./target/release/aether validate "$file" --lang "$lang" --format json >> aether-results.jsonl 2>/dev/null || true
+      done
+    - |
+      # Convert to GitLab Code Quality format
+      echo "[]" > aether-report.json
+
+      if [ -s aether-results.jsonl ]; then
+        cat aether-results.jsonl | while read line; do
+          file=$(echo "$line" | jq -r '.file // empty')
+          id=$(echo "$line" | jq -r '.id // empty')
+          severity=$(echo "$line" | jq -r '.severity // "info"')
+          message=$(echo "$line" | jq -r '.message // empty')
+          line_num=$(echo "$line" | jq -r '.line // 1')
+
+          # Map severity to GitLab levels
+          case "$severity" in
+            critical) level="blocker" ;;
+            warning) level="major" ;;
+            info) level="minor" ;;
+            *) level="info" ;;
+          esac
+
+          if [ -n "$file" ] && [ -n "$message" ]; then
+            jq -n \
+              --arg desc "$message" \
+              --arg fingerprint "$id" \
+              --arg severity "$level" \
+              --arg location "$file" \
+              --argjson line "$line_num" \
+              '{
+                description: $desc,
+                fingerprint: $fingerprint,
+                severity: $severity,
+                location: {
+                  path: $location,
+                  lines: { begin: $line }
+                }
+              }' >> aether-items.jsonl
+          fi
+        done
+
+        # Combine into array
+        if [ -f aether-items.jsonl ]; then
+          jq -s '.' aether-items.jsonl > aether-report.json
+        fi
+      fi
+    - |
+      # Print summary
+      critical=$(grep -c '"severity":"critical"' aether-results.jsonl 2>/dev/null || echo 0)
+      warning=$(grep -c '"severity":"warning"' aether-results.jsonl 2>/dev/null || echo 0)
+
+      echo "Aether Validation Summary:"
+      echo "  Critical: $critical"
+      echo "  Warnings: $warning"
+
+      if [ "$critical" -gt 0 ]; then
+        echo "ERROR: Critical validation errors found!"
+        exit 1
+      fi
+  artifacts:
+    paths:
+      - aether-results.jsonl
+      - aether-report.json
+    reports:
+      codequality: aether-report.json
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Optional: Pre-commit validation job
+aether:pre-commit:
+  extends: .aether-base
+  stage: test
+  script:
+    - |
+      # Only validate changed files
+      if [ -n "$CI_MERGE_REQUEST_DIFF_BASE_SHA" ]; then
+        changed_files=$(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA $CI_COMMIT_SHA -- '*.rs' '*.py' '*.ts' '*.js' '*.c' '*.cpp')
+      else
+        changed_files=$(git diff --name-only HEAD~1 $CI_COMMIT_SHA -- '*.rs' '*.py' '*.ts' '*.js' '*.c' '*.cpp')
+      fi
+
+      if [ -z "$changed_files" ]; then
+        echo "No source files changed"
+        exit 0
+      fi
+
+      echo "Validating changed files:"
+      echo "$changed_files"
+
+      errors=0
+      for file in $changed_files; do
+        if [ -f "$file" ]; then
+          ./target/release/aether validate "$file" --format text
+          if [ $? -ne 0 ]; then
+            errors=$((errors + 1))
+          fi
+        fi
+      done
+
+      if [ $errors -gt 0 ]; then
+        echo "ERROR: $errors files have validation errors"
+        exit 1
+      fi
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  allow_failure: true

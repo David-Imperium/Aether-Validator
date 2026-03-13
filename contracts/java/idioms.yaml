@@ -1,0 +1,171 @@
+# Java Idioms Contracts
+# Domain: idioms
+
+contracts:
+  - id: JAVAIDM001
+    name: "Use try-with-resources"
+    domain: idioms
+    severity: warning
+    description: "Automatic resource management"
+    tags:
+      - java
+      - idioms
+      - resources
+    rules:
+      - pattern: 'finally\\s*{\\s*\\.close\\(\\)'
+        message: "Manual close in finally - use try-with-resources"
+        suggestion: "Use try (Resource r = ...) for automatic closure"
+
+  - id: JAVAIDM002
+    name: "Prefer immutable objects"
+    domain: idioms
+    severity: info
+    description: "Immutable objects are thread-safe"
+    tags:
+      - java
+      - idioms
+      - concurrency
+    rules:
+      - pattern: 'class\\s+\\w+\\s*{[^}]*private\\s+final'
+        message: "Class with final fields - make it immutable"
+        suggestion: "Ensure all fields are final and no setters exist"
+
+  - id: JAVAIDM003
+    name: "Use Optional for nullable returns"
+    domain: idioms
+    severity: info
+    description: "Optional makes null handling explicit"
+    tags:
+      - java
+      - idioms
+      - java8
+    rules:
+      - pattern: 'return\\s+null;'
+        message: "Null return - consider Optional"
+        suggestion: "Return Optional.empty() instead of null"
+
+  - id: JAVAIDM004
+    name: "Use Stream API for collections"
+    domain: idioms
+    severity: info
+    description: "Stream API is more declarative"
+    tags:
+      - java
+      - idioms
+      - java8
+    rules:
+      - pattern: 'for\\s*\\(\\s*\\w+\\s+\\w+\\s*:\\s*\\w+\\.list'
+        message: "For-each loop - consider Stream API"
+        suggestion: "Use .stream().forEach() or .collect()"
+
+  - id: JAVAIDM005
+    name: "Use method references"
+    domain: idioms
+    severity: info
+    description: "Method references are more concise"
+    tags:
+      - java
+      - idioms
+      - java8
+    rules:
+      - pattern: 'lambda\\s*->\\s*\\w+\\.\\w+\\('
+        message: "Lambda that calls a method - use method reference"
+        suggestion: "Use Object::methodName instead of lambda"
+
+  - id: JAVAIDM006
+    name: "Use StringBuilder for string concatenation"
+    domain: idioms
+    severity: info
+    description: "StringBuilder is more efficient for loops"
+    tags:
+      - java
+      - idioms
+      - performance
+    rules:
+      - pattern: 'for.*{[^}]*\\+=\\s*"'
+        message: "String concatenation in loop"
+        suggestion: "Use StringBuilder for efficient concatenation"
+
+  - id: JAVAIDM007
+    name: "Use equals() for object comparison"
+    domain: idioms
+    severity: warning
+    description: "String comparison with == is incorrect"
+    tags:
+      - java
+      - idioms
+      - bugs
+    rules:
+      - pattern: '==\\s*"'
+        message: "String comparison with == - use equals()"
+        suggestion: "Use .equals() for String comparison"
+
+  - id: JAVAIDM008
+    name: "Use interfaces over implementation types"
+    domain: idioms
+    severity: info
+    description: "Programming to interfaces is more flexible"
+    tags:
+      - java
+      - idioms
+      - design
+    rules:
+      - pattern: 'new ArrayList<'
+        message: "ArrayList declaration - use List interface"
+        suggestion: "Use List<Type> list = new ArrayList<>()"
+
+  - id: JAVAIDM009
+    name: "Avoid raw types"
+    domain: idioms
+    severity: warning
+    description: "Raw types lose type safety"
+    tags:
+      - java
+      - idioms
+      - generics
+    rules:
+      - pattern: 'List\\s+\\w+\\s*='
+        message: "Raw List - add type parameter"
+        suggestion: "Use List<Type> instead of raw List"
+
+  - id: JAVAIDM010
+    name: "Use var for obvious types"
+    domain: idioms
+    severity: info
+    description: "var reduces boilerplate when type is obvious"
+    tags:
+      - java
+      - idioms
+      - java10
+    rules:
+      - pattern: '\\w+<\\w+>\\s+\\w+\\s*=\\s*new\\s+\\w+<\\w+>'
+        message: "Redundant type declaration - consider var"
+        suggestion: "Use var for obvious type declarations"
+
+  - id: JAVAIDM011
+    name: "Use records for data classes"
+    domain: idioms
+    severity: info
+    description: "records reduce boilerplate for data classes"
+    tags:
+      - java
+      - idioms
+      - java16
+    rules:
+      - pattern: 'class\\s+\\w+\\s*{[^}]*private\\s+final[^}]*getter'
+        message: "Data class - consider using record"
+        suggestion: "Use record for immutable data carriers"
+
+  - id: JAVAIDM012
+    name: "Avoid catching Exception"
+    domain: idioms
+    severity: warning
+    description: "Catching Exception is too broad"
+    tags:
+      - java
+      - idioms
+      - error-handling
+    rules:
+      - pattern: 'catch\\s*\\(\\s*Exception'
+        message: "Catching Exception is too broad"
+        suggestion: "Catch specific exception types"

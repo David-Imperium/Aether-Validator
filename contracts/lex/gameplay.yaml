@@ -1,0 +1,149 @@
+# Lex Gameplay Contracts
+# Domain: gameplay
+# Validates game data definitions for Imperium
+
+contracts:
+  - id: LEX001
+    name: "Structure requires era"
+    domain: gameplay
+    severity: error
+    description: "Every structure must belong to an era"
+    tags:
+      - lex
+      - structure
+      - era
+    rules:
+      - pattern: "structure %NAME% { ... }"
+        requires: "era: %ERA%"
+        message: "Structure missing era property"
+        suggestion: "Add era property: era: Ancient or era: Steampunk"
+
+  - id: LEX002
+    name: "Unit requires era"
+    domain: gameplay
+    severity: error
+    description: "Every unit must belong to an era"
+    tags:
+      - lex
+      - unit
+      - era
+    rules:
+      - pattern: "unit %NAME% { ... }"
+        requires: "era: %ERA%"
+        message: "Unit missing era property"
+        suggestion: "Add era property: era: Ancient or era: Steampunk"
+
+  - id: LEX003
+    name: "Technology requires era"
+    domain: gameplay
+    severity: error
+    description: "Every technology must belong to an era"
+    tags:
+      - lex
+      - technology
+      - era
+    rules:
+      - pattern: "technology %NAME% { ... }"
+        requires: "era: %ERA%"
+        message: "Technology missing era property"
+        suggestion: "Add era property: era: Ancient or era: Steampunk"
+
+  - id: LEX004
+    name: "Cost must be resource map"
+    domain: gameplay
+    severity: warning
+    description: "Cost property should be a resource map with valid resources"
+    tags:
+      - lex
+      - cost
+      - resources
+    rules:
+      - pattern: "cost: { %RESOURCE%: %AMOUNT% }"
+        message: "Cost should be a resource map"
+        suggestion: "Use cost: { Gold: 100, Wood: 50 } format"
+
+  - id: LEX005
+    name: "Production must be resource map"
+    domain: gameplay
+    severity: warning
+    description: "Production property should be a resource map with valid resources"
+    tags:
+      - lex
+      - production
+      - resources
+    rules:
+      - pattern: "production: { %RESOURCE%: %AMOUNT% }"
+        message: "Production should be a resource map"
+        suggestion: "Use production: { Gold: 5, Food: 10 } format"
+
+  - id: LEX006
+    name: "Era definition required"
+    domain: gameplay
+    severity: error
+    description: "At least one era must be defined before other entities"
+    tags:
+      - lex
+      - era
+      - required
+    rules:
+      - pattern: "era %NAME% { ... }"
+        message: "No era definitions found"
+        suggestion: "Define at least one era before defining structures, units, or technologies"
+
+  - id: LEX007
+    name: "Resource definition recommended"
+    domain: gameplay
+    severity: info
+    description: "Define resources before using them in costs"
+    tags:
+      - lex
+      - resource
+      - best-practice
+    rules:
+      - pattern: "resource %NAME% { ... }"
+        message: "No resource definitions found"
+        suggestion: "Define resources like Gold, Wood, Coal before using them in costs"
+
+  - id: LEX008
+    name: "Technology prerequisites valid"
+    domain: gameplay
+    severity: warning
+    description: "Technology prerequisites should reference defined technologies"
+    tags:
+      - lex
+      - technology
+      - prerequisites
+    rules:
+      - pattern: "prerequisites: [%TECH%]"
+        message: "Technology prerequisite references undefined technology"
+        suggestion: "Ensure all prerequisites reference technologies defined earlier"
+
+  - id: LEX009
+    name: "Attack and defense for units"
+    domain: gameplay
+    severity: info
+    description: "Units should have attack and defense values"
+    tags:
+      - lex
+      - unit
+      - combat
+    rules:
+      - pattern: "unit %NAME% { ... }"
+        recommends: ["attack: %VALUE%", "defense: %VALUE%"]
+        message: "Unit missing combat stats"
+        suggestion: "Add attack and defense properties for combat units"
+
+  - id: LEX010
+    name: "Research cost for technologies"
+    domain: gameplay
+    severity: error
+    description: "Technologies must have a research cost"
+    tags:
+      - lex
+      - technology
+      - cost
+    rules:
+      - pattern: "technology %NAME% { ... }"
+        requires: "research_cost: %VALUE%"
+        message: "Technology missing research_cost"
+        suggestion: "Add research_cost: 100 or appropriate value"

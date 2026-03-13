@@ -1,0 +1,56 @@
+# Rust Error Handling Contracts
+# Domain: error-handling
+
+contracts:
+  - id: RUST006
+    name: "No expect without context"
+    domain: error-handling
+    severity: warning
+    description: "expect() should always include a context message explaining why we expect success"
+    tags:
+      - rust
+      - error-handling
+    rules:
+      - pattern: ".expect(\"\")"
+        message: "expect() called with empty message"
+        suggestion: "Provide a descriptive message: .expect(\"why this should succeed\")"
+
+  - id: RUST007
+    name: "Prefer anyhow for errors"
+    domain: error-handling
+    severity: info
+    description: "Use anyhow for error propagation in applications"
+    tags:
+      - rust
+      - error-handling
+    rules:
+      - pattern: "Box<dyn std::error::Error>"
+        message: "Box<dyn Error> is verbose"
+        suggestion: "Use anyhow::Result for application error handling"
+
+  - id: RUST008
+    name: "No panic in lib"
+    domain: error-handling
+    severity: error
+    description: "Library code should never panic, use Result instead"
+    tags:
+      - rust
+      - error-handling
+      - library
+    rules:
+      - pattern: "panic!(\""
+        message: "panic! in library code"
+        suggestion: "Return Result and let the caller decide how to handle errors"
+
+  - id: RUST009
+    name: "Document public errors"
+    domain: error-handling
+    severity: info
+    description: "Public functions returning Result should document their errors"
+    tags:
+      - rust
+      - documentation
+    rules:
+      - pattern: "# Errors\n"
+        message: "Error documentation found"
+        suggestion: "Continue documenting what errors can be returned and why"

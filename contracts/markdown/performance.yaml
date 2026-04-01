@@ -1,0 +1,156 @@
+# Markdown Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: MD_PERF001
+    name: "Unoptimized images"
+    domain: performance
+    severity: warning
+    description: "Large images slow down page load"
+    tags:
+      - markdown
+      - performance
+      - images
+    rules:
+      - pattern: '!\[[^\]]*\]\([^)]+\.(png|bmp|tiff)\)'
+        message: "Potentially unoptimized image format (PNG/BMP/TIFF)"
+        suggestion: "Consider WebP or optimized JPEG for smaller file size"
+      - pattern: '!\[[^\]]*\]\([^)]+\.(jpg|jpeg)\)'
+        message: "JPEG image - verify optimization"
+        suggestion: "Use compressed images and lazy loading when possible"
+
+  - id: MD_PERF002
+    name: "Large external images"
+    domain: performance
+    severity: warning
+    description: "External images may be large and slow to load"
+    tags:
+      - markdown
+      - performance
+      - images
+      - network
+    rules:
+      - pattern: '!\[[^\]]*\]\(https?://[^)]+\.(png|jpg|jpeg|gif)\)'
+        message: "External image - may be large or unavailable"
+        suggestion: "Host images locally or use CDN with optimization"
+
+  - id: MD_PERF003
+    name: "Hotlinking external resources"
+    domain: performance
+    severity: info
+    description: "Hotlinked resources depend on external servers"
+    tags:
+      - markdown
+      - performance
+      - reliability
+    rules:
+      - pattern: '!\[[^\]]*\]\(https?://(?!(github|githubusercontent))[^)]+\)'
+        message: "Image hotlinked from external source"
+        suggestion: "Consider local hosting for reliability and performance"
+
+  - id: MD_PERF004
+    name: "Embedded base64 images"
+    domain: performance
+    severity: warning
+    description: "Base64 images bloat document size"
+    tags:
+      - markdown
+      - performance
+      - size
+    rules:
+      - pattern: '!\[[^\]]*\]\(data:image/[^)]{100,}\)'
+        message: "Large base64-encoded image in document"
+        suggestion: "Use external image file for better caching"
+
+  - id: MD_PERF005
+    name: "Many external links"
+    domain: performance
+    severity: info
+    description: "Many external links increase check time"
+    tags:
+      - markdown
+      - performance
+      - links
+    rules:
+      - pattern: '(\[^\]]+\]\(https?://[^)]+\).*){10,}'
+        message: "Many external links - link checker will take time"
+        suggestion: "Consider link checking frequency or CI optimization"
+
+  - id: MD_PERF006
+    name: "Large code blocks"
+    domain: performance
+    severity: info
+    description: "Large code blocks increase document size"
+    tags:
+      - markdown
+      - performance
+      - size
+      - code
+    rules:
+      - pattern: '```[\s\S]{5000,}```'
+        message: "Very large code block (>5000 chars)"
+        suggestion: "Consider linking to external file or using gist"
+
+  - id: MD_PERF007
+    name: "Animated GIFs"
+    domain: performance
+    severity: warning
+    description: "Animated GIFs are large and inefficient"
+    tags:
+      - markdown
+      - performance
+      - images
+      - animation
+    rules:
+      - pattern: '!\[[^\]]*\]\([^)]+\.gif\)'
+        message: "GIF file - animated GIFs are large"
+        suggestion: "Convert to MP4/WebM video or use CSS animations"
+
+  - id: MD_PERF008
+    name: "Uncompressed SVG images"
+    domain: performance
+    severity: info
+    description: "SVG files can be optimized"
+    tags:
+      - markdown
+      - performance
+      - images
+      - svg
+    rules:
+      - pattern: '!\[[^\]]*\]\([^)]+\.svg\)'
+        message: "SVG image - ensure it's SVGO optimized"
+        suggestion: "Run SVG through optimizer to reduce size"
+
+  - id: MD_PERF009
+    name: "Multiple render-blocking embeds"
+    domain: performance
+    severity: info
+    description: "Embedded content can slow rendering"
+    tags:
+      - markdown
+      - performance
+      - embeds
+    rules:
+      - pattern: '{{.*youtube\.com.*}}'
+        message: "YouTube embed - consider lazy loading"
+        suggestion: "Use lazy-loaded embed pattern for faster initial load"
+      - pattern: '{{.*twitter\.com.*}}'
+        message: "Twitter embed - adds external JavaScript"
+        suggestion: "Consider static screenshot with link"
+
+  - id: MD_PERF010
+    name: "Large HTML tables"
+    domain: performance
+    severity: info
+    description: "Large tables can slow rendering"
+    tags:
+      - markdown
+      - performance
+      - tables
+    rules:
+      - pattern: '(\|[^\|]+\|){20,}'
+        message: "Wide table with many columns"
+        suggestion: "Consider breaking into smaller tables"
+      - pattern: '(\|[^\|]+\|\n){100,}'
+        message: "Very long table with many rows"
+        suggestion: "Consider pagination or data file link"

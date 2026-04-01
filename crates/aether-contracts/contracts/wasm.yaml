@@ -1,0 +1,143 @@
+# WebAssembly Contracts — Error patterns in WASM/FFI code
+
+contracts:
+  # Memory Safety
+  - id: WASM001
+    name: "No panic in WASM"
+    domain: error-handling
+    severity: critical
+    description: "Panic in WASM unwinds across FFI - undefined behavior"
+    rules:
+      - pattern: "panic!("
+        message: "panic! in WASM - causes undefined behavior across FFI"
+        suggestion: "Use Result<T, E> and handle errors explicitly"
+
+  - id: WASM002
+    name: "No unwrap in WASM"
+    domain: error-handling
+    severity: error
+    description: "unwrap can panic in WASM"
+    rules:
+      - pattern: ".unwrap()"
+        message: "unwrap() in WASM - may panic across FFI boundary"
+        suggestion: "Use expect() with context or return Result"
+
+  - id: WASM003
+    name: "Memory leak across FFI"
+    domain: memory
+    severity: error
+    description: "Memory allocated but not freed"
+    rules:
+      - pattern: "Box::into_raw"
+        message: "into_raw creates leak unless from_raw called"
+        suggestion: "Ensure deallocate function exists for every allocate"
+
+  - id: WASM004
+    name: "Pointer without null check"
+    domain: memory
+    severity: error
+    description: "Raw pointer dereference without validation"
+    rules:
+      - pattern: "as *mut"
+        message: "Raw pointer - ensure null check before dereference"
+        suggestion: "Use NonNull<T> or add if !ptr.is_null() check"
+
+  - id: WASM005
+    name: "No Vec::from_raw_parts validation"
+    domain: memory
+    severity: error
+    description: "from_raw_parts with untrusted size"
+    rules:
+      - pattern: "from_raw_parts"
+        message: "from_raw_parts - validate size/capacity from caller"
+        suggestion: "Add bounds check on size parameter"
+
+  - id: WASM006
+    name: "Closure memory leak"
+    domain: memory
+    severity: warning
+    description: "Closure::wrap without into_js_value leak"
+    rules:
+      - pattern: "Closure::wrap"
+        message: "Closure wrapped - ensure it's dropped or forgotten intentionally"
+        suggestion: "Call closure.forget() only if needed, or keep for lifetime"
+
+  - id: WASM007
+    name: "JsValue type confusion"
+    domain: correctness
+    severity: warning
+    description: "JsValue conversion without type check"
+    rules:
+      - pattern: "as_f64()"
+        message: "JsValue.as_f64() returns Option - handle None"
+        suggestion: "Use if let Some(v) = val.as_f64()"
+
+  - id: WASM008
+    name: "No wasm_bindgen for thread safety"
+    domain: concurrency
+    severity: warning
+    description: "Static mut in WASM"
+    rules:
+      - pattern: "static mut"
+        message: "Static mut is unsafe in WASM - no thread guarantees"
+        suggestion: "Use AtomicUsize or thread_local!"
+
+  - id: WASM009
+    name: "Global state mutation"
+    domain: concurrency
+    severity: warning
+    description: "Unsafe global mutation"
+    rules:
+      - pattern: "GLOBAL_COUNTER +="
+        message: "Global mutable state - race condition risk"
+        suggestion: "Use atomics or pass state explicitly"
+
+  - id: WASM010
+    name: "No buffer size limit"
+    domain: memory
+    severity: warning
+    description: "Allocation without size limit"
+    rules:
+      - pattern: "with_capacity"
+        message: "Allocation - validate size parameter from JS"
+        suggestion: "Add max_size check before allocation"
+
+  - id: WASM011
+    name: "String in WASM overhead"
+    domain: performance
+    severity: info
+    description: "String operations in WASM"
+    rules:
+      - pattern: "String"
+        message: "String in WASM has UTF-8 overhead for JS interop"
+        suggestion: "Consider &str or Vec<u8> for binary data"
+
+  - id: WASM012
+    name: "Missing wasm_bindgen"
+    domain: api
+    severity: error
+    description: "Function not exported to JS"
+    rules:
+      - pattern: "pub fn "
+        message: "Public function - add #[wasm_bindgen] if meant for JS"
+        suggestion: "Add #[wasm_bindgen] attribute"
+
+  - id: WASM013
+    name: "ArrayBuffer lifetime"
+    domain: memory
+    severity: warning
+    description: "ArrayBuffer may be invalidated"
+    rules:
+      - pattern: "Uint8Array::new"
+        message: "ArrayBuffer view - memory may be detached by JS"
+        suggestion: "Copy data if needed beyond current call"
+
+  - id: WASM014
+    name: "Set panic hook"
+    domain: error-handling
+    severity: warning
+    description: "Panic hook not set for better errors"
+    rules:
+      - pattern: "console_error_panic_hook"
+        message: "Set panic hook for better WASM error messages"
+        suggestion: "Call console_error_panic_hook::set_once() in init"

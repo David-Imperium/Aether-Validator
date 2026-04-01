@@ -1,0 +1,331 @@
+# GraphQL Security Contracts
+# Domain: security
+# Validates GraphQL security patterns: depth limits, introspection, injection
+
+contracts:
+  - id: GQL_SEC001
+    name: "Query depth limit enforced"
+    domain: security
+    severity: error
+    description: "Deeply nested queries can cause DoS attacks"
+    tags:
+      - graphql
+      - security
+      - dos
+      - depth
+    rules:
+      - pattern: '(\{\s*\w+\s*\{){5,}'
+        message: "Query depth exceeds 5 levels - potential DoS vector"
+        suggestion: "Implement depth limit: maxDepth: 10, or use @depth(limit: 5)"
+      - query: |
+          SELECT query, depth_level
+          FROM queries
+          WHERE depth_level > 10
+        message: "Query depth exceeds safe limit"
+        suggestion: "Configure server-side depth limit enforcement"
+
+  - id: GQL_SEC002
+    name: "Introspection disabled in production"
+    domain: security
+    severity: warning
+    description: "Introspection queries expose schema details"
+    tags:
+      - graphql
+      - security
+      - introspection
+    rules:
+      - pattern: '__schema|__type|__typename'
+        message: "Introspection query - disable in production"
+        suggestion: "Set introspection: false for production deployments"
+      - pattern: 'query\s*\{[^}]*__(schema|type)'
+        message: "Direct introspection query detected"
+        suggestion: "Remove introspection queries before production"
+
+  - id: GQL_SEC003
+    name: "Field suggestion limited"
+    domain: security
+    severity: warning
+    description: "Field suggestions can reveal schema structure"
+    tags:
+      - graphql
+      - security
+      - information-disclosure
+    rules:
+      - query: |
+          SELECT config_value FROM server_config
+          WHERE config_key = 'field_suggestion'
+            AND config_value = true
+        message: "Field suggestions enabled - may leak schema info"
+        suggestion: "Disable field suggestions in production: debug: false"
+
+  - id: GQL_SEC004
+    name: "Alias count limited"
+    domain: security
+    severity: warning
+    description: "Excessive aliases can be used for DoS attacks"
+    tags:
+      - graphql
+      - security
+      - dos
+      - alias
+    rules:
+      - pattern: '\w+:\s*\w+.*\w+:\s*\w+.*\w+:\s*\w+.*\w+:\s*\w+.*\w+:\s*\w+'
+        message: "Many aliases detected - potential alias bombing"
+        suggestion: "Limit alias count per query: maxAliases: 10"
+      - query: |
+          SELECT query, alias_count
+          FROM queries
+          WHERE alias_count > 20
+        message: "Alias count exceeds safe limit"
+        suggestion: "Implement server-side alias count limit"
+
+  - id: GQL_SEC005
+    name: "Query complexity limit"
+    domain: security
+    severity: error
+    description: "Complex queries can overwhelm servers"
+    tags:
+      - graphql
+      - security
+      - dos
+      - complexity
+    rules:
+      - query: |
+          SELECT query, complexity_score
+          FROM queries
+          WHERE complexity_score > 1000
+        message: "Query complexity exceeds limit"
+        suggestion: "Implement complexity analysis: @cost(weight: 10)"
+
+  - id: GQL_SEC006
+    name: "Mutation rate limiting"
+    domain: security
+    severity: warning
+    description: "Mutations should be rate-limited"
+    tags:
+      - graphql
+      - security
+      - rate-limiting
+    rules:
+      - pattern: 'mutation\s*\{'
+        message: "Mutation detected - ensure rate limiting is configured"
+        suggestion: "Add rate limiting for mutations: throttle: 100/minute"
+
+  - id: GQL_SEC007
+    name: "No inline secrets in queries"
+    domain: security
+    severity: error
+    description: "Secrets should not be hardcoded in queries"
+    tags:
+      - graphql
+      - security
+      - secrets
+    rules:
+      - pattern: '(password|secret|token|api_key|apiKey)\s*:\s*"[^"]{8,}"'
+        message: "Hardcoded secret in query"
+        suggestion: "Use variables for sensitive data: password: $password"
+
+  - id: GQL_SEC008
+    name: "Input validation on mutations"
+    domain: security
+    severity: error
+    description: "Mutation inputs should be validated"
+    tags:
+      - graphql
+      - security
+      - input-validation
+    rules:
+      - pattern: 'input\s+\w+\s*\{[^}]*\}'
+        message: "Input type defined - add validation directives"
+        suggestion: "Use @constraint for validation: @constraint(minLength: 1, maxLength: 100)"
+      - query: |
+          SELECT name FROM input_types
+          WHERE NOT has_validation
+        message: "Input type without validation"
+        suggestion: "Add @constraint or custom validation directives"
+
+  - id: GQL_SEC009
+    name: "Authorization on fields"
+    domain: security
+    severity: error
+    description: "Sensitive fields should have authorization"
+    tags:
+      - graphql
+      - security
+      - authorization
+    rules:
+      - pattern: '(password|email|phone|ssn|credit_card|token|secret)\s*:'
+        message: "Sensitive field - add authorization check"
+        suggestion: "Add @auth directive: @auth(requires: USER)"
+      - query: |
+          SELECT name, type FROM fields
+          WHERE is_sensitive AND NOT has_auth_directive
+        message: "Sensitive field without authorization"
+        suggestion: "Add @auth or @authorized directive"
+
+  - id: GQL_SEC010
+    name: "Batching limit enforced"
+    domain: security
+    severity: warning
+    description: "Query batching can be exploited for DoS"
+    tags:
+      - graphql
+      - security
+      - dos
+      - batching
+    rules:
+      - query: |
+          SELECT batch_size FROM queries
+          WHERE batch_size > 10
+        message: "Large query batch detected"
+        suggestion: "Limit batch size: maxBatchSize: 10"
+
+  - id: GQL_SEC011
+    name: "Persisted queries only in production"
+    domain: security
+    severity: info
+    description: "Production should use persisted queries only"
+    tags:
+      - graphql
+      - security
+      - persisted-queries
+    rules:
+      - pattern: 'persistedQueries|allowOnlyPersisted'
+        message: "Consider persisted-only mode for production"
+        suggestion: "Enable: onlyPersistedQueries: true"
+
+  - id: GQL_SEC012
+    name: "Error messages sanitized"
+    domain: security
+    severity: warning
+    description: "Error messages should not expose internals"
+    tags:
+      - graphql
+      - security
+      - information-disclosure
+    rules:
+      - pattern: 'throw new Error\(|return new Error\('
+        message: "Raw error message - sanitize for production"
+        suggestion: "Use generic error messages in production"
+
+  - id: GQL_SEC013
+    name: "Subscription authorization"
+    domain: security
+    severity: error
+    description: "Subscriptions should have authorization"
+    tags:
+      - graphql
+      - security
+      - subscription
+      - authorization
+    rules:
+      - pattern: 'subscription\s*\{'
+        message: "Subscription detected - ensure authorization"
+        suggestion: "Add @auth directive to subscription fields"
+
+  - id: GQL_SEC014
+    name: "File upload limits"
+    domain: security
+    severity: warning
+    description: "File uploads should have size limits"
+    tags:
+      - graphql
+      - security
+      - file-upload
+    rules:
+      - pattern: 'Upload|scalar Upload'
+        message: "File upload detected - add size limits"
+        suggestion: "Configure: maxFileSize: 10MB, maxFiles: 5"
+
+  - id: GQL_SEC015
+    name: "No SQL injection via variables"
+    domain: security
+    severity: error
+    description: "Variables should be sanitized before SQL queries"
+    tags:
+      - graphql
+      - security
+      - injection
+      - sql
+    rules:
+      - pattern: '\$\w+.*SELECT|\$\w+.*INSERT|\$\w+.*UPDATE|\$\w+.*DELETE'
+        message: "Potential SQL injection via variable"
+        suggestion: "Use parameterized queries in resolvers"
+
+  - id: GQL_SEC016
+    name: "No NoSQL injection via variables"
+    domain: security
+    severity: error
+    description: "Variables should be sanitized before NoSQL queries"
+    tags:
+      - graphql
+      - security
+      - injection
+      - nosql
+    rules:
+      - pattern: '\$\w+.*\$where|\$\w+.*\$regex|\$\w+.*\$ne'
+        message: "Potential NoSQL injection via variable"
+        suggestion: "Sanitize variables before MongoDB queries"
+
+  - id: GQL_SEC017
+    name: "CORS configuration secure"
+    domain: security
+    severity: warning
+    description: "CORS should be properly configured"
+    tags:
+      - graphql
+      - security
+      - cors
+    rules:
+      - pattern: 'cors:\s*\{[^}]*origin:\s*"\*"'
+        message: "Wildcard CORS origin - security risk"
+        suggestion: "Specify allowed origins: origin: ['https://example.com']"
+
+  - id: GQL_SEC018
+    name: "WebSocket authentication"
+    domain: security
+    severity: warning
+    description: "WebSocket connections for subscriptions need auth"
+    tags:
+      - graphql
+      - security
+      - websocket
+      - authentication
+    rules:
+      - pattern: 'subscriptions.*websocket|websocket.*subscriptions'
+        message: "WebSocket subscriptions - ensure authentication"
+        suggestion: "Add authentication to WebSocket connection init"
+
+  - id: GQL_SEC019
+    name: "Query timeout configured"
+    domain: security
+    severity: warning
+    description: "Queries should have timeout limits"
+    tags:
+      - graphql
+      - security
+      - timeout
+    rules:
+      - query: |
+          SELECT config_value FROM server_config
+          WHERE config_key = 'query_timeout'
+            AND config_value > 30000
+        message: "Query timeout not configured or too high"
+        suggestion: "Set reasonable timeout: queryTimeout: 30000ms"
+
+  - id: GQL_SEC020
+    name: "Response size limit"
+    domain: security
+    severity: warning
+    description: "Response size should be limited"
+    tags:
+      - graphql
+      - security
+      - dos
+      - response-size
+    rules:
+      - query: |
+          SELECT response_size FROM responses
+          WHERE response_size > 10000000
+        message: "Large response - add size limit"
+        suggestion: "Implement response size limit: maxResponseSize: 10MB"

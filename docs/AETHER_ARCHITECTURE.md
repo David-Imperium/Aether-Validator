@@ -1,25 +1,31 @@
 # Aether — Technical Architecture
 
-**Version:** 0.1.0
+**Version:** 2.0 (Autonomous Design)
 **Implementation Language:** Rust
-**Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md), [AETHER_RUST_IMPLEMENTATION.md](./AETHER_RUST_IMPLEMENTATION.md)
+**Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md), [AETHER_RUST_IMPLEMENTATION.md](./AETHER_RUST_IMPLEMENTATION.md), [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md)
 
 ---
 
 ## Overview
 
 This document details the technical architecture of Aether, including:
-- Core engine components
+- Core engine components (**AI-Free Core**)
 - Data flow
 - Module interfaces
 - Parser abstraction layer
 - Validation pipeline
+- Git hooks integration
+
+**Key Principles (v2.0):**
+- **AI-Free Core**: Nessuna AI esterna richiesta per validazione
+- **Memory-Driven**: Configurazione dinamica basata sulla memoria appresa
+- **TOML Format**: State file leggibili e modificabili dall'utente
 
 ---
 
 ## System Architecture
 
-### Phase 4: Dual-Track Validation (Simplified Architecture)
+### Standalone Validation Architecture
 
 Based on market research (CodeRabbit "State of AI vs Human Code Generation Report" 2025):
 - AI generates **1.7x more issues** overall
@@ -28,39 +34,34 @@ Based on market research (CodeRabbit "State of AI vs Human Code Generation Repor
 - Readability issues **3x higher**
 - **84%** developers use AI, but only **29%** trust it (down from 40% in 2024)
 
-**Key Insight:** Market wants validation in workflow (CI/CD, PR review), not real-time interception.
+**Key Insight:** Universal validation for all AI agents and CI/CD pipelines.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER VALIDATION (Phase 4 Architecture)                   │
+│                    AETHER VALIDATION                                          │
 │                                                                              │
 │  ┌─────────────────────────────────────────────────────────────────────────┐ │
-│  │                          DUAL-TRACK SYSTEM                              │ │
+│  │                      VALIDATORE STANDALONE                              │ │
 │  │                                                                         │ │
-│  │  ┌───────────────────────────┐   ┌───────────────────────────────────┐  │ │
-│  │  │   PROXY HTTP (Real-time)  │   │   VALIDATORE STANDALONE           │  │ │
-│  │  │                           │   │                                   │  │ │
-│  │  │   • Intercepta risposte   │   │   • CLI, Desktop App, CI/CD      │  │ │
-│  │  │     API da agenti AI      │   │   • Git hooks (pre-commit)       │  │ │
-│  │  │   • Estrae codice        │   │   • Funziona con TUTTI gli agenti │  │ │
-│  │  │   • Valida in background │   │   • Manuale o automatico         │  │ │
-│  │  │   • Notifiche desktop    │   │                                   │  │ │
-│  │  │                           │   │   UNIVERSAL COMPATIBILITY:        │  │ │
-│  │  │   COMPATIBILITY:          │   │   ✅ Tutti gli agenti AI         │  │ │
-│  │  │   ✅ Droid                │   │   ✅ Editor (VS Code, Cursor)    │  │ │
-│  │  │   ✅ Claude Code          │   │   ✅ CI/CD pipelines             │  │ │
-│  │  │   ✅ Cursor               │   │   ✅ Local models (Ollama)       │  │ │
-│  │  │   ❌ Ollama (local)       │   │   ✅ GitHub Copilot              │  │ │
-│  │  │   ❌ GitHub Copilot       │   │                                   │  │ │
-│  │  └───────────────────────────┘   └───────────────────────────────────┘  │ │
+│  │  • CLI, VS Code Extension, CI/CD                                       │ │
+│  │  • Funziona con TUTTI gli agenti AI                                    │ │
+│  │  • Manuale o automatico                                                │ │
 │  │                                                                         │ │
-│  │  ┌─────────────────────────────────────────────────────────────────┐   │ │
-│  │  │                     RAG (Apprendimento)                          │   │ │
-│  │  │                                                                  │   │ │
-│  │  │   • Memorizza pattern, errori, correzioni                       │   │ │
-│  │  │   • Migliora validazione nel tempo                              │   │ │
-│  │  │   • Fonte: correzioni utente + errori rilevati                  │   │ │
-│  │  └─────────────────────────────────────────────────────────────────┘   │ │
+│  │  UNIVERSAL COMPATIBILITY:                                              │ │
+│  │  ✅ Tutti gli agenti AI                                                │ │
+│  │  ✅ Editor (VS Code, Cursor)                                           │ │
+│  │  ✅ CI/CD pipelines                                                    │ │
+│  │  ✅ Local models (Ollama)                                              │ │
+│  │  ✅ GitHub Copilot                                                     │ │
+│  └─────────────────────────────────────────────────────────────────────────┘ │
+│                                                                              │
+│  ┌─────────────────────────────────────────────────────────────────────────┐ │
+│  │              MEMORY-DRIVEN CORE (Apprendimento)                         │ │
+│  │                                                                         │ │
+│  │   • LearnedConfig configura layers DINAMICAMENTE                       │ │
+│  │   • Thresholds, rules, whitelist uniche per progetto                   │ │
+│  │   • Migliora nel tempo: meno falsi positivi, più valore                │ │
+│  │   • Vedi: MEMORY_DRIVEN_CORE.md                                        │ │
 │  └─────────────────────────────────────────────────────────────────────────┘ │
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
@@ -112,15 +113,20 @@ Based on market research (CodeRabbit "State of AI vs Human Code Generation Repor
 │  │   ┌──────────────────────────────────────────────────────────────┐    │   │
 │  │   │                  VALIDATION PIPELINE                         │    │   │
 │  │   │                                                              │    │   │
-│  │   │  ┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐          │    │   │
-│  │   │  │Syntax  │──▶│Semantic│──▶│ Logic  │──▶│ Arch.  │          │    │   │
-│  │   │  │ Check  │   │ Check  │   │ Check  │   │ Check  │          │    │   │
-│  │   │  └────────┘   └────────┘   └────────┘   └───┬────┘          │    │   │
-│  │   │                                              │               │    │   │
-│  │   │                                         ┌────┴────┐          │    │   │
-│  │   │                                         │  Style  │          │    │   │
-│  │   │                                         │  Check  │          │    │   │
-│  │   │                                         └─────────┘          │    │   │
+│  │   │  ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐       │    │   │
+│  │   │  │Contract │──▶│ Syntax  │──▶│Semantic │──▶│  Logic  │       │    │   │
+│  │   │  │ Layer   │   │ Check   │   │ Check   │   │ Check   │       │    │   │
+│  │   │  └─────────┘   └─────────┘   └─────────┘   └────┬────┘       │    │   │
+│  │   │                                                   │            │    │   │
+│  │   │                                              ┌────┴────┐       │    │   │
+│  │   │                                              │  Arch.  │       │    │   │
+│  │   │                                              │  Check  │       │    │   │
+│  │   │                                              └────┬────┘       │    │   │
+│  │   │                                                   │            │    │   │
+│  │   │                                              ┌────┴────┐       │    │   │
+│  │   │                                              │  Style  │       │    │   │
+│  │   │                                              │  Check  │       │    │   │
+│  │   │                                              └─────────┘       │    │   │
 │  │   └──────────────────────────────────────────────────────────────┘    │   │
 │  │                                                                        │   │
 │  │   ┌──────────────────────────────────────────────────────────────┐    │   │
@@ -450,6 +456,93 @@ pub struct ValidationContext {
 
 ### 5. Validation Layers
 
+#### Contract Layer
+
+The ContractLayer loads human-authored YAML contracts and evaluates them against source code using regex patterns. This is the first layer in the pipeline, enabling project-specific validation rules.
+
+```rust
+// src/validation/layers/contract.rs
+use serde::{Deserialize, Serialize};
+use regex::Regex;
+
+/// YAML contract definition
+#[derive(Debug, Clone, Deserialize)]
+pub struct ContractDef {
+    pub id: String,
+    pub name: String,
+    pub description: String,
+    pub severity: String,  // error, warning, info
+    pub pattern: String,   // regex pattern
+    pub suggestion: Option<String>,
+}
+
+/// Contract layer - loads and evaluates YAML contracts
+pub struct ContractLayer {
+    contracts_path: PathBuf,
+    cache: HashMap<String, Vec<ContractDef>>,
+}
+
+impl ContractLayer {
+    pub fn with_path(path: &Path) -> Self {
+        Self {
+            contracts_path: path.to_path_buf(),
+            cache: HashMap::new(),
+        }
+    }
+
+    fn load_contracts(&mut self, language: &str) -> Vec<ContractDef> {
+        // Load from ~/.aether/contracts/{language}/*.yaml
+        // Cache for subsequent calls
+    }
+
+    fn evaluate_pattern(&self, pattern: &str, source: &str) -> Vec<Match> {
+        // All patterns treated as regex
+        // Supports multiline matching with [\s\S]*?
+    }
+}
+
+impl ValidationLayer for ContractLayer {
+    fn name(&self) -> &str { "contract" }
+
+    fn validate(&self, source: &str, language: &str) -> LayerResult {
+        let contracts = self.load_contracts(language);
+        let mut violations = Vec::new();
+
+        for contract in contracts {
+            for m in self.evaluate_pattern(&contract.pattern, source) {
+                violations.push(Violation {
+                    id: contract.id.clone(),
+                    message: contract.description.clone(),
+                    severity: parse_severity(&contract.severity),
+                    suggestion: contract.suggestion.clone(),
+                    location: m.location,
+                });
+            }
+        }
+
+        LayerResult { violations, .. }
+    }
+}
+```
+
+**Key Features:**
+- Loads YAML contracts from `~/.aether/contracts/{language}/*.yaml`
+- Regex patterns support multiline matching via `[\s\S]*?`
+- Severity mapping: `error`, `warning`, `info`
+- Caches loaded contracts per language
+
+**Contract File Example:**
+```yaml
+# ~/.aether/contracts/python/error-handling.yaml
+contracts:
+  - id: PYERR001
+    name: silent-exception-caught
+    description: "Silent exception caught - errors are hidden"
+    severity: error
+    pattern: "except[^:]*:[\\s\\S]*?pass"
+    suggestion: "Log or handle the exception properly"
+```
+
 #### Syntax Layer
 
 ```rust
@@ -658,18 +751,24 @@ impl ValidationLayer for StyleLayer {
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                      VALIDATION PIPELINE                                │
 │                                                                         │
-│   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐  │
-│   │ Syntax  │──▶│Semantic │──▶│  Logic  │──▶│  Arch.  │──▶│  Style  │  │
-│   └────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘   └────┬────┘  │
-│        │             │             │             │             │        │
-│        └─────────────┴─────────────┴─────────────┴─────────────┘        │
-│                                      │                                  │
-│                                      ▼                                  │
-│                              ┌───────────────┐                          │
-│                              │ Violations    │                          │
-│                              │ Collected     │                          │
-│                              └───────────────┘                          │
-└──────────────────────────────┬──────────────────────────────────────────┘
+│   ┌──────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐    │
+│   │ Contract │─▶│ Syntax  │─▶│Semantic │─▶│  Logic  │─▶│  Arch.  │    │
+│   │  Layer   │  │ Check   │  │ Check   │  │ Check   │  │ Check   │    │
+│   └────┬─────┘  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘    │
+│        │             │            │            │             │          │
+│        └─────────────┴────────────┴────────────┴─────────────┘         │
+│                                              │                         │
+│                                         ┌────┴────┐                     │
+│                                         │  Style  │                     │
+│                                         │  Check  │                     │
+│                                         └────┬────┘                     │
+│                                              │                          │
+│                                              ▼                          │
+│                              ┌───────────────┐                           │
+│                              │ Violations    │                           │
+│                              │ Collected     │                           │
+│                              └───────────────┘                           │
+└──────────────────────────────┬─────────────────────────────────────────┘
                                │
                                ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -903,7 +1002,7 @@ pub enum AetherError {
     IoError(#[from] std::io::Error),
 
     #[error("JSON error: {0}")]
-    JsonError(#[from] serde_json::Error),
+    TomlError(#[from] toml::de::Error),
 
     #[error("YAML error: {0}")]
     YamlError(#[from] serde_yaml::Error),
@@ -1001,7 +1100,7 @@ contracts:
 | **syn** | Rust AST parsing | MIT |
 | **nom** | Parser combinators | MIT |
 | **serde** | Serialization | MIT |
-| **serde_json** | JSON handling | MIT |
+| **toml** | TOML handling (human-readable state) | MIT |
 | **serde_yaml** | YAML config | MIT |
 | **ed25519-dalek** | Certificate signing | Apache-2.0 |
 | **tokio** | Async runtime | MIT |
@@ -1042,7 +1141,7 @@ nom = "7.1"
 
 # Serialization
 serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+toml = "0.8"
 serde_yaml = "0.9"
 
 # Crypto
@@ -1092,11 +1191,187 @@ aether/
 
 ---
 
+---
+
+## Commercial Components
+
+### Memory-Driven Core Architecture
+
+> **Architettura completa:** Vedi [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
+
+Il Memory-Driven Core non si limita a memorizzare — **configura dinamicamente** i validation layers basandosi sulla knowledge appresa dal progetto.
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                      MEMORY-DRIVEN CORE                                      │
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────────┐  │
+│  │                         STORAGE BACKENDS                               │  │
+│  │                                                                        │  │
+│  │   ┌──────────────┐   ┌──────────────┐   ┌──────────────────────────┐  │  │
+│  │   │    SQLite    │   │   Qdrant     │   │      PostgreSQL          │  │  │
+│  │   │   (Solo/Pro) │   │   (Team)     │   │      (Enterprise)        │  │  │
+│  │   │              │   │              │   │                          │  │  │
+│  │   │ • Local file │   │ • Vector DB  │   │ • pgvector extension    │  │  │
+│  │   │ • Keyword    │   │ • Hybrid     │   │ • Hybrid search         │  │  │
+│  │   │   only       │   │   search     │   │ • Audit & backup        │  │  │
+│  │   └──────────────┘   └──────────────┘   └──────────────────────────┘  │  │
+│  └────────────────────────────────────────────────────────────────────────┘  │
+│                                    │                                         │
+│  ┌─────────────────────────────────┼─────────────────────────────────────┐   │
+│  │                     LEARNED CONFIG (Dynamic) │                         │   │
+│  │                                   ▼                                    │   │
+│  │   LearnedConfig {                                                      │   │
+│  │     thresholds: HashMap<String, f64>,    // complexity, line_length   │   │
+│  │     custom_rules: Vec<DiscoveredRule>,   // Generated from patterns   │   │
+│  │     security_whitelist: Vec<WhitelistEntry>, // Accepted violations   │   │
+│  │     conventions: StyleConventions,       // Learned from codebase     │   │
+│  │   }                                                                    │   │
+│  │                                                                        │   │
+│  │   → Applicato ai layers PRIMA di ogni validazione                      │   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
+│                                    │                                         │
+│  ┌─────────────────────────────────┼─────────────────────────────────────┐   │
+│  │                        DATA MODEL │                                    │   │
+│  │                                   ▼                                    │   │
+│  │   ProjectMemory {                                                      │   │
+│  │     project_id: Uuid,                                                  │   │
+│  │     decisions: Vec<ArchitecturalDecision>,  // "Why we chose X"       │   │
+│  │     violations: Vec<ViolationHistory>,      // Fixed/ignored/FPs      │   │
+│  │     patterns: Vec<LearnedPattern>,          // Naming, idioms         │   │
+│  │     annotations: Vec<UserAnnotation>,       // User notes             │   │
+│  │   }                                                                    │   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
+│                                    │                                         │
+│  ┌─────────────────────────────────┼─────────────────────────────────────┐   │
+│  │                        QUERY INTERFACE │                               │   │
+│  │                                   ▼                                    │   │
+│  │   trait MemoryStore {                                                  │   │
+│  │     async fn load_config(&self, project) -> LearnedConfig;            │   │
+│  │     async fn store_decision(&self, decision) -> Result<Uuid>;         │   │
+│  │     async fn record_feedback(&self, validation, user_action);         │   │
+│  │     async fn hybrid_search(&self, query, project) -> SearchResult;    │   │
+│  │   }                                                                    │   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Cosa la memoria CONFIGURA:**
+| Layer | Configurazione Dinamica |
+|-------|------------------------|
+| Syntax | `max_complexity`, `max_line_length`, `max_params` |
+| Security | `whitelist` (accepted violations with reason) |
+| Logic | `custom_rules` (discovered from patterns) |
+| Style | `conventions` (naming, formatting from codebase) |
+
+**Cosa la memoria NON tocca:**
+- Parser/AST, sintassi base, security hard limits, pipeline execution
+
+### Billing System Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                          BILLING SYSTEM                                      │
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────────┐  │
+│  │                        ACCOUNT MANAGEMENT                              │  │
+│  │                                                                        │  │
+│  │   Account {                                                            │  │
+│  │     id: Uuid,                                                          │  │
+│  │     email: String,                                                     │  │
+│  │     tier: SubscriptionTier,  // Solo/Pro/Team/Enterprise              │  │
+│  │     subscription: Option<Subscription>,                                │  │
+│  │     usage: UsageStats,                                                 │  │
+│  │     credits_balance: u32,                                              │  │
+│  │   }                                                                    │  │
+│  └────────────────────────────────────────────────────────────────────────┘  │
+│                                    │                                         │
+│  ┌─────────────────────────────────┼─────────────────────────────────────┐   │
+│  │                        RATE LIMITING │                                 │   │
+│  │                                   ▼                                    │   │
+│  │   ┌───────────────────┐   ┌───────────────────────────────────────┐   │   │
+│  │   │      Redis        │   │         Usage Limits by Tier          │   │   │
+│  │   │   (Rate Counter)  │   │                                       │   │   │
+│  │   │                   │   │   Solo:   100 scans/day              │   │   │
+│  │   │ • scans:{id}:{day}│   │   Pro:    1,000 scans/day            │   │   │
+│  │   │ • TTL: 24h        │   │   Team:   Unlimited                   │   │   │
+│  │   └───────────────────┘   │   Enterprise: Unlimited               │   │   │
+│  │                           └───────────────────────────────────────┘   │   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
+│                                    │                                         │
+│  ┌─────────────────────────────────┼─────────────────────────────────────┐   │
+│  │                      STRIPE INTEGRATION │                              │   │
+│  │                                   ▼                                    │   │
+│  │   • create_subscription(account, tier, payment_method)                │   │
+│  │   • handle_webhook(event)  // invoice.paid, subscription.deleted      │   │
+│  │   • purchase_credits(account, pack)                                   │   │
+│  │                                                                        │   │
+│  │   Credit Packs:                                                        │   │
+│  │   ┌─────────────┬─────────┬────────────┐                              │   │
+│  │   │ Pack        │ Price   │ Scans      │                              │   │
+│  │   ├─────────────┼─────────┼────────────┤                              │   │
+│  │   │ Starter     │ $9      │ 500        │                              │   │
+│  │   │ Boost       │ $29     │ 2,000      │                              │   │
+│  │   │ Power       │ $99     │ 10,000     │                              │   │
+│  │   │ Enterprise  │ $500    │ 100,000    │                              │   │
+│  │   └─────────────┴─────────┴────────────┘                              │   │
+│  └───────────────────────────────────────────────────────────────────────┘   │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Enterprise Features
+
+```
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                        ENTERPRISE FEATURES                                   │
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────────┐  │
+│  │                           SSO / SAML                                   │  │
+│  │                                                                        │  │
+│  │   • Okta, Azure AD, Google Workspace integration                      │  │
+│  │   • Role-based access control                                          │  │
+│  │   • Organization-level billing                                         │  │
+│  └────────────────────────────────────────────────────────────────────────┘  │
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────────┐  │
+│  │                      COMPLIANCE REPORTS                                │  │
+│  │                                                                        │  │
+│  │   • SOC 2 Type II compliance reports                                   │  │
+│  │   • ISO 27001 control mapping                                          │  │
+│  │   • Custom audit trails                                                │  │
+│  │   • Violation trends over time                                         │  │
+│  └────────────────────────────────────────────────────────────────────────┘  │
+│                                                                              │
+│  ┌────────────────────────────────────────────────────────────────────────┐  │
+│  │                     ON-PREMISE DEPLOYMENT                              │  │
+│  │                                                                        │  │
+│  │   docker-compose:                                                      │  │
+│  │   ├── aether-api      (validation service)                            │  │
+│  │   ├── aether-mcp      (MCP server)                                    │  │
+│  │   ├── postgres        (database)                                      │  │
+│  │   ├── redis           (rate limiting)                                 │  │
+│  │   └── qdrant          (vector storage)                                │  │
+│  │                                                                        │  │
+│  │   Features:                                                            │  │
+│  │   • Air-gapped operation                                               │  │
+│  │   • Custom contract loading                                           │  │
+│  │   • License key activation                                            │  │
+│  └────────────────────────────────────────────────────────────────────────┘  │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## Prossimi Passi
 
 > **Vedi [ROADMAP_INDEX.md](./ROADMAP_INDEX.md)** per la roadmap consolidata.
 4. **Implement CLI** — Basic validate command with clap
 5. **Add Tests** — Unit tests for each component
 6. **Setup CI/CD** — GitHub Actions for build + test + release
+7. **Commercial Launch** — Billing, RAG, tier enforcement (Phase 10)
 
 For Rust-specific implementation details, see [AETHER_RUST_IMPLEMENTATION.md](./AETHER_RUST_IMPLEMENTATION.md).
+For pricing strategy, see [PRICING_STRATEGY.md](./PRICING_STRATEGY.md).

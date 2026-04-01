@@ -1,0 +1,308 @@
+# Lex Performance Contracts
+# Domain: performance
+# Validates pattern efficiency, greediness, and lexer performance
+
+contracts:
+  - id: LEX_PERF001
+    name: "Avoid catastrophic backtracking"
+    domain: performance
+    severity: error
+    description: "Patterns with nested quantifiers can cause exponential backtracking"
+    tags:
+      - lex
+      - performance
+      - backtracking
+    rules:
+      - pattern: '\([^\)]*\+|\*\)[^\)]*\+|\*'
+        message: "Nested quantifiers detected - potential ReDoS"
+        suggestion: "Use possessive quantifiers or atomic groups: (?>...) or use non-backtracking patterns"
+
+  - id: LEX_PERF002
+    name: "Avoid overly greedy patterns"
+    domain: performance
+    severity: warning
+    description: "Overly greedy patterns can consume more than intended"
+    tags:
+      - lex
+      - performance
+      - greedy
+    rules:
+      - pattern: '\.\*|\.+'
+        message: "Overly greedy dot pattern - may cause issues"
+        suggestion: "Use non-greedy: .*? or be more specific with character class"
+
+  - id: LEX_PERF003
+    name: "Prefer character classes over alternation"
+    domain: performance
+    severity: info
+    description: "Character classes are faster than alternation for single characters"
+    tags:
+      - lex
+      - performance
+      - optimization
+    rules:
+      - pattern: '\(a\|b\|c\|d\)'
+        message: "Alternation of single chars - use character class"
+        suggestion: "Replace with character class: [abcd]"
+
+  - id: LEX_PERF004
+    name: "Anchor patterns when possible"
+    domain: performance
+    severity: warning
+    description: "Anchored patterns are more efficient"
+    tags:
+      - lex
+      - performance
+      - anchor
+    rules:
+      - pattern: 'pattern:\s*/[^$^]'
+        message: "Pattern not anchored - may match anywhere"
+        suggestion: "Add ^ or $ anchors if pattern should match at specific position"
+
+  - id: LEX_PERF005
+    name: "Avoid excessive lookahead"
+    domain: performance
+    severity: warning
+    description: "Lookahead assertions can be expensive"
+    tags:
+      - lex
+      - performance
+      - lookahead
+    rules:
+      - pattern: '\(\?=.+\)+'
+        message: "Multiple or complex lookahead detected"
+        suggestion: "Simplify pattern or use different approach"
+
+  - id: LEX_PERF006
+    name: "Limit pattern complexity"
+    domain: performance
+    severity: warning
+    description: "Complex patterns have higher compilation cost"
+    tags:
+      - lex
+      - performance
+      - complexity
+    rules:
+      - query: |
+          SELECT name, LENGTH(pattern) as len
+          FROM tokens
+          WHERE LENGTH(pattern) > 100
+        message: "Pattern exceeds 100 characters - may be too complex"
+        suggestion: "Break into multiple simpler tokens or use helper states"
+
+  - id: LEX_PERF007
+    name: "Prefer specific patterns over generic"
+    domain: performance
+    severity: info
+    description: "Specific patterns match faster than generic ones"
+    tags:
+      - lex
+      - performance
+      - specific
+    rules:
+      - pattern: '\.\*\\d\.\*'
+        message: "Generic pattern with digit - be more specific"
+        suggestion: "Use: \d+ or [0-9]+ for explicit digit matching"
+
+  - id: LEX_PERF008
+    name: "Minimize state transitions"
+    domain: performance
+    severity: info
+    description: "Excessive state transitions slow down lexer"
+    tags:
+      - lex
+      - performance
+      - states
+    rules:
+      - query: |
+          SELECT COUNT(*) as state_count
+          FROM states
+          HAVING COUNT(*) > 20
+        message: "More than 20 states - consider simplifying lexer"
+        suggestion: "Consolidate similar states or use token priorities"
+
+  - id: LEX_PERF009
+    name: "Avoid unnecessary groups"
+    domain: performance
+    severity: info
+    description: "Non-capturing groups are faster than capturing groups"
+    tags:
+      - lex
+      - performance
+      - groups
+    rules:
+      - pattern: '\([^?]'
+        message: "Capturing group used - use non-capturing if not needed"
+        suggestion: "Use (?:...) for non-capturing groups"
+
+  - id: LEX_PERF010
+    name: "Common prefixes consolidated"
+    domain: performance
+    severity: info
+    description: "Patterns with common prefixes should be consolidated"
+    tags:
+      - lex
+      - performance
+      - consolidation
+    rules:
+      - query: |
+          SELECT t1.name, t2.name
+          FROM tokens t1, tokens t2
+          WHERE t1.name < t2.name
+            AND common_prefix(t1.pattern, t2.pattern) > 3
+        message: "Patterns share common prefix - consider consolidation"
+        suggestion: "Use alternation: prefix(sub1|sub2) instead of separate patterns"
+
+  - id: LEX_PERF011
+    name: "Token count reasonable"
+    domain: performance
+    severity: info
+    description: "Too many tokens can slow down lexer generation"
+    tags:
+      - lex
+      - performance
+      - tokens
+    rules:
+      - query: |
+          SELECT COUNT(*) as token_count
+          FROM tokens
+          HAVING COUNT(*) > 100
+        message: "More than 100 tokens - lexer may be slow"
+        suggestion: "Consider splitting into multiple lexer modes or consolidating tokens"
+
+  - id: LEX_PERF012
+    name: "Avoid backreferences"
+    domain: performance
+    severity: warning
+    description: "Backreferences are expensive and can cause performance issues"
+    tags:
+      - lex
+      - performance
+      - backreference
+    rules:
+      - pattern: '\\[1-9]'
+        message: "Backreference detected - may impact performance"
+        suggestion: "Avoid backreferences in lexer patterns or use non-capturing groups"
+
+  - id: LEX_PERF013
+    name: "Prefer lazy quantifiers for bounded content"
+    domain: performance
+    severity: warning
+    description: "Lazy quantifiers prevent over-matching bounded content"
+    tags:
+      - lex
+      - performance
+      - lazy
+    rules:
+      - pattern: '"[^"]\*"'
+        message: "Greedy match inside quotes - use lazy quantifier"
+        suggestion: "Use: \"[^\"]*?\" or \"(?:[^\"\\\\]|\\\\.)*?\""
+
+  - id: LEX_PERF014
+    name: "Avoid nested character classes"
+    domain: performance
+    severity: warning
+    description: "Nested or complex character classes can be slow"
+    tags:
+      - lex
+      - performance
+      - charset
+    rules:
+      - pattern: '\[\[[^\]]*\]\]|\[[^\]]*-[^\]]*-[^\]]*\]'
+        message: "Complex or nested character class detected"
+        suggestion: "Simplify character class or use alternation"
+
+  - id: LEX_PERF015
+    name: "Unicode patterns optimized"
+    domain: performance
+    severity: warning
+    description: "Unicode patterns should use proper character classes"
+    tags:
+      - lex
+      - performance
+      - unicode
+    rules:
+      - pattern: '\\p\{[A-Za-z]+\}|\\x\{[0-9A-Fa-f]+\}'
+        message: "Unicode pattern - verify performance impact"
+        suggestion: "Consider ASCII-only patterns for performance-critical lexers"
+
+  - id: LEX_PERF016
+    name: "Skip tokens defined"
+    domain: performance
+    severity: info
+    description: "Whitespace and comments should be skipped efficiently"
+    tags:
+      - lex
+      - performance
+      - skip
+    rules:
+      - query: |
+          SELECT name FROM tokens
+          WHERE name IN ('WHITESPACE', 'WS', 'COMMENT')
+            AND action != 'skip'
+        message: "Whitespace/comment token without skip action"
+        suggestion: "Add skip action for whitespace: action: skip"
+
+  - id: LEX_PERF017
+    name: "State transition optimized"
+    domain: performance
+    severity: info
+    description: "State transitions should use efficient matching"
+    tags:
+      - lex
+      - performance
+      - transition
+    rules:
+      - query: |
+          SELECT s.name, COUNT(*) as transition_count
+          FROM states s
+          JOIN transitions t ON s.name = t.from_state
+          GROUP BY s.name
+          HAVING COUNT(*) > 50
+        message: "State has many transitions - consider restructuring"
+        suggestion: "Use character class ranges or split into sub-states"
+
+  - id: LEX_PERF018
+    name: "Avoid repeated compilation"
+    domain: performance
+    severity: info
+    description: "Patterns should be compiled once, not per-token"
+    tags:
+      - lex
+      - performance
+      - compilation
+    rules:
+      - pattern: 'compile\(|Pattern\.compile|re\.compile'
+        message: "Runtime pattern compilation detected"
+        suggestion: "Pre-compile patterns at lexer initialization"
+
+  - id: LEX_PERF019
+    name: "Buffer size appropriate"
+    domain: performance
+    severity: info
+    description: "Lexer buffer size affects performance"
+    tags:
+      - lex
+      - performance
+      - buffer
+    rules:
+      - pattern: 'buffer_size|BUFFER_SIZE'
+        message: "Check buffer size is appropriate for input"
+        suggestion: "Use 4KB-64KB buffer for typical use cases"
+
+  - id: LEX_PERF020
+    name: "Mode switching minimized"
+    domain: performance
+    severity: warning
+    description: "Frequent mode switching impacts performance"
+    tags:
+      - lex
+      - performance
+      - mode
+    rules:
+      - query: |
+          SELECT COUNT(DISTINCT mode) as mode_count
+          FROM tokens
+          HAVING COUNT(*) > 5
+        message: "Many lexer modes detected - may impact performance"
+        suggestion: "Consolidate modes where possible"

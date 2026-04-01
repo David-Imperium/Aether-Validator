@@ -1,7 +1,7 @@
 # Aether — Rust Implementation
 
-**Version:** 0.1.0
-**Last Updated:** 2026-03-10
+**Version:** 0.2.0
+**Last Updated:** 2026-03-16
 **Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md), [AETHER_ARCHITECTURE.md](./AETHER_ARCHITECTURE.md)
 
 ---

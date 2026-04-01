@@ -1,0 +1,391 @@
+# Notebook Best Practices Contracts
+# Domain: best-practices
+# Validates Jupyter notebook best practices, idioms, and patterns
+
+contracts:
+  - id: NB_BP001
+    name: "Avoid large outputs"
+    domain: best-practices
+    severity: warning
+    description: "Large cell outputs bloat notebooks"
+    tags:
+      - notebook
+      - best-practices
+      - output
+    rules:
+      - pattern: '"outputs":\s*\[[^\]]{10000,}\]'
+        message: "Large output detected - consider clearing"
+        suggestion: "Clear large outputs before committing"
+
+  - id: NB_BP002
+    name: "Execution order sequential"
+    domain: best-practices
+    severity: warning
+    description: "Execution order should be sequential"
+    tags:
+      - notebook
+      - best-practices
+      - execution
+    rules:
+      - query: |
+          SELECT cell_number, execution_count
+          FROM cells
+          WHERE execution_count IS NOT NULL
+          ORDER BY cell_number
+        message: "Check execution counts are sequential"
+        suggestion: "Restart kernel and run all cells"
+
+  - id: NB_BP003
+    name: "Missing cell outputs"
+    domain: best-practices
+    severity: info
+    description: "Code cells should have outputs when expected"
+    tags:
+      - notebook
+      - best-practices
+      - outputs
+    rules:
+      - pattern: '"cell_type":\s*"code"[^}]*"execution_count":\s*null'
+        message: "Code cell not executed"
+        suggestion: "Run cell to generate output"
+
+  - id: NB_BP004
+    name: "Install in notebook"
+    domain: best-practices
+    severity: warning
+    description: "Package installs should be in requirements.txt"
+    tags:
+      - notebook
+      - best-practices
+      - dependencies
+    rules:
+      - pattern: '!pip\s+install'
+        message: "pip install in notebook - use requirements.txt"
+        suggestion: "Add to requirements.txt or setup.py"
+      - pattern: '!npm\s+install'
+        message: "npm install in notebook - use package.json"
+        suggestion: "Add to package.json"
+
+  - id: NB_BP005
+    name: "Reproducible random seed"
+    domain: best-practices
+    severity: warning
+    description: "Set random seed for reproducibility"
+    tags:
+      - notebook
+      - best-practices
+      - reproducibility
+    rules:
+      - pattern: 'np\.random\.seed|random\.seed|torch\.manual_seed'
+        message: "No random seed set - results may vary"
+        suggestion: "Add: np.random.seed(42) for reproducibility"
+
+  - id: NB_BP006
+    name: "Clear outputs before commit"
+    domain: best-practices
+    severity: info
+    description: "Notebook outputs should be cleared before git commit"
+    tags:
+      - notebook
+      - best-practices
+      - git
+    rules:
+      - query: |
+          SELECT file FROM notebook_files
+          WHERE has_outputs AND in_git_staging
+        message: "Notebook has outputs - clear before commit"
+        suggestion: "Use jupyter nbconvert --clear-output"
+
+  - id: NB_BP007
+    name: "Use relative paths for data"
+    domain: best-practices
+    severity: info
+    description: "Use relative paths or path variables for data files"
+    tags:
+      - notebook
+      - best-practices
+      - paths
+    rules:
+      - pattern: '/Users/|/home/|C:\\\\Users\\\\'
+        message: "Absolute user path - use relative path"
+        suggestion: "Use: data_path = Path('data/file.csv')"
+
+  - id: NB_BP008
+    name: "Document assumptions"
+    domain: best-practices
+    severity: info
+    description: "Document assumptions about data and environment"
+    tags:
+      - notebook
+      - best-practices
+      - documentation
+    rules:
+      - query: |
+          SELECT cell FROM cells
+          WHERE cell_type = 'code'
+            AND source LIKE '%read_csv%'
+            AND NOT has_preceding_markdown
+        message: "Data loading without explanation"
+        suggestion: "Add markdown cell explaining data source"
+
+  - id: NB_BP009
+    name: "Use requirements.txt"
+    domain: best-practices
+    severity: warning
+    description: "Document dependencies in requirements.txt"
+    tags:
+      - notebook
+      - best-practices
+      - dependencies
+    rules:
+      - query: |
+          SELECT file FROM notebook_files
+          WHERE has_imports AND NOT has_requirements_file
+        message: "Notebook imports without requirements.txt"
+        suggestion: "Create requirements.txt with pip freeze"
+
+  - id: NB_BP010
+    name: "Version control notebooks"
+    domain: best-practices
+    severity: info
+    description: "Use .gitignore or git filter for notebooks"
+    tags:
+      - notebook
+      - best-practices
+      - git
+    rules:
+      - query: |
+          SELECT file FROM notebook_files
+          WHERE NOT has_gitattributes
+        message: "Notebook without git configuration"
+        suggestion: "Add .gitattributes: *.ipynb filter=jupyter"
+
+  - id: NB_BP011
+    name: "Modular code extraction"
+    domain: best-practices
+    severity: info
+    description: "Extract reusable code to modules"
+    tags:
+      - notebook
+      - best-practices
+      - modularity
+    rules:
+      - query: |
+          SELECT cell, line_count
+          FROM cells
+          WHERE cell_type = 'code' AND line_count > 50
+        message: "Large code cell - consider extracting to module"
+        suggestion: "Move to .py file and import"
+
+  - id: NB_BP012
+    name: "Use config files"
+    domain: best-practices
+    severity: info
+    description: "Use config files instead of hardcoded values"
+    tags:
+      - notebook
+      - best-practices
+      - configuration
+    rules:
+      - pattern: '(threshold|limit|batch_size|epochs)\s*=\s*\d+'
+        message: "Hardcoded parameter - use config file"
+        suggestion: "Use config.yaml or argparse for parameters"
+
+  - id: NB_BP013
+    name: "Add table of contents"
+    domain: best-practices
+    severity: info
+    description: "Long notebooks should have table of contents"
+    tags:
+      - notebook
+      - best-practices
+      - structure
+    rules:
+      - query: |
+          SELECT COUNT(*) as cell_count
+          FROM cells
+          HAVING COUNT(*) > 20
+        message: "Large notebook - add table of contents"
+        suggestion: "Add ## Table of Contents with section links"
+
+  - id: NB_BP014
+    name: "Use logging instead of print"
+    domain: best-practices
+    severity: info
+    description: "Use logging module for production notebooks"
+    tags:
+      - notebook
+      - best-practices
+      - logging
+    rules:
+      - pattern: 'print\(.*debug|print\(.*info|print\(.*warning'
+        message: "Debug print - use logging module"
+        suggestion: "Use: import logging; logging.info()"
+
+  - id: NB_BP015
+    name: "Save intermediate results"
+    domain: best-practices
+    severity: info
+    description: "Save expensive computation results"
+    tags:
+      - notebook
+      - best-practices
+      - caching
+    rules:
+      - query: |
+          SELECT cell FROM cells
+          WHERE has_expensive_operation AND NOT saves_result
+        message: "Expensive operation without saving result"
+        suggestion: "Save: df.to_pickle('result.pkl')"
+
+  - id: NB_BP016
+    name: "Use tqdm for progress"
+    domain: best-practices
+    severity: info
+    description: "Show progress for long operations"
+    tags:
+      - notebook
+      - best-practices
+      - ux
+    rules:
+      - pattern: 'for\s+.*:\s*\n\s*(.*process|.*compute|.*fetch)'
+        message: "Loop without progress indicator"
+        suggestion: "Use: from tqdm import tqdm; for x in tqdm(items):"
+
+  - id: NB_BP017
+    name: "Validate data early"
+    domain: best-practices
+    severity: warning
+    description: "Validate data after loading"
+    tags:
+      - notebook
+      - best-practices
+      - validation
+    rules:
+      - query: |
+          SELECT cell FROM cells
+          WHERE source LIKE '%read_csv%' OR source LIKE '%load%'
+          GROUP BY cell
+          HAVING NOT EXISTS (
+            SELECT 1 FROM cells c2
+            WHERE c2.cell > cells.cell
+              AND c2.source LIKE '%shape|describe|info%'
+          )
+        message: "Data loaded without validation"
+        suggestion: "Add: df.shape, df.describe(), df.info()"
+
+  - id: NB_BP018
+    name: "Handle exceptions gracefully"
+    domain: best-practices
+    severity: warning
+    description: "Use try/except for risky operations"
+    tags:
+      - notebook
+      - best-practices
+      - error-handling
+    rules:
+      - pattern: '(requests\.get|requests\.post|open\().*(?!.*try:)'
+        message: "Network/file operation without error handling"
+        suggestion: "Wrap in try/except block"
+
+  - id: NB_BP019
+    name: "Use virtual environment"
+    domain: best-practices
+    severity: info
+    description: "Document virtual environment setup"
+    tags:
+      - notebook
+      - best-practices
+      - environment
+    rules:
+      - pattern: 'venv|virtualenv|conda|pipenv'
+        message: "Document virtual environment in README or first cell"
+        suggestion: "Add setup instructions: python -m venv venv"
+
+  - id: NB_BP020
+    name: "Clean up resources"
+    domain: best-practices
+    severity: warning
+    description: "Close files and connections properly"
+    tags:
+      - notebook
+      - best-practices
+      - resources
+    rules:
+      - pattern: 'open\((?!.*with\s|.*close)|connect\((?!.*close)'
+        message: "Resource opened without proper cleanup"
+        suggestion: "Use: with open(...) as f: or explicitly close()"
+
+  - id: NB_BP021
+    name: "Document kernel requirements"
+    domain: best-practices
+    severity: info
+    description: "Document required kernel and Python version"
+    tags:
+      - notebook
+      - best-practices
+      - kernel
+    rules:
+      - query: |
+          SELECT metadata FROM notebooks
+          WHERE NOT has_kernel_spec
+        message: "Notebook missing kernel specification"
+        suggestion: "Include kernel: kernelspec in notebook metadata"
+
+  - id: NB_BP022
+    name: "Use cell tags for organization"
+    domain: best-practices
+    severity: info
+    description: "Use cell tags for notebook organization"
+    tags:
+      - notebook
+      - best-practices
+      - metadata
+    rules:
+      - pattern: '"tags":\s*\['
+        message: "Consider using cell tags for sections"
+        suggestion: "Add tags: 'setup', 'data-loading', 'analysis'"
+
+  - id: NB_BP023
+    name: "Avoid global state mutation"
+    domain: best-practices
+    severity: warning
+    description: "Avoid mutating global state across cells"
+    tags:
+      - notebook
+      - best-practices
+      - state
+    rules:
+      - pattern: 'global\s+\w+'
+        message: "Global variable - use function parameters"
+        suggestion: "Pass variables as function arguments"
+
+  - id: NB_BP024
+    name: "Use nbextensions for formatting"
+    domain: best-practices
+    severity: info
+    description: "Use nbextensions for consistent formatting"
+    tags:
+      - notebook
+      - best-practices
+      - tooling
+    rules:
+      - query: |
+          SELECT file FROM notebook_files
+          WHERE NOT has_code_formatter
+        message: "Consider using nbextension for code formatting"
+        suggestion: "Install: pip install jupyter_contrib_nbextensions"
+
+  - id: NB_BP025
+    name: "Export to HTML for sharing"
+    domain: best-practices
+    severity: info
+    description: "Export to HTML for non-technical sharing"
+    tags:
+      - notebook
+      - best-practices
+      - sharing
+    rules:
+      - pattern: 'jupyter\s+nbconvert|nbconvert'
+        message: "Export notebook to HTML for easy sharing"
+        suggestion: "Use: jupyter nbconvert --to html notebook.ipynb"

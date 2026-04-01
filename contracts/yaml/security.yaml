@@ -1,0 +1,124 @@
+contracts:
+  - id: YAMLS001
+    name: "Hardcoded secrets"
+    domain: security
+    severity: critical
+    description: "Secrets should not be hardcoded in YAML"
+    rules:
+      - pattern: '(?i)^(api[_-]?key|apikey|secret|token)\s*:\s*[A-Za-z0-9]{16,}$'
+        message: "Hardcoded secret detected"
+        suggestion: "Use environment variables or vault"
+
+  - id: YAMLS002
+    name: "AWS credentials"
+    domain: security
+    severity: critical
+    description: "AWS credentials should not be in YAML"
+    rules:
+      - pattern: '(?i)^aws_access_key_id\s*:\s*AKIA[A-Z0-9]{16}$'
+        message: "AWS access key ID detected"
+        suggestion: "Use IAM roles or environment variables"
+      - pattern: '(?i)^aws_secret_access_key\s*:\s*[A-Za-z0-9+/]{40}$'
+        message: "AWS secret access key detected"
+        suggestion: "Use IAM roles or environment variables"
+
+  - id: YAMLS003
+    name: "SSH private keys"
+    domain: security
+    severity: critical
+    description: "SSH private keys should not be in YAML"
+    rules:
+      - pattern: '-----BEGIN OPENSSH PRIVATE KEY-----'
+        message: "OpenSSH private key detected"
+        suggestion: "Use SSH agent or secure vault"
+      - pattern: '-----BEGIN RSA PRIVATE KEY-----'
+        message: "RSA private key detected"
+        suggestion: "Use SSH agent or secure vault"
+
+  - id: YAMLS004
+    name: "Database passwords"
+    domain: security
+    severity: critical
+    description: "Database passwords should not be in YAML"
+    rules:
+      - pattern: '(?i)^password\s*:\s*[^{$].{8,}$'
+        message: "Plaintext password detected"
+        suggestion: "Use secrets management"
+      - pattern: '(?i)^(db_pass|database_password|mysql_password)\s*:\s*[^\s{$]'
+        message: "Database password detected"
+        suggestion: "Use secrets management"
+
+  - id: YAMLS005
+    name: "Anchor secret exposure"
+    domain: security
+    severity: high
+    description: "Anchors can expose secrets through references"
+    rules:
+      - pattern: '^(\s*)[a-zA-Z_]+ &[\w-]+\s*$'
+        message: "YAML anchor definition"
+        suggestion: "Ensure anchors don't expose secrets"
+      - pattern: '(?i)(secret|password|token|key):\s*&[\w-]+'
+        message: "Secret value defined with anchor"
+        suggestion: "Avoid anchoring sensitive values"
+
+  - id: YAMLS006
+    name: "Environment variable secrets"
+    domain: security
+    severity: high
+    description: "Secrets passed via env vars should be checked"
+    rules:
+      - pattern: '(?i)^\s*-?\s*(env|environment):\s*$'
+        message: "Environment section detected"
+        suggestion: "Check for secrets in environment variables"
+      - pattern: '(?i)^\s{2,4}(SECRET|PASSWORD|TOKEN|KEY):\s*[A-Za-z0-9]{8,}$'
+        message: "Secret in environment variable"
+        suggestion: "Use secret references instead"
+
+  - id: YAMLS007
+    name: "Connection strings"
+    domain: security
+    severity: high
+    description: "Connection strings with embedded credentials"
+    rules:
+      - pattern: '(mysql|postgres|mongodb|redis)://[^:]+:[^@]+@'
+        message: "Connection string with credentials"
+        suggestion: "Remove credentials from connection strings"
+
+  - id: YAMLS008
+    name: "Kubernetes secrets"
+    domain: security
+    severity: critical
+    description: "Kubernetes secrets should not have plaintext data"
+    rules:
+      - pattern: '^kind:\s*Secret\s*$'
+        message: "Kubernetes Secret detected"
+        suggestion: "Ensure data is base64 encoded or use external secrets"
+      - pattern: '^\s*data:\s*$'
+        message: "Secret data section"
+        suggestion: "Verify no plaintext secrets"
+
+  - id: YAMLS009
+    name: "Private key in PEM format"
+    domain: security
+    severity: critical
+    description: "PEM formatted private keys detected"
+    rules:
+      - pattern: '^-----BEGIN (EC |RSA |DSA )?PRIVATE KEY-----'
+        message: "PEM private key detected"
+        suggestion: "Store private keys in vault"
+      - pattern: '(?i)^ssl_certificate_key:\s*[^{$]'
+        message: "SSL certificate key reference"
+        suggestion: "Ensure key file path is secure"
+
+  - id: YAMLS010
+    name: "OAuth tokens"
+    domain: security
+    severity: critical
+    description: "OAuth tokens should not be hardcoded"
+    rules:
+      - pattern: '(?i)^access_token\s*:\s*[A-Za-z0-9._-]{20,}$'
+        message: "Access token detected"
+        suggestion: "Use token refresh mechanism"
+      - pattern: '(?i)^refresh_token\s*:\s*[A-Za-z0-9._-]{20,}$'
+        message: "Refresh token detected"
+        suggestion: "Use secure token storage"

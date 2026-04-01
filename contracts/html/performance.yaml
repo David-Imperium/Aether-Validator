@@ -1,0 +1,185 @@
+# HTML Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: HTML_PERF001
+    name: "Render-blocking scripts"
+    domain: performance
+    severity: warning
+    description: "Scripts in head block rendering without defer/async"
+    tags:
+      - html
+      - performance
+      - scripts
+      - render-blocking
+    rules:
+      - pattern: '<script[^>]*src[^>]*(?![^>]*(defer|async|type="module"))[^>]*>\s*</script>'
+        message: "External script without defer/async may block rendering"
+        suggestion: "Add defer or async attribute, or move to end of body"
+
+  - id: HTML_PERF002
+    name: "Missing preload for critical resources"
+    domain: performance
+    severity: info
+    description: "Preload critical resources for faster rendering"
+    tags:
+      - html
+      - performance
+      - preload
+      - critical-path
+    rules:
+      - pattern: '<link[^>]*rel="stylesheet"[^>]*href="[^"]*font'
+        message: "Font stylesheet - consider preload for faster loading"
+        suggestion: "Add <link rel='preload' href='font.woff2' as='font' crossorigin>"
+      - pattern: '<link[^>]*rel="stylesheet"[^>]*crossorigin'
+        message: "Stylesheet with crossorigin - consider preloading critical CSS"
+        suggestion: "Preload above-the-fold CSS for faster first paint"
+
+  - id: HTML_PERF003
+    name: "Unoptimized images"
+    domain: performance
+    severity: warning
+    description: "Use modern image formats and sizing"
+    tags:
+      - html
+      - performance
+      - images
+    rules:
+      - pattern: '<img[^>]*\.png[^>]*(?![^>]*(width|height))'
+        message: "PNG image without dimensions - may cause layout shift"
+        suggestion: "Add width and height attributes"
+      - pattern: '<img[^>]*\.jpg[^>]*(?![^>]*loading)'
+        message: "JPEG image without lazy loading hint"
+        suggestion: "Add loading='lazy' for offscreen images"
+
+  - id: HTML_PERF004
+    name: "Missing image dimensions"
+    domain: performance
+    severity: warning
+    description: "Images without dimensions cause layout shift"
+    tags:
+      - html
+      - performance
+      - cls
+      - images
+    rules:
+      - pattern: '<img(?![^>]*(width|height))[^>]*src'
+        message: "Image without width/height - causes cumulative layout shift"
+        suggestion: "Add width and height to prevent layout shift"
+
+  - id: HTML_PERF005
+    name: "Large inline scripts"
+    domain: performance
+    severity: warning
+    description: "Large inline scripts delay parsing"
+    tags:
+      - html
+      - performance
+      - scripts
+    rules:
+      - pattern: '<script[^>]*>[\\s\\S]{500,}</script>'
+        message: "Large inline script (>500 chars) - consider external file"
+        suggestion: "Move to external file for better caching"
+
+  - id: HTML_PERF006
+    name: "Missing preconnect"
+    domain: performance
+    severity: info
+    description: "Preconnect to critical third-party origins"
+    tags:
+      - html
+      - performance
+      - network
+      - dns
+    rules:
+      - pattern: 'src="https://fonts\.googleapis\.com'
+        message: "Google Fonts loaded - add preconnect for faster connection"
+        suggestion: "Add <link rel='preconnect' href='https://fonts.googleapis.com'>"
+      - pattern: 'src="https://[^"]*\.cloudfront\.net'
+        message: "CloudFront resource - consider preconnect"
+        suggestion: "Add <link rel='preconnect' href='https://xxx.cloudfront.net'>"
+
+  - id: HTML_PERF007
+    name: "Unused CSS links"
+    domain: performance
+    severity: info
+    description: "Multiple stylesheets increase requests"
+    tags:
+      - html
+      - performance
+      - css
+      - requests
+    rules:
+      - pattern: '<link[^>]*rel="stylesheet"[^>]*>[\s\S]*<link[^>]*rel="stylesheet"[^>]*>[\s\S]*<link[^>]*rel="stylesheet"'
+        message: "Multiple stylesheets - consider bundling"
+        suggestion: "Combine CSS files to reduce HTTP requests"
+
+  - id: HTML_PERF008
+    name: "Missing async for non-critical scripts"
+    domain: performance
+    severity: info
+    description: "Non-critical scripts should use async"
+    tags:
+      - html
+      - performance
+      - scripts
+    rules:
+      - pattern: '<script[^>]*analytics[^>]*(?![^>]*async)[^>]*>'
+        message: "Analytics script without async"
+        suggestion: "Add async attribute for non-blocking load"
+
+  - id: HTML_PERF009
+    name: "Video without poster"
+    domain: performance
+    severity: info
+    description: "Videos should have poster image"
+    tags:
+      - html
+      - performance
+      - video
+    rules:
+      - pattern: '<video(?![^>]*poster)'
+        message: "Video without poster - first frame may be blank"
+        suggestion: "Add poster='image.jpg' for preview"
+
+  - id: HTML_PERF010
+    name: "Missing fetchpriority"
+    domain: performance
+    severity: info
+    description: "Prioritize critical resources"
+    tags:
+      - html
+      - performance
+      - priority
+    rules:
+      - pattern: '<img[^>]*(hero|banner|main)[^>]*>'
+        message: "Hero image should have fetchpriority='high'"
+        suggestion: "Add fetchpriority='high' for above-fold images"
+
+  - id: HTML_PERF011
+    name: "Iframes without lazy loading"
+    domain: performance
+    severity: info
+    description: "Offscreen iframes should be lazy loaded"
+    tags:
+      - html
+      - performance
+      - iframes
+    rules:
+      - pattern: '<iframe(?![^>]*loading)'
+        message: "Iframe without loading attribute"
+        suggestion: "Add loading='lazy' for offscreen iframes"
+
+  - id: HTML_PERF012
+    name: "Missing dns-prefetch"
+    domain: performance
+    severity: info
+    description: "DNS prefetch for external domains"
+    tags:
+      - html
+      - performance
+      - network
+    rules:
+      - pattern: 'src="https://[^"]+\.com'
+        message: "External resource - consider dns-prefetch"
+        suggestion: "Add <link rel='dns-prefetch' href='//external-domain.com'>"

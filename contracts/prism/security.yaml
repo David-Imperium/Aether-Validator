@@ -1,0 +1,124 @@
+contracts:
+  - id: PRISM_SEC001
+    name: "Shader Input Validation"
+    domain: security
+    severity: error
+    description: "Validate shader inputs to prevent injection"
+    rules:
+      - pattern: 'glShaderSource\s*\([^,]+,\s*\d+,\s*[^,]+,\s*NULL'
+        message: "Unvalidated shader source"
+        suggestion: "Validate shader strings before compilation"
+      - pattern: 'glUniform.*\('
+        message: "Validate uniform values before setting"
+        suggestion: "Check uniform value ranges"
+
+  - id: PRISM_SEC002
+    name: "Buffer Overflow Prevention"
+    domain: security
+    severity: error
+    description: "Check buffer sizes before operations"
+    rules:
+      - pattern: 'memcpy\s*\('
+        message: "memcpy requires size validation"
+        suggestion: "Use Prism::Memory::Copy with bounds check"
+      - pattern: 'strcpy\s*\('
+        message: "strcpy is unsafe - use strncpy or Prism::String::Copy"
+        suggestion: "Use bounded string copy functions"
+
+  - id: PRISM_SEC003
+    name: "Integer Overflow Check"
+    domain: security
+    severity: warning
+    description: "Check for integer overflow in calculations"
+    rules:
+      - pattern: '\*\s*\d+\s*\+'
+        message: "Potential integer overflow in multiplication"
+        suggestion: "Use Prism::Math::SafeMultiply"
+
+  - id: PRISM_SEC004
+    name: "Format String Vulnerability"
+    domain: security
+    severity: error
+    description: "Avoid format string vulnerabilities"
+    rules:
+      - pattern: 'printf\s*\(\s*\w+\s*\)'
+        message: "Variable as format string - potential vulnerability"
+        suggestion: "Use printf(\"%s\", var) or PRISM_INFO()"
+      - pattern: 'sprintf\s*\('
+        message: "sprintf is unsafe - use snprintf"
+        suggestion: "Use snprintf or Prism::String::Format"
+
+  - id: PRISM_SEC005
+    name: "Shader Resource Limits"
+    domain: security
+    severity: warning
+    description: "Check shader resource limits"
+    rules:
+      - pattern: 'glBindBufferBase\s*\([^,]+,\s*\d{2,}'
+        message: "High binding point - verify limits"
+        suggestion: "Check GL_MAX_UNIFORM_BUFFER_BINDINGS"
+      - pattern: 'glBindTextureUnit\s*\(\s*\d{3,}'
+        message: "High texture unit - verify limits"
+        suggestion: "Check GL_MAX_TEXTURE_IMAGE_UNITS"
+
+  - id: PRISM_SEC006
+    name: "Pointer Validation"
+    domain: security
+    severity: error
+    description: "Validate pointers before use"
+    rules:
+      - pattern: '->\w+\s*\('
+        message: "Dereference without null check"
+        suggestion: "Use PRISM_ASSERT(ptr) before dereference"
+      - pattern: '\*\w+\s*='
+        message: "Dereference without validation"
+        suggestion: "Check pointer is valid"
+
+  - id: PRISM_SEC007
+    name: "Command Buffer Injection"
+    domain: security
+    severity: warning
+    description: "Validate command buffer contents"
+    rules:
+      - pattern: 'vkCmdDraw\s*\('
+        message: "Validate draw call parameters"
+        suggestion: "Check vertex count and instance count"
+      - pattern: 'vkCmdDispatch\s*\('
+        message: "Validate dispatch parameters"
+        suggestion: "Check workgroup sizes"
+
+  - id: PRISM_SEC008
+    name: "GPU Memory Bounds"
+    domain: security
+    severity: warning
+    description: "Check GPU memory allocation sizes"
+    rules:
+      - pattern: 'glBufferData\s*\('
+        message: "Validate buffer size before allocation"
+        suggestion: "Use Prism::GPU::Buffer::ValidateSize"
+
+  - id: PRISM_SEC009
+    name: "Synchronization Hazards"
+    domain: security
+    severity: error
+    description: "Proper synchronization for GPU resources"
+    rules:
+      - pattern: 'glMemoryBarrier\s*\('
+        message: "Ensure proper memory barrier usage"
+        suggestion: "Use correct barrier flags"
+      - pattern: 'vkQueueSubmit\s*\('
+        message: "Validate fence and semaphore usage"
+        suggestion: "Check synchronization primitives"
+
+  - id: PRISM_SEC010
+    name: "File Path Validation"
+    domain: security
+    severity: error
+    description: "Validate file paths for shader loading"
+    rules:
+      - pattern: '\.\./|\.\.\'
+        message: "Path traversal detected"
+        suggestion: "Use Prism::FileSystem::SanitizePath"
+      - pattern: 'fopen\s*\('
+        message: "Validate file path before opening"
+        suggestion: "Use Prism::FileSystem::Open"

@@ -1,0 +1,189 @@
+# CSS Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: CSS_PERF001
+    name: "Expensive universal selector"
+    domain: performance
+    severity: warning
+    description: "Universal selector * matches all elements"
+    tags:
+      - css
+      - performance
+      - selectors
+    rules:
+      - pattern: '^\s*\*\s*\{'
+        message: "Universal selector forces browser to check every element"
+        suggestion: "Use specific selectors or inheritance instead"
+
+  - id: CSS_PERF002
+    name: "Deeply nested selectors"
+    domain: performance
+    severity: warning
+    description: "Deep selector chains are slow to match"
+    tags:
+      - css
+      - performance
+      - selectors
+    rules:
+      - pattern: '(\w+\s+|\w+>\s*|\w+\+\s*|\w+~\s*){4,}'
+        message: "Selector depth > 4 levels impacts performance"
+        suggestion: "Reduce selector specificity and depth"
+
+  - id: CSS_PERF003
+    name: "Attribute selectors with wildcards"
+    domain: performance
+    severity: warning
+    description: "Substring attribute selectors are expensive"
+    tags:
+      - css
+      - performance
+      - selectors
+    rules:
+      - pattern: '\[[^]]*\*\s*=\s*'
+        message: "Attribute selector with * wildcard is slow"
+        suggestion: "Use exact match or class selectors instead"
+      - pattern: '\[[^]]*\^\s*=\s*'
+        message: "^= attribute selector is slower than exact match"
+        suggestion: "Consider using class selectors for better performance"
+      - pattern: '\[[^]]*\$\s*=\s*'
+        message: "$= suffix attribute selector is slow"
+        suggestion: "Use class selectors when possible"
+
+  - id: CSS_PERF004
+    name: "Expensive animations"
+    domain: performance
+    severity: warning
+    description: "Animating layout properties causes reflows"
+    tags:
+      - css
+      - performance
+      - animation
+      - reflow
+    rules:
+      - pattern: 'transition:\s*[^;]*(width|height|top|left|right|bottom|margin|padding|border)'
+        message: "Animating layout properties triggers reflows"
+        suggestion: "Animate transform and opacity for better performance"
+      - pattern: 'animation:\s*[^;]*(width|height|top|left|right|bottom)'
+        message: "Keyframe animation on layout properties"
+        suggestion: "Use transform: translate/scale for GPU-accelerated animations"
+
+  - id: CSS_PERF005
+    name: "Expensive box-shadow"
+    domain: performance
+    severity: info
+    description: "Large blur radii in box-shadow are expensive"
+    tags:
+      - css
+      - performance
+      - rendering
+    rules:
+      - pattern: 'box-shadow:\s*[^;]+\s+\d{3,}px'
+        message: "Large box-shadow blur radius is expensive to render"
+        suggestion: "Use smaller blur values or consider alternatives"
+
+  - id: CSS_PERF006
+    name: "Will-change overuse"
+    domain: performance
+    severity: warning
+    description: "will-change should be used sparingly"
+    tags:
+      - css
+      - performance
+      - gpu
+    rules:
+      - pattern: 'will-change:\s*transform'
+        message: "will-change for transform - use only for frequently animated elements"
+        suggestion: "Remove will-change after animation completes"
+      - pattern: 'will-change:\s*[^;]+'
+        message: "will-change consumes memory even when not animating"
+        suggestion: "Apply will-change only to elements that will actually change"
+
+  - id: CSS_PERF007
+    name: "Critical CSS not inlined"
+    domain: performance
+    severity: info
+    description: "Above-the-fold styles should be inlined"
+    tags:
+      - css
+      - performance
+      - critical-path
+    rules:
+      - pattern: '@import\s+'
+        message: "@import blocks rendering - use <link> instead"
+        suggestion: "Replace @import with link tags for parallel loading"
+
+  - id: CSS_PERF008
+    name: "Unused CSS selectors"
+    domain: performance
+    severity: info
+    description: "Unused CSS bloats the stylesheet"
+    tags:
+      - css
+      - performance
+      - bundle-size
+    rules:
+      - pattern: '\.[a-z]+-[a-z]+-[a-z]+-[a-z]+'
+        message: "Very specific class name - verify it's actually used"
+        suggestion: "Remove unused selectors to reduce CSS size"
+
+  - id: CSS_PERF009
+    name: "Sync font loading"
+    domain: performance
+    severity: warning
+    description: "Custom fonts can block text rendering"
+    tags:
+      - css
+      - performance
+      - fonts
+      - flicker
+    rules:
+      - pattern: 'font-family:\s*[^;]+,\s*[^;]+;'
+        message: "Custom font with fallback - consider font-display"
+        suggestion: "Add font-display: swap to @font-face rules"
+
+  - id: CSS_PERF010
+    name: "Excessive filter usage"
+    domain: performance
+    severity: warning
+    description: "CSS filters are GPU-intensive"
+    tags:
+      - css
+      - performance
+      - filters
+    rules:
+      - pattern: 'filter:\s*blur'
+        message: "blur filter is expensive on large elements"
+        suggestion: "Use sparingly, consider SVG or canvas for heavy effects"
+      - pattern: 'filter:\s*drop-shadow'
+        message: "drop-shadow filter can be expensive"
+        suggestion: "Use box-shadow for simple shadows"
+
+  - id: CSS_PERF011
+    name: "Transform without GPU hint"
+    domain: performance
+    severity: info
+    description: "transform can be GPU-accelerated"
+    tags:
+      - css
+      - performance
+      - gpu
+      - transform
+    rules:
+      - pattern: 'transform:\s*translate[Z3]'
+        message: "3D transform can trigger GPU layer promotion"
+        suggestion: "Use translateZ(0) to force GPU layer only when needed"
+
+  - id: CSS_PERF012
+    name: "Contain property opportunity"
+    domain: performance
+    severity: info
+    description: "contain can optimize rendering"
+    tags:
+      - css
+      - performance
+      - rendering
+    rules:
+      - pattern: 'position:\s*absolute'
+        message: "Absolutely positioned element - consider contain: layout"
+        suggestion: "Add contain: layout for isolated rendering subtrees"

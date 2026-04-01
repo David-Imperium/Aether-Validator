@@ -1,0 +1,313 @@
+# Notebook Security Contracts
+# Domain: security
+# Validates secrets handling, execution safety, and notebook security
+
+contracts:
+  - id: NB_SEC001
+    name: "No hardcoded secrets"
+    domain: security
+    severity: critical
+    description: "Notebooks should not contain hardcoded credentials"
+    tags:
+      - notebook
+      - security
+      - secrets
+    rules:
+      - pattern: '(password|passwd|pwd)\s*[=:]\s*["\'][^"\']{4,}["\']'
+        message: "Hardcoded password detected"
+        suggestion: "Use environment variables: os.environ['PASSWORD']"
+      - pattern: '(api_key|apiKey|apikey)\s*[=:]\s*["\'][^"\']{8,}["\']'
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables: os.environ['API_KEY']"
+      - pattern: '(secret|token|access_token)\s*[=:]\s*["\'][^"\']{8,}["\']'
+        message: "Hardcoded secret/token detected"
+        suggestion: "Use environment variables or secrets manager"
+      - pattern: 'aws_access_key_id\s*=\s*["\']AKIA["\']'
+        message: "AWS access key detected"
+        suggestion: "Use boto3 with IAM roles or environment variables"
+      - pattern: 'mongodb(\+srv)?://[^:]+:[^@]+@'
+        message: "Database connection string with credentials"
+        suggestion: "Use environment variables for connection strings"
+
+  - id: NB_SEC002
+    name: "No sensitive data in outputs"
+    domain: security
+    severity: error
+    description: "Cell outputs should not contain sensitive data"
+    tags:
+      - notebook
+      - security
+      - outputs
+    rules:
+      - pattern: '"outputs":\s*\[[^\]]*(password|secret|token|api_key)[^\]]*\]'
+        message: "Sensitive data in cell output"
+        suggestion: "Clear outputs before committing or redact sensitive data"
+
+  - id: NB_SEC003
+    name: "Environment variables for configuration"
+    domain: security
+    severity: warning
+    description: "Configuration should use environment variables"
+    tags:
+      - notebook
+      - security
+      - configuration
+    rules:
+      - pattern: '(host|HOST|url|URL|endpoint|ENDPOINT)\s*[=:]\s*["\']https?://["\']'
+        message: "Hardcoded URL/endpoint detected"
+        suggestion: "Use os.environ.get('API_URL', default)"
+
+  - id: NB_SEC004
+    name: "No shell injection"
+    domain: security
+    severity: error
+    description: "Avoid shell injection vulnerabilities"
+    tags:
+      - notebook
+      - security
+      - injection
+    rules:
+      - pattern: '!.*\$\{[^}]+\}|!.*\+.*["\']'
+        message: "Potential shell injection via variable expansion"
+        suggestion: "Use Python subprocess with list arguments instead"
+      - pattern: 'os\.system\(|subprocess\.call\([^,]*shell\s*=\s*True'
+        message: "Shell execution with potential injection"
+        suggestion: "Use subprocess.run with shell=False"
+
+  - id: NB_SEC005
+    name: "File path validation"
+    domain: security
+    severity: warning
+    description: "File paths should be validated"
+    tags:
+      - notebook
+      - security
+      - filesystem
+    rules:
+      - pattern: 'open\(["\']\.\./'
+        message: "Relative path traversal detected"
+        suggestion: "Use absolute paths or validate path components"
+      - pattern: 'pd\.read_csv\(["\']\.\./'
+        message: "Relative path in data loading"
+        suggestion: "Use absolute paths for data files"
+
+  - id: NB_SEC006
+    name: "No eval on user input"
+    domain: security
+    severity: error
+    description: "Avoid eval/exec on untrusted input"
+    tags:
+      - notebook
+      - security
+      - injection
+    rules:
+      - pattern: 'eval\(|exec\('
+        message: "eval/exec detected - security risk"
+        suggestion: "Use ast.literal_eval for safe evaluation"
+
+  - id: NB_SEC007
+    name: "SQL injection prevention"
+    domain: security
+    severity: error
+    description: "SQL queries should use parameterization"
+    tags:
+      - notebook
+      - security
+      - injection
+    rules:
+      - pattern: 'execute\(["\'][^"\']*%\s|execute\(f["\']'
+        message: "String formatting in SQL query"
+        suggestion: "Use parameterized queries: cursor.execute(query, params)"
+      - pattern: 'pd\.read_sql\(["\'].*\+|pd\.read_sql\(f["\']'
+        message: "String concatenation in SQL query"
+        suggestion: "Use pd.read_sql with parameters"
+
+  - id: NB_SEC008
+    name: "Secure credential files"
+    domain: security
+    severity: warning
+    description: "Credential files should not be committed"
+    tags:
+      - notebook
+      - security
+      - files
+    rules:
+      - pattern: 'open\(["\'][^"\']*(credential|secret|key|token|password)[^"\']*["\']'
+        message: "Reading from credential file"
+        suggestion: "Use environment variables or secrets manager"
+
+  - id: NB_SEC009
+    name: "API endpoints not exposed"
+    domain: security
+    severity: warning
+    description: "Internal API endpoints should not be hardcoded"
+    tags:
+      - notebook
+      - security
+      - api
+    rules:
+      - pattern: 'localhost|127\.0\.0\.1|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+'
+        message: "Internal IP/localhost detected"
+        suggestion: "Use environment variables for API endpoints"
+
+  - id: NB_SEC010
+    name: "HTTPS for external connections"
+    domain: security
+    severity: warning
+    description: "External connections should use HTTPS"
+    tags:
+      - notebook
+      - security
+      - network
+    rules:
+      - pattern: 'http://[^"\']+'
+        message: "HTTP connection - consider HTTPS"
+        suggestion: "Use https:// for secure connections"
+
+  - id: NB_SEC011
+    name: "No private key material"
+    domain: security
+    severity: critical
+    description: "Private keys should not be in notebooks"
+    tags:
+      - notebook
+      - security
+      - cryptography
+    rules:
+      - pattern: '-----BEGIN.*PRIVATE KEY-----'
+        message: "Private key detected in notebook"
+        suggestion: "Remove private key, use environment variables"
+      - pattern: 'ssh-rsa\s+[A-Za-z0-9+/]{50,}'
+        message: "SSH key detected"
+        suggestion: "Remove SSH key from notebook"
+
+  - id: NB_SEC012
+    name: "Notebook not world-readable"
+    domain: security
+    severity: info
+    description: "Notebook files should not be world-readable"
+    tags:
+      - notebook
+      - security
+      - permissions
+    rules:
+      - query: |
+          SELECT file, permissions
+          FROM notebook_files
+          WHERE permissions & 0o004 != 0
+        message: "Notebook is world-readable"
+        suggestion: "Restrict permissions: chmod 600 notebook.ipynb"
+
+  - id: NB_SEC013
+    name: "Sensitive columns masked"
+    domain: security
+    severity: warning
+    description: "Sensitive data columns should be masked"
+    tags:
+      - notebook
+      - security
+      - data
+    rules:
+      - pattern: 'print\(.*\[.*(ssn|SSN|social_security|credit_card|password)\]'
+        message: "Printing sensitive data column"
+        suggestion: "Mask or redact sensitive data before display"
+
+  - id: NB_SEC014
+    name: "No cleartext password comparisons"
+    domain: security
+    severity: warning
+    description: "Password comparisons should use constant-time"
+    tags:
+      - notebook
+      - security
+      - cryptography
+    rules:
+      - pattern: 'password\s*==|password\s*!='
+        message: "Cleartext password comparison"
+        suggestion: "Use hashlib for password comparison"
+
+  - id: NB_SEC015
+    name: "Secure random for tokens"
+    domain: security
+    severity: warning
+    description: "Use cryptographically secure random for tokens"
+    tags:
+      - notebook
+      - security
+      - random
+    rules:
+      - pattern: 'random\.random\(\)|random\.randint\(\).*token|random\.choice\(\).*token'
+        message: "Insecure random for token generation"
+        suggestion: "Use secrets module: secrets.token_urlsafe()"
+
+  - id: NB_SEC016
+    name: "Output cleared before commit"
+    domain: security
+    severity: info
+    description: "Notebook outputs should be cleared before commit"
+    tags:
+      - notebook
+      - security
+      - git
+    rules:
+      - query: |
+          SELECT file FROM notebook_files
+          WHERE has_outputs AND in_git
+        message: "Notebook has outputs - consider clearing before commit"
+        suggestion: "Use jupyter nbconvert --clear-output"
+
+  - id: NB_SEC017
+    name: "No IAM credentials"
+    domain: security
+    severity: critical
+    description: "AWS IAM credentials should not be hardcoded"
+    tags:
+      - notebook
+      - security
+      - cloud
+    rules:
+      - pattern: 'aws_secret_access_key\s*=\s*["\'][^"\']{16,}["\']'
+        message: "AWS secret access key detected"
+        suggestion: "Use boto3 with IAM roles or environment variables"
+
+  - id: NB_SEC018
+    name: "Database credentials protected"
+    domain: security
+    severity: error
+    description: "Database credentials should use environment variables"
+    tags:
+      - notebook
+      - security
+      - database
+    rules:
+      - pattern: '(user|username|USER)\s*[=:]\s*["\'][^"\']+["\'].*password'
+        message: "Database username/password hardcoded"
+        suggestion: "Use environment variables for DB credentials"
+
+  - id: NB_SEC019
+    name: "No OAuth tokens in code"
+    domain: security
+    severity: critical
+    description: "OAuth tokens should not be hardcoded"
+    tags:
+      - notebook
+      - security
+      - oauth
+    rules:
+      - pattern: 'Bearer\s+[A-Za-z0-9_-]{20,}|oauth_token\s*[=:]\s*["\'][^"\']{20,}["\']'
+        message: "OAuth token detected"
+        suggestion: "Use OAuth flow or environment variables"
+
+  - id: NB_SEC020
+    name: "Git credentials not exposed"
+    domain: security
+    severity: critical
+    description: "Git credentials should not be in notebooks"
+    tags:
+      - notebook
+      - security
+      - git
+    rules:
+      - pattern: 'https://[^:]+:[^@]+@github\.com|git://[^:]+:[^@]+@'
+        message: "Git URL with credentials detected"
+        suggestion: "Use SSH keys or git credential helper"

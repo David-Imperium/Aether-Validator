@@ -1,0 +1,50 @@
+contracts:
+  - id: BASH101
+    name: "Use Double Brackets"
+    domain: style
+    severity: warning
+    description: "[[ ]] is safer and more capable than [ ]"
+    rules:
+      - pattern: '\[\s+[^\]]*\s+\]'
+        message: "Use [[ ]] instead of [ ] for tests"
+        suggestion: "Replace [ ] with [[ ]] for safer string handling"
+
+  - id: BASH102
+    name: "Enable Error Checking"
+    domain: best-practice
+    severity: info
+    description: "Scripts should fail on errors and undefined variables"
+    rules:
+      - pattern: '^#!.*/bash'
+        message: "Consider adding set -euo pipefail after shebang"
+        suggestion: "Add: set -euo pipefail"
+
+  - id: BASH103
+    name: "Use printf Instead of echo"
+    domain: style
+    severity: info
+    description: "echo behavior varies; printf is portable"
+    rules:
+      - pattern: 'echo\s+(-[ne]\s+)?["\']?\\'
+        message: "echo with escape sequences - use printf"
+        suggestion: "Use printf for portable escape handling"
+
+  - id: BASH104
+    name: "Quote Path Variables"
+    domain: best-practice
+    severity: warning
+    description: "Paths with spaces break unquoted variables"
+    rules:
+      - pattern: '(cd|ls|cat|rm|cp|mv)\s+\$\w+'
+        message: "Command with unquoted path variable"
+        suggestion: "Quote paths: cd \"$DIR\""
+
+  - id: BASH105
+    name: "Use Shellcheck Directive"
+    domain: best-practice
+    severity: hint
+    description: "Shellcheck helps catch common issues"
+    rules:
+      - pattern: '^#!.*/bash'
+        message: "Consider running shellcheck on this script"
+        suggestion: "# shellcheck source=/dev/null"

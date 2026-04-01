@@ -1,0 +1,70 @@
+contracts:
+  - id: LUV001
+    name: "Avoid Global Variables"
+    domain: best-practices
+    severity: warning
+    description: "Avoid global variables in Love2D - use local or require"
+    rules:
+      - pattern: 'global_'
+        message: "Avoid global variables - use local or require"
+        suggestion: "Use 'local' prefix or require() for module imports"
+
+  - id: LUV002
+    name: "Direct Global Table Access"
+    domain: security
+    severity: warning
+    description: "Direct global table access is dangerous"
+    rules:
+      - pattern: '_G\['
+        message: "Direct global table access is dangerous"
+        suggestion: "Use proper module system or local variables"
+
+  - id: LUV003
+    name: "Dynamic Code Execution"
+    domain: security
+    severity: error
+    description: "loadstring can execute arbitrary code"
+    rules:
+      - pattern: 'loadstring\s*\('
+        message: "loadstring can execute arbitrary code - security risk"
+        suggestion: "Avoid dynamic code execution"
+
+  - id: LUV020
+    name: "File Load Execution"
+    domain: security
+    severity: warning
+    description: "love.filesystem.load can execute arbitrary code"
+    rules:
+      - pattern: 'love\.filesystem\.load'
+        message: "love.filesystem.load can execute arbitrary code"
+        suggestion: "Use love.filesystem.read for data files"
+
+  - id: LUV031
+    name: "OS Execute"
+    domain: security
+    severity: warning
+    description: "os.execute is blocked in some Love2D distributions"
+    rules:
+      - pattern: 'os\.execute'
+        message: "os.execute is blocked in some Love2D distributions"
+        suggestion: "Use love.system.openURL for URLs"
+
+  - id: LUV033
+    name: "Shell Command Execution"
+    domain: security
+    severity: error
+    description: "io.popen executes shell commands"
+    rules:
+      - pattern: 'io\.popen'
+        message: "io.popen executes shell commands - security risk"
+        suggestion: "Avoid shell command execution"
+
+  - id: LUV034
+    name: "File Path Validation"
+    domain: security
+    severity: warning
+    description: "io.open - validate file path"
+    rules:
+      - pattern: 'io\.open'
+        message: "io.open - validate file path"
+        suggestion: "Validate path doesn't contain ../ or user input"

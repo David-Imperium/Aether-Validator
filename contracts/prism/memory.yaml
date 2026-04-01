@@ -1,0 +1,40 @@
+contracts:
+  - id: PRISM004
+    name: "Use Prism Memory Allocation"
+    domain: memory
+    severity: error
+    description: "Use Prism::Memory::Allocate instead of malloc"
+    rules:
+      - pattern: '\bmalloc\s*\('
+        message: "Use Prism::Memory::Allocate instead of malloc"
+        suggestion: "Use PRISM_ALLOC() or Prism::Memory::Allocate()"
+
+  - id: PRISM005
+    name: "Use Prism Memory Free"
+    domain: memory
+    severity: error
+    description: "Use Prism::Memory::Free instead of free"
+    rules:
+      - pattern: '\bfree\s*\('
+        message: "Use Prism::Memory::Free instead of free"
+        suggestion: "Use PRISM_FREE() or Prism::Memory::Free()"
+
+  - id: PRISM006
+    name: "Use Prism New"
+    domain: memory
+    severity: warning
+    description: "Use Prism memory allocation instead of new"
+    rules:
+      - pattern: '\bnew\s+\w+'
+        message: "Use Prism memory allocation instead of new"
+        suggestion: "Use PRISM_NEW() or Prism::Memory::Allocate()"
+
+  - id: PRISM007
+    name: "Use Prism Delete"
+    domain: memory
+    severity: warning
+    description: "Use Prism memory deallocation instead of delete"
+    rules:
+      - pattern: '\bdelete\s+'
+        message: "Use Prism memory deallocation instead of delete"
+        suggestion: "Use PRISM_DELETE() or Prism::Memory::Free()"

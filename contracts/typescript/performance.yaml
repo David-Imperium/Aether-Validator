@@ -1,0 +1,144 @@
+# TypeScript Performance Contracts
+# Domain: performance
+# TypeScript-specific performance patterns
+
+contracts:
+  - id: TSPERF001
+    name: "Use async/await over raw promises"
+    domain: performance
+    severity: info
+    description: "async/await is more readable and easier to optimize"
+    tags:
+      - typescript
+      - performance
+      - async
+    rules:
+      - pattern: '\.then\s*\([^)]*\)\s*\.then'
+        message: "Chained .then() - consider async/await for readability"
+        suggestion: "Use async/await for cleaner asynchronous code"
+
+  - id: TSPERF002
+    name: "Use Promise.all for parallel operations"
+    domain: performance
+    severity: info
+    description: "Run independent async operations in parallel"
+    tags:
+      - typescript
+      - performance
+      - async
+    rules:
+      - pattern: 'await\s+\w+\([^)]*\);\s*\n\s*await\s+\w+\([^)]*\)'
+        message: "Sequential awaits - consider if operations can run in parallel"
+        suggestion: "Use Promise.all() for independent async operations"
+
+  - id: TSPERF003
+    name: "Use memoization for expensive computations"
+    domain: performance
+    severity: info
+    description: "Cache results of expensive pure functions"
+    tags:
+      - typescript
+      - performance
+      - caching
+    rules:
+      - pattern: 'function\s+\w+\([^)]*\)\s*\{[^}]*for\s*\('
+        message: "Function with loop - consider memoization if called frequently"
+        suggestion: "Use useMemo (React) or memoize function for expensive computations"
+
+  - id: TSPERF004
+    name: "Avoid large bundle imports"
+    domain: performance
+    severity: warning
+    description: "Import only what you need from large libraries"
+    tags:
+      - typescript
+      - performance
+      - bundling
+    rules:
+      - pattern: 'import\s+\*\s+as\s+\w+\s+from\s+[\'\"]lodash[\'\"]'
+        message: "Full lodash import - use specific imports"
+        suggestion: "Use 'import { debounce } from \"lodash-es\"' or lodash/debounce"
+
+  - id: TSPERF005
+    name: "Use const enums when appropriate"
+    domain: performance
+    severity: info
+    description: "const enums are inlined at compile time"
+    tags:
+      - typescript
+      - performance
+      - types
+    rules:
+      - pattern: 'const\s+enum\s+\w+'
+        message: "const enum - values are inlined at compile time"
+        suggestion: "Use const enums for performance-critical code"
+
+  - id: TSPERF006
+    name: "Use lazy loading for large modules"
+    domain: performance
+    severity: info
+    description: "Lazy load modules to reduce initial bundle size"
+    tags:
+      - typescript
+      - performance
+      - bundling
+    rules:
+      - pattern: 'import\s*\(\s*[\'\"]\./'
+        message: "Dynamic import detected - code splitting in effect"
+        suggestion: "Use dynamic imports for route-level code splitting"
+
+  - id: TSPERF007
+    name: "Avoid unnecessary type assertions"
+    domain: performance
+    severity: info
+    description: "Type assertions add no runtime cost but indicate potential issues"
+    tags:
+      - typescript
+      - performance
+      - types
+    rules:
+      - pattern: 'as\s+any'
+        message: "Casting to any - bypasses type safety"
+        suggestion: "Fix the underlying type issue instead of casting"
+
+  - id: TSPERF008
+    name: "Use readonly arrays for immutability"
+    domain: performance
+    severity: info
+    description: "readonly arrays prevent accidental mutations"
+    tags:
+      - typescript
+      - performance
+      - types
+    rules:
+      - pattern: 'const\s+\w+:\s*\w+\[\]'
+        message: "Mutable array - consider readonly for safety"
+        suggestion: "Use 'readonly T[]' or 'ReadonlyArray<T>' for immutable arrays"
+
+  - id: TSPERF009
+    name: "Debounce or throttle frequent events"
+    domain: performance
+    severity: warning
+    description: "Limit how often event handlers fire"
+    tags:
+      - typescript
+      - performance
+      - events
+    rules:
+      - pattern: 'on\w+\s*=\s*\{.*\}'
+        message: "Event handler - consider debouncing for frequent events"
+        suggestion: "Use debounce/throttle for scroll, resize, input events"
+
+  - id: TSPERF010
+    name: "Use WeakMap for object metadata"
+    domain: performance
+    severity: info
+    description: "WeakMap allows garbage collection of keys"
+    tags:
+      - typescript
+      - performance
+      - memory
+    rules:
+      - pattern: 'new\s+Map<\w+,\s*\w+>\s*\(\s*\)'
+        message: "Map for object keys - consider WeakMap for metadata"
+        suggestion: "Use WeakMap when keys are objects and metadata is auxiliary"

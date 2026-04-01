@@ -1,0 +1,128 @@
+{
+  "name": "aether",
+  "displayName": "Aether - Intelligent Code Validator",
+  "description": "AI-powered code validation with intelligent contract enforcement",
+  "version": "0.1.0",
+  "publisher": "aether-ai",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "validation",
+    "linting",
+    "security",
+    "ai",
+    "code quality"
+  ],
+  "activationEvents": [
+    "onLanguage:rust",
+    "onLanguage:python",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:go",
+    "onLanguage:c",
+    "onLanguage:cpp"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aether.validate",
+        "title": "Aether: Validate Current File"
+      },
+      {
+        "command": "aether.validateProject",
+        "title": "Aether: Validate Project"
+      },
+      {
+        "command": "aether.acceptViolation",
+        "title": "Aether: Accept Violation"
+      },
+      {
+        "command": "aether.showCompliance",
+        "title": "Aether: Show Compliance Status"
+      },
+      {
+        "command": "aether.analyzeDrift",
+        "title": "Aether: Analyze Drift"
+      }
+    ],
+    "configuration": {
+      "title": "Aether",
+      "properties": {
+        "aether.enableValidation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic validation on save"
+        },
+        "aether.validationMode": {
+          "type": "string",
+          "enum": ["strict", "balanced", "lenient"],
+          "default": "balanced",
+          "description": "Validation strictness level"
+        },
+        "aether.dubbiosoMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Dubbioso mode for confidence-based validation"
+        },
+        "aether.showQualityScore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show quality score in status bar"
+        },
+        "aether.aetherPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to aether binary (empty = use PATH)"
+        }
+      }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "aether.validate",
+          "group": "aether",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "aether-contract",
+        "extensions": [".contract.yaml", ".aether.yaml"],
+        "aliases": ["Aether Contract"]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aether-ai/aether"
+  },
+  "license": "MIT"
+}

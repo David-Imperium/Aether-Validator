@@ -1,0 +1,143 @@
+# TypeScript Error Handling Contracts
+# Domain: error-handling
+# TypeScript-specific error handling patterns
+
+contracts:
+  - id: TSERR001
+    name: "Catch specific error types"
+    domain: error-handling
+    severity: warning
+    description: "Avoid catching generic Error, use specific error types or type guards"
+    tags:
+      - typescript
+      - error-handling
+      - types
+    rules:
+      - pattern: 'catch\s*\(\s*\w+\s*\)\s*\{'
+        message: "Generic catch block - consider catching specific error types"
+        suggestion: "Use type guards or instanceof to handle specific errors"
+
+  - id: TSERR002
+    name: "Use typed error classes"
+    domain: error-handling
+    severity: info
+    description: "Create custom error classes with proper typing"
+    tags:
+      - typescript
+      - error-handling
+      - types
+    rules:
+      - pattern: 'class\s+\w+Error\s+extends\s+Error'
+        message: "Custom error class - ensure proper name property handling"
+        suggestion: "Set name property and use super(message) in constructor"
+
+  - id: TSERR003
+    name: "Handle async errors properly"
+    domain: error-handling
+    severity: warning
+    description: "Async functions should handle errors with try/catch or .catch()"
+    tags:
+      - typescript
+      - error-handling
+      - async
+    rules:
+      - pattern: 'async\s+function\s+\w+\s*\([^)]*\)\s*:\s*Promise<[^>]+>\s*\{[^}]*\n\s*\n\s*return'
+        message: "Async function without try/catch - ensure error handling"
+        suggestion: "Wrap async operations in try/catch or use .catch() on promises"
+
+  - id: TSERR004
+    name: "Use Result type pattern"
+    domain: error-handling
+    severity: info
+    description: "Consider Result<T, E> pattern for expected errors"
+    tags:
+      - typescript
+      - error-handling
+      - patterns
+    rules:
+      - pattern: 'throw\s+new\s+\w+Error'
+        message: "Throwing error - consider if this is expected or exceptional"
+        suggestion: "Use Result<T, E> pattern for expected errors, throw for unexpected"
+
+  - id: TSERR005
+    name: "Never catch and ignore errors"
+    domain: error-handling
+    severity: error
+    description: "Empty catch blocks hide errors"
+    tags:
+      - typescript
+      - error-handling
+      - bugs
+    rules:
+      - pattern: 'catch\s*\([^)]*\)\s*\{\s*\}'
+        message: "Empty catch block - errors are silently ignored"
+        suggestion: "Log, rethrow, or handle the error appropriately"
+
+  - id: TSERR006
+    name: "Use error boundaries in React"
+    domain: error-handling
+    severity: info
+    description: "Error boundaries catch render errors in component trees"
+    tags:
+      - typescript
+      - error-handling
+      - react
+    rules:
+      - pattern: 'componentDidCatch\s*\('
+        message: "Error boundary detected - ensure proper error logging"
+        suggestion: "Log errors to monitoring service and show fallback UI"
+
+  - id: TSERR007
+    name: "Type guard errors with unknown"
+    domain: error-handling
+    severity: info
+    description: "Use unknown type and type guards for caught errors"
+    tags:
+      - typescript
+      - error-handling
+      - types
+    rules:
+      - pattern: 'catch\s*\(\s*err\s*:\s*Error\s*\)'
+        message: "Caught error typed as Error - use unknown instead"
+        suggestion: "Use 'catch (err: unknown)' and type guard with instanceof"
+
+  - id: TSERR008
+    name: "Preserve error context"
+    domain: error-handling
+    severity: warning
+    description: "When wrapping errors, preserve the original cause"
+    tags:
+      - typescript
+      - error-handling
+    rules:
+      - pattern: 'throw\s+new\s+\w+Error\s*\(\s*[^)]*\)'
+        message: "Throwing new error - consider preserving original error"
+        suggestion: "Use 'cause' property to chain errors: new Error(msg, { cause: original })"
+
+  - id: TSERR009
+    name: "Handle promise rejections"
+    domain: error-handling
+    severity: warning
+    description: "Uncaught promise rejections crash Node.js"
+    tags:
+      - typescript
+      - error-handling
+      - async
+    rules:
+      - pattern: '\.then\s*\('
+        message: ".then() without .catch() - promise rejection may be unhandled"
+        suggestion: "Add .catch() handler or use async/await with try/catch"
+
+  - id: TSERR010
+    name: "Log errors with context"
+    domain: error-handling
+    severity: info
+    description: "Error logs should include context for debugging"
+    tags:
+      - typescript
+      - error-handling
+      - logging
+    rules:
+      - pattern: 'console\.error\s*\(\s*err\s*\)'
+        message: "Error logged without context"
+        suggestion: "Include context: console.error('Operation failed:', { context, err })"

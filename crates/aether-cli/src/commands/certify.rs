@@ -5,7 +5,7 @@ use std::path::Path;
 use std::fs;
 
 use aether_validation::{ValidationPipeline, ValidationContext};
-use aether_validation::layers::{SyntaxLayer, SemanticLayer, LogicLayer, SecurityLayer, ComplexityLayer, SupplyChainLayer};
+use aether_validation::layers::{SyntaxLayer, SemanticLayer, LogicLayer, SecurityLayer, ComplexityLayer, SupplyChainLayer, ClippyLayer};
 use aether_certification::{Keypair, Certificate, ValidationResult, AgentInfo};
 
 /// Detect language from file extension
@@ -48,6 +48,7 @@ pub async fn run(args: CertifyArgs) -> Result<(), Box<dyn std::error::Error>> {
         .add_layer(SupplyChainLayer::new())
         .add_layer(SecurityLayer::new())
         .add_layer(SyntaxLayer::new())
+        .add_layer(ClippyLayer::new())
         .add_layer(SemanticLayer::new())
         .add_layer(LogicLayer::new())
         .add_layer(ComplexityLayer::default());

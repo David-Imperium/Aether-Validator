@@ -1,0 +1,121 @@
+contracts:
+  - id: CMAKE_PERF001
+    name: "Prefer generator expressions"
+    domain: performance
+    severity: info
+    description: "Generator expressions enable build-time evaluation"
+    rules:
+      - pattern: '\$<[^>]+>'
+        message: "Generator expression used - good for build-time optimization"
+        suggestion: ""
+
+  - id: CMAKE_PERF002
+    name: "Enable parallel builds"
+    domain: performance
+    severity: info
+    description: "Projects should enable parallel compilation"
+    rules:
+      - pattern: 'add_custom_command\s*\([^)]*DEPENDS\s+[^)]*\.\.\.'
+        message: "Consider using Ninja generator for parallel builds"
+        suggestion: "Use Ninja generator or set CMAKE_BUILD_PARALLEL_LEVEL"
+
+  - id: CMAKE_PERF003
+    name: "Use object libraries"
+    domain: performance
+    severity: info
+    description: "Object libraries reduce compilation of shared sources"
+    rules:
+      - pattern: '\badd_library\s*\([^)]*OBJECT'
+        message: "Good - object library reduces redundant compilation"
+        suggestion: "Use OBJECT libraries for sources compiled into multiple targets"
+      - pattern: '\badd_library\s*\([^)]*STATIC[^)]*\)'
+        message: "Consider OBJECT library for shared sources"
+        suggestion: "Use OBJECT libraries when same sources are in multiple targets"
+
+  - id: CMAKE_PERF004
+    name: "Precompiled headers"
+    domain: performance
+    severity: info
+    description: "Precompiled headers speed up compilation"
+    rules:
+      - pattern: '\btarget_precompile_headers\s*\('
+        message: "Good - precompiled headers enabled"
+        suggestion: ""
+      - pattern: '\badd_library\s*\([^)]*\)'
+        message: "Consider enabling precompiled headers for large targets"
+        suggestion: "Use target_precompile_headers for frequently included headers"
+
+  - id: CMAKE_PERF005
+    name: "Unity builds"
+    domain: performance
+    severity: info
+    description: "Unity builds can reduce compilation time"
+    rules:
+      - pattern: '\bset_target_properties\s*\([^)]*UNITY_BUILD'
+        message: "Unity build configured - faster compilation"
+        suggestion: "Use UNITY_BUILD ON for faster compilation"
+      - pattern: '\bCMAKE_UNITY_BUILD'
+        message: "Unity build variable detected"
+        suggestion: ""
+
+  - id: CMAKE_PERF006
+    name: "Avoid unnecessary rebuilds"
+    domain: performance
+    severity: warning
+    description: "Dependencies should be properly tracked"
+    rules:
+      - pattern: '\badd_custom_command\s*\([^)]*DEPENDS\s+'
+        message: "Good - custom command has dependencies"
+        suggestion: ""
+      - pattern: '\badd_custom_target\s*\([^)]*$'
+        message: "Custom target without dependencies may cause rebuild issues"
+        suggestion: "Add DEPENDS to track when target needs rebuilding"
+
+  - id: CMAKE_PERF007
+    name: "Cache variable types"
+    domain: performance
+    severity: info
+    description: "Properly typed cache variables improve configure performance"
+    rules:
+      - pattern: '\bset\s*\(\s*\w+\s+[^)]*\s+CACHE\s+(FILEPATH|PATH|BOOL|STRING|INTERNAL)'
+        message: "Good - properly typed cache variable"
+        suggestion: ""
+      - pattern: '\bset\s*\(\s*\w+\s+[^)]*\s+CACHE\b(?!\s+(FILEPATH|PATH|BOOL|STRING|INTERNAL))'
+        message: "Untyped cache variable - specify type"
+        suggestion: "Add type: FILEPATH, PATH, BOOL, STRING, or INTERNAL"
+
+  - id: CMAKE_PERF008
+    name: "Use ccache"
+    domain: performance
+    severity: info
+    description: "Ccache speeds up recompilation"
+    rules:
+      - pattern: '\bCMAKE_CXX_COMPILER_LAUNCHER'
+        message: "Compiler launcher configured - good for ccache"
+        suggestion: ""
+      - pattern: 'find_program\s*\(\s*CCACHE'
+        message: "Ccache lookup - good for faster rebuilds"
+        suggestion: "Enable ccache with CMAKE_CXX_COMPILER_LAUNCHER"
+
+  - id: CMAKE_PERF009
+    name: "Optimize target properties"
+    domain: performance
+    severity: info
+    description: "Set appropriate optimization flags per target"
+    rules:
+      - pattern: '\btarget_compile_options\s*\([^)]*-O[0-3s]'
+        message: "Optimization flag set per target - good"
+        suggestion: ""
+      - pattern: '\bset\s*\(\s*CMAKE_CXX_FLAGS[^)]*-O'
+        message: "Global optimization flags - prefer target-specific"
+        suggestion: "Use target_compile_options instead of global flags"
+
+  - id: CMAKE_PERF010
+    name: "Interface libraries for propagation"
+    domain: performance
+    severity: info
+    description: "Interface libraries efficiently propagate settings"
+    rules:
+      - pattern: '\badd_library\s*\([^)]*INTERFACE'
+        message: "Interface library used - efficient for dependency propagation"
+        suggestion: "Use INTERFACE libraries for header-only or common settings"

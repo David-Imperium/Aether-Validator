@@ -1,0 +1,151 @@
+contracts:
+  - id: GLSL_BP001
+    name: "Consistent Precision Qualifiers"
+    domain: best-practices
+    severity: warning
+    description: "Use precision qualifiers consistently across shader stages"
+    tags:
+      - glsl
+      - best-practices
+      - precision
+    rules:
+      - pattern: 'precision\s+(high|medium|low)p\s+float'
+        message: "Default precision set - ensure consistency across files"
+        suggestion: "Use matching default precision in all shaders of same stage"
+
+  - id: GLSL_BP002
+    name: "Avoid Dynamic Branching"
+    domain: best-practices
+    severity: info
+    description: "Prefer branchless alternatives over if/else"
+    tags:
+      - glsl
+      - best-practices
+      - branching
+      - performance
+    rules:
+      - pattern: 'if\s*\(\s*\w+\s*[<>=!]=?\s*[\d.]+\s*\)\s*\{[^}]*\}\s*else'
+        message: "Branch on uniform - can optimize, but check if mix() is better"
+        suggestion: "Consider: mix(a, b, step(threshold, value)) instead"
+
+  - id: GLSL_BP003
+    name: "Vectorized Operations"
+    domain: best-practices
+    severity: info
+    description: "Prefer vector operations over component-wise scalar ops"
+    tags:
+      - glsl
+      - best-practices
+      - vectorization
+    rules:
+      - pattern: '\w+\.x\s*[+\-*/]=\s*[\d.]+;\s*\w+\.y\s*[+\-*/]='
+        message: "Component-wise operations - vectorize"
+        suggestion: "Use: vec.xy += vec2(value);"
+
+  - id: GLSL_BP004
+    name: "Interpolation Qualifiers"
+    domain: best-practices
+    severity: info
+    description: "Use appropriate interpolation qualifiers for varyings"
+    tags:
+      - glsl
+      - best-practices
+      - interpolation
+    rules:
+      - pattern: 'varying\s+(float|vec|mat)'
+        message: "Varying without interpolation qualifier"
+        suggestion: "Consider flat for integers, smooth (default) for colors, noperspective for screen-space"
+
+  - id: GLSL_BP005
+    name: "Early Fragment Depth"
+    domain: best-practices
+    severity: warning
+    description: "Optimize early depth testing"
+    tags:
+      - glsl
+      - best-practices
+      - depth
+      - optimization
+    rules:
+      - pattern: 'gl_FragDepth\s*=\s*\w+;'
+        message: "Writing gl_FragDepth disables early Z - use gl_FragDepthEXT for layout"
+        suggestion: "Use layout(depth_unchanged) or layout(depth_any) qualifiers"
+
+  - id: GLSL_BP006
+    name: "Half Float Preference"
+    domain: best-practices
+    severity: info
+    description: "Use mediump/half precision where full precision not needed"
+    tags:
+      - glsl
+      - best-practices
+      - precision
+      - mobile
+    rules:
+      - pattern: 'highp\s+(float|vec[234])\s+\w+\s*;'
+        message: "highp for all floats - may be overkill for colors/normals"
+        suggestion: "Use mediump for colors, normals on mobile platforms"
+
+  - id: GLSL_BP007
+    name: "Constant Folding"
+    domain: best-practices
+    severity: info
+    description: "Precompute constant expressions at compile time"
+    tags:
+      - glsl
+      - best-practices
+      - optimization
+      - constants
+    rules:
+      - pattern: 'const\s+\w+\s+\w+\s*=\s*[\d.]+\s*[\+\-*/]\s*[\d.]+;'
+        message: "Const initialized with arithmetic - precompute value"
+        suggestion: "Evaluate constant at compile time: const float X = 0.5;"
+
+  - id: GLSL_BP008
+    name: "Uniform Buffer Alignment"
+    domain: best-practices
+    severity: warning
+    description: "Follow std140/std430 alignment rules for uniform buffers"
+    tags:
+      - glsl
+      - best-practices
+      - ubo
+      - alignment
+    rules:
+      - pattern: 'layout\s*\(\s*std140\s*\)\s*uniform'
+        message: "std140 layout - ensure vec3/vec4 alignment (16 bytes)"
+        suggestion: "Pad structs or use std430 for tight packing where supported"
+      - pattern: 'layout\s*\(\s*std430\s*\)\s*buffer'
+        message: "std430 SSBO - verify alignment matches CPU-side struct"
+        suggestion: "Match CPU struct padding or use explicit offset qualifiers"
+
+  - id: GLSL_BP009
+    name: "Swizzle for Free Operations"
+    domain: best-practices
+    severity: info
+    description: "Use swizzling for component rearrangement (free on GPU)"
+    tags:
+      - glsl
+      - best-practices
+      - swizzle
+    rules:
+      - pattern: 'vec[234]\s*\(\s*\w+\.x\s*,\s*\w+\.y\s*\)'
+        message: "Manual component extraction - use swizzle"
+        suggestion: "Use: vec2(v.xy) or v.xy directly"
+
+  - id: GLSL_BP010
+    name: "Built-in Functions over Custom"
+    domain: best-practices
+    severity: info
+    description: "Prefer GLSL built-ins over manual implementations"
+    tags:
+      - glsl
+      - best-practices
+      - builtins
+    rules:
+      - pattern: '\w+\s*\*\s*\w+\s*\+\s*\(\s*1\s*-\s*\w+\s*\)\s*\*\s*\w+'
+        message: "Manual lerp - use mix() built-in"
+        suggestion: "Use: mix(a, b, t) instead of a*t + (1-t)*b"
+      - pattern: 'sqrt\s*\(\s*\w+\s*\*\s*\w+\s*\)'
+        message: "Manual length - use length() built-in"
+        suggestion: "Use: length(v) instead of sqrt(v.x*v.x + v.y*v.y)"

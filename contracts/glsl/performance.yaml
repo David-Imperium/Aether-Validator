@@ -1,0 +1,143 @@
+contracts:
+  - id: GLSL001
+    name: "Discard in Fragment Loop"
+    domain: performance
+    severity: warning
+    description: "discard in loops prevents early Z optimization"
+    tags:
+      - glsl
+      - performance
+      - early-z
+    rules:
+      - pattern: 'for\s*\([^)]*\)[^}]*discard'
+        message: "discard inside loop hurts GPU performance"
+        suggestion: "Move discard outside loop if possible"
+
+  - id: GLSL002
+    name: "Texture Fetch in Loop"
+    domain: performance
+    severity: info
+    description: "Texture fetches in loops are expensive"
+    tags:
+      - glsl
+      - performance
+      - texture
+    rules:
+      - pattern: 'for\s*\([^)]*\)[^}]*texture\s*\('
+        message: "texture() inside loop - consider pre-fetching"
+        suggestion: "Fetch textures before loop when possible"
+
+  - id: GLSL003
+    name: "Branch Divergence"
+    domain: performance
+    severity: info
+    description: "Conditional branches can hurt parallelism"
+    tags:
+      - glsl
+      - performance
+      - branching
+    rules:
+      - pattern: 'if\s*\([^)]*\w+[^)]*\)[^}]*else'
+        message: "Branch with varying condition causes divergence"
+        suggestion: "Use step/mix for branchless alternatives"
+
+  - id: GLSL004
+    name: "Dynamic Loop Bounds"
+    domain: performance
+    severity: info
+    description: "Non-constant loop bounds prevent unrolling"
+    tags:
+      - glsl
+      - performance
+      - loops
+    rules:
+      - pattern: 'for\s*\([^;]*<\s*\w+[^)]*\)'
+        message: "Loop with variable bound may not unroll"
+        suggestion: "Use constant loop bounds when possible"
+
+  - id: GLSL005
+    name: "High Precision Fragment"
+    domain: performance
+    severity: warning
+    description: "highp in fragment shader is often unnecessary"
+    tags:
+      - glsl
+      - performance
+      - precision
+    rules:
+      - pattern: 'highp\s+(float|vec|mat|ivec)'
+        message: "highp precision in fragment - may be overkill"
+        suggestion: "Use mediump for fragment colors unless needed"
+
+  - id: GLSL006
+    name: "sin/cos Instead of sincos"
+    domain: performance
+    severity: info
+    description: "Separate sin and cos calls are less efficient"
+    tags:
+      - glsl
+      - performance
+      - math
+    rules:
+      - pattern: 'sin\s*\([^)]+\)[^;]*cos\s*\(\1\)'
+        message: "sin and cos of same angle - use sincos if available"
+        suggestion: "Some GPUs have sincos() - check availability"
+
+  - id: GLSL007
+    name: "Dependent Texture Reads"
+    domain: performance
+    severity: warning
+    description: "Texture coordinates calculated in shader are slower"
+    tags:
+      - glsl
+      - performance
+      - texture
+    rules:
+      - pattern: 'texture\s*\([^,]+,\s*[^uU][a-z]+\s*[\+\-\*]'
+        message: "Texture coordinate calculated in shader"
+        suggestion: "Pre-calculate coordinates in vertex shader when possible"
+
+  - id: GLSL008
+    name: "Pow for Integer Exponents"
+    domain: performance
+    severity: info
+    description: "pow(x, n) for integer n is slower than multiplication"
+    tags:
+      - glsl
+      - performance
+      - math
+    rules:
+      - pattern: 'pow\s*\([^,]+,\s*2\.0\s*\)'
+        message: "pow(x, 2.0) - use x*x instead"
+        suggestion: "Use direct multiplication: x*x for squaring"
+      - pattern: 'pow\s*\([^,]+,\s*3\.0\s*\)'
+        message: "pow(x, 3.0) - use x*x*x instead"
+        suggestion: "Use direct multiplication: x*x*x for cubing"
+
+  - id: GLSL009
+    name: "Non-Constant Array Index"
+    domain: performance
+    severity: warning
+    description: "Variable array indexing into uniform arrays is slow"
+    tags:
+      - glsl
+      - performance
+      - arrays
+    rules:
+      - pattern: 'uniform\s+\w+\s+\w+\s*\[[^]]+\][^}]*\w+\s*\[\s*\w+\s*\]'
+        message: "Variable index into uniform array"
+        suggestion: "Consider texture lookup or constant index"
+
+  - id: GLSL010
+    name: "Expensive Normalize"
+    domain: performance
+    severity: info
+    description: "normalize() in fragment shader is expensive"
+    tags:
+      - glsl
+      - performance
+      - math
+    rules:
+      - pattern: 'normalize\s*\([^)]+\)'
+        message: "normalize() has sqrt - use in vertex shader if possible"
+        suggestion: "Pass normalized vectors from vertex shader"

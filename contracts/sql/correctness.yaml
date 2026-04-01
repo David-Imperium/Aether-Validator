@@ -1,0 +1,143 @@
+contracts:
+  - id: SQL_CORR001
+    name: "Ambiguous Column Reference"
+    domain: correctness
+    severity: error
+    description: "Column name exists in multiple tables without alias"
+    tags:
+      - sql
+      - correctness
+      - ambiguity
+    rules:
+      - pattern: '(?i)JOIN\s+\w+\s+ON\s+[^.]+\s*='
+        message: "Column reference may be ambiguous in multi-table query"
+        suggestion: "Use table alias: t1.column = t2.column"
+
+  - id: SQL_CORR002
+    name: "NULL Comparison"
+    domain: correctness
+    severity: error
+    description: "Comparing with NULL using = always returns NULL"
+    tags:
+      - sql
+      - correctness
+      - null-handling
+    rules:
+      - pattern: '(?i)=\s*NULL\b'
+        message: "= NULL is always NULL, use IS NULL"
+        suggestion: "Use: column IS NULL or column IS NOT NULL"
+      - pattern: '(?i)!=\s*NULL\b'
+        message: "!= NULL is always NULL, use IS NOT NULL"
+        suggestion: "Use: column IS NOT NULL"
+
+  - id: SQL_CORR003
+    name: "Missing GROUP BY Column"
+    domain: correctness
+    severity: error
+    description: "SELECT column not in GROUP BY or aggregate"
+    tags:
+      - sql
+      - correctness
+      - group-by
+    rules:
+      - pattern: '(?i)SELECT\s+\w+(?![^,]*GROUP BY)'
+        message: "Verify non-aggregate columns are in GROUP BY"
+        suggestion: "Add column to GROUP BY or use aggregate function"
+
+  - id: SQL_CORR004
+    name: "HAVING without GROUP BY"
+    domain: correctness
+    severity: error
+    description: "HAVING clause requires GROUP BY"
+    tags:
+      - sql
+      - correctness
+      - group-by
+    rules:
+      - pattern: '(?i)HAVING\s+(?!.*GROUP\s+BY)'
+        message: "HAVING without GROUP BY - use WHERE instead"
+        suggestion: "Replace HAVING with WHERE or add GROUP BY"
+
+  - id: SQL_CORR005
+    name: "Self-Join Without Alias"
+    domain: correctness
+    severity: error
+    description: "Self-join requires table aliases"
+    tags:
+      - sql
+      - correctness
+      - joins
+    rules:
+      - pattern: '(?i)FROM\s+(\w+)\s+(LEFT\s+|RIGHT\s+|INNER\s+)?JOIN\s+\1\s'
+        message: "Self-join without aliases"
+        suggestion: "Use aliases: FROM table t1 JOIN table t2 ON ..."
+
+  - id: SQL_CORR006
+    name: "ORDER BY in Subquery"
+    domain: correctness
+    severity: warning
+    description: "ORDER BY in subquery without LIMIT is meaningless"
+    tags:
+      - sql
+      - correctness
+      - subqueries
+    rules:
+      - pattern: '(?i)\(SELECT[^)]*ORDER\s+BY[^)]*\)(?!.*LIMIT)'
+        message: "ORDER BY in subquery without LIMIT"
+        suggestion: "Remove ORDER BY or add LIMIT, or move to outer query"
+
+  - id: SQL_CORR007
+    name: "Division by Zero Risk"
+    domain: correctness
+    severity: warning
+    description: "Division by column that could be zero"
+    tags:
+      - sql
+      - correctness
+      - arithmetic
+    rules:
+      - pattern: '(?i)/\s*\w+\s*(?!,|\sFROM)'
+        message: "Division - verify denominator cannot be zero"
+        suggestion: "Use NULLIF: numerator / NULLIF(denominator, 0)"
+
+  - id: SQL_CORR008
+    name: "Count with Nullable"
+    domain: correctness
+    severity: warning
+    description: "COUNT(column) ignores NULLs, COUNT(*) counts all rows"
+    tags:
+      - sql
+      - correctness
+      - aggregates
+    rules:
+      - pattern: '(?i)COUNT\s*\(\s*\w+\s*\)'
+        message: "COUNT(column) excludes NULLs - verify intent"
+        suggestion: "Use COUNT(*) for total rows or COUNT(column) for non-nulls"
+
+  - id: SQL_CORR009
+    name: "Float Equality Comparison"
+    domain: correctness
+    severity: warning
+    description: "Floating point equality is unreliable"
+    tags:
+      - sql
+      - correctness
+      - floating-point
+    rules:
+      - pattern: '(?i)(FLOAT|DOUBLE|REAL)\s+[^=]*=\s*[0-9]+\.'
+        message: "Float equality comparison is unreliable"
+        suggestion: "Use range: ABS(value - target) < epsilon"
+
+  - id: SQL_CORR010
+    name: "Missing Transaction"
+    domain: correctness
+    severity: warning
+    description: "Multiple related statements without transaction"
+    tags:
+      - sql
+      - correctness
+      - transactions
+    rules:
+      - pattern: '(?i)(UPDATE|DELETE|INSERT)[^;]*(UPDATE|DELETE|INSERT)'
+        message: "Multiple modifications - consider wrapping in transaction"
+        suggestion: "BEGIN TRANSACTION; ... COMMIT; for atomicity"

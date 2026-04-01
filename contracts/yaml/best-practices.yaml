@@ -1,0 +1,106 @@
+contracts:
+  - id: YAMLBP001
+    name: "Unused anchor"
+    domain: best-practices
+    severity: warning
+    description: "Anchors should be used to avoid duplication"
+    rules:
+      - pattern: '&[\w-]+'
+        message: "Anchor defined but may not be referenced"
+        suggestion: "Ensure all anchors have corresponding aliases"
+
+  - id: YAMLBP002
+    name: "Duplicate content instead of alias"
+    domain: best-practices
+    severity: warning
+    description: "Repeated content should use aliases"
+    rules:
+      - pattern: '^[a-zA-Z_]+:\s*([^#\n]+)\n(.|\n)*\1\s*$'
+        message: "Duplicate content detected"
+        suggestion: "Use anchors (&) and aliases (*) to avoid duplication"
+
+  - id: YAMLBP003
+    name: "Missing document separator"
+    domain: best-practices
+    severity: info
+    description: "Multi-document files should use --- separators"
+    rules:
+      - pattern: '^[a-zA-Z_]+:.*\n\n[a-zA-Z_]+:'
+        message: "Multiple documents without separator"
+        suggestion: "Use --- to separate documents"
+
+  - id: YAMLBP004
+    name: "Redundant document separator"
+    domain: best-practices
+    severity: info
+    description: "Single documents don't need end separator"
+    rules:
+      - pattern: '^---\s*\n(.|\n)*\n---\s*$'
+        message: "End document marker in single document"
+        suggestion: "Remove ... or end --- for single documents"
+
+  - id: YAMLBP005
+    name: "Line length exceeded"
+    domain: best-practices
+    severity: warning
+    description: "Lines should not exceed 120 characters"
+    rules:
+      - pattern: '.{121,}'
+        message: "Line exceeds 120 characters"
+        suggestion: "Break long lines or use multiline string syntax"
+
+  - id: YAMLBP006
+    name: "Unquoted string with special chars"
+    domain: best-practices
+    severity: warning
+    description: "Strings with special chars should be quoted"
+    rules:
+      - pattern: ':\s*[^\s"\']*[:{}\[&*#?|<>=%@`]'
+        message: "Unquoted string may need quoting"
+        suggestion: "Quote strings containing special characters"
+
+  - id: YAMLBP007
+    name: "Inconsistent boolean style"
+    domain: best-practices
+    severity: info
+    description: "Boolean values should consistently use true/false"
+    rules:
+      - pattern: ':\s*(yes|no|on|off|Yes|No|On|Off|YES|NO)\s*$'
+        message: "Non-standard boolean representation"
+        suggestion: "Use lowercase true/false for consistency"
+
+  - id: YAMLBP008
+    name: "Null value inconsistency"
+    domain: best-practices
+    severity: info
+    description: "Null values should use consistent notation"
+    rules:
+      - pattern: '^[a-zA-Z_]+:\s*$'
+        message: "Implicit null (empty value)"
+        suggestion: "Use explicit null or ~ for clarity"
+      - pattern: '^[a-zA-Z_]+:\s*null\s*$'
+        message: "Explicit null - good"
+        suggestion: "Maintain consistent null notation throughout"
+
+  - id: YAMLBP009
+    name: "Inappropriate multiline style"
+    domain: best-practices
+    severity: info
+    description: "Use | for literal, > for folded multiline strings"
+    rules:
+      - pattern: '\|\s*\n\s{2,}[^\n]*\n\s{2,}[^\n]*\n\s{2,}[^\n]*\n\s{2,}'
+        message: "Literal block with many lines"
+        suggestion: "Consider if folded style (>) is more appropriate"
+      - pattern: '>\s*\n\s{2,}[^\n]*\n\s{2,}$'
+        message: "Folded block with few lines"
+        suggestion: "Consider literal style (|) for short content"
+
+  - id: YAMLBP010
+    name: "Key ordering inconsistency"
+    domain: best-practices
+    severity: info
+    description: "Keys should follow consistent ordering"
+    rules:
+      - pattern: '^[a-zA-Z_]+:\s*\n(\s{2}[a-z_]+:\s*.*\n)+'
+        message: "Check key ordering pattern"
+        suggestion: "Order keys alphabetically or by logical grouping"

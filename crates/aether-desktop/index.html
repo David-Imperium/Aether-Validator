@@ -7,291 +7,264 @@
     <link rel="stylesheet" href="/src/styles.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Navigation -->
-        <nav class="nav">
-            <div class="nav-brand">
-                <span class="logo">⚡</span>
-                <span class="brand-text">Aether</span>
+    <div id="app" class="vscode-layout">
+        
+        <!-- 1. TITLEBAR -->
+        <header class="titlebar">
+            <div class="window-controls">
+                <div class="dot close"></div>
+                <div class="dot minimize"></div>
+                <div class="dot maximize"></div>
             </div>
-            <div class="nav-tabs">
-                <button class="nav-tab active" data-tab="wizard">Setup</button>
-                <button class="nav-tab" data-tab="validate">Validate</button>
-                <button class="nav-tab" data-tab="settings">Settings</button>
-                <button class="nav-tab" data-tab="status">Status</button>
+            
+            <div class="title-logo">
+                <svg class="logo-icon" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor" class="logo-thunder"/>
+                </svg>
+                <span class="logo-text">AETHER</span>
             </div>
-        </nav>
+            
+            <div class="search-bar" id="search-bar">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <span>Search files or run commands</span>
+            </div>
+            
+            <div class="live-badge">
+                <span class="pulse-dot"></span> live
+            </div>
+        </header>
 
-        <!-- Setup Wizard Tab -->
-        <div id="wizard-tab" class="tab-content active">
-            <div class="wizard">
-                <h1>Welcome to Aether</h1>
-                <p class="subtitle">Select the AI tools you use - we'll configure validation automatically</p>
+        <div class="main-workspace">
+            
+            <!-- 2. ACTIVITY BAR -->
+            <nav class="activity-bar">
+                <div class="top-actions">
+                    <button class="action-btn active" data-view="explorer" title="Explorer">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 3h6v6H3zM3 15h6v6H3zM15 3h6v6h-6zM15 15h6v6h-6z"/>
+                        </svg>
+                    </button>
+                    <div class="badge-wrapper">
+                        <button class="action-btn" data-view="problems" title="Problems">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+                            </svg>
+                        </button>
+                        <span class="badge" id="activity-problem-badge" style="display:none;">0</span>
+                    </div>
+                </div>
+                <div class="bottom-actions">
+                    <button class="action-btn" data-view="settings" title="Settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
 
-                <div class="wizard-section">
-                    <h2>1. AI Tools</h2>
-                    <p class="section-hint">Select the AI coding assistants you use</p>
-                    <div class="tools-grid">
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="droid">
-                            <div class="tool-icon">🤖</div>
-                            <div class="tool-name">Droid (Factory)</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="claude-code">
-                            <div class="tool-icon">🧠</div>
-                            <div class="tool-name">Claude Code</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="gemini-cli">
-                            <div class="tool-icon">✨</div>
-                            <div class="tool-name">Gemini CLI</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="cursor">
-                            <div class="tool-icon">🖱️</div>
-                            <div class="tool-name">Cursor</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="copilot">
-                            <div class="tool-icon">✈️</div>
-                            <div class="tool-name">GitHub Copilot</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="aider">
-                            <div class="tool-icon">🤝</div>
-                            <div class="tool-name">Aider</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="windsurf">
-                            <div class="tool-icon">🌊</div>
-                            <div class="tool-name">Windsurf</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="cline">
-                            <div class="tool-icon">📝</div>
-                            <div class="tool-name">Cline</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="codex">
-                            <div class="tool-icon">🔷</div>
-                            <div class="tool-name">OpenAI Codex</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="ollama">
-                            <div class="tool-icon">🦙</div>
-                            <div class="tool-name">Ollama</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="lm-studio">
-                            <div class="tool-icon">🏠</div>
-                            <div class="tool-name">LM Studio</div>
-                            <div class="tool-method">File Watcher</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="openai-api">
-                            <div class="tool-icon">🟢</div>
-                            <div class="tool-name">OpenAI API</div>
-                            <div class="tool-method">HTTP Proxy</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="anthropic-api">
-                            <div class="tool-icon">🟣</div>
-                            <div class="tool-name">Anthropic API</div>
-                            <div class="tool-method">HTTP Proxy</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="other">
-                            <div class="tool-icon">⚙️</div>
-                            <div class="tool-name">Other</div>
-                            <div class="tool-method">Manual</div>
-                        </label>
+            <!-- 3. SIDEBAR -->
+            <aside class="sidebar" id="sidebar">
+                
+                <!-- Explorer View -->
+                <div class="sidebar-view" id="view-explorer">
+                    <div class="sidebar-header">
+                        <h2>EXPLORER</h2>
+                        <div class="sidebar-actions">
+                            <button class="icon-btn" id="btn-refresh-tree" title="Refresh">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" id="btn-collapse-all" title="Collapse All">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 15l-6-6-6 6"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="file-tree" id="file-tree">
+                        <!-- Populated by JS -->
                     </div>
                 </div>
 
-                <div class="wizard-section">
-                    <h2>2. Languages</h2>
-                    <div class="checkbox-group horizontal">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="lang-rust" checked>
-                            <span class="checkmark"></span>
-                            <span>Rust</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="lang-python" checked>
-                            <span class="checkmark"></span>
-                            <span>Python</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="lang-js">
-                            <span class="checkmark"></span>
-                            <span>JavaScript</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="lang-ts">
-                            <span class="checkmark"></span>
-                            <span>TypeScript</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="lang-cpp">
-                            <span class="checkmark"></span>
-                            <span>C++</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="lang-go">
-                            <span class="checkmark"></span>
-                            <span>Go</span>
-                        </label>
+                <!-- Settings View -->
+                <div class="sidebar-view" id="view-settings" style="display: none;">
+                    <div class="sidebar-header">
+                        <h2>SETTINGS</h2>
+                    </div>
+                    <div class="settings-nav" id="settings-nav">
+                        <button class="setting-nav-btn active" data-section="languages">Languages</button>
+                        <button class="setting-nav-btn" data-section="watcher">Watcher</button>
+                        <button class="setting-nav-btn" data-section="mode">Mode</button>
+                    </div>
+                    <div class="settings-content" id="settings-content">
+                        <!-- Populated by JS -->
                     </div>
                 </div>
 
-                <div class="wizard-section">
-                    <h2>3. Validation Level</h2>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="severity" value="basic">
-                            <span class="radiomark"></span>
-                            <div class="label-content">
-                                <strong>Basic</strong>
-                                <small>Only critical errors</small>
-                            </div>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="severity" value="standard" checked>
-                            <span class="radiomark"></span>
-                            <div class="label-content">
-                                <strong>Standard</strong>
-                                <small>Errors + Warnings</small>
-                            </div>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="severity" value="strict">
-                            <span class="radiomark"></span>
-                            <div class="label-content">
-                                <strong>Strict</strong>
-                                <small>Military grade validation</small>
-                            </div>
-                        </label>
+            </aside>
+
+            <!-- 4. EDITOR AREA -->
+            <main class="editor-area">
+                
+                <div class="tabs-bar" id="editor-tabs">
+                    <button class="tab-add" title="Manual Scan" id="btn-manual-scan">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Code View -->
+                <div class="code-view-container" id="code-view" style="display: none;">
+                    <div class="line-numbers" id="line-numbers"></div>
+                    <div class="code-content" id="code-content">
+                        <div class="empty-state">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <p>Open a file to view content</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Manual Scan View -->
+                <div class="manual-scan-container" id="manual-scan-view" style="display: none;">
+                    <div class="scan-header">
+                        <h2>Manual Scan</h2>
+                        <select id="language-select" class="aether-select">
+                            <option value="auto">Auto-detect</option>
+                            <optgroup label="Core">
+                                <option value="rust">Rust</option>
+                                <option value="python">Python</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="typescript">TypeScript</option>
+                                <option value="cpp">C++</option>
+                                <option value="c">C</option>
+                                <option value="go">Go</option>
+                                <option value="java">Java</option>
+                                <option value="lua">Lua</option>
+                            </optgroup>
+                            <optgroup label="Web">
+                                <option value="css">CSS</option>
+                                <option value="html">HTML</option>
+                                <option value="json">JSON</option>
+                                <option value="yaml">YAML</option>
+                            </optgroup>
+                            <optgroup label="Graphics">
+                                <option value="glsl">GLSL</option>
+                            </optgroup>
+                            <optgroup label="Custom">
+                                <option value="lex">Lex</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <textarea id="code-input" placeholder="Paste code here or drag & drop a file..."></textarea>
+                    <div class="scan-actions">
+                        <button id="validate-btn" class="btn btn-primary">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            Validate Code
+                        </button>
+                        <button id="clear-btn" class="btn btn-secondary">Clear</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- 5. PROBLEMS PANEL -->
+        <div class="problems-panel" id="problems-panel">
+            <div class="panel-header">
+                <div class="panel-tabs">
+                    <button class="panel-tab active" data-panel="problems">PROBLEMS</button>
+                    <button class="panel-tab" data-panel="output">OUTPUT</button>
+                </div>
+                <div class="panel-actions">
+                    <select class="aether-select" id="filter-severity">
+                        <option value="all">All</option>
+                        <option value="error">Errors</option>
+                        <option value="warning">Warnings</option>
+                    </select>
+                    <button class="icon-btn" id="btn-clear-problems" title="Clear All">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </button>
+                    <button class="icon-btn toggle-panel-btn" title="Collapse">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="panel-content" id="panel-problems">
+                <div class="problem-category expanded" data-category="new">
+                    <div class="category-header">
+                        <span class="chevron">▾</span> 
+                        <span class="category-title">Introdotti ora</span>
+                        <span class="category-count" id="new-errors-count">0</span>
+                    </div>
+                    <div class="category-items" id="new-errors-list">
+                        <div class="empty-category">No new issues</div>
                     </div>
                 </div>
 
-                <div class="wizard-section">
-                    <h2>4. Auto-fix</h2>
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="auto-fix">
-                        <span class="checkmark"></span>
-                        <span>Attempt automatic fixes when possible</span>
-                    </label>
+                <div class="problem-category" data-category="prex">
+                    <div class="category-header">
+                        <span class="chevron">▸</span> 
+                        <span class="category-title">Preesistenti</span>
+                        <span class="category-count" id="prex-errors-count">0</span>
+                    </div>
+                    <div class="category-items" id="prex-errors-list" style="display:none;">
+                        <div class="empty-category">No pre-existing issues</div>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="panel-content" id="panel-output" style="display: none;">
+                <div id="output-log"></div>
+            </div>
+        </div>
 
-                <div class="wizard-info">
-                    <p>Everything stays local. No data leaves your computer.</p>
+        <!-- 6. STATUS BAR -->
+        <footer class="status-bar">
+            <div class="status-left">
+                <button class="status-item watcher" id="status-watcher">
+                    <span class="status-dot"></span>
+                    <span class="status-text">watcher fermo</span>
+                </button>
+                <div class="status-item error-count" id="status-errors">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                    <span>0</span>
                 </div>
-
-                <button id="apply-config" class="btn btn-primary btn-large">
-                    Start Validation
+                <div class="status-item warning-count" id="status-warnings">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/>
+                    </svg>
+                    <span>0</span>
+                </div>
+            </div>
+            
+            <div class="status-right">
+                <div class="status-item" id="status-file">-</div>
+                <div class="status-item" id="status-lang">-</div>
+                <button class="status-btn" id="btn-fix-all" title="Fix all auto-fixable issues">
+                    Fix All
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                    </svg>
                 </button>
             </div>
-        </div>
+        </footer>
 
-        <!-- Validate Tab -->
-        <div id="validate-tab" class="tab-content">
-            <div class="validate-container">
-                <h2>Validate Code</h2>
-                <div class="editor-section">
-                    <label for="code-input">Paste code to validate:</label>
-                    <select id="language-select">
-                        <option value="rust">Rust</option>
-                        <option value="python">Python</option>
-                        <option value="javascript">JavaScript</option>
-                        <option value="typescript">TypeScript</option>
-                    </select>
-                </div>
-                <textarea id="code-input" placeholder="fn main() { let x = option.unwrap(); }"></textarea>
-                <button id="validate-btn" class="btn btn-primary">Validate</button>
-
-                <div id="validation-results" class="results hidden">
-                    <div class="result-header">
-                        <span id="result-status"></span>
-                        <span id="result-count"></span>
-                    </div>
-                    <div id="error-list" class="error-list"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Settings Tab -->
-        <div id="settings-tab" class="tab-content">
-            <div class="settings-container">
-                <h2>Settings</h2>
-
-                <div class="settings-section">
-                    <h3>Proxy</h3>
-                    <div class="setting-row">
-                        <label>Port:</label>
-                        <input type="number" id="proxy-port" value="8080" min="1024" max="65535">
-                    </div>
-                    <div class="setting-row">
-                        <button id="toggle-proxy" class="btn btn-secondary">Start Proxy</button>
-                        <span id="proxy-status" class="status-badge offline">Stopped</span>
-                    </div>
-                </div>
-
-                <div class="settings-section">
-                    <h3>File Watcher</h3>
-                    <div class="setting-row">
-                        <label>Watch paths:</label>
-                        <input type="text" id="watcher-paths" value="src" placeholder="src,lib,app">
-                    </div>
-                    <div class="setting-row">
-                        <button id="toggle-watcher" class="btn btn-secondary">Start Watcher</button>
-                        <span id="watcher-status" class="status-badge offline">Stopped</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Status Tab -->
-        <div id="status-tab" class="tab-content">
-            <div class="status-container">
-                <h2>System Status</h2>
-
-                <div class="status-grid">
-                    <div class="status-card">
-                        <h3>Proxy Server</h3>
-                        <div id="proxy-status-card" class="status-value">Stopped</div>
-                        <p>Listens on localhost:8080</p>
-                    </div>
-                    <div class="status-card">
-                        <h3>File Watcher</h3>
-                        <div id="watcher-status-card" class="status-value">Stopped</div>
-                        <p>Monitoring project files</p>
-                    </div>
-                    <div class="status-card">
-                        <h3>Version</h3>
-                        <div id="version-display" class="status-value">-</div>
-                        <p>Aether Desktop</p>
-                    </div>
-                </div>
-
-                <div class="logs-section">
-                    <h3>Recent Activity</h3>
-                    <div id="activity-log" class="activity-log">
-                        <div class="log-entry">System initialized</div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script type="module" src="/src/main.js"></script>

@@ -1,0 +1,127 @@
+contracts:
+  - id: PRISM_CORR001
+    name: "Shader Compilation Check"
+    domain: correctness
+    severity: error
+    description: "Always check shader compilation status"
+    rules:
+      - pattern: 'glCompileShader\s*\('
+        message: "Must check compilation status after compile"
+        suggestion: "Use glGetShaderiv with GL_COMPILE_STATUS"
+      - pattern: 'glLinkProgram\s*\('
+        message: "Must check link status after link"
+        suggestion: "Use glGetProgramiv with GL_LINK_STATUS"
+
+  - id: PRISM_CORR002
+    name: "Buffer Binding Validation"
+    domain: correctness
+    severity: error
+    description: "Ensure buffers are bound before use"
+    rules:
+      - pattern: 'glDrawArrays\s*\('
+        message: "Ensure VAO and buffers are bound"
+        suggestion: "Verify glBindVertexArray called"
+      - pattern: 'glVertexAttribPointer\s*\('
+        message: "Ensure buffer bound to GL_ARRAY_BUFFER"
+        suggestion: "Check glBindBuffer called before"
+
+  - id: PRISM_CORR003
+    name: "Texture Completeness"
+    domain: correctness
+    severity: error
+    description: "Ensure textures are complete"
+    rules:
+      - pattern: 'glTexImage2D\s*\('
+        message: "Define all required mip levels"
+        suggestion: "Use glGenerateMipmap or set GL_TEXTURE_MAX_LEVEL"
+      - pattern: 'glBindTexture\s*\('
+        message: "Verify texture is complete before sampling"
+        suggestion: "Set required texture parameters"
+
+  - id: PRISM_CORR004
+    name: "Framebuffer Completeness"
+    domain: correctness
+    severity: error
+    description: "Check framebuffer status"
+    rules:
+      - pattern: 'glFramebufferTexture2D\s*\('
+        message: "Must check framebuffer completeness"
+        suggestion: "Use glCheckFramebufferStatus"
+      - pattern: 'glDrawBuffers\s*\('
+        message: "Verify attachment formats support drawing"
+        suggestion: "Check GL_COLOR_ATTACHMENT0 support"
+
+  - id: PRISM_CORR005
+    name: "Index Buffer Bounds"
+    domain: correctness
+    severity: error
+    description: "Verify index buffer range"
+    rules:
+      - pattern: 'glDrawElements\s*\('
+        message: "Verify index count and vertex buffer size"
+        suggestion: "Ensure indices < vertex count"
+      - pattern: 'glDrawRangeElements\s*\('
+        message: "Verify range is within buffer bounds"
+        suggestion: "Ensure end < vertex buffer size"
+
+  - id: PRISM_CORR006
+    name: "Uniform Location Check"
+    domain: correctness
+    severity: warning
+    description: "Check uniform location before setting"
+    rules:
+      - pattern: 'glGetUniformLocation\s*\('
+        message: "Check return value != -1"
+        suggestion: "Store location and check validity"
+      - pattern: 'glUniform.*\s*\(\s*-1'
+        message: "Invalid uniform location -1"
+        suggestion: "Check location before glUniform call"
+
+  - id: PRISM_CORR007
+    name: "Texture Unit Activation"
+    domain: correctness
+    severity: error
+    description: "Activate texture unit before binding"
+    rules:
+      - pattern: 'glBindTexture\s*\('
+        message: "Ensure glActiveTexture called first"
+        suggestion: "Call glActiveTexture before glBindTexture"
+
+  - id: PRISM_CORR008
+    name: "VAO Attribute Enable"
+    domain: correctness
+    severity: error
+    description: "Enable vertex attributes in VAO"
+    rules:
+      - pattern: 'glVertexAttribPointer\s*\('
+        message: "Must call glEnableVertexAttribArray"
+        suggestion: "Enable attribute after setting pointer"
+      - pattern: 'glDisableVertexAttribArray\s*\('
+        message: "Disable only when attribute not needed"
+        suggestion: "Keep attributes enabled if used"
+
+  - id: PRISM_CORR009
+    name: "Shader Precision Qualifiers"
+    domain: correctness
+    severity: warning
+    description: "Use appropriate precision in shaders"
+    rules:
+      - pattern: 'highp\s+float'
+        message: "highp may not be supported on mobile"
+        suggestion: "Use mediump where possible"
+      - pattern: 'lowp\s+float'
+        message: "lowp may have precision issues"
+        suggestion: "Use mediump for better quality"
+
+  - id: PRISM_CORR010
+    name: "Depth Buffer Configuration"
+    domain: correctness
+    severity: warning
+    description: "Ensure depth test configured correctly"
+    rules:
+      - pattern: 'glEnable\s*\(\s*GL_DEPTH_TEST'
+        message: "Verify depth func and clear value"
+        suggestion: "Set glDepthFunc and clear depth"
+      - pattern: 'glDepthMask\s*\(\s*GL_FALSE'
+        message: "Depth writes disabled - verify intentional"
+        suggestion: "Re-enable for opaque geometry"

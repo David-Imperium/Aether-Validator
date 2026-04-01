@@ -1,0 +1,127 @@
+contracts:
+  - id: PRISM_PERF001
+    name: "Avoid Pipeline State Changes"
+    domain: performance
+    severity: warning
+    description: "Minimize pipeline state changes"
+    rules:
+      - pattern: 'glUseProgram\s*\('
+        message: "Shader program change is expensive"
+        suggestion: "Batch draw calls with same shader"
+      - pattern: 'glBindTexture\s*\('
+        message: "Texture binding is expensive"
+        suggestion: "Use texture arrays or bindless textures"
+      - pattern: 'glBindVertexArray\s*\('
+        message: "VAO binding is expensive"
+        suggestion: "Minimize VAO switches"
+
+  - id: PRISM_PERF002
+    name: "Avoid Dynamic Memory in Render Loop"
+    domain: performance
+    severity: error
+    description: "No allocations during rendering"
+    rules:
+      - pattern: 'new\s+\w+.*\(.*render.*\)'
+        message: "Memory allocation in render path"
+        suggestion: "Pre-allocate resources"
+      - pattern: 'malloc\s*\('
+        message: "malloc in render loop is slow"
+        suggestion: "Use frame allocator or pool"
+
+  - id: PRISM_PERF003
+    name: "Uniform Buffer Alignment"
+    domain: performance
+    severity: warning
+    description: "Ensure uniform buffer alignment"
+    rules:
+      - pattern: 'struct\s+\w+\s*\{[^}]*float\s+\w+;\s*float\s+\w+;'
+        message: "Consider vec4 alignment for uniforms"
+        suggestion: "Pad structs to 16-byte alignment"
+
+  - id: PRISM_PERF004
+    name: "Texture Format Efficiency"
+    domain: performance
+    severity: info
+    description: "Use optimal texture formats"
+    rules:
+      - pattern: 'GL_RGBA8'
+        message: "Consider compressed formats for color textures"
+        suggestion: "Use BC/DXT compression for diffuse maps"
+      - pattern: 'GL_RGB'
+        message: "RGB format may be converted - use RGBA"
+        suggestion: "Prefer GL_RGBA8 for compatibility"
+
+  - id: PRISM_PERF005
+    name: "Avoid Branch Divergence"
+    domain: performance
+    severity: warning
+    description: "Minimize branching in shaders"
+    rules:
+      - pattern: 'if\s*\('
+        message: "Branch in shader may cause divergence"
+        suggestion: "Use step/mix for simple branches"
+      - pattern: 'for\s*\('
+        message: "Loop in shader - ensure bounded"
+        suggestion: "Unroll small loops or use constant bounds"
+
+  - id: PRISM_PERF006
+    name: "Vertex Format Optimization"
+    domain: performance
+    severity: info
+    description: "Use efficient vertex formats"
+    rules:
+      - pattern: 'GL_FLOAT.*3'
+        message: "Consider GL_HALF_FLOAT for position"
+        suggestion: "Use 16-bit floats where precision allows"
+      - pattern: 'GL_UNSIGNED_BYTE'
+        message: "Consider normalized formats for normals"
+        suggestion: "Use GL_BYTE with normalization"
+
+  - id: PRISM_PERF007
+    name: "Instancing for Repeated Geometry"
+    domain: performance
+    severity: info
+    description: "Use instanced rendering"
+    rules:
+      - pattern: 'glDrawArrays\s*\('
+        message: "Consider instancing for repeated draws"
+        suggestion: "Use glDrawArraysInstanced"
+      - pattern: 'for\s*\([^)]+\)\s*\{[^}]*glDraw'
+        message: "Draw calls in loop - use instancing"
+        suggestion: "Batch with instanced rendering"
+
+  - id: PRISM_PERF008
+    name: "Buffer Update Strategy"
+    domain: performance
+    severity: warning
+    description: "Use efficient buffer update methods"
+    rules:
+      - pattern: 'glBufferSubData\s*\('
+        message: "Partial update - consider mapping"
+        suggestion: "Use glMapBufferRange for partial updates"
+      - pattern: 'glBufferData\s*\(.*NULL'
+        message: "Orphaning buffer - good for streaming"
+        suggestion: "Consider triple buffering"
+
+  - id: PRISM_PERF009
+    name: "Culling Optimization"
+    domain: performance
+    severity: info
+    description: "Enable face culling"
+    rules:
+      - pattern: 'glDisable\s*\(\s*GL_CULL_FACE'
+        message: "Face culling disabled - verify needed"
+        suggestion: "Enable culling for opaque geometry"
+      - pattern: 'glEnable\s*\(\s*GL_CULL_FACE'
+        message: "Face culling enabled - good"
+        suggestion: "Ensure correct winding order"
+
+  - id: PRISM_PERF010
+    name: "Query Occlusion"
+    domain: performance
+    severity: info
+    description: "Use occlusion queries wisely"
+    rules:
+      - pattern: 'glBeginQuery\s*\(\s*GL_ANY_SAMPLES_PASSED'
+        message: "Occlusion query - ensure conditional render"
+        suggestion: "Use glBeginConditionalRender"

@@ -1,0 +1,216 @@
+# CSS Correctness Contracts
+# Domain: correctness
+
+contracts:
+  - id: CSS_CORR001
+    name: "Invalid property value"
+    domain: correctness
+    severity: error
+    description: "Property with invalid or misspelled value"
+    tags:
+      - css
+      - correctness
+      - syntax
+    rules:
+      - pattern: 'display:\s*blockx'
+        message: "Invalid display value 'blockx'"
+        suggestion: "Use 'block', 'inline', 'flex', 'grid', etc."
+      - pattern: 'position:\s*absolut'
+        message: "Misspelled position value 'absolut'"
+        suggestion: "Use 'absolute'"
+      - pattern: 'overflow:\s*hiden'
+        message: "Misspelled overflow value 'hiden'"
+        suggestion: "Use 'hidden'"
+
+  - id: CSS_CORR002
+    name: "Deprecated vendor prefixes"
+    domain: correctness
+    severity: warning
+    description: "Unnecessary vendor prefixes for modern browsers"
+    tags:
+      - css
+      - correctness
+      - vendor-prefix
+    rules:
+      - pattern: '-webkit-border-radius'
+        message: "border-radius no longer needs vendor prefix"
+        suggestion: "Use border-radius directly"
+      - pattern: '-moz-border-radius'
+        message: "border-radius no longer needs vendor prefix"
+        suggestion: "Use border-radius directly"
+      - pattern: '-webkit-box-shadow'
+        message: "box-shadow no longer needs vendor prefix"
+        suggestion: "Use box-shadow directly"
+      - pattern: '-moz-box-shadow'
+        message: "box-shadow no longer needs vendor prefix"
+        suggestion: "Use box-shadow directly"
+      - pattern: '-webkit-transition'
+        message: "transition no longer needs vendor prefix in modern browsers"
+        suggestion: "Use transition directly"
+
+  - id: CSS_CORR003
+    name: "Missing vendor prefix for new properties"
+    domain: correctness
+    severity: info
+    description: "New CSS features may still need prefixes"
+    tags:
+      - css
+      - correctness
+      - vendor-prefix
+      - compatibility
+    rules:
+      - pattern: 'backdrop-filter:'
+        message: "backdrop-filter may need -webkit- prefix for Safari"
+        suggestion: "Add -webkit-backdrop-filter for Safari support"
+      - pattern: 'user-select:'
+        message: "user-select may need vendor prefixes"
+        suggestion: "Add -webkit-user-select, -moz-user-select for compatibility"
+
+  - id: CSS_CORR004
+    name: "Invalid color format"
+    domain: correctness
+    severity: error
+    description: "Malformed color value"
+    tags:
+      - css
+      - correctness
+      - color
+    rules:
+      - pattern: '#[0-9a-fA-F]{1,2}[^0-9a-fA-F]'
+        message: "Invalid hex color length (must be 3, 4, 6, or 8 chars)"
+        suggestion: "Use #RGB, #RGBA, #RRGGBB, or #RRGGBBAA"
+      - pattern: 'rgb\(\s*\d{4,}'
+        message: "RGB value out of range (0-255)"
+        suggestion: "Use values between 0 and 255"
+      - pattern: 'hsl\(\s*\d{4,}'
+        message: "HSL hue out of typical range (0-360)"
+        suggestion: "Use hue between 0 and 360"
+
+  - id: CSS_CORR005
+    name: "Invalid selector syntax"
+    domain: correctness
+    severity: error
+    description: "Selector with invalid syntax"
+    tags:
+      - css
+      - correctness
+      - selectors
+    rules:
+      - pattern: ':::\w+'
+        message: "Invalid pseudo-element syntax (use :: not :::)"
+        suggestion: "Use double colon for pseudo-elements"
+      - pattern: '\[\s*\]'
+        message: "Empty attribute selector"
+        suggestion: "Specify attribute name: [attr] or [attr=value]"
+
+  - id: CSS_CORR006
+    name: "Missing unit for length"
+    domain: correctness
+    severity: error
+    description: "Length value without unit (except 0)"
+    tags:
+      - css
+      - correctness
+      - units
+    rules:
+      - pattern: '(width|height|margin|padding|top|left|right|bottom):\s*[1-9]\d*(?![a-zA-Z%])'
+        message: "Non-zero length value missing unit"
+        suggestion: "Add unit: px, em, rem, %, vh, vw, etc."
+      - pattern: 'font-size:\s*[1-9]\d*(?![a-zA-Z%])'
+        message: "font-size missing unit"
+        suggestion: "Add px, em, rem, pt, etc."
+
+  - id: CSS_CORR007
+    name: "Redundant property values"
+    domain: correctness
+    severity: info
+    description: "Property with redundant or conflicting values"
+    tags:
+      - css
+      - correctness
+      - redundancy
+    rules:
+      - pattern: 'margin:\s*0\s+0\s+0\s+0'
+        message: "Redundant margin shorthand"
+        suggestion: "Use margin: 0"
+      - pattern: 'padding:\s*0\s+0\s+0\s+0'
+        message: "Redundant padding shorthand"
+        suggestion: "Use padding: 0"
+
+  - id: CSS_CORR008
+    name: "Property override without reason"
+    domain: correctness
+    severity: warning
+    description: "Same property defined twice in same rule"
+    tags:
+      - css
+      - correctness
+      - overrides
+    rules:
+      - pattern: '(\w+):\s*[^;]+;\s*\1:\s*'
+        message: "Property overridden in same rule"
+        suggestion: "Remove duplicate property or clarify intent"
+
+  - id: CSS_CORR009
+    name: "Invalid flex/grid value"
+    domain: correctness
+    severity: error
+    description: "Invalid value for flexbox or grid property"
+    tags:
+      - css
+      - correctness
+      - flexbox
+      - grid
+    rules:
+      - pattern: 'flex:\s*center'
+        message: "Invalid flex value - center is for align-items"
+        suggestion: "Use flex: 1, flex: auto, or flex: none"
+      - pattern: 'justify-items:\s*space-between'
+        message: "justify-items doesn't support space-between"
+        suggestion: "Use justify-content for space-between in flexbox"
+
+  - id: CSS_CORR010
+    name: "Z-index without positioning"
+    domain: correctness
+    severity: warning
+    description: "z-index only works on positioned elements"
+    tags:
+      - css
+      - correctness
+      - z-index
+      - stacking
+    rules:
+      - pattern: 'z-index:\s*\d+'
+        message: "z-index requires position: relative/absolute/fixed/sticky"
+        suggestion: "Add position property for z-index to take effect"
+
+  - id: CSS_CORR011
+    name: "Missing closing brace"
+    domain: correctness
+    severity: error
+    description: "Unclosed rule block"
+    tags:
+      - css
+      - correctness
+      - syntax
+    rules:
+      - pattern: '\{[^}]*$'
+        message: "Rule block may be missing closing brace"
+        suggestion: "Add } to close the rule"
+
+  - id: CSS_CORR012
+    name: "Invalid calc expression"
+    domain: correctness
+    severity: error
+    description: "Invalid calc() syntax or operation"
+    tags:
+      - css
+      - correctness
+      - calc
+    rules:
+      - pattern: 'calc\([^)]*[\+\-\*/]\s*\)'
+        message: "Empty or incomplete calc() operation"
+        suggestion: "Complete the calculation expression"
+      - pattern: 'calc\([^)]*(px|em|rem|%)\s*\+)'
+        message: "Missing space around operator in calc()"
+        suggestion: "Use calc(100px + 20px) with spaces around +"

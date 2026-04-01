@@ -1,0 +1,223 @@
+# Markdown Style and Best Practices Contracts
+# Domain: style, best-practices
+
+contracts:
+  - id: MD_STYLE001
+    name: "Header levels should increment"
+    domain: style
+    severity: warning
+    description: "Headers should increment by one level at a time"
+    tags:
+      - markdown
+      - style
+      - headings
+      - structure
+    rules:
+      - pattern: '^#{1}\s.*\n(?!#)#{3,}'
+        message: "Header level skipped (h1 to h3+)"
+        suggestion: "Use sequential header levels"
+
+  - id: MD_STYLE002
+    name: "First header should be H1"
+    domain: style
+    severity: info
+    description: "Documents should start with H1"
+    tags:
+      - markdown
+      - style
+      - headings
+    rules:
+      - pattern: '^#{2,6}\s'
+        message: "Document should start with H1"
+        suggestion: "Use # for the main title"
+
+  - id: MD_STYLE003
+    name: "Header style consistency"
+    domain: style
+    severity: info
+    description: "Use consistent header style throughout document"
+    tags:
+      - markdown
+      - style
+      - headings
+    rules:
+      - pattern: '^#{1,6}\s.*\n-+'
+        message: "Mixed header styles detected (ATX and Setext)"
+        suggestion: "Use consistent # style headers"
+
+  - id: MD_STYLE004
+    name: "List style consistency"
+    domain: style
+    severity: info
+    description: "Use consistent list markers throughout document"
+    tags:
+      - markdown
+      - style
+      - lists
+    rules:
+      - pattern: '^\*\s.*\n\s*-\s'
+        message: "Mixed list markers (* and -)"
+        suggestion: "Use consistent list marker style"
+      - pattern: '^-\s.*\n\s*\*\s'
+        message: "Mixed list markers (- and *)"
+        suggestion: "Choose one marker style and stick to it"
+
+  - id: MD_STYLE005
+    name: "Code block language specified"
+    domain: best-practices
+    severity: info
+    description: "Code blocks should specify language for syntax highlighting"
+    tags:
+      - markdown
+      - style
+      - code-blocks
+    rules:
+      - pattern: '^```\s*$'
+        message: "Code block without language specified"
+        suggestion: "Add language identifier after ```"
+
+  - id: MD_STYLE006
+    name: "Line length limit"
+    domain: style
+    severity: info
+    description: "Lines should not exceed reasonable length"
+    tags:
+      - markdown
+      - style
+      - readability
+    rules:
+      - pattern: '^.{120,}$'
+        message: "Line exceeds 120 characters"
+        suggestion: "Break long lines for better readability and git diffs"
+
+  - id: MD_STYLE007
+    name: "Trailing whitespace"
+    domain: style
+    severity: warning
+    description: "Lines should not end with whitespace"
+    tags:
+      - markdown
+      - style
+      - whitespace
+    rules:
+      - pattern: '[ \t]+$'
+        message: "Trailing whitespace on line"
+        suggestion: "Remove trailing spaces"
+
+  - id: MD_STYLE008
+    name: "Blank lines around headers"
+    domain: style
+    severity: info
+    description: "Headers should be surrounded by blank lines"
+    tags:
+      - markdown
+      - style
+      - headings
+    rules:
+      - pattern: '[^\n]\n#{1,6}\s'
+        message: "Header without blank line before"
+        suggestion: "Add blank line before header"
+      - pattern: '^#{1,6}\s.*\n[^\n]'
+        message: "Header without blank line after"
+        suggestion: "Add blank line after header"
+
+  - id: MD_STYLE009
+    name: "Blank lines around code blocks"
+    domain: style
+    severity: info
+    description: "Code blocks should be surrounded by blank lines"
+    tags:
+      - markdown
+      - style
+      - code-blocks
+    rules:
+      - pattern: '[^\n]\n```'
+        message: "Code block without blank line before"
+        suggestion: "Add blank line before code block"
+      - pattern: '^```[a-z]*\n[^\n]'
+        message: "Code fence close without blank line after content"
+        suggestion: "Ensure blank line before closing fence"
+
+  - id: MD_STYLE010
+    name: "Blank lines around lists"
+    domain: style
+    severity: info
+    description: "Lists should be separated from other content"
+    tags:
+      - markdown
+      - style
+      - lists
+    rules:
+      - pattern: '[^\n]\n\s*[-*+]\s'
+        message: "List without blank line before"
+        suggestion: "Add blank line before list"
+
+  - id: MD_STYLE011
+    name: "Ordered list numbering"
+    domain: style
+    severity: info
+    description: "Ordered lists should use consistent numbering style"
+    tags:
+      - markdown
+      - style
+      - lists
+    rules:
+      - pattern: '^\s*\d+\.\s'
+        message: "Ordered list item - some renderers prefer 1. for all"
+        suggestion: "Use 1. for all items or ensure sequential numbering"
+
+  - id: MD_STYLE012
+    name: "Link reference style"
+    domain: style
+    severity: info
+    description: "Use reference-style links for cleaner text"
+    tags:
+      - markdown
+      - style
+      - links
+    rules:
+      - pattern: '\[[^\]]{50,}\]\([^)]+\)'
+        message: "Long link text with inline URL"
+        suggestion: "Consider reference-style links: [text][ref]"
+
+  - id: MD_STYLE013
+    name: "Emphasis style consistency"
+    domain: style
+    severity: info
+    description: "Use consistent emphasis markers"
+    tags:
+      - markdown
+      - style
+      - emphasis
+    rules:
+      - pattern: '\*[^*]+\*[^*]*_[^_]+_'
+        message: "Mixed emphasis markers (* and _)"
+        suggestion: "Choose one style: *emphasis* or _emphasis_"
+
+  - id: MD_STYLE014
+    name: "Filename in first heading"
+    domain: best-practices
+    severity: info
+    description: "Consider including filename in first heading for context"
+    tags:
+      - markdown
+      - style
+      - headings
+    rules:
+      - pattern: '^#\s[A-Z][^A-Z]*$'
+        message: "First heading may lack context"
+        suggestion: "Add context: # README.md - Project Description"
+
+  - id: MD_STYLE015
+    name: "TOC structure"
+    domain: best-practices
+    severity: info
+    description: "Long documents benefit from table of contents"
+    tags:
+      - markdown
+      - style
+      - navigation
+    rules:
+      - pattern: '^#{1,6}\s.*\n#{1,6}\s.*\n#{1,6}\s.*\n#{1,6}\s.*\n#{1,6}\s.*\n#{1,6}\s'
+        message: "Document with 5+ headings - consider adding TOC"
+        suggestion: "Add <!-- TOC --> placeholder or generate TOC""

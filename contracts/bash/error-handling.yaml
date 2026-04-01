@@ -1,0 +1,109 @@
+contracts:
+  - id: BASH_ERR_001
+    name: "Missing set -e"
+    domain: error-handling
+    severity: warning
+    description: "Scripts without errexit continue on failures"
+    rules:
+      - pattern: '^#!.*/bash\s*$'
+        message: "No set -e after shebang - script continues on errors"
+        suggestion: "Add 'set -e' after shebang for fail-fast behavior"
+      - pattern: '^#!.*/bash\n(?!\s*set\s+-[ef]*e)'
+        message: "errexit not enabled at script start"
+        suggestion: "Add: set -e or set -euo pipefail"
+
+  - id: BASH_ERR_002
+    name: "Ignored Exit Code"
+    domain: error-handling
+    severity: error
+    description: "Command exit codes not checked can hide failures"
+    rules:
+      - pattern: '^\s*\w+\s+[^|&]*$'
+        message: "Standalone command without exit code check"
+        suggestion: "Add: cmd || exit 1 or if ! cmd; then exit 1; fi"
+      - pattern: '^\s*cd\s+\S+\s*$'
+        message: "cd without error check"
+        suggestion: "Use: cd dir || exit 1"
+
+  - id: BASH_ERR_003
+    name: "Missing pipefail"
+    domain: error-handling
+    severity: warning
+    description: "Pipeline failures only report last command exit code"
+    rules:
+      - pattern: '\S+\s*\|\s*\S+'
+        message: "Pipeline without pipefail - intermediate failures hidden"
+        suggestion: "Add: set -o pipefail or check PIPESTATUS"
+
+  - id: BASH_ERR_004
+    name: "Unchecked rm"
+    domain: error-handling
+    severity: error
+    description: "rm failures can cause downstream issues"
+    rules:
+      - pattern: '\brm\s+(-[rf]+\s+)?\S+\s*$'
+        message: "rm without error checking"
+        suggestion: "Use: rm -f file || true or check result"
+
+  - id: BASH_ERR_005
+    name: "Missing trap for Cleanup"
+    domain: error-handling
+    severity: info
+    description: "Scripts should clean up on exit/interrupt"
+    rules:
+      - pattern: '(mktemp|mkdir\s+-p|touch\s+/tmp/)'
+        message: "Temp file/dir created without cleanup trap"
+        suggestion: "Add: trap 'rm -f tempfile' EXIT INT TERM"
+
+  - id: BASH_ERR_006
+    name: "Silent Failures"
+    domain: error-handling
+    severity: warning
+    description: "Commands redirected to /dev/null hide errors"
+    rules:
+      - pattern: '\S+\s+2>/dev/null\s*$'
+        message: "stderr redirected to /dev/null - errors hidden"
+        suggestion: "Log errors: 2>>error.log or check exit code"
+
+  - id: BASH_ERR_007
+    name: "exit Without Code"
+    domain: error-handling
+    severity: warning
+    description: "exit without explicit code uses last command's status"
+    rules:
+      - pattern: '\bexit\s*$'
+        message: "exit without code - ambiguous exit status"
+        suggestion: "Use: exit 0 for success, exit 1 for failure"
+
+  - id: BASH_ERR_008
+    name: "Missing set -u"
+    domain: error-handling
+    severity: warning
+    description: "Undefined variables silently expand to empty"
+    rules:
+      - pattern: '^\s*set\s+-[a-z]*e[a-z]*\s*$'
+        message: "set -e without -u - undefined vars allowed"
+        suggestion: "Use: set -eu or set -euo pipefail"
+      - pattern: '\$\{?\w+\}?[^:=]'
+        message: "Variable expansion without default"
+        suggestion: "Use: ${VAR:-default} for safe expansion"
+
+  - id: BASH_ERR_009
+    name: "Ineffective Error Handling"
+    domain: error-handling
+    severity: info
+    description: "set -e disabled in function context may be overlooked"
+    rules:
+      - pattern: 'function\s+\w+\s*\(\)\s*\{[^}]*set\s+\+e'
+        message: "set +e in function disables errexit"
+        suggestion: "Handle specific commands: cmd || handle_error"
+
+  - id: BASH_ERR_010
+    name: "Missing Return Code Check"
+    domain: error-handling
+    severity: error
+    description: "Functions should return meaningful exit codes"
+    rules:
+      - pattern: 'function\s+\w+\s*\(\)\s*\{[^}]*\}'
+        message: "Function without explicit return"
+        suggestion: "Add: return 0 on success, return 1 on failure"

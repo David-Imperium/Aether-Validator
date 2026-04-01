@@ -1,0 +1,2166 @@
+contracts:
+- id: ESLINT_NO_PROTO
+  name: no-proto
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-proto'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: __proto__
+    message: 'ESLint rule: no-proto'
+- id: ESLINT_NO_FLOATING_DECIMAL
+  name: no-floating-decimal
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-floating-decimal'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: floating-decimal
+    message: 'ESLint rule: no-floating-decimal'
+- id: ESLINT_NO_MIXED_OPERATORS
+  name: no-mixed-operators
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-mixed-operators'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: mixed-operators
+    message: 'ESLint rule: no-mixed-operators'
+- id: ESLINT_NO_USELESS_RETURN
+  name: no-useless-return
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-useless-return'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: useless-return
+    message: 'ESLint rule: no-useless-return'
+- id: ESLINT_NO_UNUSED_VARS
+  name: no-unused-vars
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-unused-vars'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: (let|const|var)\s+(\w+)[^;]*;
+    message: 'ESLint rule: no-unused-vars'
+    suggestion: Remove unused variables or prefix with underscore if intentional
+- id: ESLINT_NO_CONTROL_REGEX
+  name: no-control-regex
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-control-regex'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: control-regex
+    message: 'ESLint rule: no-control-regex'
+- id: ESLINT_NO_EMPTY_STATIC_BLOCK
+  name: no-empty-static-block
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-empty-static-block'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: empty-static-block
+    message: 'ESLint rule: no-empty-static-block'
+- id: ESLINT_NO_LOOP_FUNC
+  name: no-loop-func
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-loop-func'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: for[^{]*\{[^}]*function
+    message: 'ESLint rule: no-loop-func'
+- id: ESLINT_NO_EQ_NULL
+  name: no-eq-null
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-eq-null'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: ==\s*null|null\s*==|!=\s*null|null\s*!=
+    message: 'ESLint rule: no-eq-null'
+- id: ESLINT_NO_SPACED_FUNC
+  name: no-spaced-func
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-spaced-func'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: spaced-func
+    message: 'ESLint rule: no-spaced-func'
+- id: ESLINT_NO_UNASSIGNED_VARS
+  name: no-unassigned-vars
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-unassigned-vars'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: unassigned-vars
+    message: 'ESLint rule: no-unassigned-vars'
+- id: ESLINT_NO_CONSOLE
+  name: no-console
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-console'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: console
+    message: 'ESLint rule: no-console'
+    suggestion: Remove console statements before committing
+- id: ESLINT_NO_USELESS_ASSIGNMENT
+  name: no-useless-assignment
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-useless-assignment'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: useless-assignment
+    message: 'ESLint rule: no-useless-assignment'
+- id: ESLINT_NO_RESTRICTED_MODULES
+  name: no-restricted-modules
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-restricted-modules'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: restricted-modules
+    message: 'ESLint rule: no-restricted-modules'
+- id: ESLINT_NO_PROMISE_EXECUTOR_RETURN
+  name: no-promise-executor-return
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-promise-executor-return'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: promise-executor-return
+    message: 'ESLint rule: no-promise-executor-return'
+- id: ESLINT_NO_RESTRICTED_SYNTAX
+  name: no-restricted-syntax
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-restricted-syntax'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: restricted-syntax
+    message: 'ESLint rule: no-restricted-syntax'
+- id: ESLINT_NO_CONSTRUCTOR_RETURN
+  name: no-constructor-return
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-constructor-return'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: constructor-return
+    message: 'ESLint rule: no-constructor-return'
+- id: ESLINT_NO_TRAILING_SPACES
+  name: no-trailing-spaces
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-trailing-spaces'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: '[ \t]+\n'
+    message: 'ESLint rule: no-trailing-spaces'
+- id: ESLINT_NO_CLASS_ASSIGN
+  name: no-class-assign
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-class-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: class-assign
+    message: 'ESLint rule: no-class-assign'
+- id: ESLINT_NO_WARNING_COMMENTS
+  name: no-warning-comments
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-warning-comments'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: warning-comments
+    message: 'ESLint rule: no-warning-comments'
+- id: ESLINT_NO_GLOBAL_ASSIGN
+  name: no-global-assign
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-global-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: global-assign
+    message: 'ESLint rule: no-global-assign'
+- id: ESLINT_NO_LABELS
+  name: no-labels
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-labels'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: '^\s*\w+\s*:'
+    message: 'ESLint rule: no-labels'
+- id: ESLINT_NO_NATIVE_REASSIGN
+  name: no-native-reassign
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-native-reassign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: native-reassign
+    message: 'ESLint rule: no-native-reassign'
+- id: ESLINT_NO_NONOCTAL_DECIMAL_ESCAPE
+  name: no-nonoctal-decimal-escape
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-nonoctal-decimal-escape'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: nonoctal-decimal-escape
+    message: 'ESLint rule: no-nonoctal-decimal-escape'
+- id: ESLINT_NO_ALERT
+  name: no-alert
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-alert'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: alert\s*\(|confirm\s*\(|prompt\s*\(
+    message: 'ESLint rule: no-alert'
+    suggestion: Use proper UI notifications instead of alerts
+- id: ESLINT_NO_UNSAFE_OPTIONAL_CHAINING
+  name: no-unsafe-optional-chaining
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-unsafe-optional-chaining'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \?\.\s*\[
+    message: 'ESLint rule: no-unsafe-optional-chaining'
+- id: ESLINT_NO_TERNARY
+  name: no-ternary
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-ternary'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: ternary
+    message: 'ESLint rule: no-ternary'
+- id: ESLINT_NO_EMPTY
+  name: no-empty
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-empty'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: if\s*\([^)]*\)\s*\{\s*\}
+    message: 'ESLint rule: no-empty'
+- id: ESLINT_NO_MULTI_STR
+  name: no-multi-str
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-multi-str'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: multi-str
+    message: 'ESLint rule: no-multi-str'
+- id: ESLINT_NO_SCRIPT_URL
+  name: no-script-url
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-script-url'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: 'javascript\s*:'
+    message: 'ESLint rule: no-script-url'
+    suggestion: 'Avoid javascript: URLs - use event handlers instead'
+- id: ESLINT_NO_SELF_ASSIGN
+  name: no-self-assign
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-self-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: (\w+)\s*=\s*\1\b
+    message: 'ESLint rule: no-self-assign'
+- id: ESLINT_PREFER_PROMISE_REJECT_ERRORS
+  name: prefer-promise-reject-errors
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: prefer-promise-reject-errors'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: Promise\.reject\s*\([^E]
+    message: 'ESLint rule: prefer-promise-reject-errors'
+- id: ESLINT_NO_RESTRICTED_GLOBALS
+  name: no-restricted-globals
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-restricted-globals'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \b\w+\b
+    message: 'ESLint rule: no-restricted-globals'
+- id: ESLINT_NO_UNREACHABLE_LOOP
+  name: no-unreachable-loop
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-unreachable-loop'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: unreachable-loop
+    message: 'ESLint rule: no-unreachable-loop'
+- id: ESLINT_NO_USELESS_CONSTRUCTOR
+  name: no-useless-constructor
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-useless-constructor'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: constructor\s*\(\s*\)\s*\{\s*\}
+    message: 'ESLint rule: no-useless-constructor'
+- id: ESLINT_NO_CONSTANT_CONDITION
+  name: no-constant-condition
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-constant-condition'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: constant-condition
+    message: 'ESLint rule: no-constant-condition'
+- id: ESLINT_NO_SYNC
+  name: no-sync
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-sync'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: sync
+    message: 'ESLint rule: no-sync'
+- id: ESLINT_NO_UNSAFE_FINALLY
+  name: no-unsafe-finally
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-unsafe-finally'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: finally\s*\{[^}]*\b(throw|return|break|continue)\b
+    message: 'ESLint rule: no-unsafe-finally'
+- id: ESLINT_NO_DIV_REGEX
+  name: no-div-regex
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-div-regex'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: div-regex
+    message: 'ESLint rule: no-div-regex'
+- id: ESLINT_BLOCK_SCOPED_VAR
+  name: block-scoped-var
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: block-scoped-var'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: var\s+\w+[^;]*\{[^}]*\w+
+    message: 'ESLint rule: block-scoped-var'
+- id: ESLINT_NO_UNREACHABLE
+  name: no-unreachable
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-unreachable'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: return[^;]*;[^}]*\w
+    message: 'ESLint rule: no-unreachable'
+- id: ESLINT_ARROW_PARENS
+  name: arrow-parens
+  domain: style
+  severity: warning
+  description: 'ESLint rule: arrow-parens'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: =>\s*\{
+    message: 'ESLint rule: arrow-parens'
+- id: ESLINT_NO_DUPE_ELSE_IF
+  name: no-dupe-else-if
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-dupe-else-if'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: dupe-else-if
+    message: 'ESLint rule: no-dupe-else-if'
+- id: ESLINT_CLASS_METHODS_USE_THIS
+  name: class-methods-use-this
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: class-methods-use-this'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules: []
+- id: ESLINT_NO_MISLEADING_CHARACTER_CLASS
+  name: no-misleading-character-class
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-misleading-character-class'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: misleading-character-class
+    message: 'ESLint rule: no-misleading-character-class'
+- id: ESLINT_NO_USELESS_CATCH
+  name: no-useless-catch
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-useless-catch'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: useless-catch
+    message: 'ESLint rule: no-useless-catch'
+- id: ESLINT_NO_IRREGULAR_WHITESPACE
+  name: no-irregular-whitespace
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-irregular-whitespace'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: irregular-whitespace
+    message: 'ESLint rule: no-irregular-whitespace'
+- id: ESLINT_NO_INVALID_THIS
+  name: no-invalid-this
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-invalid-this'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: this\s*\.
+    message: 'ESLint rule: no-invalid-this'
+- id: ESLINT_NO_MULTI_SPACES
+  name: no-multi-spaces
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-multi-spaces'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: multi-spaces
+    message: 'ESLint rule: no-multi-spaces'
+- id: ESLINT_NO_PROCESS_EXIT
+  name: no-process-exit
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-process-exit'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: process-exit
+    message: 'ESLint rule: no-process-exit'
+- id: ESLINT_NO_USELESS_CONCAT
+  name: no-useless-concat
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-useless-concat'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: '[''"]\s*\+\s*[''"]'
+    message: 'ESLint rule: no-useless-concat'
+- id: ESLINT_NO_WITH
+  name: no-with
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-with'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: with
+    message: 'ESLint rule: no-with'
+- id: ESLINT_NO_DEBUGGER
+  name: no-debugger
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-debugger'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: debugger\b
+    message: 'ESLint rule: no-debugger'
+    suggestion: Remove debugger statement before committing
+- id: ESLINT_NO_IMPLICIT_COERCION
+  name: no-implicit-coercion
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-implicit-coercion'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: '!!\w+|String\(|Number\(|Boolean\('
+    message: 'ESLint rule: no-implicit-coercion'
+- id: ESLINT_NO_PLUSPLUS
+  name: no-plusplus
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-plusplus'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: plusplus
+    message: 'ESLint rule: no-plusplus'
+- id: ESLINT_NO_UNDERSCORE_DANGLE
+  name: no-underscore-dangle
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-underscore-dangle'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: underscore-dangle
+    message: 'ESLint rule: no-underscore-dangle'
+- id: ESLINT_NO_LONELY_IF
+  name: no-lonely-if
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-lonely-if'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: lonely-if
+    message: 'ESLint rule: no-lonely-if'
+- id: ESLINT_NO_PROCESS_ENV
+  name: no-process-env
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-process-env'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: process-env
+    message: 'ESLint rule: no-process-env'
+- id: ESLINT_ARRAY_CALLBACK_RETURN
+  name: array-callback-return
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: array-callback-return'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \.map\s*\([^)]*\)[^;]*;
+    message: 'ESLint rule: array-callback-return'
+- id: ESLINT_NO_UNDEFINED
+  name: no-undefined
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-undefined'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: undefined
+    message: 'ESLint rule: no-undefined'
+- id: ESLINT_NO_UNUSED_EXPRESSIONS
+  name: no-unused-expressions
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-unused-expressions'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \w+\s*;
+    message: 'ESLint rule: no-unused-expressions'
+- id: ESLINT_NO_PROTOTYPE_BUILTINS
+  name: no-prototype-builtins
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-prototype-builtins'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: prototype-builtins
+    message: 'ESLint rule: no-prototype-builtins'
+- id: ESLINT_NO_THROW_LITERAL
+  name: no-throw-literal
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-throw-literal'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: throw\s+['"]|throw\s+\d
+    message: 'ESLint rule: no-throw-literal'
+- id: ESLINT_NO_UNDEF
+  name: no-undef
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-undef'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \b\w+\s*[^\w\s]
+    message: 'ESLint rule: no-undef'
+- id: ESLINT_NO_USELESS_ESCAPE
+  name: no-useless-escape
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-useless-escape'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: useless-escape
+    message: 'ESLint rule: no-useless-escape'
+- id: ESLINT_NO_RESTRICTED_PROPERTIES
+  name: no-restricted-properties
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-restricted-properties'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: restricted-properties
+    message: 'ESLint rule: no-restricted-properties'
+- id: ESLINT_OBJECT_SHORTHAND
+  name: object-shorthand
+  domain: style
+  severity: warning
+  description: 'ESLint rule: object-shorthand'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \w+\s*:\s*\w+
+    message: 'ESLint rule: object-shorthand'
+- id: ESLINT_NO_DUPLICATE_IMPORTS
+  name: no-duplicate-imports
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-duplicate-imports'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: duplicate-imports
+    message: 'ESLint rule: no-duplicate-imports'
+- id: ESLINT_NO_NEW_OBJECT
+  name: no-new-object
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-new-object'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new-object
+    message: 'ESLint rule: no-new-object'
+- id: ESLINT_NO_COND_ASSIGN
+  name: no-cond-assign
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-cond-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: if\s*\([^)]*=[^=]
+    message: 'ESLint rule: no-cond-assign'
+- id: ESLINT_NO_USELESS_COMPUTED_KEY
+  name: no-useless-computed-key
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-useless-computed-key'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: useless-computed-key
+    message: 'ESLint rule: no-useless-computed-key'
+- id: ESLINT_NO_INVALID_REGEXP
+  name: no-invalid-regexp
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-invalid-regexp'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: invalid-regexp
+    message: 'ESLint rule: no-invalid-regexp'
+- id: ESLINT_NO_MULTIPLE_EMPTY_LINES
+  name: no-multiple-empty-lines
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-multiple-empty-lines'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \n\s*\n\s*\n
+    message: 'ESLint rule: no-multiple-empty-lines'
+- id: ESLINT_NO_CONFUSING_ARROW
+  name: no-confusing-arrow
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-confusing-arrow'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: confusing-arrow
+    message: 'ESLint rule: no-confusing-arrow'
+- id: ESLINT_NO_DELETE_VAR
+  name: no-delete-var
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-delete-var'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: delete-var
+    message: 'ESLint rule: no-delete-var'
+- id: ESLINT_NO_BITWISE
+  name: no-bitwise
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-bitwise'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: bitwise
+    message: 'ESLint rule: no-bitwise'
+- id: ESLINT_NO_NEW_REQUIRE
+  name: no-new-require
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-new-require'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new-require
+    message: 'ESLint rule: no-new-require'
+- id: ESLINT_NO_EX_ASSIGN
+  name: no-ex-assign
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-ex-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: catch\s*\(\s*(\w+)\s*\)[^}]*\1\s*=
+    message: 'ESLint rule: no-ex-assign'
+- id: ESLINT_NO_USELESS_RENAME
+  name: no-useless-rename
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-useless-rename'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: useless-rename
+    message: 'ESLint rule: no-useless-rename'
+- id: ESLINT_NO_EMPTY_PATTERN
+  name: no-empty-pattern
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-empty-pattern'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: empty-pattern
+    message: 'ESLint rule: no-empty-pattern'
+- id: ESLINT_NO_EVAL
+  name: no-eval
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-eval'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: eval\s*\(
+    message: 'ESLint rule: no-eval'
+    suggestion: Avoid eval() - use safer alternatives like JSON.parse or Function constructor
+- id: ESLINT_NO_SEQUENCES
+  name: no-sequences
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-sequences'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: ',\s*,'
+    message: 'ESLint rule: no-sequences'
+- id: ESLINT_NO_MULTI_ASSIGN
+  name: no-multi-assign
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-multi-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: (\w+)\s*=\s*\w+\s*=\s*
+    message: 'ESLint rule: no-multi-assign'
+- id: ESLINT_PREFER_CONST
+  name: prefer-const
+  domain: style
+  severity: warning
+  description: 'ESLint rule: prefer-const'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: let\s+(\w+)\s*=[^;]*;[^}]*\1\s*=
+    message: 'ESLint rule: prefer-const'
+    suggestion: Use const for variables that don't get reassigned
+- id: ESLINT_NO_CALLER
+  name: no-caller
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-caller'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: arguments\.callee|arguments\.caller
+    message: 'ESLint rule: no-caller'
+- id: ESLINT_NO_RESTRICTED_IMPORTS
+  name: no-restricted-imports
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-restricted-imports'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: restricted-imports
+    message: 'ESLint rule: no-restricted-imports'
+- id: ESLINT_NO_USELESS_CALL
+  name: no-useless-call
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-useless-call'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: useless-call
+    message: 'ESLint rule: no-useless-call'
+- id: ESLINT_NO_OBJ_CALLS
+  name: no-obj-calls
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-obj-calls'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: Math\s*\(|JSON\s*\(
+    message: 'ESLint rule: no-obj-calls'
+- id: ESLINT_NO_TEMPLATE_CURLY_IN_STRING
+  name: no-template-curly-in-string
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-template-curly-in-string'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: template-curly-in-string
+    message: 'ESLint rule: no-template-curly-in-string'
+- id: ESLINT_USE_ISNAN
+  name: use-isnan
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: use-isnan'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \w+\s*(==|===|!=|!==)\s*NaN
+    message: 'ESLint rule: use-isnan'
+- id: ESLINT_PREFER_ARROW_CALLBACK
+  name: prefer-arrow-callback
+  domain: style
+  severity: warning
+  description: 'ESLint rule: prefer-arrow-callback'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: function\s*\([^)]*\)\s*\{
+    message: 'ESLint rule: prefer-arrow-callback'
+    suggestion: Use arrow functions for callbacks
+- id: ESLINT_NO_MAGIC_NUMBERS
+  name: no-magic-numbers
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-magic-numbers'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \b\d{2,}\b
+    message: 'ESLint rule: no-magic-numbers'
+- id: ESLINT_NO_INNER_DECLARATIONS
+  name: no-inner-declarations
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-inner-declarations'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: inner-declarations
+    message: 'ESLint rule: no-inner-declarations'
+- id: ESLINT_NO_LABEL_VAR
+  name: no-label-var
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-label-var'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: label-var
+    message: 'ESLint rule: no-label-var'
+- id: ESLINT_DEFAULT_CASE
+  name: default-case
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: default-case'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: switch[^}]*\}
+    message: 'ESLint rule: default-case'
+- id: ESLINT_NO_VOID
+  name: no-void
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-void'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: void\s+
+    message: 'ESLint rule: no-void'
+- id: ESLINT_PREFER_REST_PARAMS
+  name: prefer-rest-params
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: prefer-rest-params'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: arguments
+    message: 'ESLint rule: prefer-rest-params'
+- id: ESLINT_NO_LONE_BLOCKS
+  name: no-lone-blocks
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-lone-blocks'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \{\s*\}
+    message: 'ESLint rule: no-lone-blocks'
+- id: ESLINT_NO_RETURN_AWAIT
+  name: no-return-await
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-return-await'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: return\s+await
+    message: 'ESLint rule: no-return-await'
+    suggestion: Remove unnecessary await in return statement
+- id: ESLINT_NO_REGEX_SPACES
+  name: no-regex-spaces
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-regex-spaces'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: regex-spaces
+    message: 'ESLint rule: no-regex-spaces'
+- id: ESLINT_VALID_TYPEOF
+  name: valid-typeof
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: valid-typeof'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: typeof\s+\w+\s*(==|===|!=|!==)\s*['"]
+    message: 'ESLint rule: valid-typeof'
+- id: ESLINT_NO_FUNC_ASSIGN
+  name: no-func-assign
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-func-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: function\s+(\w+)[^}]*\1\s*=
+    message: 'ESLint rule: no-func-assign'
+- id: ESLINT_NO_NEGATED_IN_LHS
+  name: no-negated-in-lhs
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-negated-in-lhs'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: negated-in-lhs
+    message: 'ESLint rule: no-negated-in-lhs'
+- id: ESLINT_NO_NEW_NATIVE_NONCONSTRUCTOR
+  name: no-new-native-nonconstructor
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-new-native-nonconstructor'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new-native-nonconstructor
+    message: 'ESLint rule: no-new-native-nonconstructor'
+- id: ESLINT_NO_DUPE_KEYS
+  name: no-dupe-keys
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-dupe-keys'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: '\{[^}]*\b(\w+)\s*:.*\b\1\s*:'
+    message: 'ESLint rule: no-dupe-keys'
+- id: ESLINT_NO_NEW_SYMBOL
+  name: no-new-symbol
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-new-symbol'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new-symbol
+    message: 'ESLint rule: no-new-symbol'
+- id: ESLINT_NO_NESTED_TERNARY
+  name: no-nested-ternary
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-nested-ternary'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: nested-ternary
+    message: 'ESLint rule: no-nested-ternary'
+- id: ESLINT_COMMA_DANGLE
+  name: comma-dangle
+  domain: style
+  severity: warning
+  description: 'ESLint rule: comma-dangle'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: ',\s*[\]\}]'
+    message: 'ESLint rule: comma-dangle'
+- id: ESLINT_NO_TABS
+  name: no-tabs
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-tabs'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: tabs
+    message: 'ESLint rule: no-tabs'
+- id: ESLINT_NO_PATH_CONCAT
+  name: no-path-concat
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-path-concat'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: path-concat
+    message: 'ESLint rule: no-path-concat'
+- id: ESLINT_NO_RESTRICTED_EXPORTS
+  name: no-restricted-exports
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-restricted-exports'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: restricted-exports
+    message: 'ESLint rule: no-restricted-exports'
+- id: ESLINT_NO_UNNEEDED_TERNARY
+  name: no-unneeded-ternary
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-unneeded-ternary'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: unneeded-ternary
+    message: 'ESLint rule: no-unneeded-ternary'
+- id: ESLINT_NO_SELF_COMPARE
+  name: no-self-compare
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-self-compare'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: self-compare
+    message: 'ESLint rule: no-self-compare'
+- id: ESLINT_NO_UNMODIFIED_LOOP_CONDITION
+  name: no-unmodified-loop-condition
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-unmodified-loop-condition'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: unmodified-loop-condition
+    message: 'ESLint rule: no-unmodified-loop-condition'
+- id: ESLINT_NO_UNSAFE_NEGATION
+  name: no-unsafe-negation
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-unsafe-negation'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: '!\s*\['
+    message: 'ESLint rule: no-unsafe-negation'
+- id: ESLINT_DOT_NOTATION
+  name: dot-notation
+  domain: style
+  severity: warning
+  description: 'ESLint rule: dot-notation'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \['[a-zA-Z_][a-zA-Z0-9_]*'\]
+    message: 'ESLint rule: dot-notation'
+- id: ESLINT_GUARD_FOR_IN
+  name: guard-for-in
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: guard-for-in'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: for\s*\(\s*\w+\s+in\s+
+    message: 'ESLint rule: guard-for-in'
+- id: ESLINT_NO_OBJECT_CONSTRUCTOR
+  name: no-object-constructor
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-object-constructor'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: object-constructor
+    message: 'ESLint rule: no-object-constructor'
+- id: ESLINT_NO_IMPLIED_EVAL
+  name: no-implied-eval
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-implied-eval'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: setTimeout\s*\([^)]*['"]|setInterval\s*\([^)]*['"]
+    message: 'ESLint rule: no-implied-eval'
+    suggestion: Pass function reference to setTimeout/setInterval, not a string
+- id: ESLINT_NO_WHITESPACE_BEFORE_PROPERTY
+  name: no-whitespace-before-property
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-whitespace-before-property'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: whitespace-before-property
+    message: 'ESLint rule: no-whitespace-before-property'
+- id: ESLINT_NO_CONST_ASSIGN
+  name: no-const-assign
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-const-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: const\s+(\w+)[^}]*\1\s*=
+    message: 'ESLint rule: no-const-assign'
+- id: ESLINT_NO_SHADOW
+  name: no-shadow
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-shadow'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: shadow
+    message: 'ESLint rule: no-shadow'
+- id: ESLINT_NO_USE_BEFORE_DEFINE
+  name: no-use-before-define
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-use-before-define'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: use-before-define
+    message: 'ESLint rule: no-use-before-define'
+- id: ESLINT_REQUIRE_AWAIT
+  name: require-await
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: require-await'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: async\s+function[^}]*\{[^}]*\}
+    message: 'ESLint rule: require-await'
+    suggestion: Add await inside async function or remove async keyword
+- id: ESLINT_NO_THIS_BEFORE_SUPER
+  name: no-this-before-super
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-this-before-super'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: this-before-super
+    message: 'ESLint rule: no-this-before-super'
+- id: ESLINT_NO_RETURN_ASSIGN
+  name: no-return-assign
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-return-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: return\s+\w+\s*=
+    message: 'ESLint rule: no-return-assign'
+- id: ESLINT_NO_REDECLARE
+  name: no-redeclare
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-redeclare'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: redeclare
+    message: 'ESLint rule: no-redeclare'
+- id: ESLINT_NO_SHADOW_RESTRICTED_NAMES
+  name: no-shadow-restricted-names
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-shadow-restricted-names'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: shadow-restricted-names
+    message: 'ESLint rule: no-shadow-restricted-names'
+- id: ESLINT_NO_NEGATED_CONDITION
+  name: no-negated-condition
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-negated-condition'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: negated-condition
+    message: 'ESLint rule: no-negated-condition'
+- id: ESLINT_NO_COMPARE_NEG_ZERO
+  name: no-compare-neg-zero
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-compare-neg-zero'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: (==|===)\s*-0|-0\s*(==|===)
+    message: 'ESLint rule: no-compare-neg-zero'
+- id: ESLINT_NO_EXTRA_PARENS
+  name: no-extra-parens
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-extra-parens'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: extra-parens
+    message: 'ESLint rule: no-extra-parens'
+- id: ESLINT_NO_UNEXPECTED_MULTILINE
+  name: no-unexpected-multiline
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-unexpected-multiline'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: unexpected-multiline
+    message: 'ESLint rule: no-unexpected-multiline'
+- id: ESLINT_NO_CATCH_SHADOW
+  name: no-catch-shadow
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-catch-shadow'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: catch-shadow
+    message: 'ESLint rule: no-catch-shadow'
+- id: ESLINT_NO_IMPORT_ASSIGN
+  name: no-import-assign
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-import-assign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: import-assign
+    message: 'ESLint rule: no-import-assign'
+- id: ESLINT_REQUIRE_ATOMIC_UPDATES
+  name: require-atomic-updates
+  domain: performance
+  severity: warning
+  description: 'ESLint rule: require-atomic-updates'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules: []
+- id: ESLINT_NO_DUPE_ARGS
+  name: no-dupe-args
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-dupe-args'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: dupe-args
+    message: 'ESLint rule: no-dupe-args'
+- id: ESLINT_NO_UNUSED_PRIVATE_CLASS_MEMBERS
+  name: no-unused-private-class-members
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-unused-private-class-members'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: unused-private-class-members
+    message: 'ESLint rule: no-unused-private-class-members'
+- id: ESLINT_NO_EMPTY_FUNCTION
+  name: no-empty-function
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-empty-function'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: function\s*\([^)]*\)\s*\{\s*\}
+    message: 'ESLint rule: no-empty-function'
+- id: ESLINT_NO_EXTRA_BOOLEAN_CAST
+  name: no-extra-boolean-cast
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-extra-boolean-cast'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: extra-boolean-cast
+    message: 'ESLint rule: no-extra-boolean-cast'
+- id: ESLINT_NO_USELESS_BACKREFERENCE
+  name: no-useless-backreference
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-useless-backreference'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: useless-backreference
+    message: 'ESLint rule: no-useless-backreference'
+- id: ESLINT_CONSISTENT_RETURN
+  name: consistent-return
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: consistent-return'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: function[^}]*return[^}]*return
+    message: 'ESLint rule: consistent-return'
+- id: ESLINT_NO_CASE_DECLARATIONS
+  name: no-case-declarations
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-case-declarations'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: case[^:]+:\s*(let|const)
+    message: 'ESLint rule: no-case-declarations'
+- id: ESLINT_PREFER_SPREAD
+  name: prefer-spread
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: prefer-spread'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \.apply\s*\(
+    message: 'ESLint rule: prefer-spread'
+- id: ESLINT_NO_EMPTY_CHARACTER_CLASS
+  name: no-empty-character-class
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-empty-character-class'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: empty-character-class
+    message: 'ESLint rule: no-empty-character-class'
+- id: ESLINT_NO_DUPLICATE_CASE
+  name: no-duplicate-case
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-duplicate-case'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: duplicate-case
+    message: 'ESLint rule: no-duplicate-case'
+- id: ESLINT_NO_INLINE_COMMENTS
+  name: no-inline-comments
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-inline-comments'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: inline-comments
+    message: 'ESLint rule: no-inline-comments'
+- id: ESLINT_NO_SPARSE_ARRAYS
+  name: no-sparse-arrays
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-sparse-arrays'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: sparse-arrays
+    message: 'ESLint rule: no-sparse-arrays'
+- id: ESLINT_NO_CONTINUE
+  name: no-continue
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-continue'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: continue
+    message: 'ESLint rule: no-continue'
+- id: ESLINT_NO_NEW_WRAPPERS
+  name: no-new-wrappers
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-new-wrappers'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new\s+(String|Number|Boolean)\s*\(
+    message: 'ESLint rule: no-new-wrappers'
+- id: ESLINT_NO_BUFFER_CONSTRUCTOR
+  name: no-buffer-constructor
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-buffer-constructor'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: buffer-constructor
+    message: 'ESLint rule: no-buffer-constructor'
+- id: ESLINT_NO_PARAM_REASSIGN
+  name: no-param-reassign
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-param-reassign'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: function[^{]*\((\w+)\)[^}]*\1\s*=
+    message: 'ESLint rule: no-param-reassign'
+    suggestion: Avoid reassigning function parameters - create local copies
+- id: ESLINT_NO_IMPLICIT_GLOBALS
+  name: no-implicit-globals
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-implicit-globals'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: ^\s*(let|const|var)\s+\w+[^=]*=
+    message: 'ESLint rule: no-implicit-globals'
+- id: ESLINT_NO_MIXED_REQUIRES
+  name: no-mixed-requires
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-mixed-requires'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: mixed-requires
+    message: 'ESLint rule: no-mixed-requires'
+- id: ESLINT_NO_NEW_FUNC
+  name: no-new-func
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-new-func'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new\s+Function\s*\(
+    message: 'ESLint rule: no-new-func'
+    suggestion: Avoid dynamic code generation - use static functions
+- id: ESLINT_REQUIRE_YIELD
+  name: require-yield
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: require-yield'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules: []
+- id: ESLINT_GETTER_RETURN
+  name: getter-return
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: getter-return'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: get\s+\w+\s*\(\s*\)[^}]*\{[^}]*\}
+    message: 'ESLint rule: getter-return'
+- id: ESLINT_NO_OCTAL_ESCAPE
+  name: no-octal-escape
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-octal-escape'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: octal-escape
+    message: 'ESLint rule: no-octal-escape'
+- id: ESLINT_NO_MIXED_SPACES_AND_TABS
+  name: no-mixed-spaces-and-tabs
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-mixed-spaces-and-tabs'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: mixed-spaces-and-tabs
+    message: 'ESLint rule: no-mixed-spaces-and-tabs'
+- id: ESLINT_NO_EXTRA_LABEL
+  name: no-extra-label
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-extra-label'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: extra-label
+    message: 'ESLint rule: no-extra-label'
+- id: ESLINT_NO_SETTER_RETURN
+  name: no-setter-return
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-setter-return'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: setter-return
+    message: 'ESLint rule: no-setter-return'
+- id: ESLINT_NO_EXTRA_SEMI
+  name: no-extra-semi
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-extra-semi'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: extra-semi
+    message: 'ESLint rule: no-extra-semi'
+- id: ESLINT_NO_OCTAL
+  name: no-octal
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-octal'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: octal
+    message: 'ESLint rule: no-octal'
+- id: ESLINT_NO_LOSS_OF_PRECISION
+  name: no-loss-of-precision
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-loss-of-precision'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: loss-of-precision
+    message: 'ESLint rule: no-loss-of-precision'
+- id: ESLINT_NO_ARRAY_CONSTRUCTOR
+  name: no-array-constructor
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-array-constructor'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: array-constructor
+    message: 'ESLint rule: no-array-constructor'
+- id: ESLINT_BRACE_STYLE
+  name: brace-style
+  domain: style
+  severity: warning
+  description: 'ESLint rule: brace-style'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \}\s*else
+    message: 'ESLint rule: brace-style'
+- id: ESLINT_NO_CONSTANT_BINARY_EXPRESSION
+  name: no-constant-binary-expression
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-constant-binary-expression'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: constant-binary-expression
+    message: 'ESLint rule: no-constant-binary-expression'
+- id: ESLINT_NO_ELSE_RETURN
+  name: no-else-return
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-else-return'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: else\s*\{\s*return
+    message: 'ESLint rule: no-else-return'
+- id: ESLINT_NO_ASYNC_PROMISE_EXECUTOR
+  name: no-async-promise-executor
+  domain: performance
+  severity: warning
+  description: 'ESLint rule: no-async-promise-executor'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new\s+Promise\s*\(\s*async
+    message: 'ESLint rule: no-async-promise-executor'
+    suggestion: Return a Promise instead of using async executor
+- id: ESLINT_NO_UNUSED_LABELS
+  name: no-unused-labels
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-unused-labels'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: unused-labels
+    message: 'ESLint rule: no-unused-labels'
+- id: ESLINT_NO_UNDEF_INIT
+  name: no-undef-init
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-undef-init'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: undef-init
+    message: 'ESLint rule: no-undef-init'
+- id: ESLINT_NO_AWAIT_IN_LOOP
+  name: no-await-in-loop
+  domain: performance
+  severity: warning
+  description: 'ESLint rule: no-await-in-loop'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: for[^{]*\{[^}]*await
+    message: 'ESLint rule: no-await-in-loop'
+- id: ESLINT_NO_EXTEND_NATIVE
+  name: no-extend-native
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-extend-native'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: Object\.prototype\.\w+\s*=
+    message: 'ESLint rule: no-extend-native'
+- id: ESLINT_NO_NEW
+  name: no-new
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-new'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new\s+\w+\(\s*\)[^.;]
+    message: 'ESLint rule: no-new'
+- id: ESLINT_ARROW_SPACING
+  name: arrow-spacing
+  domain: style
+  severity: warning
+  description: 'ESLint rule: arrow-spacing'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules: []
+- id: ESLINT_NO_VAR
+  name: no-var
+  domain: style
+  severity: warning
+  description: 'ESLint rule: no-var'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \bvar\s+
+    message: 'ESLint rule: no-var'
+    suggestion: Use let or const for block scoping
+- id: ESLINT_NO_EXTRA_BIND
+  name: no-extra-bind
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-extra-bind'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: extra-bind
+    message: 'ESLint rule: no-extra-bind'
+- id: ESLINT_NO_DUPE_CLASS_MEMBERS
+  name: no-dupe-class-members
+  domain: restriction
+  severity: info
+  description: 'ESLint rule: no-dupe-class-members'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: dupe-class-members
+    message: 'ESLint rule: no-dupe-class-members'
+- id: ESLINT_ACCESSOR_PAIRS
+  name: accessor-pairs
+  domain: miscellaneous
+  severity: info
+  description: 'ESLint rule: accessor-pairs'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules: []
+- id: ESLINT_NO_FALLTHROUGH
+  name: no-fallthrough
+  domain: correctness
+  severity: error
+  description: 'ESLint rule: no-fallthrough'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: case[^:]+:[^}]*\w
+    message: 'ESLint rule: no-fallthrough'
+- id: ESLINT_NO_ITERATOR
+  name: no-iterator
+  domain: best-practices
+  severity: warning
+  description: 'ESLint rule: no-iterator'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: __iterator__
+    message: 'ESLint rule: no-iterator'

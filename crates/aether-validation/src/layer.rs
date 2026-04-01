@@ -13,6 +13,8 @@ pub struct LayerResult {
     pub violations: Vec<Violation>,
     /// Informational messages.
     pub infos: Vec<String>,
+    /// Number of violations filtered by whitelist (for learning feedback)
+    pub whitelisted_count: usize,
 }
 
 impl LayerResult {
@@ -22,6 +24,7 @@ impl LayerResult {
             passed: true,
             violations: Vec::new(),
             infos: Vec::new(),
+            whitelisted_count: 0,
         }
     }
 
@@ -31,6 +34,7 @@ impl LayerResult {
             passed: false,
             violations,
             infos: Vec::new(),
+            whitelisted_count: 0,
         }
     }
 
@@ -40,11 +44,48 @@ impl LayerResult {
         self
     }
 
+    /// Filter violations using a whitelist predicate.
+    /// Returns a new result with only non-whitelisted violations.
+    pub fn filter_whitelisted<F>(self, is_whitelisted: F) -> Self
+    where
+        F: Fn(&Violation) -> bool,
+    {
+        let mut whitelisted_count = 0;
+        let violations: Vec<Violation> = self
+            .violations
+            .into_iter()
+            .filter(|v| {
+                if is_whitelisted(v) {
+                    whitelisted_count += 1;
+                    false
+                } else {
+                    true
+                }
+            })
+            .collect();
+
+        let passed = violations.is_empty();
+        Self {
+            passed,
+            violations,
+            infos: self.infos,
+            whitelisted_count,
+        }
+    }
+
     /// Check if any violations are errors.
     pub fn has_errors(&self) -> bool {
         self.violations.iter().any(|v| v.severity == Severity::Error)
     }
 }
+
+/// LearnedConfig reference for Memory-Driven validation
+///
+/// This is a simple type alias to avoid circular dependencies.
+/// The actual LearnedConfig struct is in aether-intelligence.
+/// Layers that support dynamic configuration should downcast this
+/// to their expected config type.
+pub type LayerConfig = serde_json::Value;
 
 /// Validation layer trait.
 ///
@@ -54,6 +95,15 @@ impl LayerResult {
 /// 3. Logic — Contract evaluation, business rules
 /// 4. Architecture — Layer compliance, dependency checks
 /// 5. Style — Formatting, idioms, conventions
+///
+/// ## Memory-Driven Configuration
+///
+/// Layers can receive dynamic configuration via the `config` parameter
+/// in `validate_with_config()`. This enables:
+/// - Dynamic thresholds (e.g., complexity limits from project history)
+/// - Custom rules discovered from codebase patterns
+/// - Whitelisted patterns from user acceptance
+/// - Style conventions learned from the project
 #[async_trait]
 pub trait ValidationLayer: Send + Sync {
     /// Get the layer name.
@@ -64,12 +114,31 @@ pub trait ValidationLayer: Send + Sync {
         50
     }
 
-    /// Validate the AST.
+    /// Validate with optional learned configuration.
+    ///
+    /// This is the main entry point for Memory-Driven validation.
+    /// Layers should override this to use config when available.
+    async fn validate_with_config(
+        &self,
+        ctx: &ValidationContext,
+        config: Option<&LayerConfig>,
+    ) -> LayerResult {
+        // Default: ignore config, use legacy behavior
+        let _ = config; // Suppress unused warning
+        self.validate(ctx).await
+    }
+
+    /// Validate the AST (legacy, without config).
+    ///
+    /// Layers should implement this for backward compatibility.
+    /// Memory-aware layers should override `validate_with_config()`.
     async fn validate(&self, ctx: &ValidationContext) -> LayerResult;
 
     /// Check if the pipeline should continue after this layer.
-    fn can_continue(&self, result: &LayerResult) -> bool {
-        !result.has_errors()
+    /// By default, always continue (non-critical layers).
+    /// Critical layers (syntax) override this to stop on errors.
+    fn can_continue(&self, _result: &LayerResult) -> bool {
+        true // Continue by default - only critical layers stop on errors
     }
 }
 

@@ -1,0 +1,135 @@
+contracts:
+  - id: TRITON_PERF001
+    name: "Memory Coalescing"
+    domain: performance
+    severity: warning
+    description: "Ensure memory access patterns are coalesced"
+    rules:
+      - pattern: 'tl\.load\s*\(\s*\w+\s*\+\s*\w+\s*\*\s*\d+'
+        message: "Strided load may not coalesce - check access pattern"
+        suggestion: "Use contiguous memory access for coalescing"
+      - pattern: 'tl\.store\s*\(\s*\w+\s*\+\s*\w+\s*\*\s*\d+'
+        message: "Strided store may not coalesce"
+        suggestion: "Transpose data or use block-based access"
+
+  - id: TRITON_PERF002
+    name: "Shared Memory Bank Conflicts"
+    domain: performance
+    severity: warning
+    description: "Avoid shared memory bank conflicts"
+    rules:
+      - pattern: 'tl\.load\s*\(\s*\w+\s*\+\s*\d+\s*\*\s*\w+'
+        message: "Potential bank conflict with power-of-2 stride"
+        suggestion: "Add padding to shared memory arrays"
+
+  - id: TRITON_PERF003
+    name: "Atomic Operation Overhead"
+    domain: performance
+    severity: warning
+    description: "Minimize atomic operations"
+    rules:
+      - pattern: 'tl\.atomic_'
+        message: "Atomic operations are expensive"
+        suggestion: "Use block-level reduction when possible"
+      - pattern: 'atomic_add|atomic_sub|atomic_cas'
+        message: "Consider reduction pattern instead"
+        suggestion: "Use shared memory reduction before global atomics"
+
+  - id: TRITON_PERF004
+    name: "Block Size Optimization"
+    domain: performance
+    severity: info
+    description: "Choose optimal block sizes"
+    rules:
+      - pattern: 'BLOCK_SIZE\s*=\s*\d+'
+        message: "Verify block size is multiple of 32 (warp size)"
+        suggestion: "Use 128, 256, or 512 for most cases"
+
+  - id: TRITON_PERF005
+    name: "Vectorized Loads"
+    domain: performance
+    severity: info
+    description: "Use vectorized memory operations"
+    rules:
+      - pattern: 'tl\.load\s*\('
+        message: "Consider using vectorized loads"
+        suggestion: "Use tl.load with vectorized types"
+      - pattern: 'tl\.dot\s*\('
+        message: "Ensure inputs are properly vectorized"
+        suggestion: "Use block pointers for better performance"
+
+  - id: TRITON_PERF006
+    name: "Kernel Launch Overhead"
+    domain: performance
+    severity: warning
+    description: "Minimize kernel launches"
+    rules:
+      - pattern: 'triton\.jit\s*\('
+        message: "Multiple kernel launches have overhead"
+        suggestion: "Fuse operations when possible"
+
+  - id: TRITON_PERF007
+    name: "Register Pressure"
+    domain: performance
+    severity: info
+    description: "Watch register usage"
+    rules:
+      - pattern: 'num_stages\s*=\s*\d+'
+        message: "Higher stages increase register usage"
+        suggestion: "Balance stages with occupancy"
+      - pattern: 'num_warps\s*=\s*\d+'
+        message: "More warps may reduce occupancy"
+        suggestion: "Profile with different warp counts"
+
+  - id: TRITON_PERF008
+    name: "Avoid Warp Divergence"
+    domain: performance
+    severity: warning
+    description: "Avoid branching within warps"
+    rules:
+      - pattern: 'if\s+\w+\s*:'
+        message: "Conditional may cause warp divergence"
+        suggestion: "Use predication or uniform conditions"
+      - pattern: 'for\s+\w+\s+in\s+range'
+        message: "Ensure loop bounds are uniform"
+        suggestion: "Use block-level loops"
+
+  - id: TRITON_PERF009
+    name: "Shared Memory Usage"
+    domain: performance
+    severity: info
+    description: "Optimize shared memory allocation"
+    rules:
+      - pattern: 'tl\.alloc_tensor'
+        message: "Shared memory allocation - check size"
+        suggestion: "Ensure fits in shared memory limit"
+
+  - id: TRITON_PERF010
+    name: "TMA Operations"
+    domain: performance
+    severity: info
+    description: "Use Tensor Memory Accelerator"
+    rules:
+      - pattern: 'tl\.experimental\.tensor_descriptor'
+        message: "TMA descriptor created - good for Hopper"
+        suggestion: "Use block pointers for Hopper GPUs"
+
+  - id: TRITON_PERF011
+    name: "Cloned Operations"
+    domain: performance
+    severity: warning
+    description: "Avoid redundant computations"
+    rules:
+      - pattern: 'clone\s*\('
+        message: "Clone operation - ensure necessary"
+        suggestion: "Avoid cloning if tensor is already contiguous"
+
+  - id: TRITON_PERF012
+    name: "Fused Operations"
+    domain: performance
+    severity: info
+    description: "Fuse operations for efficiency"
+    rules:
+      - pattern: 'tl\.dot\s*\([^)]+\)\s*\*\s*'
+        message: "Good - fused multiply after dot"
+        suggestion: "Consider fusing more operations"

@@ -1,0 +1,144 @@
+# TypeScript Style Contracts
+# Domain: style
+# TypeScript-specific code style conventions
+
+contracts:
+  - id: TSSTY001
+    name: "Use PascalCase for types and interfaces"
+    domain: style
+    severity: info
+    description: "Types and interfaces use PascalCase"
+    tags:
+      - typescript
+      - style
+      - naming
+    rules:
+      - pattern: 'interface\s+[a-z]'
+        message: "Interface should use PascalCase"
+        suggestion: "Use PascalCase: interface UserProps, interface IApiClient"
+
+  - id: TSSTY002
+    name: "Use camelCase for variables and functions"
+    domain: style
+    severity: info
+    description: "Variables and functions use camelCase"
+    tags:
+      - typescript
+      - style
+      - naming
+    rules:
+      - pattern: '(?:const|let|var|function)\s+[A-Z]'
+        message: "Variable/function should use camelCase"
+        suggestion: "Use camelCase: const userCount, function fetchData()"
+
+  - id: TSSTY003
+    name: "Use UPPER_SNAKE_CASE for constants"
+    domain: style
+    severity: info
+    description: "True constants use UPPER_SNAKE_CASE"
+    tags:
+      - typescript
+      - style
+      - naming
+    rules:
+      - pattern: 'const\s+[a-z][a-zA-Z0-9]*\s*=\s*(?:\d+|[\'\"][^\'\"]*[\'\"])\s*;'
+        message: "Immutable constant - consider UPPER_SNAKE_CASE"
+        suggestion: "Use UPPER_SNAKE_CASE for true constants: const MAX_RETRIES = 3"
+
+  - id: TSSTY004
+    name: "Organize imports consistently"
+    domain: style
+    severity: info
+    description: "Group and sort imports for readability"
+    tags:
+      - typescript
+      - style
+      - imports
+    rules:
+      - pattern: 'import.*from\s+[\'\"]\.\./\.\./\.\./'
+        message: "Deep relative import - consider path alias"
+        suggestion: "Use path aliases (@/components) for cleaner imports"
+
+  - id: TSSTY005
+    name: "Use named exports over default"
+    domain: style
+    severity: info
+    description: "Named exports improve refactoring and autocomplete"
+    tags:
+      - typescript
+      - style
+      - exports
+    rules:
+      - pattern: 'export\s+default\s+'
+        message: "Default export - consider named export for better refactoring"
+        suggestion: "Use 'export const Component = ...' instead of default export"
+
+  - id: TSSTY006
+    name: "Prefix interfaces with I (optional)"
+    domain: style
+    severity: info
+    description: "Interface prefix distinguishes from classes"
+    tags:
+      - typescript
+      - style
+      - naming
+    rules:
+      - pattern: 'interface\s+I[A-Z]'
+        message: "Interface with I prefix - consistent naming"
+        suggestion: "Be consistent: either use I prefix or not across the project"
+
+  - id: TSSTY007
+    name: "Use descriptive variable names"
+    domain: style
+    severity: info
+    description: "Avoid single-letter variables except in loops"
+    tags:
+      - typescript
+      - style
+      - naming
+    rules:
+      - pattern: 'const\s+[a-z]\s*='
+        message: "Single-letter variable - use descriptive name"
+        suggestion: "Use descriptive names: const user instead of const u"
+
+  - id: TSSTY008
+    name: "Group related properties in interfaces"
+    domain: style
+    severity: info
+    description: "Organize interface properties logically"
+    tags:
+      - typescript
+      - style
+      - organization
+    rules:
+      - pattern: 'interface\s+\w+\s*\{[^}]{500,}'
+        message: "Large interface - consider splitting into smaller ones"
+        suggestion: "Split large interfaces: User, UserAuth, UserPreferences"
+
+  - id: TSSTY009
+    name: "Use barrel exports for modules"
+    domain: style
+    severity: info
+    description: "index.ts files provide clean public API"
+    tags:
+      - typescript
+      - style
+      - organization
+    rules:
+      - pattern: 'export\s+\*\s+from\s+'
+        message: "Barrel export - re-exporting module contents"
+        suggestion: "Use index.ts for clean module exports"
+
+  - id: TSSTY010
+    name: "Avoid long function bodies"
+    domain: style
+    severity: info
+    description: "Functions should do one thing"
+    tags:
+      - typescript
+      - style
+      - organization
+    rules:
+      - pattern: 'function\s+\w+\s*\([^)]*\)\s*\{(?:[^{}]|\{[^{}]*\})*\n(?:[^{}]|\{[^{}]*\}){15,}'
+        message: "Long function - consider breaking into smaller functions"
+        suggestion: "Extract helper functions for better readability and testing"

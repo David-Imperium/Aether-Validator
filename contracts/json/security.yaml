@@ -1,0 +1,112 @@
+contracts:
+  - id: JSONS001
+    name: "Hardcoded API keys"
+    domain: security
+    severity: critical
+    description: "API keys should not be hardcoded in JSON files"
+    rules:
+      - pattern: '(?i)(api[_-]?key|apikey)\s*:\s*"[a-zA-Z0-9]{16,}"'
+        message: "Hardcoded API key detected"
+        suggestion: "Use environment variables or secure vault"
+
+  - id: JSONS002
+    name: "AWS credentials"
+    domain: security
+    severity: critical
+    description: "AWS credentials should not be in JSON"
+    rules:
+      - pattern: '(?i)(aws_access_key_id|aws_secret_access_key)\s*:\s*"[A-Z0-9]{16,}"'
+        message: "AWS credential detected in JSON"
+        suggestion: "Use IAM roles or environment variables"
+      - pattern: 'AKIA[A-Z0-9]{16}'
+        message: "AWS access key ID pattern detected"
+        suggestion: "Remove AWS credentials from JSON"
+
+  - id: JSONS003
+    name: "Database passwords"
+    domain: security
+    severity: critical
+    description: "Database passwords should not be stored in JSON"
+    rules:
+      - pattern: '(?i)(db_pass|database_pass|mysql_pass|postgres_pass|password)\s*:\s*"[^"]{8,}"'
+        message: "Database password detected in JSON"
+        suggestion: "Use secrets management system"
+
+  - id: JSONS004
+    name: "Private keys"
+    domain: security
+    severity: critical
+    description: "Private keys should not be in JSON files"
+    rules:
+      - pattern: '-----BEGIN (RSA |EC |DSA )?PRIVATE KEY-----'
+        message: "Private key detected in JSON"
+        suggestion: "Store private keys in secure vault"
+      - pattern: '"(private_key|privateKey|priv_key)"\s*:\s*"[A-Za-z0-9+/=]{40,}"'
+        message: "Encoded private key detected"
+        suggestion: "Remove private keys from JSON"
+
+  - id: JSONS005
+    name: "JWT secrets"
+    domain: security
+    severity: critical
+    description: "JWT secrets should not be hardcoded"
+    rules:
+      - pattern: '(?i)(jwt_secret|jwt_secret_key|token_secret)\s*:\s*"[^"]{8,}"'
+        message: "JWT secret detected in JSON"
+        suggestion: "Use environment variables for JWT secrets"
+
+  - id: JSONS006
+    name: "OAuth tokens"
+    domain: security
+    severity: critical
+    description: "OAuth tokens should not be stored in JSON"
+    rules:
+      - pattern: '(?i)(oauth_token|access_token|auth_token|bearer_token)\s*:\s*"[A-Za-z0-9._-]{20,}"'
+        message: "OAuth/access token detected in JSON"
+        suggestion: "Use secure token storage"
+
+  - id: JSONS007
+    name: "Connection strings"
+    domain: security
+    severity: high
+    description: "Connection strings with credentials are dangerous"
+    rules:
+      - pattern: '(mysql|postgres|mongodb|redis)://[^:]+:[^@]+@'
+        message: "Connection string with embedded credentials"
+        suggestion: "Remove credentials from connection strings"
+
+  - id: JSONS008
+    name: "Sensitive configuration"
+    domain: security
+    severity: high
+    description: "Sensitive config values should be protected"
+    rules:
+      - pattern: '(?i)(secret|credential|token|auth)\s*:\s*"[^"]{8,}"'
+        message: "Potentially sensitive value detected"
+        suggestion: "Verify if this should be externalized"
+
+  - id: JSONS009
+    name: "SSH keys"
+    domain: security
+    severity: critical
+    description: "SSH keys should not be in JSON"
+    rules:
+      - pattern: 'ssh-(rsa|ed25519|ecdsa) AAAA'
+        message: "SSH public key detected"
+        suggestion: "SSH keys should be managed separately"
+      - pattern: '(?i)(ssh_key|ssh_private_key)\s*:\s*"[A-Za-z0-9+/=]{50,}"'
+        message: "SSH key value detected"
+        suggestion: "Use SSH agent or secure storage"
+
+  - id: JSONS010
+    name: "Encryption keys"
+    domain: security
+    severity: critical
+    description: "Encryption keys should not be hardcoded"
+    rules:
+      - pattern: '(?i)(encryption_key|aes_key|cipher_key|crypto_key)\s*:\s*"[A-Fa-f0-9]{16,}"'
+        message: "Encryption key detected in JSON"
+        suggestion: "Use key management service (KMS)"
+      - pattern: '(?i)(encryption_key|aes_key)\s*:\s*"[A-Za-z0-9+/=]{22,}"'
+        message: "Base64 encoded encryption key detected"
+        suggestion: "Use key management service (KMS)"

@@ -1,0 +1,126 @@
+contracts:
+  - id: SQL_STYLE001
+    name: "Inconsistent Keyword Case"
+    domain: style
+    severity: info
+    description: "SQL keywords should be consistently upper or lower case"
+    tags:
+      - sql
+      - style
+      - case
+    rules:
+      - pattern: '(?i)\bselect\b.*\bFROM\b'
+        message: "Use consistent case for keywords (SELECT FROM or select from)"
+        suggestion: "Standardize: keywords in UPPER, identifiers in lower"
+
+  - id: SQL_STYLE002
+    name: "Long Query Line"
+    domain: style
+    severity: info
+    description: "Query on single line is hard to read"
+    tags:
+      - sql
+      - style
+      - formatting
+    rules:
+      - pattern: '(?i)SELECT\s+.{80,}FROM'
+        message: "Long single-line query"
+        suggestion: "Break into multiple lines: SELECT\\n  column1,\\n  column2\\nFROM"
+
+  - id: SQL_STYLE003
+    name: "Missing Table Alias"
+    domain: style
+    severity: info
+    description: "Multi-table query without aliases is unclear"
+    tags:
+      - sql
+      - style
+      - aliases
+    rules:
+      - pattern: '(?i)JOIN\s+\w+\s+ON'
+        message: "Consider adding alias for joined table"
+        suggestion: "FROM orders o JOIN customers c ON o.customer_id = c.id"
+
+  - id: SQL_STYLE004
+    name: "Star in JOIN"
+    domain: style
+    severity: warning
+    description: "SELECT * with JOIN returns duplicate column names"
+    tags:
+      - sql
+      - style
+      - joins
+    rules:
+      - pattern: '(?i)SELECT\s+\*\s+FROM\s+\w+\s+JOIN'
+        message: "SELECT * with JOIN may have ambiguous columns"
+        suggestion: "List specific columns with table aliases"
+
+  - id: SQL_STYLE005
+    name: "Redundant DISTINCT"
+    domain: style
+    severity: info
+    description: "DISTINCT on primary key is unnecessary"
+    tags:
+      - sql
+      - style
+      - distinct
+    rules:
+      - pattern: '(?i)SELECT\s+DISTINCT\s+\w+_id\b'
+        message: "DISTINCT on id column may be redundant"
+        suggestion: "Verify DISTINCT is needed or remove it"
+
+  - id: SQL_STYLE006
+    name: "Implicit Column Order"
+    domain: style
+    severity: warning
+    description: "INSERT without column list breaks on schema change"
+    tags:
+      - sql
+      - style
+      - insert
+    rules:
+      - pattern: '(?i)INSERT\s+INTO\s+\w+\s+VALUES'
+        message: "INSERT without column list"
+        suggestion: "INSERT INTO table (col1, col2) VALUES (...)"
+
+  - id: SQL_STYLE007
+    name: "Magic Numbers in Query"
+    domain: style
+    severity: info
+    description: "Hardcoded values without explanation"
+    tags:
+      - sql
+      - style
+      - magic-numbers
+    rules:
+      - pattern: '(?i)=\s*[0-9]{2,}\b'
+        message: "Magic number in query - consider parameter or comment"
+        suggestion: "Use parameterized value or add explanatory comment"
+
+  - id: SQL_STYLE008
+    name: "Complex Nested Conditions"
+    domain: style
+    severity: warning
+    description: "Deeply nested AND/OR conditions are hard to maintain"
+    tags:
+      - sql
+      - style
+      - complexity
+    rules:
+      - pattern: '(?i)WHERE[^)]+(\s+AND\s+|\s+OR\s+){4,}'
+        message: "Many conditions - consider CTE or derived table"
+        suggestion: "Use CTE to simplify complex logic"
+
+  - id: SQL_STYLE009
+    name: "Query Without Comment"
+    domain: style
+    severity: info
+    description: "Complex query should have explanation"
+    tags:
+      - sql
+      - style
+      - documentation
+    rules:
+      - pattern: '(?i)(SELECT|UPDATE|DELETE)[^;]{200,}'
+        message: "Long query - consider adding comment explaining purpose"
+        suggestion: "-- Query to calculate monthly revenue by region"

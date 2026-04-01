@@ -1,0 +1,442 @@
+contracts:
+- id: PYLINT_C0112
+  name: empty-docstring
+  domain: style
+  severity: info
+  description: 'Pylint message: empty-docstring (C0112)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \"\"\"\"\"\"
+    message: 'Pylint message: empty-docstring (C0112)'
+- id: PYLINT_E1102
+  name: not-callable
+  domain: correctness
+  severity: error
+  description: 'Pylint message: not-callable (E1102)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \w+\s*\(\s*\)
+    message: 'Pylint message: not-callable (E1102)'
+- id: PYLINT_E1133
+  name: not-an-iterable
+  domain: correctness
+  severity: error
+  description: 'Pylint message: not-an-iterable (E1133)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: (for|in)\s+\w+
+    message: 'Pylint message: not-an-iterable (E1133)'
+- id: PYLINT_E1303
+  name: format-needs-mapping
+  domain: correctness
+  severity: error
+  description: 'Pylint message: format-needs-mapping (E1303)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: '[''"][^''"]*\{[^}]+\}[^''"]*[''"]'
+    message: 'Pylint message: format-needs-mapping (E1303)'
+- id: PYLINT_W0101
+  name: unreachable
+  domain: warning
+  severity: warning
+  description: 'Pylint message: unreachable (W0101)'
+  tags:
+  - python
+  - pylint
+  rules: []
+- id: PYLINT_W0614
+  name: unused-wildcard-import
+  domain: warning
+  severity: warning
+  description: 'Pylint message: unused-wildcard-import (W0614)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ^import\s+\w+|^from\s+\w+\s+import
+    message: 'Pylint message: unused-wildcard-import (W0614)'
+- id: PYLINT_W0312
+  name: mixed-indentation
+  domain: warning
+  severity: warning
+  description: 'Pylint message: mixed-indentation (W0312)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ^[ \t]+
+    message: 'Pylint message: mixed-indentation (W0312)'
+- id: PYLINT_C0325
+  name: superfluous-parens
+  domain: style
+  severity: info
+  description: 'Pylint message: superfluous-parens (C0325)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \(\s*\w+\s*\)
+    message: 'Pylint message: superfluous-parens (C0325)'
+- id: PYLINT_W0122
+  name: exec-used
+  domain: security
+  severity: critical
+  description: 'Pylint message: exec-used (W0122)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: exec\s*\(
+    message: 'Pylint message: exec-used (W0122)'
+    suggestion: Avoid exec() - use safer alternatives like subprocess
+- id: PYLINT_W0602
+  name: global-variable-not-assigned
+  domain: warning
+  severity: warning
+  description: 'Pylint message: global-variable-not-assigned (W0602)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: global\s+\w+
+    message: 'Pylint message: global-variable-not-assigned (W0602)'
+- id: PYLINT_E1121
+  name: too-many-function-args
+  domain: correctness
+  severity: error
+  description: 'Pylint message: too-many-function-args (E1121)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \w+\s*\([^)]{50,}\)
+    message: 'Pylint message: too-many-function-args (E1121)'
+- id: PYLINT_E0710
+  name: raising-non-exception
+  domain: correctness
+  severity: error
+  description: 'Pylint message: raising-non-exception (E0710)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: raise\s+
+    message: 'Pylint message: raising-non-exception (E0710)'
+- id: PYLINT_W0311
+  name: bad-indentation
+  domain: warning
+  severity: warning
+  description: 'Pylint message: bad-indentation (W0311)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ^\t
+    message: 'Pylint message: bad-indentation (W0311)'
+- id: PYLINT_W1302
+  name: bad-format-string
+  domain: warning
+  severity: warning
+  description: 'Pylint message: bad-format-string (W1302)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: '[''"][^''"]*%[^''"]*[''"]'
+    message: 'Pylint message: bad-format-string (W1302)'
+- id: PYLINT_E1101
+  name: no-member
+  domain: correctness
+  severity: error
+  description: 'Pylint message: no-member (E1101)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \.\w+\s*\(
+    message: 'Pylint message: no-member (E1101)'
+- id: PYLINT_C0111
+  name: missing-docstring
+  domain: style
+  severity: info
+  description: 'Pylint message: missing-docstring (C0111)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: 'def\s+\w+\s*\([^)]*\)\s*:'
+    message: 'Pylint message: missing-docstring (C0111)'
+    suggestion: Add a docstring describing the function/class purpose
+- id: PYLINT_W0622
+  name: redefined-builtin
+  domain: warning
+  severity: warning
+  description: 'Pylint message: redefined-builtin (W0622)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: def\s+\w+\s*\(
+    message: 'Pylint message: redefined-builtin (W0622)'
+- id: PYLINT_C0321
+  name: multiple-statements
+  domain: style
+  severity: info
+  description: 'Pylint message: multiple-statements (C0321)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ;\s*\w+
+    message: 'Pylint message: multiple-statements (C0321)'
+- id: PYLINT_W0511
+  name: fixme
+  domain: warning
+  severity: warning
+  description: 'Pylint message: fixme (W0511)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: '#?\s*(TODO|FIXME|XXX|HACK)'
+    message: 'Pylint message: fixme (W0511)'
+- id: PYLINT_C0103
+  name: invalid-name
+  domain: style
+  severity: info
+  description: 'Pylint message: invalid-name (C0103)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \b[a-z]\s*=
+    message: 'Pylint message: invalid-name (C0103)'
+    suggestion: Use descriptive names following PEP 8 naming conventions
+- id: PYLINT_C0411
+  name: wrong-import-order
+  domain: style
+  severity: info
+  description: 'Pylint message: wrong-import-order (C0411)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ^import\s+
+    message: 'Pylint message: wrong-import-order (C0411)'
+- id: PYLINT_C0303
+  name: trailing-whitespace
+  domain: style
+  severity: info
+  description: 'Pylint message: trailing-whitespace (C0303)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: '[ \t]+$'
+    message: 'Pylint message: trailing-whitespace (C0303)'
+- id: PYLINT_E1135
+  name: unsupported-membership-test
+  domain: correctness
+  severity: error
+  description: 'Pylint message: unsupported-membership-test (E1135)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \w+\s+(not\s+)?in\s+\w+
+    message: 'Pylint message: unsupported-membership-test (E1135)'
+- id: PYLINT_W0110
+  name: deprecated-lambda
+  domain: correctness
+  severity: warning
+  description: 'Pylint message: deprecated-lambda (W0110)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: '@deprecated|deprecated\s*'
+    message: 'Pylint message: deprecated-lambda (W0110)'
+- id: PYLINT_W0611
+  name: unused-import
+  domain: warning
+  severity: warning
+  description: 'Pylint message: unused-import (W0611)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ^import\s+\w+
+    message: 'Pylint message: unused-import (W0611)'
+- id: PYLINT_C0301
+  name: line-too-long
+  domain: style
+  severity: info
+  description: 'Pylint message: line-too-long (C0301)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: .{120,}
+    message: 'Pylint message: line-too-long (C0301)'
+    suggestion: Break long lines or use parentheses for implicit line continuation
+- id: PYLINT_F0202
+  name: method-check-failed
+  domain: fatal
+  severity: critical
+  description: 'Pylint message: method-check-failed (F0202)'
+  tags:
+  - python
+  - pylint
+  rules: []
+- id: PYLINT_W1606
+  name: execfile-builtin
+  domain: warning
+  severity: warning
+  description: 'Pylint message: execfile-builtin (W1606)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: eval\s*\(|exec\s*\(
+    message: 'Pylint message: execfile-builtin (W1606)'
+- id: PYLINT_E0602
+  name: undefined-variable
+  domain: correctness
+  severity: error
+  description: 'Pylint message: undefined-variable (E0602)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \b\w+\s*(?!=)
+    message: 'Pylint message: undefined-variable (E0602)'
+- id: PYLINT_W0301
+  name: unnecessary-semicolon
+  domain: warning
+  severity: warning
+  description: 'Pylint message: unnecessary-semicolon (W0301)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ;\s*$
+    message: 'Pylint message: unnecessary-semicolon (W0301)'
+- id: PYLINT_E0711
+  name: notimplemented-raised
+  domain: correctness
+  severity: error
+  description: 'Pylint message: notimplemented-raised (E0711)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: raise\s+NotImplementedError
+    message: 'Pylint message: notimplemented-raised (E0711)'
+- id: PYLINT_W9016
+  name: missing-type-doc
+  domain: warning
+  severity: warning
+  description: 'Pylint message: missing-type-doc (W9016)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: def\s+\w+\s*\([^)]*\)\s*->\s*\w+
+    message: 'Pylint message: missing-type-doc (W9016)'
+- id: PYLINT_C0326
+  name: bad-whitespace
+  domain: style
+  severity: info
+  description: 'Pylint message: bad-whitespace (C0326)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ',\S|=\S|\S='
+    message: 'Pylint message: bad-whitespace (C0326)'
+- id: PYLINT_W0201
+  name: attribute-defined-outside-init
+  domain: warning
+  severity: warning
+  description: 'Pylint message: attribute-defined-outside-init (W0201)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: self\.\w+\s*=
+    message: 'Pylint message: attribute-defined-outside-init (W0201)'
+- id: PYLINT_E1136
+  name: unsubscriptable-object
+  domain: correctness
+  severity: error
+  description: 'Pylint message: unsubscriptable-object (E1136)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: \w+\s*\[[^\]]+\]
+    message: 'Pylint message: unsubscriptable-object (E1136)'
+- id: PYLINT_W0223
+  name: abstract-method
+  domain: warning
+  severity: warning
+  description: 'Pylint message: abstract-method (W0223)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: def\s+\w+\s*\([^)]*\)\s*:\s*(pass|\.\.\.)
+    message: 'Pylint message: abstract-method (W0223)'
+    suggestion: Implement the abstract method or mark class as abstract
+- id: PYLINT_W9012
+  name: missing-return-type-doc
+  domain: warning
+  severity: warning
+  description: 'Pylint message: missing-return-type-doc (W9012)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: 'def\s+\w+\s*\([^)]*\)\s*:'
+    message: 'Pylint message: missing-return-type-doc (W9012)'
+- id: PYLINT_W0612
+  name: unused-variable
+  domain: warning
+  severity: warning
+  description: 'Pylint message: unused-variable (W0612)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ^\s*\w+\s*=
+    message: 'Pylint message: unused-variable (W0612)'
+- id: PYLINT_W0404
+  name: reimported
+  domain: warning
+  severity: warning
+  description: 'Pylint message: reimported (W0404)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: ^import\s+
+    message: 'Pylint message: reimported (W0404)'
+- id: PYLINT_W0613
+  name: unused-argument
+  domain: warning
+  severity: warning
+  description: 'Pylint message: unused-argument (W0613)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: def\s+\w+\s*\([^)]*\)
+    message: 'Pylint message: unused-argument (W0613)'

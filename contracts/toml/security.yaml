@@ -1,0 +1,121 @@
+contracts:
+  - id: TOMLS001
+    name: "Hardcoded secrets"
+    domain: security
+    severity: critical
+    description: "Secrets should not be hardcoded in TOML"
+    rules:
+      - pattern: '(?i)^(api_key|apikey|secret|token)\s*=\s*"[A-Za-z0-9]{16,}"'
+        message: "Hardcoded secret detected"
+        suggestion: "Use environment variables or vault"
+
+  - id: TOMLS002
+    name: "AWS credentials"
+    domain: security
+    severity: critical
+    description: "AWS credentials should not be in TOML"
+    rules:
+      - pattern: '(?i)^aws_access_key_id\s*=\s*"AKIA[A-Z0-9]{16}"'
+        message: "AWS access key ID detected"
+        suggestion: "Use IAM roles or environment variables"
+      - pattern: '(?i)^aws_secret_access_key\s*=\s*"[A-Za-z0-9+/]{40}"'
+        message: "AWS secret access key detected"
+        suggestion: "Use IAM roles or environment variables"
+
+  - id: TOMLS003
+    name: "Database passwords"
+    domain: security
+    severity: critical
+    description: "Database passwords should not be in TOML"
+    rules:
+      - pattern: '(?i)^password\s*=\s*"[^"$]{8,}"'
+        message: "Plaintext password detected"
+        suggestion: "Use secrets management"
+      - pattern: '(?i)^(db_pass|database_password)\s*=\s*"[^"$]{8,}"'
+        message: "Database password detected"
+        suggestion: "Use secrets management"
+
+  - id: TOMLS004
+    name: "Private keys"
+    domain: security
+    severity: critical
+    description: "Private keys should not be in TOML"
+    rules:
+      - pattern: '-----BEGIN (RSA |EC |DSA )?PRIVATE KEY-----'
+        message: "Private key detected in TOML"
+        suggestion: "Store private keys in vault"
+      - pattern: '(?i)^private_key\s*=\s*"[A-Za-z0-9+/=]{50,}"'
+        message: "Encoded private key detected"
+        suggestion: "Remove private keys from TOML"
+
+  - id: TOMLS005
+    name: "JWT secrets"
+    domain: security
+    severity: critical
+    description: "JWT secrets should not be hardcoded"
+    rules:
+      - pattern: '(?i)^jwt_secret\s*=\s*"[A-Za-z0-9._-]{16,}"'
+        message: "JWT secret detected"
+        suggestion: "Use environment variables for JWT secrets"
+
+  - id: TOMLS006
+    name: "Connection strings"
+    domain: security
+    severity: high
+    description: "Connection strings with embedded credentials"
+    rules:
+      - pattern: '(mysql|postgres|mongodb|redis)://[^:]+:[^@]+@'
+        message: "Connection string with credentials"
+        suggestion: "Remove credentials from connection strings"
+
+  - id: TOMLS007
+    name: "OAuth tokens"
+    domain: security
+    severity: critical
+    description: "OAuth tokens should not be hardcoded"
+    rules:
+      - pattern: '(?i)^access_token\s*=\s*"[A-Za-z0-9._-]{20,}"'
+        message: "Access token detected"
+        suggestion: "Use token refresh mechanism"
+      - pattern: '(?i)^refresh_token\s*=\s*"[A-Za-z0-9._-]{20,}"'
+        message: "Refresh token detected"
+        suggestion: "Use secure token storage"
+
+  - id: TOMLS008
+    name: "SSH keys"
+    domain: security
+    severity: critical
+    description: "SSH keys should not be in TOML"
+    rules:
+      - pattern: 'ssh-(rsa|ed25519|ecdsa) AAAA'
+        message: "SSH public key detected"
+        suggestion: "Manage SSH keys separately"
+      - pattern: '(?i)^ssh_key\s*=\s*"[A-Za-z0-9+/=]{50,}"'
+        message: "SSH key value detected"
+        suggestion: "Use SSH agent or secure storage"
+
+  - id: TOMLS009
+    name: "Encryption keys"
+    domain: security
+    severity: critical
+    description: "Encryption keys should not be hardcoded"
+    rules:
+      - pattern: '(?i)^(encryption_key|aes_key|cipher_key)\s*=\s*"[A-Fa-f0-9]{16,}"'
+        message: "Hex encryption key detected"
+        suggestion: "Use key management service (KMS)"
+      - pattern: '(?i)^(encryption_key|aes_key)\s*=\s*"[A-Za-z0-9+/=]{24,}"'
+        message: "Base64 encryption key detected"
+        suggestion: "Use key management service (KMS)"
+
+  - id: TOMLS010
+    name: "Shell command injection"
+    domain: security
+    severity: high
+    description: "Shell commands in config may allow injection"
+    rules:
+      - pattern: '^\w+\s*=\s*"[^"]*(\$|\`|;|\||&&)[^"]*"'
+        message: "Potential shell command injection"
+        suggestion: "Avoid shell metacharacters in config values"
+      - pattern: '(?i)^(cmd|command|exec|shell)\s*=\s*"[^"]*"'
+        message: "Command configuration detected"
+        suggestion: "Validate command execution carefully"

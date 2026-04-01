@@ -1,0 +1,316 @@
+# Notebook Performance Contracts
+# Domain: performance
+# Validates cell execution, imports, and notebook performance
+
+contracts:
+  - id: NB_PERF001
+    name: "Avoid large data in memory"
+    domain: performance
+    severity: warning
+    description: "Large datasets should use chunking or streaming"
+    tags:
+      - notebook
+      - performance
+      - memory
+    rules:
+      - pattern: 'pd\.read_csv\([^)]*\)|pd\.read_excel\([^)]*\)'
+        message: "Data loading without chunking - may use excessive memory"
+        suggestion: "Use chunksize parameter or dask for large files"
+      - query: |
+          SELECT cell, estimated_memory
+          FROM cells
+          WHERE estimated_memory > 1000000000
+        message: "Cell may use >1GB memory"
+        suggestion: "Consider chunking or streaming data"
+
+  - id: NB_PERF002
+    name: "Avoid repeated expensive computations"
+    domain: performance
+    severity: warning
+    description: "Cache expensive computations"
+    tags:
+      - notebook
+      - performance
+      - caching
+    rules:
+      - query: |
+          SELECT computation, COUNT(*) as count
+          FROM expensive_operations
+          GROUP BY computation
+          HAVING COUNT(*) > 1
+        message: "Same expensive operation repeated"
+        suggestion: "Store result in variable and reuse"
+
+  - id: NB_PERF003
+    name: "Efficient iteration patterns"
+    domain: performance
+    severity: info
+    description: "Use vectorized operations instead of loops"
+    tags:
+      - notebook
+      - performance
+      - vectorization
+    rules:
+      - pattern: 'for\s+\w+\s+in\s+(range|np\.arange|pd\.Series).*apply'
+        message: "Loop with apply - consider vectorization"
+        suggestion: "Use pandas/numpy vectorized operations"
+      - pattern: 'for.*:\s*\n\s*df\[.*\]\s*='
+        message: "Loop assigning to DataFrame - consider vectorization"
+        suggestion: "Use df['col'] = vectorized_operation"
+
+  - id: NB_PERF004
+    name: "Lazy imports where appropriate"
+    domain: performance
+    severity: info
+    description: "Heavy imports should be lazy-loaded"
+    tags:
+      - notebook
+      - performance
+      - imports
+    rules:
+      - pattern: 'import\s+(tensorflow|torch|keras|transformers|sklearn)'
+        message: "Heavy ML library import - consider lazy loading"
+        suggestion: "Import only when needed or use %load_ext"
+
+  - id: NB_PERF005
+    name: "Avoid unnecessary DataFrame copies"
+    domain: performance
+    severity: info
+    description: "Avoid copying DataFrames unnecessarily"
+    tags:
+      - notebook
+      - performance
+      - pandas
+    rules:
+      - pattern: 'df\.copy\(\).*df\.copy\(\)|\.copy\(\)\.copy\(\)'
+        message: "Multiple DataFrame copies"
+        suggestion: "Remove unnecessary copies"
+
+  - id: NB_PERF006
+    name: "Use efficient data types"
+    domain: performance
+    severity: info
+    description: "Use appropriate data types for memory efficiency"
+    tags:
+      - notebook
+      - performance
+      - datatypes
+    rules:
+      - query: |
+          SELECT df, column, dtype
+          FROM dataframe_info
+          WHERE dtype = 'float64' AND all_integers
+        message: "Integer column stored as float64"
+        suggestion: "Use: df['col'].astype('int32') or 'Int32'"
+
+  - id: NB_PERF007
+    name: "Batch database queries"
+    domain: performance
+    severity: warning
+    description: "Database queries should be batched"
+    tags:
+      - notebook
+      - performance
+      - database
+    rules:
+      - pattern: 'for\s+\w+\s+in.*:\s*\n\s*(cursor\.execute|pd\.read_sql)'
+        message: "Database query in loop - use batch query"
+        suggestion: "Fetch all data at once or use IN clause"
+
+  - id: NB_PERF008
+    name: "Limit DataFrame display"
+    domain: performance
+    severity: info
+    description: "Large DataFrames should have display limits"
+    tags:
+      - notebook
+      - performance
+      - display
+    rules:
+      - pattern: 'pd\.set_option\(.display.max_rows|df\.head\(\)|df\.sample\('
+        message: "No display limit set for large DataFrames"
+        suggestion: "Use pd.set_option('display.max_rows', 50)"
+
+  - id: NB_PERF009
+    name: "Avoid expensive plots on large data"
+    domain: performance
+    severity: warning
+    description: "Large datasets should be sampled for plotting"
+    tags:
+      - notebook
+      - performance
+      - plotting
+    rules:
+      - pattern: 'plt\.plot\(df\[|sns\.plot\(df\[|\.plot\(kind='
+        message: "Plotting full DataFrame - consider sampling"
+        suggestion: "Plot df.sample(10000) instead of full data"
+
+  - id: NB_PERF010
+    name: "Clear unused variables"
+    domain: performance
+    severity: info
+    description: "Clear large unused variables to free memory"
+    tags:
+      - notebook
+      - performance
+      - memory
+    rules:
+      - query: |
+          SELECT name, size_bytes
+          FROM variables
+          WHERE last_accessed_cells_ago > 5 AND size_bytes > 100000000
+        message: "Large variable not accessed in 5+ cells"
+        suggestion: "Use del large_var to free memory"
+
+  - id: NB_PERF011
+    name: "Use parallel processing where appropriate"
+    domain: performance
+    severity: info
+    description: "Consider parallel processing for CPU-bound tasks"
+    tags:
+      - notebook
+      - performance
+      - parallelism
+    rules:
+      - pattern: 'for\s+\w+\s+in\s+.*:\s*\n\s*(.*\.apply|.*compute|.*process)'
+        message: "Sequential processing - consider parallel"
+        suggestion: "Use multiprocessing.Pool or joblib.Parallel"
+
+  - id: NB_PERF012
+    name: "Avoid repeated file I/O"
+    domain: performance
+    severity: warning
+    description: "Cache file reads instead of re-reading"
+    tags:
+      - notebook
+      - performance
+      - io
+    rules:
+      - query: |
+          SELECT file, COUNT(*) as read_count
+          FROM file_operations
+          GROUP BY file
+          HAVING COUNT(*) > 1
+        message: "Same file read multiple times"
+        suggestion: "Read once and store in variable"
+
+  - id: NB_PERF013
+    name: "Use SQL filtering early"
+    domain: performance
+    severity: warning
+    description: "Filter data in SQL query, not in pandas"
+    tags:
+      - notebook
+      - performance
+      - database
+    rules:
+      - pattern: 'pd\.read_sql\("SELECT \* FROM'
+        message: "SELECT * from database - add WHERE clause"
+        suggestion: "Filter in SQL: SELECT ... WHERE condition"
+
+  - id: NB_PERF014
+    name: "Avoid excessive print statements"
+    domain: performance
+    severity: info
+    description: "Excessive printing slows down execution"
+    tags:
+      - notebook
+      - performance
+      - output
+    rules:
+      - pattern: 'for\s+.*:\s*\n\s*print\('
+        message: "Print in loop - consider tqdm or logging"
+        suggestion: "Use tqdm for progress bars or reduce print frequency"
+
+  - id: NB_PERF015
+    name: "Use categorical for repeated strings"
+    domain: performance
+    severity: info
+    description: "Convert repeated strings to categorical"
+    tags:
+      - notebook
+      - performance
+      - pandas
+    rules:
+      - query: |
+          SELECT df, column, unique_ratio
+          FROM dataframe_info
+          WHERE unique_ratio < 0.1 AND dtype = 'object'
+        message: "Low cardinality string column - use categorical"
+        suggestion: "Use df['col'].astype('category')"
+
+  - id: NB_PERF016
+    name: "Sparse matrices for sparse data"
+    domain: performance
+    severity: info
+    description: "Use sparse matrices for sparse data"
+    tags:
+      - notebook
+      - performance
+      - sparse
+    rules:
+      - query: |
+          SELECT matrix, sparsity_ratio
+          FROM matrix_info
+          WHERE sparsity_ratio > 0.9 AND NOT is_sparse
+        message: "Dense matrix with >90% zeros"
+        suggestion: "Use scipy.sparse for sparse matrices"
+
+  - id: NB_PERF017
+    name: "Avoid DataFrame iteration"
+    domain: performance
+    severity: warning
+    description: "Avoid iterating over DataFrame rows"
+    tags:
+      - notebook
+      - performance
+      - pandas
+    rules:
+      - pattern: 'for\s+\w+\s+in\s+df\.iterrows\(\)|for\s+\w+\s+in\s+df\.itertuples\(\)'
+        message: "iterrows/itertuples is slow - use vectorization"
+        suggestion: "Use df.apply() or vectorized operations"
+
+  - id: NB_PERF018
+    name: "GPU utilization"
+    domain: performance
+    severity: info
+    description: "Check GPU utilization for ML workloads"
+    tags:
+      - notebook
+      - performance
+      - gpu
+    rules:
+      - pattern: 'torch\.(cuda|device)|tensorflow|tf\.device'
+        message: "GPU code detected - verify GPU utilization"
+        suggestion: "Check nvidia-smi or torch.cuda.is_available()"
+
+  - id: NB_PERF019
+    name: "Batch API requests"
+    domain: performance
+    severity: warning
+    description: "API requests should be batched"
+    tags:
+      - notebook
+      - performance
+      - api
+    rules:
+      - pattern: 'for\s+\w+\s+in.*:\s*\n\s*requests\.(get|post)'
+        message: "API request in loop - use batch endpoint"
+        suggestion: "Use bulk/batch API endpoints if available"
+
+  - id: NB_PERF020
+    name: "Memory-efficient joins"
+    domain: performance
+    severity: warning
+    description: "Large joins should be memory-efficient"
+    tags:
+      - notebook
+      - performance
+      - pandas
+    rules:
+      - query: |
+          SELECT join_operation, estimated_memory
+          FROM operations
+          WHERE type = 'merge' AND estimated_memory > 5000000000
+        message: "Large merge operation - may use excessive memory"
+        suggestion: "Use merge with 'inner' or filter before merge"

@@ -1,0 +1,163 @@
+# Embedded/no_std Contracts — Error patterns in embedded Rust
+
+contracts:
+  # Memory & Safety
+  - id: EMB001
+    name: "No static mut without Mutex"
+    domain: concurrency
+    severity: error
+    description: "static mut accessed without synchronization"
+    rules:
+      - pattern: "static mut"
+        message: "static mut is unsafe - interrupt may access concurrently"
+        suggestion: "Use cortex_m::interrupt::Mutex<T>"
+
+  - id: EMB002
+    name: "Large static array"
+    domain: memory
+    severity: warning
+    description: "Large static consumes RAM"
+    rules:
+      - pattern: "static "
+        message: "Static allocation - check size doesn't exceed RAM"
+        suggestion: "Use smaller buffer or external memory"
+
+  - id: EMB003
+    name: "Stack overflow risk"
+    domain: memory
+    severity: error
+    description: "Large stack allocation"
+    rules:
+      - pattern: "let "
+        message: "Stack allocation - verify stack size is sufficient"
+        suggestion: "Use static or increase stack in linker script"
+
+  - id: EMB004
+    name: "No unwraps in embedded"
+    domain: error-handling
+    severity: error
+    description: "Panic in no_std has no recovery"
+    rules:
+      - pattern: ".unwrap()"
+        message: "unwrap() can panic - no std panic handler"
+        suggestion: "Use defmt or handle error explicitly"
+
+  - id: EMB005
+    name: "Loop without watchdog"
+    domain: reliability
+    severity: warning
+    description: "Infinite loop without watchdog feed"
+    rules:
+      - pattern: "loop {"
+        message: "Infinite loop - feed watchdog or ensure break"
+        suggestion: "Add watchdog.pet() in loop"
+
+  - id: EMB006
+    name: "Busy wait without timeout"
+    domain: reliability
+    severity: warning
+    description: "Spin loop without escape"
+    rules:
+      - pattern: "while"
+        message: "Busy wait loop - add timeout"
+        suggestion: "Use timer with timeout or interrupt"
+
+  - id: EMB007
+    name: "Unsafe pointer without volatil"
+    domain: correctness
+    severity: error
+    description: "Register access without volatile"
+    rules:
+      - pattern: "as *mut"
+        message: "Pointer to register - use read_volatile/write_volatile"
+        suggestion: "Use core::ptr::read_volatile/write_volatile"
+
+  - id: EMB008
+    name: "Register struct alignment"
+    domain: correctness
+    severity: error
+    description: "Struct for registers without repr(C, packed)"
+    rules:
+      - pattern: "struct "
+        message: "Register struct - use #[repr(C)] or #[repr(packed)]"
+        suggestion: "Add #[repr(C)] for correct memory layout"
+
+  - id: EMB009
+    name: "Interrupt race condition"
+    domain: concurrency
+    severity: error
+    description: "Shared data with interrupt"
+    rules:
+      - pattern: "enable_interrupt"
+        message: "Interrupt enabled - protect shared data"
+        suggestion: "Use critical_section or Mutex"
+
+  - id: EMB010
+    name: "Wrong bit manipulation"
+    domain: correctness
+    severity: warning
+    description: "Bit clear incorrect"
+    rules:
+      - pattern: "& (1 <<"
+        message: "Bit clear - should be val & !(1 << bit)"
+        suggestion: "Use val &= !(1 << bit) to clear"
+
+  - id: EMB011
+    name: "Missing panic handler"
+    domain: error-handling
+    severity: error
+    description: "No #[panic_handler] defined"
+    rules:
+      - pattern: "#![no_std]"
+        message: "no_std crate - ensure panic_handler is defined"
+        suggestion: "Add #[panic_handler] fn panic(...) -> !"
+
+  - id: EMB012
+    name: "Send impl without justification"
+    domain: concurrency
+    severity: warning
+    description: "Unsafe Send impl"
+    rules:
+      - pattern: "unsafe impl Send"
+        message: "Unsafe Send - verify thread/interrupt safety"
+        suggestion: "Document why Send is safe"
+
+  - id: EMB013
+    name: "Baud rate calculation"
+    domain: correctness
+    severity: warning
+    description: "Integer division for baud rate"
+    rules:
+      - pattern: "/ (16 *"
+        message: "Baud rate division - may have truncation error"
+        suggestion: "Use rounding: (clock + 8 * baud) / (16 * baud)"
+
+  - id: EMB014
+    name: "Pointer offset wrong"
+    domain: correctness
+    severity: error
+    description: "Register offset calculation"
+    rules:
+      - pattern: ".add(2)"
+        message: "Pointer offset - verify register map matches"
+        suggestion: "Use svd2rust for correct offsets"
+
+  - id: EMB015
+    name: "No HardFault handler"
+    domain: reliability
+    severity: warning
+    description: "HardFault not handled"
+    rules:
+      - pattern: "#![no_main]"
+        message: "Bare metal - consider HardFault handler"
+        suggestion: "Add HardFault handler for debugging"
+
+  - id: EMB016
+    name: "Atomic in cortex-m"
+    domain: concurrency
+    severity: info
+    description: "Atomic operations on ARMv6-M"
+    rules:
+      - pattern: "AtomicU"
+        message: "Atomic operations - verify target supports them"
+        suggestion: "cortex-m provides Atomic for all targets"

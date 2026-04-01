@@ -1,0 +1,103 @@
+contracts:
+  - id: JSONBP001
+    name: "Missing $schema"
+    domain: best-practices
+    severity: info
+    description: "Consider adding $schema for validation"
+    rules:
+      - pattern: '^\s*\{\s*"'
+        message: "No $schema property detected"
+        suggestion: "Add $schema for JSON Schema validation"
+
+  - id: JSONBP002
+    name: "Version field missing"
+    domain: best-practices
+    severity: info
+    description: "Configuration files should have version"
+    rules:
+      - pattern: '^\s*\{\s*"[a-zA-Z_]+'
+        message: "No version field in first properties"
+        suggestion: "Add version field for configuration tracking"
+
+  - id: JSONBP003
+    name: "Hardcoded URLs"
+    domain: best-practices
+    severity: warning
+    description: "URLs should be configurable"
+    rules:
+      - pattern: '"https?://[^"]+"'
+        message: "Hardcoded URL detected"
+        suggestion: "Make URLs configurable via environment"
+
+  - id: JSONBP004
+    name: "Hardcoded paths"
+    domain: best-practices
+    severity: warning
+    description: "File paths should be configurable"
+    rules:
+      - pattern: '"/(?:usr|var|etc|home|tmp|opt)/[^"]+"'
+        message: "Hardcoded Unix path detected"
+        suggestion: "Use configurable path variables"
+      - pattern: '"[A-Z]:\\\\[^"]+"'
+        message: "Hardcoded Windows path detected"
+        suggestion: "Use configurable path variables"
+
+  - id: JSONBP005
+    name: "IP addresses"
+    domain: best-practices
+    severity: warning
+    description: "IP addresses should be configurable"
+    rules:
+      - pattern: '"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"'
+        message: "Hardcoded IP address detected"
+        suggestion: "Make IP addresses configurable"
+
+  - id: JSONBP006
+    name: "Duplicate values"
+    domain: best-practices
+    severity: warning
+    description: "Repeated values should use references"
+    rules:
+      - pattern: '("[a-zA-Z_]+")\s*:\s*("[^"]+")(.|\n)*\1\s*:\s*\2'
+        message: "Duplicate key-value pairs detected"
+        suggestion: "Consider restructuring to avoid duplication"
+
+  - id: JSONBP007
+    name: "Large file size"
+    domain: best-practices
+    severity: info
+    description: "Consider splitting large JSON files"
+    rules:
+      - pattern: '(\{|\[).{10000,}(\}|\])'
+        message: "Large JSON structure detected"
+        suggestion: "Consider splitting into multiple files"
+
+  - id: JSONBP008
+    name: "Missing description fields"
+    domain: best-practices
+    severity: info
+    description: "Config values should have descriptions"
+    rules:
+      - pattern: '"[a-zA-Z_]+_desc(ription)?"\s*:'
+        message: "Description field found - good practice"
+        suggestion: "Consider documenting all configuration"
+
+  - id: JSONBP009
+    name: "Deprecated fields pattern"
+    domain: best-practices
+    severity: warning
+    description: "Fields with deprecated in name should be removed"
+    rules:
+      - pattern: '"(deprecated|legacy|old|obsolete)_?[a-zA-Z]*"\s*:'
+        message: "Deprecated field detected"
+        suggestion: "Remove deprecated fields from configuration"
+
+  - id: JSONBP010
+    name: "Debug flags in production"
+    domain: best-practices
+    severity: warning
+    description: "Debug flags should not be enabled in production"
+    rules:
+      - pattern: '"(debug|verbose|trace)"\s*:\s*(true|1|"true")'
+        message: "Debug/verbose flag enabled"
+        suggestion: "Disable debug flags for production"

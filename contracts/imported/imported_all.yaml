@@ -1,0 +1,444 @@
+contracts:
+- id: ESLINT_NO_PROTO
+  name: no-proto
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-proto'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: __proto__
+    message: 'ESLint rule: no-proto'
+- id: CWE_079
+  name: Cross-site Scripting (XSS)
+  domain: security
+  severity: critical
+  description: Improper neutralization of input during web page generation
+  tags:
+  - security
+  - xss
+  - web
+  rules:
+  - pattern: innerHTML
+    message: Improper neutralization of input during web page generation
+    suggestion: Sanitize/escape user input before rendering
+- id: CLIPPY_PANIC
+  name: panic
+  domain: security
+  severity: info
+  description: 'Clippy lint: panic'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: panic!\s*\(
+    message: 'Clippy lint: panic'
+    suggestion: Return Result or use proper error handling
+- id: OWASP_A05_MISCONFIG
+  name: Security Misconfiguration
+  domain: security
+  severity: error
+  description: Missing appropriate security hardening
+  tags:
+  - security
+  - configuration
+  - owasp
+  rules:
+  - pattern: debug = true
+    message: Missing appropriate security hardening
+    suggestion: Disable debug modes, remove default credentials
+- id: CWE_089
+  name: SQL Injection
+  domain: security
+  severity: critical
+  description: Improper neutralization of SQL commands
+  tags:
+  - security
+  - sql-injection
+  - database
+  rules:
+  - pattern: format!.*SELECT
+    message: Improper neutralization of SQL commands
+    suggestion: Use parameterized queries
+- id: PYLINT_W0122
+  name: exec-used
+  domain: security
+  severity: critical
+  description: 'Pylint message: exec-used (W0122)'
+  tags:
+  - python
+  - pylint
+  rules:
+  - pattern: exec\s*\(
+    message: 'Pylint message: exec-used (W0122)'
+    suggestion: Avoid exec() - use safer alternatives like subprocess
+- id: CWE_311
+  name: Missing Encryption
+  domain: security
+  severity: critical
+  description: Missing encryption of sensitive data
+  tags:
+  - security
+  - encryption
+  rules:
+  - pattern: password = "
+    message: Missing encryption of sensitive data
+    suggestion: Encrypt sensitive data at rest and in transit
+- id: ESLINT_NO_UNSAFE_OPTIONAL_CHAINING
+  name: no-unsafe-optional-chaining
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-unsafe-optional-chaining'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: \?\.\s*\[
+    message: 'ESLint rule: no-unsafe-optional-chaining'
+- id: CLIPPY_CAST_PTR_ALIGNMENT
+  name: cast_ptr_alignment
+  domain: security
+  severity: info
+  description: 'Clippy lint: cast_ptr_alignment'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: as\s+\*const\s+\w+|as\s+\*mut\s+\w+
+    message: 'Clippy lint: cast_ptr_alignment'
+- id: ESLINT_NO_SCRIPT_URL
+  name: no-script-url
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-script-url'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: 'javascript\s*:'
+    message: 'ESLint rule: no-script-url'
+    suggestion: 'Avoid javascript: URLs - use event handlers instead'
+- id: ESLINT_NO_UNSAFE_FINALLY
+  name: no-unsafe-finally
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-unsafe-finally'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: finally\s*\{[^}]*\b(throw|return|break|continue)\b
+    message: 'ESLint rule: no-unsafe-finally'
+- id: CLIPPY_UNWRAP_USED
+  name: unwrap_used
+  domain: security
+  severity: info
+  description: 'Clippy lint: unwrap_used'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.unwrap\s*\(\s*\)
+    message: 'Clippy lint: unwrap_used'
+    suggestion: Use expect() with context or handle with ? operator
+- id: CWE_022
+  name: Path Traversal
+  domain: security
+  severity: critical
+  description: Improper limitation of pathname to restricted directory
+  tags:
+  - security
+  - path-traversal
+  rules:
+  - pattern: ..
+    message: Improper limitation of pathname to restricted directory
+    suggestion: Validate and sanitize file paths
+- id: CLIPPY_NOT_UNSAFE_PTR_ARG_DEREF
+  name: not_unsafe_ptr_arg_deref
+  domain: security
+  severity: info
+  description: 'Clippy lint: not_unsafe_ptr_arg_deref'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+\s*\([^)]*\*const\s+\w+[^)]*\)[^{]*\*[^_]
+    message: 'Clippy lint: not_unsafe_ptr_arg_deref'
+- id: CWE_798
+  name: Hardcoded Credentials
+  domain: security
+  severity: critical
+  description: Use of hardcoded credentials
+  tags:
+  - security
+  - credentials
+  rules:
+  - pattern: password\s*=\s*"
+    message: Use of hardcoded credentials
+    suggestion: Use environment variables or secrets manager
+- id: CLIPPY_MEM_FORGET
+  name: mem_forget
+  domain: security
+  severity: info
+  description: 'Clippy lint: mem_forget'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: std::mem::forget
+    message: 'Clippy lint: mem_forget'
+    suggestion: Consider if this is intentional - causes memory leak
+- id: CLIPPY_CROSSPOINTER_TRANSMUTE
+  name: crosspointer_transmute
+  domain: security
+  severity: info
+  description: 'Clippy lint: crosspointer_transmute'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: std::mem::transmute
+    message: 'Clippy lint: crosspointer_transmute'
+- id: CLIPPY_MISSING_PANICS_DOC
+  name: missing_panics_doc
+  domain: security
+  severity: info
+  description: 'Clippy lint: missing_panics_doc'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: panic!|unwrap|expect
+    message: 'Clippy lint: missing_panics_doc'
+- id: ESLINT_NO_EVAL
+  name: no-eval
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-eval'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: eval\s*\(
+    message: 'ESLint rule: no-eval'
+    suggestion: Avoid eval() - use safer alternatives like JSON.parse or Function constructor
+- id: CLIPPY_EXPECT_USED
+  name: expect_used
+  domain: security
+  severity: info
+  description: 'Clippy lint: expect_used'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.expect\s*\(
+    message: 'Clippy lint: expect_used'
+    suggestion: Handle error with ? operator or proper error handling
+- id: CLIPPY_PRINT_STDOUT
+  name: print_stdout
+  domain: security
+  severity: info
+  description: 'Clippy lint: print_stdout'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: print!\s*\(
+    message: 'Clippy lint: print_stdout'
+    suggestion: Use proper logging (log::info!, etc.)
+- id: CLIPPY_PTR_ARG
+  name: ptr_arg
+  domain: security
+  severity: info
+  description: 'Clippy lint: ptr_arg'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+\s*\([^)]*&\s*Vec<|fn\s+\w+\s*\([^)]*&\s*String
+    message: 'Clippy lint: ptr_arg'
+- id: CLIPPY_PANIC_IN_RESULT_FN
+  name: panic_in_result_fn
+  domain: security
+  severity: info
+  description: 'Clippy lint: panic_in_result_fn'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+[^{]*->[^{]*Result[^{]*\{[^}]*panic!
+    message: 'Clippy lint: panic_in_result_fn'
+- id: CWE_094
+  name: Code Injection
+  domain: security
+  severity: critical
+  description: Improper control of code generation (eval/exec)
+  tags:
+  - security
+  - code-injection
+  rules:
+  - pattern: eval(
+    message: Improper control of code generation (eval/exec)
+    suggestion: Never use eval/exec with user input
+- id: ESLINT_NO_UNSAFE_NEGATION
+  name: no-unsafe-negation
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-unsafe-negation'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: '!\s*\['
+    message: 'ESLint rule: no-unsafe-negation'
+- id: OWASP_A08_INTEGRITY
+  name: Software and Data Integrity Failures
+  domain: security
+  severity: critical
+  description: Code and infrastructure not protected from integrity violations
+  tags:
+  - security
+  - integrity
+  - owasp
+  rules:
+  - pattern: '| bash'
+    message: Code and infrastructure not protected from integrity violations
+    suggestion: Verify signatures, use secure CD/CI pipelines
+- id: ESLINT_NO_IMPLIED_EVAL
+  name: no-implied-eval
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-implied-eval'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: setTimeout\s*\([^)]*['"]|setInterval\s*\([^)]*['"]
+    message: 'ESLint rule: no-implied-eval'
+    suggestion: Pass function reference to setTimeout/setInterval, not a string
+- id: CLIPPY_MACRO_METAVARS_IN_UNSAFE
+  name: macro_metavars_in_unsafe
+  domain: security
+  severity: info
+  description: 'Clippy lint: macro_metavars_in_unsafe'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: unsafe\s*\{
+    message: 'Clippy lint: macro_metavars_in_unsafe'
+- id: ESLINT_NO_NEW_FUNC
+  name: no-new-func
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-new-func'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: new\s+Function\s*\(
+    message: 'ESLint rule: no-new-func'
+    suggestion: Avoid dynamic code generation - use static functions
+- id: CWE_125
+  name: Buffer Overflow
+  domain: security
+  severity: critical
+  description: Out-of-bounds read/write
+  tags:
+  - security
+  - memory
+  - buffer-overflow
+  rules: []
+- id: OWASP_A02_CRYPTO
+  name: Cryptographic Failures
+  domain: security
+  severity: critical
+  description: Failures related to cryptography leading to sensitive data exposure
+  tags:
+  - security
+  - cryptography
+  - owasp
+  rules:
+  - pattern: md5(
+    message: Failures related to cryptography leading to sensitive data exposure
+    suggestion: Use strong encryption (AES-256, SHA-256+)
+- id: CWE_078
+  name: OS Command Injection
+  domain: security
+  severity: critical
+  description: Improper neutralization of OS commands
+  tags:
+  - security
+  - command-injection
+  rules:
+  - pattern: os.system(
+    message: Improper neutralization of OS commands
+    suggestion: Use subprocess with list args, never shell=True
+- id: CLIPPY_UNSAFE_REMOVED_FROM_NAME
+  name: unsafe_removed_from_name
+  domain: security
+  severity: info
+  description: 'Clippy lint: unsafe_removed_from_name'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: unsafe fn\s+(\w+)
+    message: 'Clippy lint: unsafe_removed_from_name'
+- id: ESLINT_NO_EXTEND_NATIVE
+  name: no-extend-native
+  domain: security
+  severity: critical
+  description: 'ESLint rule: no-extend-native'
+  tags:
+  - javascript
+  - eslint
+  - typescript
+  rules:
+  - pattern: Object\.prototype\.\w+\s*=
+    message: 'ESLint rule: no-extend-native'
+- id: CLIPPY_PRINT_STDERR
+  name: print_stderr
+  domain: security
+  severity: info
+  description: 'Clippy lint: print_stderr'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: eprint!\s*\(
+    message: 'Clippy lint: print_stderr'
+- id: OWASP_A10_SSRF
+  name: Server-Side Request Forgery
+  domain: security
+  severity: critical
+  description: Server fetches remote resource without validating the URL
+  tags:
+  - security
+  - ssrf
+  - owasp
+  rules:
+  - pattern: curl(
+    message: Server fetches remote resource without validating the URL
+    suggestion: Validate and whitelist allowed URLs
+- id: CWE_200
+  name: Information Exposure
+  domain: security
+  severity: warning
+  description: Exposure of sensitive information
+  tags:
+  - security
+  - information-disclosure
+  rules:
+  - pattern: password
+    message: Exposure of sensitive information
+    suggestion: Never log/echo sensitive data

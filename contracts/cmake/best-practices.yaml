@@ -1,0 +1,56 @@
+contracts:
+  - id: CMAKE001
+    name: "Minimum version required"
+    domain: best-practices
+    severity: warning
+    description: "CMakeLists should specify minimum version"
+    rules:
+      - pattern: '^cmake_minimum_required'
+        message: "Good - minimum version specified"
+        suggestion: ""
+
+  - id: CMAKE002
+    name: "Avoid deprecated commands"
+    domain: correctness
+    severity: warning
+    description: "Some CMake commands are deprecated"
+    rules:
+      - pattern: '\blink_libraries\s*\('
+        message: "link_libraries is deprecated - use target_link_libraries"
+        suggestion: "Use target_link_libraries()"
+      - pattern: '\bexec_program\s*\('
+        message: "exec_program is deprecated - use execute_process"
+        suggestion: "Use execute_process()"
+
+  - id: CMAKE003
+    name: "Use target-based commands"
+    domain: best-practices
+    severity: info
+    description: "Modern CMake uses target-based approach"
+    rules:
+      - pattern: '\binclude_directories\s*\('
+        message: "Consider target_include_directories instead"
+        suggestion: "Use target_include_directories for better scoping"
+      - pattern: '\badd_definitions\s*\('
+        message: "Consider target_compile_definitions instead"
+        suggestion: "Use target_compile_definitions for better scoping"
+
+  - id: CMAKE004
+    name: "Avoid file(GLOB)"
+    domain: best-practices
+    severity: warning
+    description: "file(GLOB) does not track file changes"
+    rules:
+      - pattern: 'file\s*\(\s*GLOB'
+        message: "file(GLOB) doesn't track new files - list explicitly"
+        suggestion: "List source files explicitly"
+
+  - id: CMAKE005
+    name: "Project version required"
+    domain: best-practices
+    severity: info
+    description: "Projects should specify version"
+    rules:
+      - pattern: 'project\s*\([^)]*\)'
+        message: "Consider adding VERSION to project()"
+        suggestion: "project(MyProject VERSION 1.0.0)"

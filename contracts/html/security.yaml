@@ -1,0 +1,244 @@
+# HTML Security Contracts
+# Domain: security
+
+contracts:
+  - id: HTML_SEC001
+    name: "Inline event handlers"
+    domain: security
+    severity: error
+    description: "Inline event handlers are XSS vectors and bypass CSP"
+    tags:
+      - html
+      - security
+      - xss
+      - csp
+    rules:
+      - pattern: 'on(click|load|error|mouseover|submit|focus|blur|change|input|keyup|keydown|mouse\w+)\s*='
+        message: "Inline event handler - potential XSS vector"
+        suggestion: "Use addEventListener in JavaScript"
+
+  - id: HTML_SEC002
+    name: "Inline JavaScript"
+    domain: security
+    severity: warning
+    description: "Inline scripts bypass CSP script-src and are hard to audit"
+    tags:
+      - html
+      - security
+      - xss
+      - csp
+    rules:
+      - pattern: '<script[^>]*>[^<]+</script>'
+        message: "Inline script detected - move to external file"
+        suggestion: "Use external JavaScript files with CSP"
+
+  - id: HTML_SEC003
+    name: "javascript: URLs"
+    domain: security
+    severity: error
+    description: "javascript: URLs are XSS vectors"
+    tags:
+      - html
+      - security
+      - xss
+    rules:
+      - pattern: '(href|src|action)\s*=\s*["\']?javascript:'
+        message: "javascript: URL is an XSS vector"
+        suggestion: "Use event handlers or proper URLs"
+
+  - id: HTML_SEC004
+    name: "Missing form CSRF protection"
+    domain: security
+    severity: warning
+    description: "Forms should have CSRF tokens"
+    tags:
+      - html
+      - security
+      - csrf
+      - forms
+    rules:
+      - pattern: '<form[^>]*method\s*=\s*["\']?post(?![^>]*csrf)'
+        message: "POST form without CSRF token indication"
+        suggestion: "Add CSRF token field to form"
+
+  - id: HTML_SEC005
+    name: "Autocomplete on sensitive fields"
+    domain: security
+    severity: warning
+    description: "Sensitive fields should disable autocomplete"
+    tags:
+      - html
+      - security
+      - privacy
+      - forms
+    rules:
+      - pattern: '<input[^>]*type\s*=\s*["\']?password(?![^>]*autocomplete)'
+        message: "Password field without autocomplete attribute"
+        suggestion: "Add autocomplete='new-password' or 'current-password'"
+      - pattern: '<input[^>]*(creditcard|cardnumber|cvv|ssn)[^>]*type\s*=\s*["\']?text'
+        message: "Sensitive field in plain text input"
+        suggestion: "Use autocomplete='off' for sensitive fields"
+
+  - id: HTML_SEC006
+    name: "Missing Content Security Policy"
+    domain: security
+    severity: info
+    description: "CSP header provides XSS protection"
+    tags:
+      - html
+      - security
+      - csp
+      - headers
+    rules:
+      - pattern: '<meta[^>]*http-equiv\s*=\s*["\']?Content-Security-Policy'
+        message: "CSP meta tag found - ensure it's restrictive"
+        suggestion: "Use restrictive CSP: default-src 'self'"
+
+  - id: HTML_SEC007
+    name: "External scripts without integrity"
+    domain: security
+    severity: warning
+    description: "External scripts should have SRI hash"
+    tags:
+      - html
+      - security
+      - sri
+      - supply-chain
+    rules:
+      - pattern: '<script[^>]*src\s*=\s*["\']https?://(?![^>]*integrity)'
+        message: "External script without SRI integrity hash"
+        suggestion: "Add integrity='sha384-...' and crossorigin='anonymous'"
+
+  - id: HTML_SEC008
+    name: "Unsafe target blank"
+    domain: security
+    severity: warning
+    description: "target='_blank' without noopener allows tabnabbing"
+    tags:
+      - html
+      - security
+      - tabnabbing
+    rules:
+      - pattern: 'target\s*=\s*["\']?_blank(?![^>]*noopener)'
+        message: "target='_blank' without noopener - tabnabbing risk"
+        suggestion: "Add rel='noopener noreferrer'"
+
+  - id: HTML_SEC009
+    name: "Base URL manipulation"
+    domain: security
+    severity: warning
+    description: "base element can be exploited for XSS"
+    tags:
+      - html
+      - security
+      - xss
+    rules:
+      - pattern: '<base[^>]*href\s*=\s*["\']?http'
+        message: "base element with external URL - verify necessity"
+        suggestion: "Avoid base element or use relative URLs only"
+
+  - id: HTML_SEC010
+    name: "Object/embed for plugins"
+    domain: security
+    severity: warning
+    description: "object/embed elements can load malicious content"
+    tags:
+      - html
+      - security
+      - plugins
+    rules:
+      - pattern: '<(object|embed)[^>]*(data|src)\s*=\s*["\']?http'
+        message: "External object/embed - potential security risk"
+        suggestion: "Use iframe with sandbox attribute instead"
+
+  - id: HTML_SEC011
+    name: "Meta refresh redirect"
+    domain: security
+    severity: warning
+    description: "Meta refresh can be used for phishing"
+    tags:
+      - html
+      - security
+      - phishing
+    rules:
+      - pattern: '<meta[^>]*http-equiv\s*=\s*["\']?refresh'
+        message: "Meta refresh detected - potential phishing vector"
+        suggestion: "Use server-side redirects instead"
+
+  - id: HTML_SEC012
+    name: "Data URLs for scripts"
+    domain: security
+    severity: error
+    description: "data: URLs in scripts bypass CSP"
+    tags:
+      - html
+      - security
+      - xss
+      - csp
+    rules:
+      - pattern: '(src|href)\s*=\s*["\']?data:text/html'
+        message: "data: URL for HTML content - XSS vector"
+        suggestion: "Avoid data: URLs for executable content"
+
+  - id: HTML_SEC013
+    name: "Hidden fields with sensitive data"
+    domain: security
+    severity: warning
+    description: "Hidden fields can be manipulated by users"
+    tags:
+      - html
+      - security
+      - forms
+      - tampering
+    rules:
+      - pattern: '<input[^>]*type\s*=\s*["\']?hidden[^>]*(price|amount|role|admin|token)'
+        message: "Sensitive data in hidden field - can be tampered"
+        suggestion: "Validate on server, don't trust hidden fields"
+
+  - id: HTML_SEC014
+    name: "Missing Referrer Policy"
+    domain: security
+    severity: info
+    description: "Referrer policy controls information leakage"
+    tags:
+      - html
+      - security
+      - privacy
+      - referrer
+    rules:
+      - pattern: '<meta[^>]*name\s*=\s*["\']?referrer'
+        message: "Referrer policy meta found"
+        suggestion: "Use strict-origin-when-cross-origin or no-referrer"
+      - pattern: '<a[^>]*target\s*=\s*["\']?_blank(?![^>]*rel[^noreferrer])'
+        message: "External link may leak referrer"
+        suggestion: "Add rel='noreferrer' for privacy"
+
+  - id: HTML_SEC015
+    name: "Iframe without sandbox"
+    domain: security
+    severity: warning
+    description: "Untrusted iframes should be sandboxed"
+    tags:
+      - html
+      - security
+      - iframe
+      - sandbox
+    rules:
+      - pattern: '<iframe[^>]*src\s*=\s*["\']https?://(?![^>]*sandbox)'
+        message: "External iframe without sandbox attribute"
+        suggestion: "Add sandbox='allow-scripts allow-same-origin'"
+
+  - id: HTML_SEC016
+    name: "User-controlled action URL"
+    domain: security
+    severity: warning
+    description: "Form actions should not be user-controlled"
+    tags:
+      - html
+      - security
+      - forms
+      - redirect
+    rules:
+      - pattern: '<form[^>]*action\s*=\s*["\']?\{\{'
+        message: "Template variable in form action - verify sanitization"
+        suggestion: "Whitelist allowed URLs or use server-side routing"

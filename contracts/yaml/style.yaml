@@ -1,0 +1,109 @@
+contracts:
+  - id: YAMLST001
+    name: "Trailing spaces"
+    domain: style
+    severity: warning
+    description: "Trailing spaces cause issues"
+    rules:
+      - pattern: '[ \t]+$'
+        message: "Trailing whitespace detected"
+        suggestion: "Remove trailing spaces"
+
+  - id: YAMLST002
+    name: "Missing document start"
+    domain: style
+    severity: info
+    description: "Files should start with ---"
+    rules:
+      - pattern: '^[^#\-]'
+        message: "Missing document start marker"
+        suggestion: "Add --- at document start"
+
+  - id: YAMLST003
+    name: "Inconsistent key quotes"
+    domain: style
+    severity: warning
+    description: "Key quoting should be consistent"
+    rules:
+      - pattern: '^[a-zA-Z_][a-zA-Z0-9_]*:\s*[^|]\n\s*"[a-zA-Z_]+":'
+        message: "Mixed quoted and unquoted keys"
+        suggestion: "Use consistent key quoting style"
+
+  - id: YAMLST004
+    name: "Long lines"
+    domain: style
+    severity: warning
+    description: "Lines should not exceed 120 characters"
+    rules:
+      - pattern: '.{121,}'
+        message: "Line exceeds 120 characters"
+        suggestion: "Break long lines for readability"
+
+  - id: YAMLST005
+    name: "Deeply nested structure"
+    domain: style
+    severity: warning
+    description: "Avoid deep nesting (max 4 levels)"
+    rules:
+      - pattern: '^(\s{2}){5,}[a-zA-Z_]+:'
+        message: "Structure nested more than 4 levels"
+        suggestion: "Flatten or split into separate documents"
+
+  - id: YAMLST006
+    name: "Flow style overuse"
+    domain: style
+    severity: info
+    description: "Prefer block style for readability"
+    rules:
+      - pattern: ':\s*\{[^}]{50,}\}'
+        message: "Long inline mapping"
+        suggestion: "Use block style for long mappings"
+      - pattern: ':\s*\[[^\]]{50,}\]'
+        message: "Long inline sequence"
+        suggestion: "Use block style for long sequences"
+
+  - id: YAMLST007
+    name: "Empty values"
+    domain: style
+    severity: info
+    description: "Explicit empty values should use null"
+    rules:
+      - pattern: '^[a-zA-Z_]+:\s*$'
+        message: "Implicit null value"
+        suggestion: "Use explicit null or ~ for clarity"
+      - pattern: '^[a-zA-Z_]+:\s*~\s*$'
+        message: "Explicit null - good"
+        suggestion: "Keep explicit null notation"
+
+  - id: YAMLST008
+    name: "Key naming convention"
+    domain: style
+    severity: info
+    description: "Keys should follow consistent naming"
+    rules:
+      - pattern: '^[A-Z][a-zA-Z0-9_]*:'
+        message: "PascalCase key detected"
+        suggestion: "Use lowercase with underscores or camelCase"
+      - pattern: '^[a-z]+[A-Z][a-zA-Z]*:'
+        message: "camelCase key detected"
+        suggestion: "Be consistent with key naming"
+
+  - id: YAMLST009
+    name: "Boolean value style"
+    domain: style
+    severity: info
+    description: "Boolean values should be lowercase"
+    rules:
+      - pattern: ':\s*(True|False|TRUE|FALSE)\s*$'
+        message: "Non-lowercase boolean"
+        suggestion: "Use lowercase true/false"
+
+  - id: YAMLST010
+    name: "Comment spacing"
+    domain: style
+    severity: info
+    description: "Comments should have space after #"
+    rules:
+      - pattern: '^#[^#\s]'
+        message: "Comment without space after #"
+        suggestion: "Add space after # for readability"

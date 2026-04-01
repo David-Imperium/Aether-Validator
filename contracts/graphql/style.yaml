@@ -1,0 +1,321 @@
+# GraphQL Style Contracts
+# Domain: style
+# Validates naming conventions, formatting, and GraphQL style
+
+contracts:
+  - id: GQL_STYLE001
+    name: "Type names PascalCase"
+    domain: style
+    severity: warning
+    description: "Type names should be PascalCase"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - pattern: 'type\s+[a-z]|type\s+[A-Z_]+'
+        message: "Type name should be PascalCase"
+        suggestion: "Use: type UserProfile, type OrderItem"
+
+  - id: GQL_STYLE002
+    name: "Field names camelCase"
+    domain: style
+    severity: warning
+    description: "Field names should be camelCase"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - pattern: '[a-z][a-zA-Z0-9]*:\s*\w+Field|_\w+:'
+        message: "Field name should be camelCase"
+        suggestion: "Use: userName, orderItems, not user_name or UserName"
+
+  - id: GQL_STYLE003
+    name: "Mutation names as verbs"
+    domain: style
+    severity: info
+    description: "Mutation names should be verbs"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - query: |
+          SELECT name FROM mutation_fields
+          WHERE name NOT LIKE 'create%'
+            AND name NOT LIKE 'update%'
+            AND name NOT LIKE 'delete%'
+            AND name NOT LIKE 'add%'
+            AND name NOT LIKE 'remove%'
+        message: "Mutation name not a verb phrase"
+        suggestion: "Use: createUser, updateUser, deleteUser"
+
+  - id: GQL_STYLE004
+    name: "Query names as nouns"
+    domain: style
+    severity: info
+    description: "Query names should be nouns"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - query: |
+          SELECT name FROM query_fields
+          WHERE name LIKE 'get%' OR name LIKE 'fetch%' OR name LIKE 'find%'
+        message: "Query name uses verb prefix - consider noun"
+        suggestion: "Use: user, users, orders instead of getUser, fetchUsers"
+
+  - id: GQL_STYLE005
+    name: "Input type suffix"
+    domain: style
+    severity: info
+    description: "Input types should have Input suffix"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - pattern: 'input\s+\w+(?<!Input)\s*\{'
+        message: "Input type without Input suffix"
+        suggestion: "Use: CreateUserInput, UpdateUserInput"
+
+  - id: GQL_STYLE006
+    name: "Payload type suffix"
+    domain: style
+    severity: info
+    description: "Mutation payloads should have Payload suffix"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - query: |
+          SELECT name FROM types
+          WHERE is_mutation_payload AND name NOT LIKE '%Payload'
+        message: "Mutation payload without Payload suffix"
+        suggestion: "Use: CreateUserPayload, UpdateUserPayload"
+
+  - id: GQL_STYLE007
+    name: "Connection type suffix"
+    domain: style
+    severity: info
+    description: "Connection types should have Connection suffix"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - query: |
+          SELECT name FROM types
+          WHERE is_connection AND name NOT LIKE '%Connection'
+        message: "Connection type without Connection suffix"
+        suggestion: "Use: UserConnection, OrderConnection"
+
+  - id: GQL_STYLE008
+    name: "Consistent indentation"
+    domain: style
+    severity: info
+    description: "Use consistent indentation in schema"
+    tags:
+      - graphql
+      - style
+      - formatting
+    rules:
+      - query: |
+          SELECT file, line, indent
+          FROM schema_lines
+          WHERE indent NOT IN (0, 2, 4)
+        message: "Inconsistent indentation"
+        suggestion: "Use consistent 2 or 4 space indentation"
+
+  - id: GQL_STYLE009
+    name: "Field alignment"
+    domain: style
+    severity: info
+    description: "Align field definitions for readability"
+    tags:
+      - graphql
+      - style
+      - formatting
+    rules:
+      - query: |
+          SELECT type, field, type_col
+          FROM fields
+          WHERE type_col NOT IN (SELECT MAX(type_col) FROM fields)
+        message: "Field types not aligned"
+        suggestion: "Align field types: name:    String!\n  email:   String!"
+
+  - id: GQL_STYLE010
+    name: "One field per line"
+    domain: style
+    severity: info
+    description: "Each field should be on its own line"
+    tags:
+      - graphql
+      - style
+      - formatting
+    rules:
+      - pattern: '\{\s*\w+:\s*\w+.*\w+:\s*\w+\s*\}'
+        message: "Multiple fields on one line"
+        suggestion: "Put each field on separate line"
+
+  - id: GQL_STYLE011
+    name: "Description above field"
+    domain: style
+    severity: info
+    description: "Descriptions should be above fields"
+    tags:
+      - graphql
+      - style
+      - documentation
+    rules:
+      - pattern: '\w+:\s*\w+.*"[^"]+"'
+        message: "Description after field - move above"
+        suggestion: '"""Description"""\nfield: Type'
+
+  - id: GQL_STYLE012
+    name: "Multi-line descriptions"
+    domain: style
+    severity: info
+    description: "Long descriptions should use triple quotes"
+    tags:
+      - graphql
+      - style
+      - documentation
+    rules:
+      - pattern: '"[^"]{50,}"'
+        message: "Long single-line description"
+        suggestion: '"""Multi-line\ndescription"""'
+
+  - id: GQL_STYLE013
+    name: "Blank lines between types"
+    domain: style
+    severity: info
+    description: "Types should be separated by blank lines"
+    tags:
+      - graphql
+      - style
+      - formatting
+    rules:
+      - pattern: '\}\s*(type|input|interface|enum|union|scalar)'
+        message: "Types not separated by blank line"
+        suggestion: "Add blank line between type definitions"
+
+  - id: GQL_STYLE014
+    name: "Alphabetical field order"
+    domain: style
+    severity: info
+    description: "Fields should be alphabetically ordered"
+    tags:
+      - graphql
+      - style
+      - organization
+    rules:
+      - query: |
+          SELECT type, field1, field2
+          FROM (
+            SELECT type, field as field1,
+                   LEAD(field) OVER (PARTITION BY type ORDER BY line) as field2
+            FROM fields
+          )
+          WHERE field1 > field2
+        message: "Fields not in alphabetical order"
+        suggestion: "Sort fields alphabetically within type"
+
+  - id: GQL_STYLE015
+    name: "Scalar definitions grouped"
+    domain: style
+    severity: info
+    description: "Custom scalars should be grouped together"
+    tags:
+      - graphql
+      - style
+      - organization
+    rules:
+      - query: |
+          SELECT line FROM schema_lines
+          WHERE content LIKE 'scalar %'
+            AND NOT in_scalar_section
+        message: "Scalar definition not grouped"
+        suggestion: "Group all scalars at top or bottom of schema"
+
+  - id: GQL_STYLE016
+    name: "Enum values sorted"
+    domain: style
+    severity: info
+    description: "Enum values should be sorted"
+    tags:
+      - graphql
+      - style
+      - organization
+    rules:
+      - query: |
+          SELECT e.name, v1.value, v2.value
+          FROM enums e
+          JOIN enum_values v1 ON e.name = v1.enum
+          JOIN enum_values v2 ON e.name = v2.enum AND v2.line = v1.line + 1
+          WHERE v1.value > v2.value
+        message: "Enum values not sorted"
+        suggestion: "Sort enum values alphabetically"
+
+  - id: GQL_STYLE017
+    name: "Directive definitions documented"
+    domain: style
+    severity: info
+    description: "Custom directives should be documented"
+    tags:
+      - graphql
+      - style
+      - documentation
+    rules:
+      - pattern: 'directive\s+@\w+'
+        message: "Custom directive without description"
+        suggestion: "Add description to directive definition"
+
+  - id: GQL_STYLE018
+    name: "Fragment names descriptive"
+    domain: style
+    severity: warning
+    description: "Fragment names should be descriptive"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - query: |
+          SELECT name FROM fragments
+          WHERE LENGTH(name) < 5 OR name LIKE 'Frag%' OR name LIKE 'Part%'
+        message: "Generic fragment name"
+        suggestion: "Use descriptive name: UserFields, OrderSummary"
+
+  - id: GQL_STYLE019
+    name: "Operation names present"
+    domain: style
+    severity: warning
+    description: "Operations should have names for debugging"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - pattern: 'query\s*\{|mutation\s*\{|subscription\s*\{'
+        message: "Unnamed operation - add name for debugging"
+        suggestion: "Use: query GetUser($id: ID!) { ... }"
+
+  - id: GQL_STYLE020
+    name: "Variable names descriptive"
+    domain: style
+    severity: info
+    description: "Variable names should be descriptive"
+    tags:
+      - graphql
+      - style
+      - naming
+    rules:
+      - query: |
+          SELECT name FROM variables
+          WHERE LENGTH(name) < 3 OR name LIKE 'var%' OR name LIKE 'tmp%'
+        message: "Non-descriptive variable name"
+        suggestion: "Use: $userId, $input, $filter instead of $x, $var"

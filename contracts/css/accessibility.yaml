@@ -1,0 +1,161 @@
+# CSS Accessibility Contracts
+# Domain: accessibility (a11y)
+
+contracts:
+  - id: CSS_A11Y001
+    name: "Insufficient color contrast"
+    domain: accessibility
+    severity: error
+    description: "Text must have sufficient contrast ratio for readability"
+    tags:
+      - css
+      - accessibility
+      - contrast
+      - wcag
+    rules:
+      - pattern: 'color:\s*#[fF]{3,6}'
+        message: "Very light color may have insufficient contrast"
+        suggestion: "Ensure 4.5:1 contrast ratio for normal text, 3:1 for large text"
+      - pattern: 'color:\s*white\s*;'
+        message: "White text needs dark background for contrast"
+        suggestion: "Verify background provides sufficient contrast"
+
+  - id: CSS_A11Y002
+    name: "Missing focus styles"
+    domain: accessibility
+    severity: error
+    description: "Interactive elements must have visible focus indicators"
+    tags:
+      - css
+      - accessibility
+      - focus
+      - keyboard
+    rules:
+      - pattern: ':focus\s*\{\s*outline:\s*none'
+        message: "outline: none removes focus visibility"
+        suggestion: "Provide alternative focus indicator (box-shadow, border, outline)"
+      - pattern: ':focus\s*\{\s*outline:\s*0'
+        message: "outline: 0 removes focus visibility"
+        suggestion: "Add visible focus style for keyboard navigation"
+
+  - id: CSS_A11Y003
+    name: "Text resized with px only"
+    domain: accessibility
+    severity: warning
+    description: "Use relative units for font-size to support scaling"
+    tags:
+      - css
+      - accessibility
+      - text-scaling
+    rules:
+      - pattern: 'font-size:\s*\d+px'
+        message: "Absolute font-size in px may not scale with user preferences"
+        suggestion: "Use rem, em, or % for scalable typography"
+
+  - id: CSS_A11Y004
+    name: "Missing reduced motion support"
+    domain: accessibility
+    severity: warning
+    description: "Animations should respect prefers-reduced-motion"
+    tags:
+      - css
+      - accessibility
+      - motion
+      - vestibular
+    rules:
+      - pattern: '@keyframes'
+        message: "Animation defined - add prefers-reduced-motion media query"
+        suggestion: "Wrap animations in @media (prefers-reduced-motion: no-preference)"
+      - pattern: 'transition:\s*[^;]+'
+        message: "Transition defined - consider reduced motion preference"
+        suggestion: "Respect prefers-reduced-motion for users sensitive to motion"
+
+  - id: CSS_A11Y005
+    name: "Hidden content still accessible"
+    domain: accessibility
+    severity: warning
+    description: "Visibility hidden content may still be announced"
+    tags:
+      - css
+      - accessibility
+      - screen-reader
+    rules:
+      - pattern: 'visibility:\s*hidden'
+        message: "visibility: hidden content may still be in accessibility tree"
+        suggestion: "Use display: none or aria-hidden for complete removal"
+
+  - id: CSS_A11Y006
+    name: "Pointer-events on disabled elements"
+    domain: accessibility
+    severity: info
+    description: "Disabled elements should not receive pointer events"
+    tags:
+      - css
+      - accessibility
+      - interaction
+    rules:
+      - pattern: 'pointer-events:\s*none'
+        message: "Element may become inaccessible to assistive technology"
+        suggestion: "Ensure element is also disabled or has aria-disabled"
+
+  - id: CSS_A11Y007
+    name: "Missing skip navigation link"
+    domain: accessibility
+    severity: warning
+    description: "Pages should have skip navigation for keyboard users"
+    tags:
+      - css
+      - accessibility
+      - keyboard
+      - navigation
+    rules:
+      - pattern: '\.skip-link'
+        message: "Skip link class found - verify implementation"
+        suggestion: "Ensure skip link is visible on focus and jumps to main content"
+
+  - id: CSS_A11Y008
+    name: "Low contrast placeholder text"
+    domain: accessibility
+    severity: warning
+    description: "Placeholder text often has insufficient contrast"
+    tags:
+      - css
+      - accessibility
+      - forms
+      - contrast
+    rules:
+      - pattern: '::placeholder'
+        message: "Placeholder styling detected - ensure sufficient contrast"
+        suggestion: "Placeholder should meet 4.5:1 contrast ratio"
+
+  - id: CSS_A11Y009
+    name: "Mouse-only interactions"
+    domain: accessibility
+    severity: error
+    description: "Hover effects must have keyboard equivalent"
+    tags:
+      - css
+      - accessibility
+      - keyboard
+      - hover
+    rules:
+      - pattern: ':hover\s*\{[^}]*cursor:\s*pointer'
+        message: "Hover-only interactive element may not be keyboard accessible"
+        suggestion: "Add :focus styles and ensure element is focusable"
+
+  - id: CSS_A11Y010
+    name: "Content order vs visual order"
+    domain: accessibility
+    severity: warning
+    description: "Flexbox/Grid reordering may create confusion"
+    tags:
+      - css
+      - accessibility
+      - reading-order
+    rules:
+      - pattern: 'order:\s*-?\d+'
+        message: "CSS order changes visual but not DOM order"
+        suggestion: "Ensure tab and reading order matches visual order"
+      - pattern: 'flex-direction:\s*(row-reverse|column-reverse)'
+        message: "Reversed flex direction changes visual but not tab order"
+        suggestion: "Verify keyboard navigation matches visual order"

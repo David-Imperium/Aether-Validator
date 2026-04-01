@@ -1,0 +1,30 @@
+contracts:
+  - id: TRITON010
+    name: "Avoid unwrap in production"
+    domain: safety
+    severity: error
+    description: "Avoid unwrap() in production - use proper error handling"
+    rules:
+      - pattern: '\.unwrap\s*\(\s*\)'
+        message: "Avoid unwrap() in production - use proper error handling"
+        suggestion: "Use ? operator or Triton::Result<T>"
+
+  - id: TRITON011
+    name: "Panic is forbidden"
+    domain: safety
+    severity: error
+    description: "Panic is forbidden in Triton - use Result"
+    rules:
+      - pattern: 'panic!\s*\('
+        message: "Panic is forbidden in Triton - use Result"
+        suggestion: "Return Triton::Error or use ? operator"
+
+  - id: TRITON020
+    name: "Unsafe requires documentation"
+    domain: safety
+    severity: warning
+    description: "Unsafe code requires safety documentation"
+    rules:
+      - pattern: '\bunsafe\s*\{'
+        message: "Unsafe code requires safety documentation"
+        suggestion: "Add SAFETY: comment explaining why unsafe is safe"

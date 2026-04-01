@@ -1,0 +1,835 @@
+contracts:
+- id: CLIPPY_CAST_PRECISION_LOSS
+  name: cast_precision_loss
+  domain: best-practices
+  severity: info
+  description: 'Clippy lint: cast_precision_loss'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \w+\s+as\s+f32
+    message: 'Clippy lint: cast_precision_loss'
+- id: CLIPPY_DBG_MACRO
+  name: dbg_macro
+  domain: debug
+  severity: info
+  description: 'Clippy lint: dbg_macro'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: dbg!\s*\(
+    message: 'Clippy lint: dbg_macro'
+    suggestion: Remove debug print before committing
+- id: CLIPPY_DOC_LAZY_CONTINUATION
+  name: doc_lazy_continuation
+  domain: documentation
+  severity: info
+  description: 'Clippy lint: doc_lazy_continuation'
+  tags:
+  - rust
+  - clippy
+  rules: []
+- id: CLIPPY_EQ_OP
+  name: eq_op
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: eq_op'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: (\w+)\s*(==|!=|\+|-|\*|/)\s*\1
+    message: 'Clippy lint: eq_op'
+- id: CLIPPY_PRINTLN_EMPTY_STRING
+  name: println_empty_string
+  domain: strings
+  severity: info
+  description: 'Clippy lint: println_empty_string'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: println!\s*\(\s*""\s*\)
+    message: 'Clippy lint: println_empty_string'
+- id: CLIPPY_UNREACHABLE
+  name: unreachable
+  domain: best-practices
+  severity: info
+  description: 'Clippy lint: unreachable'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: unreachable!\s*\(
+    message: 'Clippy lint: unreachable'
+- id: CLIPPY_COGNITIVE_COMPLEXITY
+  name: cognitive_complexity
+  domain: complexity
+  severity: info
+  description: 'Clippy lint: cognitive_complexity'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+[^{]{500,}
+    message: 'Clippy lint: cognitive_complexity'
+- id: CLIPPY_FORMAT_PUSH_STRING
+  name: format_push_string
+  domain: strings
+  severity: info
+  description: 'Clippy lint: format_push_string'
+  tags:
+  - rust
+  - clippy
+  rules: []
+- id: CLIPPY_UNINLINED_FORMAT_ARGS
+  name: uninlined_format_args
+  domain: strings
+  severity: info
+  description: 'Clippy lint: uninlined_format_args'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: format!\s*\(\s*"[^"]*\{[^\}]+\}[^"]*"
+    message: 'Clippy lint: uninlined_format_args'
+- id: CLIPPY_PANIC
+  name: panic
+  domain: security
+  severity: info
+  description: 'Clippy lint: panic'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: panic!\s*\(
+    message: 'Clippy lint: panic'
+    suggestion: Return Result or use proper error handling
+- id: CLIPPY_CLONE_ON_COPY
+  name: clone_on_copy
+  domain: performance
+  severity: info
+  description: 'Clippy lint: clone_on_copy'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.clone\s*\(\s*\)
+    message: 'Clippy lint: clone_on_copy'
+    suggestion: Remove .clone(), the value can be copied
+- id: CLIPPY_CAST_PTR_ALIGNMENT
+  name: cast_ptr_alignment
+  domain: security
+  severity: info
+  description: 'Clippy lint: cast_ptr_alignment'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: as\s+\*const\s+\w+|as\s+\*mut\s+\w+
+    message: 'Clippy lint: cast_ptr_alignment'
+- id: CLIPPY_REDUNDANT_CLONE
+  name: redundant_clone
+  domain: performance
+  severity: info
+  description: 'Clippy lint: redundant_clone'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.clone\s*\(\s*\)\s*\.clone\s*\(\s*\)
+    message: 'Clippy lint: redundant_clone'
+- id: CLIPPY_UNWRAP_USED
+  name: unwrap_used
+  domain: security
+  severity: info
+  description: 'Clippy lint: unwrap_used'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.unwrap\s*\(\s*\)
+    message: 'Clippy lint: unwrap_used'
+    suggestion: Use expect() with context or handle with ? operator
+- id: CLIPPY_ITER_NEXT_LOOP
+  name: iter_next_loop
+  domain: iterators
+  severity: info
+  description: 'Clippy lint: iter_next_loop'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: for\s+\w+\s+in\s+[^.]+\.iter\s*\(\s*\)\s*\.next
+    message: 'Clippy lint: iter_next_loop'
+- id: CLIPPY_PRINT_IN_FORMAT_IMPL
+  name: print_in_format_impl
+  domain: debug
+  severity: info
+  description: 'Clippy lint: print_in_format_impl'
+  tags:
+  - rust
+  - clippy
+  rules: []
+- id: CLIPPY_MISSING_SAFETY_DOC
+  name: missing_safety_doc
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: missing_safety_doc'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: unsafe fn\s+\w+[^{]*\{
+    message: 'Clippy lint: missing_safety_doc'
+- id: CLIPPY_DERIVE_ORD_XOR_PARTIAL_ORD
+  name: derive_ord_xor_partial_ord
+  domain: best-practices
+  severity: info
+  description: 'Clippy lint: derive_ord_xor_partial_ord'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: derive\s*\(
+    message: 'Clippy lint: derive_ord_xor_partial_ord'
+- id: CLIPPY_INTO_ITER_ON_REF
+  name: into_iter_on_ref
+  domain: iterators
+  severity: info
+  description: 'Clippy lint: into_iter_on_ref'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: '&\s*\w+\.into_iter'
+    message: 'Clippy lint: into_iter_on_ref'
+- id: CLIPPY_LINKEDLIST
+  name: linkedlist
+  domain: memory-safety
+  severity: info
+  description: 'Clippy lint: linkedlist'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: LinkedList<
+    message: 'Clippy lint: linkedlist'
+- id: CLIPPY_CAST_POSSIBLE_WRAP
+  name: cast_possible_wrap
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: cast_possible_wrap'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \w+\s+as\s+i\w+
+    message: 'Clippy lint: cast_possible_wrap'
+- id: CLIPPY_NOT_UNSAFE_PTR_ARG_DEREF
+  name: not_unsafe_ptr_arg_deref
+  domain: security
+  severity: info
+  description: 'Clippy lint: not_unsafe_ptr_arg_deref'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+\s*\([^)]*\*const\s+\w+[^)]*\)[^{]*\*[^_]
+    message: 'Clippy lint: not_unsafe_ptr_arg_deref'
+- id: CLIPPY_NEEDLESS_RETURN
+  name: needless_return
+  domain: style
+  severity: info
+  description: 'Clippy lint: needless_return'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: return\s+[^;]+;
+    message: 'Clippy lint: needless_return'
+- id: CLIPPY_TYPE_COMPLEXITY
+  name: type_complexity
+  domain: complexity
+  severity: info
+  description: 'Clippy lint: type_complexity'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: let\s+\w+\s*:\s*[^;]{100,}
+    message: 'Clippy lint: type_complexity'
+- id: CLIPPY_FLOAT_CMP
+  name: float_cmp
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: float_cmp'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \d+\.\d+\s*(==|!=)\s*\d+\.\d+
+    message: 'Clippy lint: float_cmp'
+    suggestion: Use (a - b).abs() < epsilon for float comparison
+- id: CLIPPY_UNNECESSARY_LAZY_EVALUATIONS
+  name: unnecessary_lazy_evaluations
+  domain: performance
+  severity: info
+  description: 'Clippy lint: unnecessary_lazy_evaluations'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.unwrap_or_else\s*\(\s*\|
+    message: 'Clippy lint: unnecessary_lazy_evaluations'
+- id: CLIPPY_MATCH_BOOL
+  name: match_bool
+  domain: style
+  severity: info
+  description: 'Clippy lint: match_bool'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: match\s+[^{]+\{\s*(true|false)
+    message: 'Clippy lint: match_bool'
+- id: CLIPPY_VEC_BOX
+  name: vec_box
+  domain: memory-safety
+  severity: info
+  description: 'Clippy lint: vec_box'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: Vec<Box<\w+>>
+    message: 'Clippy lint: vec_box'
+- id: CLIPPY_TOO_MANY_ARGUMENTS
+  name: too_many_arguments
+  domain: complexity
+  severity: info
+  description: 'Clippy lint: too_many_arguments'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+\s*\([^)]{200,}\)
+    message: 'Clippy lint: too_many_arguments'
+- id: CLIPPY_MEM_FORGET
+  name: mem_forget
+  domain: security
+  severity: info
+  description: 'Clippy lint: mem_forget'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: std::mem::forget
+    message: 'Clippy lint: mem_forget'
+    suggestion: Consider if this is intentional - causes memory leak
+- id: CLIPPY_FORMAT_IN_FORMAT_ARGS
+  name: format_in_format_args
+  domain: strings
+  severity: info
+  description: 'Clippy lint: format_in_format_args'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: format!\s*\([^)]*format!\s*\(
+    message: 'Clippy lint: format_in_format_args'
+- id: CLIPPY_CROSSPOINTER_TRANSMUTE
+  name: crosspointer_transmute
+  domain: security
+  severity: info
+  description: 'Clippy lint: crosspointer_transmute'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: std::mem::transmute
+    message: 'Clippy lint: crosspointer_transmute'
+- id: CLIPPY_MISSING_PANICS_DOC
+  name: missing_panics_doc
+  domain: security
+  severity: info
+  description: 'Clippy lint: missing_panics_doc'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: panic!|unwrap|expect
+    message: 'Clippy lint: missing_panics_doc'
+- id: CLIPPY_TODO
+  name: todo
+  domain: best-practices
+  severity: info
+  description: 'Clippy lint: todo'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: todo!\s*\(
+    message: 'Clippy lint: todo'
+    suggestion: Implement the function or use unimplemented!()
+- id: CLIPPY_EXPECT_USED
+  name: expect_used
+  domain: security
+  severity: info
+  description: 'Clippy lint: expect_used'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.expect\s*\(
+    message: 'Clippy lint: expect_used'
+    suggestion: Handle error with ? operator or proper error handling
+- id: CLIPPY_MISSING_DOCS_IN_PRIVATE_ITEMS
+  name: missing_docs_in_private_items
+  domain: documentation
+  severity: info
+  description: 'Clippy lint: missing_docs_in_private_items'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: (?:fn|struct|enum|mod)\\s+\\w+[^{]*\\{
+    message: 'Clippy lint: missing_docs_in_private_items'
+- id: CLIPPY_UNIT_ARG
+  name: unit_arg
+  domain: best-practices
+  severity: info
+  description: 'Clippy lint: unit_arg'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \w+\s*\(\s*\(\s*\)\s*\)
+    message: 'Clippy lint: unit_arg'
+- id: CLIPPY_PRINT_STDOUT
+  name: print_stdout
+  domain: security
+  severity: info
+  description: 'Clippy lint: print_stdout'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: print!\s*\(
+    message: 'Clippy lint: print_stdout'
+    suggestion: Use proper logging (log::info!, etc.)
+- id: CLIPPY_PTR_ARG
+  name: ptr_arg
+  domain: security
+  severity: info
+  description: 'Clippy lint: ptr_arg'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+\s*\([^)]*&\s*Vec<|fn\s+\w+\s*\([^)]*&\s*String
+    message: 'Clippy lint: ptr_arg'
+- id: CLIPPY_MEM_REPLACE_WITH_DEFAULT
+  name: mem_replace_with_default
+  domain: memory-safety
+  severity: info
+  description: 'Clippy lint: mem_replace_with_default'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: std::mem::replace\s*\([^)]*,\s*\w+::default\s*\(\s*\)
+    message: 'Clippy lint: mem_replace_with_default'
+- id: CLIPPY_LET_UNIT_VALUE
+  name: let_unit_value
+  domain: best-practices
+  severity: info
+  description: 'Clippy lint: let_unit_value'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: let\s+\w+\s*=\s*\(\s*\)\s*;
+    message: 'Clippy lint: let_unit_value'
+- id: CLIPPY_UNIMPLEMENTED
+  name: unimplemented
+  domain: best-practices
+  severity: info
+  description: 'Clippy lint: unimplemented'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: unimplemented!\s*\(
+    message: 'Clippy lint: unimplemented'
+- id: CLIPPY_INDEXING_SLICING
+  name: indexing_slicing
+  domain: error-handling
+  severity: info
+  description: 'Clippy lint: indexing_slicing'
+  tags:
+  - rust
+  - clippy
+  rules: []
+- id: CLIPPY_PANIC_IN_RESULT_FN
+  name: panic_in_result_fn
+  domain: security
+  severity: info
+  description: 'Clippy lint: panic_in_result_fn'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+[^{]*->[^{]*Result[^{]*\{[^}]*panic!
+    message: 'Clippy lint: panic_in_result_fn'
+- id: CLIPPY_IDENTITY_OP
+  name: identity_op
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: identity_op'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \w+\s*\+\s*0|\w+\s*\*\s*1
+    message: 'Clippy lint: identity_op'
+- id: CLIPPY_DOC_MARKDOWN
+  name: doc_markdown
+  domain: documentation
+  severity: info
+  description: 'Clippy lint: doc_markdown'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: ///[^\\n]*[`\\[]
+    message: 'Clippy lint: doc_markdown'
+- id: CLIPPY_REDUNDANT_STATIC_LIFETIMES
+  name: redundant_static_lifetimes
+  domain: style
+  severity: info
+  description: 'Clippy lint: redundant_static_lifetimes'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: static\s+\w+\s*:\s*&'static
+    message: 'Clippy lint: redundant_static_lifetimes'
+- id: CLIPPY_UNIT_CMP
+  name: unit_cmp
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: unit_cmp'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \(\s*\)\s*(==|!=|<|>|<=|>=)
+    message: 'Clippy lint: unit_cmp'
+- id: CLIPPY_MAP_IDENTITY
+  name: map_identity
+  domain: style
+  severity: info
+  description: 'Clippy lint: map_identity'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.map\s*\(\s*\|[^|]*\|\s*\1\s*\)
+    message: 'Clippy lint: map_identity'
+    suggestion: Remove the map call entirely
+- id: CLIPPY_MACRO_METAVARS_IN_UNSAFE
+  name: macro_metavars_in_unsafe
+  domain: security
+  severity: info
+  description: 'Clippy lint: macro_metavars_in_unsafe'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: unsafe\s*\{
+    message: 'Clippy lint: macro_metavars_in_unsafe'
+- id: CLIPPY_WRITE_LITERAL
+  name: write_literal
+  domain: strings
+  severity: info
+  description: 'Clippy lint: write_literal'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: write!\s*\([^)]*,\s*"[^"]*"
+    message: 'Clippy lint: write_literal'
+- id: CLIPPY_CAST_LOSSLESS
+  name: cast_lossless
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: cast_lossless'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: _as\s+(u8|i8|u16|i16|u32|i32)
+    message: 'Clippy lint: cast_lossless'
+- id: CLIPPY_MATCH_SINGLE_BINDING
+  name: match_single_binding
+  domain: style
+  severity: info
+  description: 'Clippy lint: match_single_binding'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: match\s+[^{]+\{\s*[^}]+=>\s*[^}]+\}
+    message: 'Clippy lint: match_single_binding'
+- id: CLIPPY_OR_FUN_CALL
+  name: or_fun_call
+  domain: performance
+  severity: info
+  description: 'Clippy lint: or_fun_call'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.unwrap_or\s*\([^)]*\(\)
+    message: 'Clippy lint: or_fun_call'
+- id: CLIPPY_CAST_POSSIBLE_TRUNCATION
+  name: cast_possible_truncation
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: cast_possible_truncation'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: as\s+(u8|i8|u16|i16|u32|i32)
+    message: 'Clippy lint: cast_possible_truncation'
+- id: CLIPPY_FOR_KV_MAP
+  name: for_kv_map
+  domain: performance
+  severity: info
+  description: 'Clippy lint: for_kv_map'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: for\s+\((\w+),\s*\1\)
+    message: 'Clippy lint: for_kv_map'
+- id: CLIPPY_MACRO_USE_IMPORTS
+  name: macro_use_imports
+  domain: best-practices
+  severity: info
+  description: 'Clippy lint: macro_use_imports'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: macro_use
+    message: 'Clippy lint: macro_use_imports'
+- id: CLIPPY_REDUNDANT_FIELD_NAMES
+  name: redundant_field_names
+  domain: style
+  severity: info
+  description: 'Clippy lint: redundant_field_names'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \w+\s*:\s*\w+\s*,
+    message: 'Clippy lint: redundant_field_names'
+- id: CLIPPY_CAST_SIGN_LOSS
+  name: cast_sign_loss
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: cast_sign_loss'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \w+\s+as\s+u\w+
+    message: 'Clippy lint: cast_sign_loss'
+- id: CLIPPY_TO_STRING_IN_FORMAT_ARGS
+  name: to_string_in_format_args
+  domain: strings
+  severity: info
+  description: 'Clippy lint: to_string_in_format_args'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: format!\s*\([^)]*\.to_string\s*\(\s*\)
+    message: 'Clippy lint: to_string_in_format_args'
+- id: CLIPPY_TOO_MANY_LINES
+  name: too_many_lines
+  domain: complexity
+  severity: info
+  description: 'Clippy lint: too_many_lines'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+[^{]*\{[^}]{1000,}
+    message: 'Clippy lint: too_many_lines'
+- id: CLIPPY_ERASING_OP
+  name: erasing_op
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: erasing_op'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \w+\s*\*\s*0
+    message: 'Clippy lint: erasing_op'
+- id: CLIPPY_MEM_REPLACE_OPTION_WITH_NONE
+  name: mem_replace_option_with_none
+  domain: memory-safety
+  severity: info
+  description: 'Clippy lint: mem_replace_option_with_none'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: std::mem::replace\s*\([^)]*,\s*None\s*\)
+    message: 'Clippy lint: mem_replace_option_with_none'
+- id: CLIPPY_ITER_SKIP_NEXT
+  name: iter_skip_next
+  domain: iterators
+  severity: info
+  description: 'Clippy lint: iter_skip_next'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.iter\s*\(\s*\)\s*\.skip\s*\([^)]+\)\s*\.next
+    message: 'Clippy lint: iter_skip_next'
+- id: CLIPPY_SINGLE_MATCH
+  name: single_match
+  domain: style
+  severity: info
+  description: 'Clippy lint: single_match'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: match\s+[^{]+\{\s*[^}]+\s*=>
+    message: 'Clippy lint: single_match'
+- id: CLIPPY_VEC_INIT_THEN_PUSH
+  name: vec_init_then_push
+  domain: memory-safety
+  severity: info
+  description: 'Clippy lint: vec_init_then_push'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: Vec::new\s*\(\s*\)\s*;[^;]*\.push
+    message: 'Clippy lint: vec_init_then_push'
+- id: CLIPPY_INTO_ITER_WITHOUT_ITER
+  name: into_iter_without_iter
+  domain: iterators
+  severity: info
+  description: 'Clippy lint: into_iter_without_iter'
+  tags:
+  - rust
+  - clippy
+  rules: []
+- id: CLIPPY_MANUAL_FILTER_MAP
+  name: manual_filter_map
+  domain: style
+  severity: info
+  description: 'Clippy lint: manual_filter_map'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.filter\s*\([^)]*\.map\s*\(
+    message: 'Clippy lint: manual_filter_map'
+- id: CLIPPY_MAP_FLATTEN
+  name: map_flatten
+  domain: performance
+  severity: info
+  description: 'Clippy lint: map_flatten'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.map\s*\([^)]*\)\s*\.flatten\s*\(\s*\)
+    message: 'Clippy lint: map_flatten'
+- id: CLIPPY_UNSAFE_REMOVED_FROM_NAME
+  name: unsafe_removed_from_name
+  domain: security
+  severity: info
+  description: 'Clippy lint: unsafe_removed_from_name'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: unsafe fn\s+(\w+)
+    message: 'Clippy lint: unsafe_removed_from_name'
+- id: CLIPPY_REDUNDANT_PATTERN
+  name: redundant_pattern
+  domain: style
+  severity: info
+  description: 'Clippy lint: redundant_pattern'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: match\s+[^{]+\{\s*[^}]*ref\s+
+    message: 'Clippy lint: redundant_pattern'
+- id: CLIPPY_STRING_TO_STRING
+  name: string_to_string
+  domain: strings
+  severity: info
+  description: 'Clippy lint: string_to_string'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.to_string\s*\(\s*\)\s*\.to_string
+    message: 'Clippy lint: string_to_string'
+- id: CLIPPY_MEM_REPLACE_OPTION_WITH_SOME
+  name: mem_replace_option_with_some
+  domain: memory-safety
+  severity: info
+  description: 'Clippy lint: mem_replace_option_with_some'
+  tags:
+  - rust
+  - clippy
+  rules: []
+- id: CLIPPY_PRINT_STDERR
+  name: print_stderr
+  domain: security
+  severity: info
+  description: 'Clippy lint: print_stderr'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: eprint!\s*\(
+    message: 'Clippy lint: print_stderr'
+- id: CLIPPY_FILTER_MAP_IDENTITY
+  name: filter_map_identity
+  domain: style
+  severity: info
+  description: 'Clippy lint: filter_map_identity'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: \.filter_map\s*\(\s*\|[^|]*\|\s*\1\s*\)
+    message: 'Clippy lint: filter_map_identity'
+- id: CLIPPY_MUT_FROM_REF
+  name: mut_from_ref
+  domain: correctness
+  severity: info
+  description: 'Clippy lint: mut_from_ref'
+  tags:
+  - rust
+  - clippy
+  rules:
+  - pattern: fn\s+\w+\([^)]*&\s*\w+\)\s*->\s*&mut
+    message: 'Clippy lint: mut_from_ref'

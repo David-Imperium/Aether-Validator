@@ -1,0 +1,184 @@
+# CSS Style and Best Practices Contracts
+# Domain: style, best-practices
+
+contracts:
+  - id: CSS_STYLE001
+    name: "Avoid !important"
+    domain: style
+    severity: warning
+    description: "!important makes CSS hard to maintain and override"
+    tags:
+      - css
+      - style
+      - maintainability
+    rules:
+      - pattern: '!important'
+        message: "Avoid !important - use specificity instead"
+        suggestion: "Increase selector specificity or reorganize CSS architecture"
+
+  - id: CSS_STYLE002
+    name: "Avoid inline styles"
+    domain: best-practices
+    severity: warning
+    description: "Inline styles are hard to maintain and override"
+    tags:
+      - css
+      - style
+      - separation-of-concerns
+    rules:
+      - pattern: 'style\s*=\s*["\']'
+        message: "Inline style detected - use CSS classes"
+        suggestion: "Move to external stylesheet with class selector"
+
+  - id: CSS_STYLE003
+    name: "Avoid ID selectors for styling"
+    domain: best-practices
+    severity: warning
+    description: "ID selectors have high specificity and reduce reusability"
+    tags:
+      - css
+      - style
+      - specificity
+    rules:
+      - pattern: '#[a-zA-Z][\w-]*\s*\{'
+        message: "ID selector used for styling - prefer classes"
+        suggestion: "Use class selectors for reusable, maintainable styles"
+
+  - id: CSS_STYLE004
+    name: "Avoid overly specific selectors"
+    domain: best-practices
+    severity: warning
+    description: "Overly specific selectors are fragile and hard to override"
+    tags:
+      - css
+      - style
+      - specificity
+    rules:
+      - pattern: '(\w+\s+){3,}\w+'
+        message: "Selector chain too deep (>3 levels)"
+        suggestion: "Use BEM or utility classes to reduce specificity"
+
+  - id: CSS_STYLE005
+    name: "Consistent naming convention"
+    domain: style
+    severity: info
+    description: "Use consistent class naming convention (BEM, SMACSS, etc.)"
+    tags:
+      - css
+      - style
+      - naming
+      - bem
+    rules:
+      - pattern: '\.button[A-Z]'
+        message: "Mixed case in class name - consider consistent convention"
+        suggestion: "Use lowercase with hyphens or BEM: block__element--modifier"
+      - pattern: '\._[a-z]'
+        message: "Underscore prefix may indicate private style"
+        suggestion: "Consider using BEM modifier or clear naming convention"
+
+  - id: CSS_STYLE006
+    name: "Logical property ordering"
+    domain: style
+    severity: info
+    description: "Properties should be ordered logically within rules"
+    tags:
+      - css
+      - style
+      - organization
+    rules:
+      - pattern: 'display:\s*[^;]+;\s*position:\s*'
+        message: "Positioning should come before display"
+        suggestion: "Order: positioning → box model → visual → typography"
+
+  - id: CSS_STYLE007
+    name: "Use CSS variables for theming"
+    domain: best-practices
+    severity: info
+    description: "CSS custom properties enable easy theming"
+    tags:
+      - css
+      - style
+      - theming
+      - variables
+    rules:
+      - pattern: 'color:\s*#[0-9a-fA-F]{3,6}\s*;'
+        message: "Hardcoded color - consider using CSS variable"
+        suggestion: "Use var(--color-name) for maintainable theming"
+
+  - id: CSS_STYLE008
+    name: "Avoid magic numbers"
+    domain: best-practices
+    severity: info
+    description: "Unexplained numeric values should use comments or variables"
+    tags:
+      - css
+      - style
+      - maintainability
+    rules:
+      - pattern: '(margin|padding|top|left):\s*47px'
+        message: "Arbitrary pixel value - document the reasoning"
+        suggestion: "Add comment explaining value or use named CSS variable"
+
+  - id: CSS_STYLE009
+    name: "Group related media queries"
+    domain: style
+    severity: info
+    description: "Avoid duplicating media queries for same breakpoint"
+    tags:
+      - css
+      - style
+      - organization
+      - responsive
+    rules:
+      - pattern: '@media.*768px.*\}[\s\S]*?@media.*768px'
+        message: "Duplicate media query for same breakpoint"
+        suggestion: "Combine all styles for same breakpoint into one media query"
+
+  - id: CSS_STYLE010
+    name: "Use shorthand properties"
+    domain: best-practices
+    severity: info
+    description: "Shorthand properties are more concise"
+    tags:
+      - css
+      - style
+      - shorthand
+    rules:
+      - pattern: 'margin-top:\s*[^;]+;\s*margin-right:\s*[^;]+;\s*margin-bottom:\s*[^;]+;\s*margin-left:'
+        message: "Individual margin properties - use shorthand"
+        suggestion: "Use margin: top right bottom left"
+      - pattern: 'padding-top:\s*[^;]+;\s*padding-right:\s*[^;]+;\s*padding-bottom:\s*[^;]+;\s*padding-left:'
+        message: "Individual padding properties - use shorthand"
+        suggestion: "Use padding: top right bottom left"
+
+  - id: CSS_STYLE011
+    name: "Avoid empty rules"
+    domain: style
+    severity: warning
+    description: "Empty rule sets add bloat with no effect"
+    tags:
+      - css
+      - style
+      - dead-code
+    rules:
+      - pattern: '[\w.#-]+\s*\{\s*\}'
+        message: "Empty rule set detected"
+        suggestion: "Remove empty rules to reduce CSS size"
+
+  - id: CSS_STYLE012
+    name: "Prefer modern layout methods"
+    domain: best-practices
+    severity: info
+    description: "Use flexbox and grid over older techniques"
+    tags:
+      - css
+      - style
+      - layout
+      - modern
+    rules:
+      - pattern: 'float:\s*(left|right)'
+        message: "Float used for layout - consider flexbox or grid"
+        suggestion: "Use display: flex or display: grid for modern layouts"
+      - pattern: 'display:\s*table(-cell|-row)?'
+        message: "Table display for layout - use flexbox/grid"
+        suggestion: "Use modern layout methods for better flexibility"

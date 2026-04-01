@@ -1,0 +1,121 @@
+contracts:
+  - id: CMAKE_SEC001
+    name: "Avoid execute_process with user input"
+    domain: security
+    severity: error
+    description: "User input in commands can lead to injection"
+    rules:
+      - pattern: 'execute_process\s*\([^)]*COMMAND\s+[^)]*\$\{?\w+\}?'
+        message: "Variable in execute_process - verify input is sanitized"
+        suggestion: "Validate variables before using in commands"
+
+  - id: CMAKE_SEC002
+    name: "Deprecated link_libraries"
+    domain: security
+    severity: warning
+    description: "link_libraries is deprecated and affects global scope"
+    rules:
+      - pattern: '\blink_libraries\s*\('
+        message: "Deprecated link_libraries - affects all targets globally"
+        suggestion: "Use target_link_libraries for explicit dependencies"
+
+  - id: CMAKE_SEC003
+    name: "Avoid absolute paths"
+    domain: security
+    severity: warning
+    description: "Absolute paths reduce portability and may expose system info"
+    rules:
+      - pattern: '[=]\s*[A-Z]:\\'
+        message: "Absolute Windows path - reduces portability"
+        suggestion: "Use CMAKE_SOURCE_DIR, CMAKE_CURRENT_SOURCE_DIR, or relative paths"
+      - pattern: '[=]\s*/(usr|home|etc|opt)/'
+        message: "Absolute Unix path - reduces portability"
+        suggestion: "Use CMAKE_SOURCE_DIR, CMAKE_CURRENT_SOURCE_DIR, or relative paths"
+
+  - id: CMAKE_SEC004
+    name: "Deprecated exec_program"
+    domain: security
+    severity: warning
+    description: "exec_program is deprecated and has security issues"
+    rules:
+      - pattern: '\bexec_program\s*\('
+        message: "Deprecated exec_program - use execute_process"
+        suggestion: "Replace with execute_process()"
+
+  - id: CMAKE_SEC005
+    name: "File permissions"
+    domain: security
+    severity: warning
+    description: "File operations should specify appropriate permissions"
+    rules:
+      - pattern: '\bfile\s*\(\s*(WRITE|APPEND)\s+[^)]*\)'
+        message: "File write without permission specification"
+        suggestion: "Consider file(CHMOD ...) for explicit permissions"
+      - pattern: '\bfile\s*\(\s*INSTALL\s+[^)]*\)'
+        message: "File install detected - verify permissions"
+        suggestion: "Use install(TARGETS) with proper PERMISSIONS"
+
+  - id: CMAKE_SEC006
+    name: "Sensitive variable exposure"
+    domain: security
+    severity: error
+    description: "Avoid exposing sensitive variables"
+    rules:
+      - pattern: '\bmessage\s*\(\s*(STATUS|WARNING|SEND_ERROR|FATAL_ERROR)?\s*[^)]*(PASSWORD|SECRET|KEY|TOKEN)'
+        message: "Potential sensitive variable in message output"
+        suggestion: "Remove sensitive data from message output"
+      - pattern: '\bset\s*\(\s*(\w*(PASSWORD|SECRET|KEY|TOKEN)\w*)\s+[^\s][^)]*\)'
+        message: "Sensitive variable set in plain text"
+        suggestion: "Use environment variables or encrypted storage"
+
+  - id: CMAKE_SEC007
+    name: "Avoid file(DOWNLOAD) without verification"
+    domain: security
+    severity: warning
+    description: "Downloaded files should be verified"
+    rules:
+      - pattern: '\bfile\s*\(\s*DOWNLOAD\s+[^)]*\)'
+        message: "File download detected"
+        suggestion: "Add EXPECTED_HASH or EXPECTED_MD5 for verification"
+      - pattern: '\bfile\s*\(\s*DOWNLOAD\s+[^)]*EXPECTED_(HASH|MD5)'
+        message: "Good - downloaded file has hash verification"
+        suggestion: ""
+
+  - id: CMAKE_SEC008
+    name: "Deprecated CMAKE_*_FLAGS modification"
+    domain: security
+    severity: warning
+    description: "Global flag modification affects all targets unexpectedly"
+    rules:
+      - pattern: '\bset\s*\(\s*CMAKE_(C|CXX)_FLAGS'
+        message: "Global compiler flags modification"
+        suggestion: "Use target_compile_options for target-specific flags"
+      - pattern: '\badd_definitions\s*\('
+        message: "Global definition affects all targets"
+        suggestion: "Use target_compile_definitions"
+
+  - id: CMAKE_SEC009
+    name: "External project security"
+    domain: security
+    severity: warning
+    description: "External projects should use secure URLs"
+    rules:
+      - pattern: '\bExternalProject_Add\s*\([^)]*GIT_REPOSITORY\s+http://'
+        message: "External project using insecure HTTP"
+        suggestion: "Use HTTPS for secure cloning"
+      - pattern: '\bFetchContent_Declare\s*\([^)]*GIT_REPOSITORY\s+http://'
+        message: "FetchContent using insecure HTTP"
+        suggestion: "Use HTTPS for secure fetching"
+      - pattern: '\bExternalProject_Add\s*\([^)]*URL\s+http://'
+        message: "External project downloading over insecure HTTP"
+        suggestion: "Use HTTPS for downloads"
+
+  - id: CMAKE_SEC010
+    name: "Install destination validation"
+    domain: security
+    severity: warning
+    description: "Install paths should use CMAKE_INSTALL_* variables"
+    rules:
+      - pattern: '\binstall\s*\([^)]*DESTINATION\s+[^$\(CMAKE]'
+        message: "Hardcoded install destination"
+        suggestion: "Use CMAKE_INSTALL_* variables (BIN, LIB, INCLUDE)"

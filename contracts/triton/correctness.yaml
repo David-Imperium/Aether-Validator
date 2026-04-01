@@ -1,0 +1,138 @@
+contracts:
+  - id: TRITON_CORR001
+    name: "Shape Mismatch"
+    domain: correctness
+    severity: error
+    description: "Ensure tensor shapes match"
+    rules:
+      - pattern: 'tl\.dot\s*\(\s*\w+,\s*\w+'
+        message: "Verify shapes compatible for matmul"
+        suggestion: "Check M, N, K dimensions match"
+      - pattern: 'tl\.cat\s*\(\s*\['
+        message: "Ensure concatenation dimension matches"
+        suggestion: "Verify all tensors have same non-cat dims"
+
+  - id: TRITON_CORR002
+    name: "Out of Bounds Access"
+    domain: correctness
+    severity: error
+    description: "Check bounds before access"
+    rules:
+      - pattern: '\[\s*\w+\s*\+\s*\w+\s*\]'
+        message: "Potential out of bounds access"
+        suggestion: "Add bounds masking"
+      - pattern: 'tl\.load\s*\([^)]+\)\s*$'
+        message: "Add boundary check mask"
+        suggestion: "Use mask parameter for edge cases"
+
+  - id: TRITON_CORR003
+    name: "Type Mismatch"
+    domain: correctness
+    severity: error
+    description: "Ensure type consistency"
+    rules:
+      - pattern: 'tl\.dot\s*\([^,]+,\s*[^,]+\s*\)'
+        message: "Check input types for dot product"
+        suggestion: "Ensure types compatible (float16/float32)"
+      - pattern: '\.to\s*\(\s*tl\.float32\s*\)'
+        message: "Type conversion - verify precision needs"
+        suggestion: "Use float16 for performance where possible"
+
+  - id: TRITON_CORR004
+    name: "Grid Size Configuration"
+    domain: correctness
+    severity: error
+    description: "Ensure grid covers all elements"
+    rules:
+      - pattern: 'grid\s*=\s*\('
+        message: "Verify grid size covers problem dimensions"
+        suggestion: "Calculate grid as ceil(M/BLOCK_M), etc."
+      - pattern: 'launch_grid\s*\('
+        message: "Check grid dimensions match kernel expectations"
+        suggestion: "Ensure total threads >= problem size"
+
+  - id: TRITON_CORR005
+    name: "Accumulator Overflow"
+    domain: correctness
+    severity: warning
+    description: "Check accumulator type for overflow"
+    rules:
+      - pattern: 'acc\s*=\s*tl\.zeros'
+        message: "Verify accumulator type for range"
+        suggestion: "Use float32 accumulator for int8 matmul"
+
+  - id: TRITON_CORR006
+    name: "Stride Calculation"
+    domain: correctness
+    severity: error
+    description: "Verify stride calculations"
+    rules:
+      - pattern: 'stride\s*=\s*\d+'
+        message: "Hardcoded stride - verify correctness"
+        suggestion: "Calculate stride from shape or use tensor strides"
+
+  - id: TRITON_CORR007
+    name: "Mask Generation"
+    domain: correctness
+    severity: error
+    description: "Generate correct masks for bounds"
+    rules:
+      - pattern: 'mask\s*=\s*'
+        message: "Verify mask covers all edge cases"
+        suggestion: "Use row and column masks for 2D"
+
+  - id: TRITON_CORR008
+    name: "Pointer Arithmetic"
+    domain: correctness
+    severity: error
+    description: "Validate pointer calculations"
+    rules:
+      - pattern: 'ptr\s*=\s*\w+\s*\+\s*\w+\s*\*\s*stride'
+        message: "Check pointer offset calculation"
+        suggestion: "Verify stride is in elements not bytes"
+
+  - id: TRITON_CORR009
+    name: "Reduction Dimensions"
+    domain: correctness
+    severity: error
+    description: "Specify correct reduction axis"
+    rules:
+      - pattern: 'tl\.sum\s*\(\s*\w+\s*\)'
+        message: "Implicit reduction axis - specify explicitly"
+        suggestion: "Use tl.sum(x, axis=0) for clarity"
+      - pattern: 'tl\.max\s*\(\s*\w+\s*\)'
+        message: "Implicit reduction axis - specify explicitly"
+        suggestion: "Use tl.max(x, axis=0) for clarity"
+
+  - id: TRITON_CORR010
+    name: "Softmax Numerical Stability"
+    domain: correctness
+    severity: warning
+    description: "Ensure softmax is numerically stable"
+    rules:
+      - pattern: 'tl\.exp\s*\('
+        message: "Potential overflow - subtract max first"
+        suggestion: "Use exp(x - max(x)) pattern"
+      - pattern: 'tl\.softmax\s*\('
+        message: "Built-in softmax handles stability"
+        suggestion: "Use tl.softmax for flash attention"
+
+  - id: TRITON_CORR011
+    name: "Integer Division Rounding"
+    domain: correctness
+    severity: warning
+    description: "Be careful with integer division"
+    rules:
+      - pattern: '//\s*\d+'
+        message: "Integer division - verify rounding direction"
+        suggestion: "Use (x + d - 1) // d for ceiling"
+
+  - id: TRITON_CORR012
+    name: "NaN Propagation"
+    domain: correctness
+    severity: info
+    description: "Handle NaN in operations"
+    rules:
+      - pattern: 'tl\.where\s*\('
+        message: "Ensure NaN handling in conditionals"
+        suggestion: "Use tl.isnan for explicit NaN checks"

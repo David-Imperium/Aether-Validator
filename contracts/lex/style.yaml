@@ -1,0 +1,331 @@
+# Lex Style Contracts
+# Domain: style
+# Validates naming conventions, formatting, and organization
+
+contracts:
+  - id: LEX_STYLE001
+    name: "Token names uppercase"
+    domain: style
+    severity: warning
+    description: "Token names should be in SCREAMING_SNAKE_CASE"
+    tags:
+      - lex
+      - style
+      - naming
+    rules:
+      - pattern: 'token\s+[a-z]'
+        message: "Token name should be SCREAMING_SNAKE_CASE"
+        suggestion: "Use: IDENTIFIER, NUMBER, STRING instead of identifier, number, string"
+
+  - id: LEX_STYLE002
+    name: "State names PascalCase"
+    domain: style
+    severity: warning
+    description: "State names should be in PascalCase"
+    tags:
+      - lex
+      - style
+      - naming
+    rules:
+      - pattern: 'state\s+[a-z_]|state\s+[A-Z_]+'
+        message: "State name should be PascalCase"
+        suggestion: "Use: Initial, StringLiteral, Comment instead of initial or INITIAL"
+
+  - id: LEX_STYLE003
+    name: "Consistent indentation"
+    domain: style
+    severity: info
+    description: "Definitions should have consistent indentation"
+    tags:
+      - lex
+      - style
+      - formatting
+    rules:
+      - query: |
+          SELECT file, line, indent
+          FROM definitions
+          WHERE indent NOT IN (0, 2, 4)
+        message: "Inconsistent indentation detected"
+        suggestion: "Use consistent 2 or 4 space indentation"
+
+  - id: LEX_STYLE004
+    name: "Pattern on separate line"
+    domain: style
+    severity: info
+    description: "Pattern should be on its own line for readability"
+    tags:
+      - lex
+      - style
+      - formatting
+    rules:
+      - pattern: 'token\s+\w+\s*\{[^}]*pattern:\s*[^$]+[^}]*\}'
+        message: "Consider putting pattern on separate line"
+        suggestion: "Format as:\n  token NAME {\n    pattern: /.../\n  }"
+
+  - id: LEX_STYLE005
+    name: "Group related tokens"
+    domain: style
+    severity: info
+    description: "Tokens should be grouped by category"
+    tags:
+      - lex
+      - style
+      - organization
+    rules:
+      - query: |
+          SELECT category, COUNT(*) as count
+          FROM (
+            SELECT name,
+              CASE
+                WHEN name LIKE '%KEYWORD%' THEN 'keyword'
+                WHEN name LIKE '%OPERATOR%' THEN 'operator'
+                WHEN name LIKE '%LITERAL%' THEN 'literal'
+                ELSE 'other'
+              END as category
+            FROM tokens
+          )
+          GROUP BY category
+        message: "Tokens not organized by category"
+        suggestion: "Group tokens: Keywords, Operators, Literals, etc."
+
+  - id: LEX_STYLE006
+    name: "Descriptive token names"
+    domain: style
+    severity: warning
+    description: "Token names should be descriptive"
+    tags:
+      - lex
+      - style
+      - naming
+    rules:
+      - query: |
+          SELECT name FROM tokens
+          WHERE LENGTH(name) < 3 OR name = 'TOK' OR name LIKE 'T_%'
+        message: "Token name too short or generic"
+        suggestion: "Use descriptive names: IDENTIFIER, INTEGER_LITERAL, STRING_LITERAL"
+
+  - id: LEX_STYLE007
+    name: "Comment for complex patterns"
+    domain: style
+    severity: info
+    description: "Complex patterns should have explanatory comments"
+    tags:
+      - lex
+      - style
+      - documentation
+    rules:
+      - query: |
+          SELECT name, pattern
+          FROM tokens
+          WHERE LENGTH(pattern) > 50
+            AND NOT has_preceding_comment
+        message: "Complex pattern without comment"
+        suggestion: "Add comment explaining pattern: # Matches Unicode identifier"
+
+  - id: LEX_STYLE008
+    name: "Alphabetical token order"
+    domain: style
+    severity: info
+    description: "Tokens within categories should be alphabetically ordered"
+    tags:
+      - lex
+      - style
+      - organization
+    rules:
+      - query: |
+          SELECT name, category, line
+          FROM tokens t1
+          WHERE EXISTS (
+            SELECT 1 FROM tokens t2
+            WHERE t2.category = t1.category
+              AND t2.name < t1.name
+              AND t2.line > t1.line
+          )
+        message: "Tokens not in alphabetical order within category"
+        suggestion: "Sort tokens alphabetically within each category"
+
+  - id: LEX_STYLE009
+    name: "State naming convention"
+    domain: style
+    severity: info
+    description: "State names should indicate their purpose"
+    tags:
+      - lex
+      - style
+      - naming
+    rules:
+      - pattern: 'state\s+(State|Temp|Tmp|S\d+)\b'
+        message: "Generic state name - use descriptive name"
+        suggestion: "Use: InString, InComment, InNumber for state names"
+
+  - id: LEX_STYLE010
+    name: "Consistent quote style"
+    domain: style
+    severity: info
+    description: "Use consistent quote style in patterns"
+    tags:
+      - lex
+      - style
+      - formatting
+    rules:
+      - pattern: '/[^/]*/[^/\']*\'|/[^/]*/[^\'\"]*\"'
+        message: "Mixed quote styles in patterns"
+        suggestion: "Stick to one quote style consistently"
+
+  - id: LEX_STYLE011
+    name: "Header comment present"
+    domain: style
+    severity: info
+    description: "Lexer file should have header comment"
+    tags:
+      - lex
+      - style
+      - documentation
+    rules:
+      - query: |
+          SELECT file FROM lexer_files
+          WHERE first_line NOT LIKE '#%'
+        message: "No header comment at start of file"
+        suggestion: "Add header: # Lexer for [Language]\n# Generated by [Tool]"
+
+  - id: LEX_STYLE012
+    name: "Blank lines between sections"
+    domain: style
+    severity: info
+    description: "Sections should be separated by blank lines"
+    tags:
+      - lex
+      - style
+      - formatting
+    rules:
+      - query: |
+          SELECT section_type, line
+          FROM sections s1
+          WHERE NOT EXISTS (
+            SELECT 1 FROM sections s2
+            WHERE s2.line = s1.line + 1
+              AND s2.section_type != s1.section_type
+          )
+        message: "Sections not separated by blank lines"
+        suggestion: "Add blank line between token and state sections"
+
+  - id: LEX_STYLE013
+    name: "Action formatting consistent"
+    domain: style
+    severity: info
+    description: "Actions should be consistently formatted"
+    tags:
+      - lex
+      - style
+      - formatting
+    rules:
+      - pattern: 'action:\s*\{'
+        message: "Inline action block - consider named action"
+        suggestion: "Use: action: skip or action: return TOKEN"
+
+  - id: LEX_STYLE014
+    name: "No magic numbers in patterns"
+    domain: style
+    severity: warning
+    description: "Avoid magic numbers in patterns"
+    tags:
+      - lex
+      - style
+      - patterns
+    rules:
+      - pattern: '\{[0-9]{3,}\}'
+        message: "Large number in pattern quantifier"
+        suggestion: "Use named constant: {MAX_LENGTH} or document the number"
+
+  - id: LEX_STYLE015
+    name: "Section headers clear"
+    domain: style
+    severity: info
+    description: "File sections should have clear headers"
+    tags:
+      - lex
+      - style
+      - organization
+    rules:
+      - pattern: '#\s*===|#\s*---|#\s*Tokens|#\s*States|#\s*Actions'
+        message: "Add section headers for clarity"
+        suggestion: "Use: # === TOKENS ===, # === STATES ===, etc."
+
+  - id: LEX_STYLE016
+    name: "Avoid trailing whitespace"
+    domain: style
+    severity: info
+    description: "Lines should not have trailing whitespace"
+    tags:
+      - lex
+      - style
+      - formatting
+    rules:
+      - pattern: '[ \t]+$'
+        message: "Trailing whitespace detected"
+        suggestion: "Remove trailing whitespace"
+
+  - id: LEX_STYLE017
+    name: "Consistent brace style"
+    domain: style
+    severity: info
+    description: "Use consistent brace placement"
+    tags:
+      - lex
+      - style
+      - formatting
+    rules:
+      - query: |
+          SELECT file, COUNT(*) as same_line, COUNT(*) as new_line
+          FROM definitions
+          WHERE brace_style = 'same_line' OR brace_style = 'new_line'
+          GROUP BY file
+        message: "Inconsistent brace style"
+        suggestion: "Choose one style: { on same line or on new line"
+
+  - id: LEX_STYLE018
+    name: "Keyword list formatting"
+    domain: style
+    severity: info
+    description: "Keywords should be formatted consistently"
+    tags:
+      - lex
+      - style
+      - formatting
+    rules:
+      - pattern: 'keywords:\s*\[[^\]]{50,}\]'
+        message: "Long keyword list on single line"
+        suggestion: "Format keywords as multiline list"
+
+  - id: LEX_STYLE019
+    name: "Version/date in header"
+    domain: style
+    severity: info
+    description: "Header should include version or date"
+    tags:
+      - lex
+      - style
+      - documentation
+    rules:
+      - query: |
+          SELECT file FROM lexer_files
+          WHERE header NOT LIKE '%version%'
+            AND header NOT LIKE '%date%'
+            AND header NOT LIKE '%Version%'
+            AND header NOT LIKE '%Date%'
+        message: "Header missing version or date"
+        suggestion: "Add: # Version: 1.0 or # Generated: 2026-03-21"
+
+  - id: LEX_STYLE020
+    name: "TODO comments tracked"
+    domain: style
+    severity: info
+    description: "TODO comments should be tracked and resolved"
+    tags:
+      - lex
+      - style
+      - documentation
+    rules:
+      - pattern: '#\s*TODO|#\s*FIXME|#\s*HACK|#\s*XXX'
+        message: "TODO/FIXME comment found - track for resolution"
+        suggestion: "Create issue for TODO or remove if resolved"

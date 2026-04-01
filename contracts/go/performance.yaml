@@ -1,0 +1,146 @@
+# Go Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: GOPERF001
+    name: "Use sync.Pool for allocations"
+    domain: performance
+    severity: info
+    description: "Use sync.Pool to reuse objects and reduce GC pressure"
+    tags:
+      - go
+      - performance
+      - memory
+    rules:
+      - pattern: '&\w+\{\}'
+        message: "Consider using sync.Pool for frequently allocated objects"
+        suggestion: "Use sync.Pool for objects with high allocation rate"
+
+  - id: GOPERF002
+    name: "Use strings.Builder for concatenation"
+    domain: performance
+    severity: warning
+    description: "Don't concatenate strings in loops, use strings.Builder"
+    tags:
+      - go
+      - performance
+    rules:
+      - pattern: 'for\s*\w+.*\{[^}]*\+\=.*\}'
+        message: "String concatenation in loop"
+        suggestion: "Use strings.Builder for efficient string concatenation"
+
+  - id: GOPERF003
+    name: "Preallocate slices with make"
+    domain: performance
+    severity: info
+    description: "Preallocate slices when size is known"
+    tags:
+      - go
+      - performance
+      - memory
+    rules:
+      - pattern: '\[\]\w+\{\}'
+        message: "Empty slice literal"
+        suggestion: "Use make([]T, 0, cap) if capacity is known"
+      - pattern: 'append\([^,]+,\s*\.\.\.\w+\)'
+        message: "Appending to slice without preallocation"
+        suggestion: "Preallocate with make([]T, 0, len(src))"
+
+  - id: GOPERF004
+    name: "Use bufio for I/O"
+    domain: performance
+    severity: info
+    description: "Use bufio for buffered I/O operations"
+    tags:
+      - go
+      - performance
+      - io
+    rules:
+      - pattern: 'os\.Open.*Read'
+        message: "Consider using bufio.Reader for better I/O performance"
+        suggestion: "Wrap with bufio.NewReader"
+
+  - id: GOPERF005
+    name: "Avoid unnecessary allocations"
+    domain: performance
+    severity: warning
+    description: "Reduce allocations in hot paths"
+    tags:
+      - go
+      - performance
+      - memory
+    rules:
+      - pattern: 'fmt\.Sprintf\("[^%]+"\)'
+        message: "fmt.Sprintf without format arguments"
+        suggestion: "Use string literal directly"
+
+  - id: GOPERF006
+    name: "Use value receivers for small structs"
+    domain: performance
+    severity: info
+    description: "Use value receivers for small structs (< 3 fields)"
+    tags:
+      - go
+      - performance
+      - design
+    rules:
+      - pattern: 'func\s*\(\w+\s+\*\w+\)\s*\w+\s*\('
+        message: "Pointer receiver for method"
+        suggestion: "Consider value receiver for small structs"
+
+  - id: GOPERF007
+    name: "Use pointer receivers for large structs"
+    domain: performance
+    severity: warning
+    description: "Use pointer receivers for large structs to avoid copying"
+    tags:
+      - go
+      - performance
+      - design
+    rules:
+      - pattern: 'type\s+\w+\s+struct\s*\{[^}]{100,}\}'
+        message: "Large struct defined"
+        suggestion: "Use pointer receivers for methods on large structs"
+
+  - id: GOPERF008
+    name: "Prevent goroutine leaks"
+    domain: performance
+    severity: error
+    description: "Ensure goroutines can exit properly"
+    tags:
+      - go
+      - performance
+      - concurrency
+      - safety
+    rules:
+      - pattern: 'go\s+func\(\)\s*\{[^}]*for\s*\{'
+        message: "Goroutine with infinite loop may leak"
+        suggestion: "Add context.Done() or done channel check"
+
+  - id: GOPERF009
+    name: "Size channel buffers appropriately"
+    domain: performance
+    severity: info
+    description: "Consider channel buffer size for throughput"
+    tags:
+      - go
+      - performance
+      - concurrency
+    rules:
+      - pattern: 'make\(chan\s+\w+\)'
+        message: "Unbuffered channel"
+        suggestion: "Consider buffered channel for better throughput"
+
+  - id: GOPERF010
+    name: "Use range over index for iteration"
+    domain: performance
+    severity: info
+    description: "Use range for cleaner iteration"
+    tags:
+      - go
+      - performance
+      - style
+    rules:
+      - pattern: 'for\s+i\s*:=\s*0\s*;\s*i\s*<\s*len'
+        message: "C-style for loop over slice"
+        suggestion: "Use for i, v := range slice for cleaner code"

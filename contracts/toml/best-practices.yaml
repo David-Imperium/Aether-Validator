@@ -1,0 +1,127 @@
+contracts:
+  - id: TOMLBP001
+    name: "Key naming convention"
+    domain: best-practices
+    severity: warning
+    description: "Keys should follow consistent naming convention"
+    rules:
+      - pattern: '^\s*[a-z]+[A-Z][a-zA-Z]+\s*='
+        message: "camelCase key detected"
+        suggestion: "Use snake_case for keys (e.g., my_key instead of myKey)"
+      - pattern: '^\s*[a-z]+-[a-z]+\s*='
+        message: "kebab-case key detected"
+        suggestion: "Prefer snake_case over kebab-case for consistency"
+
+  - id: TOMLBP002
+    name: "Deeply nested tables"
+    domain: best-practices
+    severity: warning
+    description: "Avoid deeply nested tables (max 3 levels)"
+    rules:
+      - pattern: '^\[[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\]'
+        message: "Table nesting exceeds 3 levels"
+        suggestion: "Flatten structure or use dotted keys within shallower tables"
+      - pattern: '^\[[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\]'
+        message: "Table nesting exceeds 4 levels"
+        suggestion: "Restructure config to reduce nesting depth"
+
+  - id: TOMLBP003
+    name: "Table organization"
+    domain: best-practices
+    severity: info
+    description: "Use consistent table definition style"
+    rules:
+      - pattern: '^\[\w+\]\s*\n\w+\.\w+\s*='
+        message: "Mixed table header and dotted key styles"
+        suggestion: "Use either [table.subsection] headers or dotted keys, not both"
+
+  - id: TOMLBP004
+    name: "Inline tables for small configs"
+    domain: best-practices
+    severity: info
+    description: "Use inline tables for small configurations"
+    rules:
+      - pattern: '^\[\w+\]\s*\n\w+\s*=\s*"[^"]*"\s*\n\w+\s*=\s*"[^"]*"\s*\n\]'
+        message: "Table with only 2 simple string values"
+        suggestion: "Consider using inline table: key = { field1 = \"value1\", field2 = \"value2\" }"
+      - pattern: '=\s*\{[^}]{200,}\}'
+        message: "Inline table too long"
+        suggestion: "Convert large inline table to standard table format"
+
+  - id: TOMLBP005
+    name: "Boolean naming prefixes"
+    domain: best-practices
+    severity: info
+    description: "Boolean keys should use is_/has_ prefixes for clarity"
+    rules:
+      - pattern: '^\s*(enabled|disabled|active|visible|debug)\s*=\s*(true|false)'
+        message: "Boolean without is_/has_ prefix"
+        suggestion: "Use is_enabled, is_active, has_debug for boolean keys"
+      - pattern: '^\s*\w+_(enabled|active|visible)\s*=\s*(true|false)'
+        message: "Boolean with suffix instead of prefix"
+        suggestion: "Use is_feature_enabled instead of feature_enabled"
+
+  - id: TOMLBP006
+    name: "String literal choice"
+    domain: best-practices
+    severity: info
+    description: "Choose appropriate string type for content"
+    rules:
+      - pattern: '=\s*"[^"]*\\\\[nrt]"'
+        message: "Escape sequences in basic string"
+        suggestion: "Consider literal string 'str' if no escape processing needed"
+      - pattern: '=\s*"""[^"]{1,50}"""'
+        message: "Short multiline string"
+        suggestion: "Use basic string for short single-line values"
+
+  - id: TOMLBP007
+    name: "Array of tables usage"
+    domain: best-practices
+    severity: info
+    description: "Use array of tables for repeated structures"
+    rules:
+      - pattern: '^\[\w+\]\s*\n\w+_1\s*=\s*.+\n\w+_2\s*=\s*.+\n\w+_3\s*=\s*.+'
+        message: "Numbered keys suggesting array need"
+        suggestion: "Use [[table]] array of tables for repeated elements"
+      - pattern: '^\[\w+\]\s*\nname\s*=\s*"[^"]+"\s*\n\[\w+\]\s*\nname\s*=\s*"[^"]+"'
+        message: "Repeated table structure"
+        suggestion: "Consider using [[table]] for array of similar items"
+
+  - id: TOMLBP008
+    name: "Date format consistency"
+    domain: best-practices
+    severity: warning
+    description: "Use consistent date/datetime formats"
+    rules:
+      - pattern: '=\s*\d{4}/\d{2}/\d{2}'
+        message: "Date with slash separator"
+        suggestion: "Use RFC 3339 format: YYYY-MM-DD"
+      - pattern: '=\s*\d{2}-\d{2}-\d{4}'
+        message: "Date in DD-MM-YYYY format"
+        suggestion: "Use RFC 3339 format: YYYY-MM-DD"
+      - pattern: '=\s*\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}'
+        message: "Datetime without T separator"
+        suggestion: "Use RFC 3339 format: YYYY-MM-DDTHH:MM:SS"
+
+  - id: TOMLBP009
+    name: "Comment placement"
+    domain: best-practices
+    severity: info
+    description: "Comments should be placed appropriately"
+    rules:
+      - pattern: '^\w+\s*=\s*[^\s#]+[^#]*#[^\s]'
+        message: "Inline comment without space before #"
+        suggestion: "Add space before inline comment"
+      - pattern: '^#.*\n#.*\n#.*\n#.*\n#.*\n\['
+        message: "More than 4 consecutive comment lines before table"
+        suggestion: "Consider using a documentation block or reducing comments"
+
+  - id: TOMLBP010
+    name: "Key grouping"
+    domain: best-practices
+    severity: info
+    description: "Related keys should be grouped together"
+    rules:
+      - pattern: '^\[\w+\]\s*\n(?:\w+ = .+\n)*host\s*=\s*.+\n(?:\w+ = .+\n){3,}port\s*=\s*\d+'
+        message: "Related keys (host, port) not grouped"
+        suggestion: "Keep related configuration keys adjacent"

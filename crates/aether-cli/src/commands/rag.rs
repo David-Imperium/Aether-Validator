@@ -4,11 +4,15 @@
 //! - Storage of validation corrections for future reference
 //! - Search for similar issues and their solutions
 //! - Suggestions based on historical patterns
+//!
+//! Status: Future feature - not yet integrated with CLI
+
+#![allow(dead_code)]
 
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 /// RAG storage for Aether validation learning
 pub struct AetherRag {

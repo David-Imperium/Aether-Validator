@@ -1,23 +1,26 @@
 //! Validation Layers — Concrete implementations
+//!
+//! Organized by domain:
+//! - `core` - Fundamental building blocks (rules, stripper, contract)
+//! - `preprocessing` - Early-stage validation (syntax, ast)
+//! - `analysis` - Core validation logic (semantic, logic, complexity, clippy)
+//! - `security` - Security validation (security, private, supply_chain)
+//! - `architecture` - Architecture and style (architecture, style)
+//! - `intelligence` - AI-powered validation (optional)
 
-mod syntax;
-mod semantic;
-mod logic;
-mod architecture;
-mod style;
-mod ast;
-mod security;
-mod private;
-mod complexity;
-mod supply_chain;
+pub mod core;
+pub mod preprocessing;
+pub mod analysis;
+pub mod security;
+pub mod architecture;
+#[cfg(feature = "aether-intelligence")]
+pub mod intelligence;
 
-pub use syntax::SyntaxLayer;
-pub use semantic::SemanticLayer;
-pub use logic::LogicLayer;
-pub use architecture::ArchitectureLayer;
-pub use style::StyleLayer;
-pub use ast::ASTLayer;
-pub use security::SecurityLayer;
-pub use private::PrivateLayer;
-pub use complexity::ComplexityLayer;
-pub use supply_chain::SupplyChainLayer;
+// Re-export all layers for backward compatibility
+pub use preprocessing::{SyntaxLayer, ASTLayer};
+pub use analysis::{SemanticLayer, LogicLayer, ComplexityLayer, ClippyLayer};
+pub use security::{SecurityLayer, FallbackSecurityLayer, PrivateLayer, SupplyChainLayer};
+pub use architecture::{ArchitectureLayer, StyleLayer};
+pub use core::ContractLayer;
+#[cfg(feature = "aether-intelligence")]
+pub use intelligence::{IntelligenceLayer, IntelligenceConfig};

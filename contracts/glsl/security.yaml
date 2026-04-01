@@ -1,0 +1,162 @@
+contracts:
+  - id: GLSL_SEC001
+    name: "SSBO Bounds Check"
+    domain: security
+    severity: error
+    description: "Array index into SSBO must be bounds-checked"
+    tags:
+      - glsl
+      - security
+      - ssbo
+      - bounds
+    rules:
+      - pattern: '\w+\s*\[\s*\w+\s*\]\s*\.'
+        message: "Array access into SSBO - verify index is within bounds"
+        suggestion: "Add bounds check: if (index < array.length()) before access"
+
+  - id: GLSL_SEC002
+    name: "Uniform Input Validation"
+    domain: security
+    severity: warning
+    description: "Uniform values from application may be invalid"
+    tags:
+      - glsl
+      - security
+      - uniforms
+      - validation
+    rules:
+      - pattern: 'uniform\s+(int|uint)\s+\w+\s*;'
+        message: "Integer uniform - validate range in shader or application"
+        suggestion: "Document valid range or add clamp() for safety"
+
+  - id: GLSL_SEC003
+    name: "Array Index Bounds"
+    domain: security
+    severity: error
+    description: "Dynamic array indices must be bounds-checked"
+    tags:
+      - glsl
+      - security
+      - arrays
+      - bounds
+    rules:
+      - pattern: '\w+\s*\[\s*int\s*\('
+        message: "Casted array index - ensure value is within valid range"
+        suggestion: "Use min(index, arraySize-1) or add explicit bounds check"
+
+  - id: GLSL_SEC004
+    name: "Division by Zero Prevention"
+    domain: security
+    severity: error
+    description: "Division operations must prevent divide-by-zero"
+    tags:
+      - glsl
+      - security
+      - division
+      - math
+    rules:
+      - pattern: '/\s*\('
+        message: "Division by expression - verify denominator cannot be zero"
+        suggestion: "Use: x / max(y, EPSILON) or safeDiv(x, y) helper"
+      - pattern: '/\s*\w+\s*;'
+        message: "Division by variable - add zero check"
+        suggestion: "if (denom != 0.0) result = num / denom;"
+
+  - id: GLSL_SEC005
+    name: "Texture Coordinate Clamping"
+    domain: security
+    severity: warning
+    description: "Texture coordinates should be clamped to valid range"
+    tags:
+      - glsl
+      - security
+      - textures
+      - coordinates
+    rules:
+      - pattern: 'texture\s*\([^,]+,\s*\w+\s*\)'
+        message: "Texture with variable coordinate - consider clamping"
+        suggestion: "Use clamp(uv, 0.0, 1.0) or texture wrap modes"
+
+  - id: GLSL_SEC006
+    name: "Integer Overflow Check"
+    domain: security
+    severity: warning
+    description: "Integer arithmetic may overflow"
+    tags:
+      - glsl
+      - security
+      - integers
+      - overflow
+    rules:
+      - pattern: '\bint\b\s+\w+\s*=\s*\w+\s*\*'
+        message: "Integer multiplication - potential overflow"
+        suggestion: "Use uint for large values or check bounds before multiply"
+      - pattern: '\bint\b\s+\w+\s*=\s*\w+\s*\+'
+        message: "Integer addition - potential overflow"
+        suggestion: "Verify sum fits in int range (-2147483648 to 2147483647)"
+
+  - id: GLSL_SEC007
+    name: "Infinite Loop Prevention"
+    domain: security
+    severity: error
+    description: "Loops must have guaranteed termination"
+    tags:
+      - glsl
+      - security
+      - loops
+      - termination
+    rules:
+      - pattern: 'while\s*\(\s*true\s*\)'
+        message: "Potentially infinite while(true) loop"
+        suggestion: "Add break condition or use bounded for loop"
+      - pattern: 'for\s*\(\s*;\s*;\s*\)'
+        message: "Infinite for loop without bounds"
+        suggestion: "Add termination condition to loop"
+
+  - id: GLSL_SEC008
+    name: "Resource Limit Enforcement"
+    domain: security
+    severity: warning
+    description: "Shader resource usage may exceed limits"
+    tags:
+      - glsl
+      - security
+      - resources
+      - limits
+    rules:
+      - pattern: 'uniform\s+\w+\s+\w+\s*\[\s*[0-9]{3,}'
+        message: "Large uniform array - may exceed GPU limits"
+        suggestion: "Check GL_MAX_UNIFORM_BLOCK_SIZE, consider SSBO instead"
+      - pattern: 'sampler2D\s+\w+\s*\[\s*[0-9]{2,}'
+        message: "Multiple texture samplers in array"
+        suggestion: "Check GL_MAX_TEXTURE_IMAGE_UNITS for limit"
+
+  - id: GLSL_SEC009
+    name: "Derivative Functions Safety"
+    domain: security
+    severity: warning
+    description: "dFdx/dFdy undefined at non-fragment derivatives"
+    tags:
+      - glsl
+      - security
+      - derivatives
+      - fragment
+    rules:
+      - pattern: 'dF[dx]y\s*\('
+        message: "Derivative function - undefined for divergent control flow"
+        suggestion: "Ensure dFdx/dFdy only in uniform control flow regions"
+
+  - id: GLSL_SEC010
+    name: "Buffer Overrun Atomic"
+    domain: security
+    severity: error
+    description: "Atomic operations must stay within buffer bounds"
+    tags:
+      - glsl
+      - security
+      - atomics
+      - ssbo
+    rules:
+      - pattern: 'atomic\w+\s*\(\s*\w+\s*\[\s*\w+\s*\]'
+        message: "Atomic on indexed buffer - verify index bounds"
+        suggestion: "if (index < maxElements) atomicAdd(buffer[index], value);"

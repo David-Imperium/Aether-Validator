@@ -1,0 +1,152 @@
+contracts:
+  - id: GLSL_ADV001
+    name: "Compute Shader Workgroup Size"
+    domain: advanced
+    severity: warning
+    description: "Workgroup size affects GPU occupancy and performance"
+    tags:
+      - glsl
+      - advanced
+      - compute
+      - workgroup
+    rules:
+      - pattern: 'layout\s*\(\s*local_size_[xyz]\s*=\s*\d+\s*\)'
+        message: "Workgroup size specified - ensure multiple of GPU warp (32/64)"
+        suggestion: "Use multiples of 64 for NVIDIA, 64 for AMD. Typical: 8x8 or 16x16 for 2D"
+
+  - id: GLSL_ADV002
+    name: "Geometry Shader Emit Pattern"
+    domain: advanced
+    severity: info
+    description: "Geometry shader emit should be bounded"
+    tags:
+      - glsl
+      - advanced
+      - geometry
+      - emit
+    rules:
+      - pattern: 'EmitVertex\s*\(\s*\)\s*;'
+        message: "EmitVertex in geometry shader - ensure max_vertices matches emit count"
+        suggestion: "Declare layout(max_vertices = N) to match emitted vertices"
+
+  - id: GLSL_ADV003
+    name: "Tessellation Control Barrier"
+    domain: advanced
+    severity: error
+    description: "Tessellation control shaders require barrier for shared data"
+    tags:
+      - glsl
+      - advanced
+      - tessellation
+      - barrier
+    rules:
+      - pattern: 'gl_out\s*\['
+        message: "Accessing gl_out in TCS - ensure barrier() after writes"
+        suggestion: "Use barrier() after writing to gl_out[] before reading in other invocations"
+
+  - id: GLSL_ADV004
+    name: "Image Load/Store Barrier"
+    domain: advanced
+    severity: warning
+    description: "Image operations need proper memory barriers"
+    tags:
+      - glsl
+      - advanced
+      - image
+      - memory
+    rules:
+      - pattern: 'image(Load|Store)\s*\('
+        message: "Image load/store - ensure memoryBarrier() when coherence needed"
+        suggestion: "Use memoryBarrierImage() and barrier() for intra-workgroup coherence"
+      - pattern: 'imageAtomic\w+\s*\('
+        message: "Atomic image operation - verify memory visibility"
+        suggestion: "Use memoryBarrier() after atomic operations if other shaders read"
+
+  - id: GLSL_ADV005
+    name: "Atomic Operations Usage"
+    domain: advanced
+    severity: warning
+    description: "Atomic operations have performance implications"
+    tags:
+      - glsl
+      - advanced
+      - atomics
+      - performance
+    rules:
+      - pattern: 'atomic(Add|Min|Max|And|Or|Xor|Exchange|CompSwap)\s*\('
+        message: "Atomic operation - minimize usage for performance"
+        suggestion: "Batch local reductions, use shared memory for workgroup-level atomics"
+
+  - id: GLSL_ADV006
+    name: "Subgroup Operations"
+    domain: advanced
+    severity: info
+    description: "Subgroup ops enable efficient parallel algorithms"
+    tags:
+      - glsl
+      - advanced
+      - subgroup
+      - parallel
+    rules:
+      - pattern: 'subgroup(Ballot|Add|Min|Max|And|Or|Xor|Shuffle)'
+        message: "Subgroup operation - verify extension support (GL_KHR_shader_subgroup)"
+        suggestion: "Check for GL_KHR_shader_subgroup or NV_shader_thread_group"
+
+  - id: GLSL_ADV007
+    name: "Transform Feedback"
+    domain: advanced
+    severity: info
+    description: "Transform feedback requires proper varying capture"
+    tags:
+      - glsl
+      - advanced
+      - transform-feedback
+    rules:
+      - pattern: 'xfb_'
+        message: "Transform feedback qualifier - ensure xfb_buffer and xfb_offset match"
+        suggestion: "Use layout(xfb_buffer = N, xfb_offset = M) for captured varyings"
+
+  - id: GLSL_ADV008
+    name: "Multi-Pass Rendering Pattern"
+    domain: advanced
+    severity: info
+    description: "Multi-pass shaders should use subpasses efficiently"
+    tags:
+      - glsl
+      - advanced
+      - multipass
+      - subpass
+    rules:
+      - pattern: 'subpassInput\s+\w+'
+        message: "Subpass input - ensure renderpass dependency configured correctly"
+        suggestion: "Verify VkSubpassDependency for proper synchronization between passes"
+
+  - id: GLSL_ADV009
+    name: "Shared Memory Bank Conflicts"
+    domain: advanced
+    severity: warning
+    description: "Shared memory access patterns affect performance"
+    tags:
+      - glsl
+      - advanced
+      - compute
+      - shared
+    rules:
+      - pattern: 'shared\s+\w+\s+\w+\s*\['
+        message: "Shared memory declaration - consider padding to avoid bank conflicts"
+        suggestion: "Pad arrays to avoid stride of 32 floats on NVIDIA, check GPU-specific banking"
+
+  - id: GLSL_ADV010
+    name: "Derivative Coherence"
+    domain: advanced
+    severity: warning
+    description: "Derivatives require uniform control flow for correctness"
+    tags:
+      - glsl
+      - advanced
+      - derivatives
+      - correctness
+    rules:
+      - pattern: '(dFdx|dFdy|fwidth)\s*\(\s*\w+'
+        message: "Derivative function - ensure argument uniform across quad"
+        suggestion: "Compute derivatives before divergent branches or use helperInvocationEXT()"

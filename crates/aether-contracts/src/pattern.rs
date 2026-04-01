@@ -230,6 +230,7 @@ impl PatternFactory {
     /// - `and:[p1, p2, ...]` — All patterns must match
     /// - `or:[p1, p2, ...]` — Any pattern must match
     /// - `not:pattern` — Pattern must NOT match
+    /// - Plain pattern — Auto-detect: if contains regex metacharacters, treat as regex
     pub fn create(&mut self, definition: &str) -> ContractResult<Box<dyn Pattern>> {
         // Handle composite patterns
         if let Some(inner) = definition.strip_prefix("and:") {
@@ -247,9 +248,25 @@ impl PatternFactory {
         } else if let Some(text_pattern) = definition.strip_prefix("text:") {
             Ok(Box::new(TextPattern::new(text_pattern)))
         } else {
-            // Default to text pattern
+            // Auto-detect: if pattern contains regex metacharacters, treat as regex
+            if self.looks_like_regex(definition) {
+                match self.create_regex_pattern(definition) {
+                    Ok(pattern) => return Ok(Box::new(pattern)),
+                    Err(_) => {
+                        // Fall back to text pattern if regex is invalid
+                        return Ok(Box::new(TextPattern::new(definition)));
+                    }
+                }
+            }
             Ok(Box::new(TextPattern::new(definition)))
         }
+    }
+    
+    /// Check if pattern looks like a regex (contains metacharacters)
+    fn looks_like_regex(&self, pattern: &str) -> bool {
+        // Regex metacharacters that indicate this is a regex pattern
+        let regex_chars = ['\\', '.', '*', '+', '?', '|', '^', '$', '[', ']', '(', ')', '{', '}'];
+        pattern.chars().any(|c| regex_chars.contains(&c))
     }
     
     fn parse_pattern_list(&mut self, inner: &str) -> ContractResult<Vec<Box<dyn Pattern>>> {

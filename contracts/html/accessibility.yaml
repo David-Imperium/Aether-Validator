@@ -1,0 +1,243 @@
+# HTML Accessibility Contracts
+# Domain: accessibility (a11y)
+
+contracts:
+  - id: HTML_A11Y001
+    name: "Missing alt attribute on images"
+    domain: accessibility
+    severity: error
+    description: "Images must have alt text for screen readers"
+    tags:
+      - html
+      - accessibility
+      - images
+      - screen-reader
+    rules:
+      - pattern: '<img(?![^>]*alt\s*=)'
+        message: "Image missing alt attribute"
+        suggestion: "Add alt='description' for accessibility"
+
+  - id: HTML_A11Y002
+    name: "Empty alt on meaningful images"
+    domain: accessibility
+    severity: error
+    description: "Meaningful images should not have empty alt"
+    tags:
+      - html
+      - accessibility
+      - images
+    rules:
+      - pattern: '<img[^>]*alt=""(?![^>]*role="presentation")'
+        message: "Empty alt on content image - screen readers will ignore"
+        suggestion: "Add descriptive alt text or use role='presentation' for decorative images"
+
+  - id: HTML_A11Y003
+    name: "Missing lang attribute"
+    domain: accessibility
+    severity: error
+    description: "HTML element must declare document language"
+    tags:
+      - html
+      - accessibility
+      - language
+      - screen-reader
+    rules:
+      - pattern: '<html(?![^>]*lang\s*=)'
+        message: "HTML element missing lang attribute"
+        suggestion: "Add lang='en' or appropriate language code"
+
+  - id: HTML_A11Y004
+    name: "Empty title element"
+    domain: accessibility
+    severity: error
+    description: "Documents need descriptive titles for screen readers"
+    tags:
+      - html
+      - accessibility
+      - title
+    rules:
+      - pattern: '<title>\s*</title>'
+        message: "Empty title element"
+        suggestion: "Add descriptive page title"
+
+  - id: HTML_A11Y005
+    name: "Missing form labels"
+    domain: accessibility
+    severity: error
+    description: "Form inputs need associated labels"
+    tags:
+      - html
+      - accessibility
+      - forms
+      - labels
+    rules:
+      - pattern: '<input(?![^>]*(aria-label|aria-labelledby|id\s*=\s*["\'][^"\']+["\']))[^>]*>'
+        message: "Input without accessible label"
+        suggestion: "Add <label for='id'> or aria-label attribute"
+      - pattern: '<select(?![^>]*(aria-label|aria-labelledby|id\s*=\s*["\'][^"\']+["\']))'
+        message: "Select without accessible label"
+        suggestion: "Add <label for='id'> or aria-label attribute"
+      - pattern: '<textarea(?![^>]*(aria-label|aria-labelledby|id\s*=\s*["\'][^"\']+["\']))'
+        message: "Textarea without accessible label"
+        suggestion: "Add <label for='id'> or aria-label attribute"
+
+  - id: HTML_A11Y006
+    name: "Missing skip link"
+    domain: accessibility
+    severity: warning
+    description: "Pages should have skip navigation for keyboard users"
+    tags:
+      - html
+      - accessibility
+      - keyboard
+      - navigation
+    rules:
+      - pattern: '<body[^>]*>(?![\s\S]*<a[^>]*href="#main")'
+        message: "No skip link found - add link to main content"
+        suggestion: "Add <a href='#main' class='skip-link'>Skip to content</a>"
+
+  - id: HTML_A11Y007
+    name: "Invalid ARIA role"
+    domain: accessibility
+    severity: error
+    description: "ARIA roles must be valid WAI-ARIA roles"
+    tags:
+      - html
+      - accessibility
+      - aria
+    rules:
+      - pattern: 'role="buttonx"'
+        message: "Invalid ARIA role"
+        suggestion: "Use valid role: button, link, navigation, main, etc."
+
+  - id: HTML_A11Y008
+    name: "Missing main landmark"
+    domain: accessibility
+    severity: warning
+    description: "Pages should have a main content landmark"
+    tags:
+      - html
+      - accessibility
+      - landmarks
+    rules:
+      - pattern: '<body[^>]*>(?![\s\S]*<(main|[^>]*role="main"))'
+        message: "No main landmark found"
+        suggestion: "Add <main> element or role='main'"
+
+  - id: HTML_A11Y009
+    name: "Non-semantic heading structure"
+    domain: accessibility
+    severity: warning
+    description: "Headings should follow proper hierarchy"
+    tags:
+      - html
+      - accessibility
+      - headings
+      - structure
+    rules:
+      - pattern: '<h1[^>]*>[\s\S]*<h3'
+        message: "Heading level skipped (h1 to h3)"
+        suggestion: "Use sequential heading levels: h1 → h2 → h3"
+      - pattern: '<h2[^>]*>[\s\S]*<h4'
+        message: "Heading level skipped (h2 to h4)"
+        suggestion: "Use sequential heading levels"
+      - pattern: '<h3[^>]*>[\s\S]*<h5'
+        message: "Heading level skipped (h3 to h5)"
+        suggestion: "Use sequential heading levels"
+
+  - id: HTML_A11Y010
+    name: "Clickable element without button/link"
+    domain: accessibility
+    severity: error
+    description: "Interactive elements must use proper semantics"
+    tags:
+      - html
+      - accessibility
+      - keyboard
+      - semantics
+    rules:
+      - pattern: '<div[^>]*onclick'
+        message: "Clickable div - use <button> for accessibility"
+        suggestion: "Use <button> or add role='button' and tabindex"
+      - pattern: '<span[^>]*onclick'
+        message: "Clickable span - use <button> for accessibility"
+        suggestion: "Use <button> for interactive elements"
+
+  - id: HTML_A11Y011
+    name: "Missing button text"
+    domain: accessibility
+    severity: error
+    description: "Buttons must have accessible text"
+    tags:
+      - html
+      - accessibility
+      - buttons
+    rules:
+      - pattern: '<button[^>]*>\s*</button>'
+        message: "Empty button element"
+        suggestion: "Add text content or aria-label"
+      - pattern: '<button[^>]*><\s*img[^>]*></button>'
+        message: "Image button without alt - add aria-label"
+        suggestion: "Add aria-label describing button action"
+
+  - id: HTML_A11Y012
+    name: "Missing table headers"
+    domain: accessibility
+    severity: warning
+    description: "Data tables need header cells"
+    tags:
+      - html
+      - accessibility
+      - tables
+    rules:
+      - pattern: '<table[^>]*>(?![\s\S]*<th)'
+        message: "Table without header cells"
+        suggestion: "Add <th> elements for column/row headers"
+
+  - id: HTML_A11Y013
+    name: "Autoplay media"
+    domain: accessibility
+    severity: warning
+    description: "Autoplay can disorient users"
+    tags:
+      - html
+      - accessibility
+      - media
+    rules:
+      - pattern: '<(video|audio)[^>]*autoplay'
+        message: "Media autoplay can be disruptive"
+        suggestion: "Avoid autoplay or provide controls to stop it"
+
+  - id: HTML_A11Y014
+    name: "Color-only information"
+    domain: accessibility
+    severity: warning
+    description: "Don't convey information by color alone"
+    tags:
+      - html
+      - accessibility
+      - color
+    rules:
+      - pattern: 'class="[^"]*(error|success|warning|required)[^"]*"'
+        message: "Class may indicate color-only status - add text/icon"
+        suggestion: "Add text label or icon to indicate status"
+
+  - id: HTML_A11Y015
+    name: "Insufficient link text"
+    domain: accessibility
+    severity: warning
+    description: "Link text should be descriptive"
+    tags:
+      - html
+      - accessibility
+      - links
+    rules:
+      - pattern: '>\s*click here\s*</a>'
+        message: "Non-descriptive link text 'click here'"
+        suggestion: "Use descriptive text: 'Read our documentation'"
+      - pattern: '>\s*here\s*</a>'
+        message: "Non-descriptive link text 'here'"
+        suggestion: "Make link text describe destination"
+      - pattern: '>\s*read more\s*</a>'
+        message: "Generic 'read more' - add context"
+        suggestion: "Add context: 'Read more about our services'"

@@ -1,0 +1,318 @@
+# Notebook Style Contracts
+# Domain: style
+# Validates formatting, markdown, and notebook style
+
+contracts:
+  - id: NB_STYLE001
+    name: "Notebook has title cell"
+    domain: style
+    severity: info
+    description: "Notebook should start with title/header markdown cell"
+    tags:
+      - notebook
+      - style
+      - structure
+    rules:
+      - query: |
+          SELECT cell_number, cell_type
+          FROM cells
+          WHERE cell_number = 1
+        message: "Notebook should start with markdown title cell"
+        suggestion: "Add markdown cell with # Title at beginning"
+
+  - id: NB_STYLE002
+    name: "Section headers present"
+    domain: style
+    severity: info
+    description: "Notebook should have section headers for organization"
+    tags:
+      - notebook
+      - style
+      - structure
+    rules:
+      - pattern: '## |### '
+        message: "Add section headers for better organization"
+        suggestion: "Use ## Section Name to divide notebook into sections"
+
+  - id: NB_STYLE003
+    name: "Imports in first cells"
+    domain: style
+    severity: info
+    description: "Imports should be in first few cells"
+    tags:
+      - notebook
+      - style
+      - imports
+    rules:
+      - query: |
+          SELECT cell_number
+          FROM cells
+          WHERE cell_type = 'code'
+            AND source LIKE '%import%'
+            AND cell_number > 5
+        message: "Import after cell 5 - consider moving to top"
+        suggestion: "Move imports to first cells"
+
+  - id: NB_STYLE004
+    name: "Consistent markdown formatting"
+    domain: style
+    severity: info
+    description: "Markdown should be consistently formatted"
+    tags:
+      - notebook
+      - style
+      - markdown
+    rules:
+      - pattern: '  +$|^\t+'
+        message: "Trailing whitespace or tabs in markdown"
+        suggestion: "Remove trailing whitespace"
+
+  - id: NB_STYLE005
+    name: "Code cells have comments"
+    domain: style
+    severity: info
+    description: "Code cells should have explanatory comments"
+    tags:
+      - notebook
+      - style
+      - documentation
+    rules:
+      - query: |
+          SELECT cell_number
+          FROM cells
+          WHERE cell_type = 'code'
+            AND source NOT LIKE '%#%'
+            AND LENGTH(source) > 200
+        message: "Long code cell without comments"
+        suggestion: "Add comments explaining the code"
+
+  - id: NB_STYLE006
+    name: "Meaningful variable names"
+    domain: style
+    severity: warning
+    description: "Variable names should be descriptive"
+    tags:
+      - notebook
+      - style
+      - naming
+    rules:
+      - pattern: '\b(df|df1|df2|data|temp|tmp|x|y|z)\s*='
+        message: "Generic variable name - use descriptive name"
+        suggestion: "Use: sales_df, customer_data, results_df"
+
+  - id: NB_STYLE007
+    name: "Cell output limits"
+    domain: style
+    severity: warning
+    description: "Cell outputs should not be excessively long"
+    tags:
+      - notebook
+      - style
+      - output
+    rules:
+      - query: |
+          SELECT cell_number, output_length
+          FROM cells
+          WHERE output_length > 10000
+        message: "Cell output exceeds 10KB - truncate or clear"
+        suggestion: "Add ; at end of line or use df.head()"
+
+  - id: NB_STYLE008
+    name: "Markdown cells between sections"
+    domain: style
+    severity: info
+    description: "Use markdown cells to separate code sections"
+    tags:
+      - notebook
+      - style
+      - structure
+    rules:
+      - query: |
+          SELECT cell_number
+          FROM cells
+          WHERE cell_type = 'code'
+            AND prev_cell_type = 'code'
+            AND cell_number > 3
+        message: "Multiple code cells without markdown - add explanation"
+        suggestion: "Add markdown cell explaining next section"
+
+  - id: NB_STYLE009
+    name: "No print for DataFrame display"
+    domain: style
+    severity: info
+    description: "Use DataFrame display instead of print"
+    tags:
+      - notebook
+      - style
+      - display
+    rules:
+      - pattern: 'print\(df\)|print\(df\.head'
+        message: "print(df) used - just use df for rich display"
+        suggestion: "Remove print() for DataFrames - notebooks auto-display"
+
+  - id: NB_STYLE010
+    name: "Avoid excessive blank lines in code"
+    domain: style
+    severity: info
+    description: "Code cells should not have excessive blank lines"
+    tags:
+      - notebook
+      - style
+      - formatting
+    rules:
+      - pattern: '\n\n\n+'
+        message: "Multiple consecutive blank lines"
+        suggestion: "Use single blank line for separation"
+
+  - id: NB_STYLE011
+    name: "Plot styling configured"
+    domain: style
+    severity: info
+    description: "Plots should have labels and titles"
+    tags:
+      - notebook
+      - style
+      - plotting
+    rules:
+      - pattern: 'plt\.plot\(|plt\.scatter\(|\.plot\('
+        message: "Plot detected - ensure labels/title are set"
+        suggestion: "Add: plt.title(), plt.xlabel(), plt.ylabel()"
+
+  - id: NB_STYLE012
+    name: "Magic commands documented"
+    domain: style
+    severity: info
+    description: "Jupyter magic commands should be documented"
+    tags:
+      - notebook
+      - style
+      - magic
+    rules:
+      - pattern: '%(timeit|time|prun|memit|load_ext|matplotlib)'
+        message: "Magic command used - add comment explaining purpose"
+        suggestion: "Add comment: # Timing the operation"
+
+  - id: NB_STYLE013
+    name: "Consistent quote style"
+    domain: style
+    severity: info
+    description: "Use consistent quote style throughout notebook"
+    tags:
+      - notebook
+      - style
+      - formatting
+    rules:
+      - query: |
+          SELECT cell, single_quotes, double_quotes
+          FROM quote_usage
+          WHERE single_quotes > 0 AND double_quotes > 0
+        message: "Mixed quote styles in cell"
+        suggestion: "Stick to one quote style consistently"
+
+  - id: NB_STYLE014
+    name: "TODO comments tracked"
+    domain: style
+    severity: info
+    description: "TODO/FIXME comments should be tracked"
+    tags:
+      - notebook
+      - style
+      - documentation
+    rules:
+      - pattern: '#\s*(TODO|FIXME|HACK|XXX|BUG)'
+        message: "TODO/FIXME comment found - create issue or resolve"
+        suggestion: "Track in issue tracker or resolve"
+
+  - id: NB_STYLE015
+    name: "Cell execution count visible"
+    domain: style
+    severity: info
+    description: "Execution counts help track cell order"
+    tags:
+      - notebook
+      - style
+      - execution
+    rules:
+      - query: |
+          SELECT cell_number
+          FROM cells
+          WHERE cell_type = 'code'
+            AND execution_count IS NULL
+        message: "Code cell not executed"
+        suggestion: "Run cell to show execution count"
+
+  - id: NB_STYLE016
+    name: "Notebook conclusion cell"
+    domain: style
+    severity: info
+    description: "Notebook should end with summary/conclusion"
+    tags:
+      - notebook
+      - style
+      - structure
+    rules:
+      - query: |
+          SELECT cell_type
+          FROM cells
+          WHERE cell_number = (SELECT MAX(cell_number) FROM cells)
+        message: "Consider adding conclusion markdown cell"
+        suggestion: "Add ## Summary or ## Conclusion at end"
+
+  - id: NB_STYLE017
+    name: "Variable naming conventions"
+    domain: style
+    severity: info
+    description: "Follow Python naming conventions"
+    tags:
+      - notebook
+      - style
+      - naming
+    rules:
+      - pattern: '\b[A-Z][a-z]+[A-Z]\w*\s*='
+        message: "PascalCase variable - use snake_case"
+        suggestion: "Use: user_data, not UserData for variables"
+
+  - id: NB_STYLE018
+    name: "Avoid redundant output suppression"
+    domain: style
+    severity: info
+    description: "Don't use semicolon for non-displayable expressions"
+    tags:
+      - notebook
+      - style
+      - output
+    rules:
+      - pattern: 'import.*;$|from.*import.*;$'
+        message: "Semicolon after import is unnecessary"
+        suggestion: "Remove semicolon from import statements"
+
+  - id: NB_STYLE019
+    name: "Table of contents optional"
+    domain: style
+    severity: info
+    description: "Long notebooks benefit from table of contents"
+    tags:
+      - notebook
+      - style
+      - structure
+    rules:
+      - query: |
+          SELECT COUNT(*) as cell_count
+          FROM cells
+          HAVING COUNT(*) > 20
+        message: "Large notebook - consider adding table of contents"
+        suggestion: "Add ## Table of Contents with links to sections"
+
+  - NB_STYLE020
+    name: "Clear cell numbering in documentation"
+    domain: style
+    severity: info
+    description: "In documentation notebooks, explain cell numbers"
+    tags:
+      - notebook
+      - style
+      - documentation
+    rules:
+      - pattern: '#\s*[Cc]ell\s*\d+|#\s*[Ss]tep\s*\d+'
+        message: "Cell reference without context"
+        suggestion: "Add context: 'In the following cell, we...'"

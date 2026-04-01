@@ -1,0 +1,106 @@
+contracts:
+  - id: TOMLST001
+    name: "Mixed table styles"
+    domain: style
+    severity: warning
+    description: "Avoid mixing inline and standard tables"
+    rules:
+      - pattern: '^\[\w+\].*\n\w+\s*=\s*\{'
+        message: "Mixed standard and inline table styles"
+        suggestion: "Use consistent table syntax"
+
+  - id: TOMLST002
+    name: "Inconsistent key naming"
+    domain: style
+    severity: warning
+    description: "Key naming should be consistent"
+    rules:
+      - pattern: '^[a-z_]+ = .+\n[a-z]+[A-Z][a-zA-Z]+ ='
+        message: "Mixed snake_case and camelCase keys"
+        suggestion: "Use consistent naming convention"
+
+  - id: TOMLST003
+    name: "Long lines"
+    domain: style
+    severity: warning
+    description: "Lines should not exceed 120 characters"
+    rules:
+      - pattern: '.{121,}'
+        message: "Line exceeds 120 characters"
+        suggestion: "Break long lines for readability"
+
+  - id: TOMLST004
+    name: "Section naming"
+    domain: style
+    severity: info
+    description: "Section names should follow conventions"
+    rules:
+      - pattern: '^\[[A-Z][a-zA-Z\s]+\]'
+        message: "Section with spaces or PascalCase"
+        suggestion: "Use lowercase with underscores for section names"
+
+  - id: TOMLST005
+    name: "Empty tables"
+    domain: style
+    severity: info
+    description: "Empty tables may indicate incomplete config"
+    rules:
+      - pattern: '^\[\w+\]\s*\n(?:\[|$)'
+        message: "Empty table detected"
+        suggestion: "Remove or populate empty tables"
+
+  - id: TOMLST006
+    name: "Space around equals"
+    domain: style
+    severity: info
+    description: "Consistent spacing around = sign"
+    rules:
+      - pattern: '^\w+=\s*'
+        message: "No space before ="
+        suggestion: "Add space before and after ="
+      - pattern: '^\w+\s*=\s*[^"\']\S'
+        message: "Value without quotes after ="
+        suggestion: "Consider quoting values"
+
+  - id: TOMLST007
+    name: "Comment style"
+    domain: style
+    severity: info
+    description: "Comments should have consistent format"
+    rules:
+      - pattern: '^#[^#\s]'
+        message: "Comment without space after #"
+        suggestion: "Add space after # for readability"
+
+  - id: TOMLST008
+    name: "Array formatting"
+    domain: style
+    severity: info
+    description: "Arrays should be formatted consistently"
+    rules:
+      - pattern: '=\s*\[[^\]]{80,}\]'
+        message: "Long inline array"
+        suggestion: "Break array into multiple lines"
+      - pattern: '=\s*\[\s*\n\s*\S.*,\s*$'
+        message: "Multiline array - trailing comma"
+        suggestion: "Be consistent with trailing commas"
+
+  - id: TOMLST009
+    name: "Boolean style"
+    domain: style
+    severity: info
+    description: "Booleans should be lowercase"
+    rules:
+      - pattern: '=\s*(True|False|TRUE|FALSE)\s*(?:$|#|\n)'
+        message: "Non-lowercase boolean"
+        suggestion: "Use lowercase true/false"
+
+  - id: TOMLST010
+    name: "Key ordering"
+    domain: style
+    severity: info
+    description: "Consider logical key ordering"
+    rules:
+      - pattern: '^\[\w+\]\s*\n(?:\w+ = .+\n)*'
+        message: "Table with multiple keys"
+        suggestion: "Consider alphabetically or logically ordering keys"

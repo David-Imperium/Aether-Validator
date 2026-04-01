@@ -1,0 +1,168 @@
+contracts:
+  - id: C101
+    name: "Use After Free"
+    domain: memory-safety
+    severity: critical
+    description: "Using memory after free() causes undefined behavior"
+    tags:
+      - c
+      - memory-safety
+      - use-after-free
+    rules:
+      - pattern: 'free\s*\([^)]+\)[^;]*\1\s*\['
+        message: "Variable used after free"
+        suggestion: "Set pointer to NULL after free: ptr = NULL"
+
+  - id: C102
+    name: "Double Free"
+    domain: memory-safety
+    severity: critical
+    description: "Freeing memory twice corrupts heap"
+    tags:
+      - c
+      - memory-safety
+      - double-free
+    rules:
+      - pattern: 'free\s*\((\w+)\)[^;]*free\s*\(\1\)'
+        message: "Double free detected"
+        suggestion: "Set pointer to NULL after first free"
+
+  - id: C103
+    name: "Null Pointer Dereference"
+    domain: memory-safety
+    severity: error
+    description: "Dereferencing NULL causes crash"
+    tags:
+      - c
+      - memory-safety
+      - null-pointer
+    rules:
+      - pattern: '(\w+)\s*=\s*NULL[^}]*\1\s*->'
+        message: "NULL pointer dereference possible"
+        suggestion: "Check pointer before dereferencing"
+
+  - id: C104
+    name: "Memory Leak"
+    domain: memory-safety
+    severity: warning
+    description: "malloc without corresponding free"
+    tags:
+      - c
+      - memory-safety
+      - memory-leak
+    rules:
+      - pattern: 'malloc\s*\([^)]+\)[^}]*return'
+        message: "malloc without free before return"
+        suggestion: "Free allocated memory or document intentional leak"
+
+  - id: C105
+    name: "Uninitialized Pointer Use"
+    domain: memory-safety
+    severity: error
+    description: "Using uninitialized pointer"
+    tags:
+      - c
+      - memory-safety
+      - uninitialized
+    rules:
+      - pattern: '(\w+)\s*\*\s*\w+[^=]*\1\s*->'
+        message: "Pointer may be uninitialized"
+        suggestion: "Initialize pointers to NULL or valid address"
+
+  - id: C106
+    name: "Array Bounds Check"
+    domain: memory-safety
+    severity: warning
+    description: "Array access without bounds checking"
+    tags:
+      - c
+      - memory-safety
+      - bounds-check
+    rules:
+      - pattern: '\w+\s*\[\s*\w+\s*\]'
+        message: "Array index should be bounds-checked"
+        suggestion: "Add bounds check: if (i < sizeof(arr)/sizeof(arr[0]))"
+
+  - id: C107
+    name: "Stack Buffer Overflow"
+    domain: memory-safety
+    severity: critical
+    description: "Local array accessed with variable index"
+    tags:
+      - c
+      - memory-safety
+      - buffer-overflow
+    rules:
+      - pattern: '\w+\s+\w+\s*\[\s*[0-9]+\s*\][^;]*\w+\s*\[\s*\w+\s*\]'
+        message: "Fixed-size array with variable index"
+        suggestion: "Validate index < array_size before access"
+
+  - id: C108
+    name: "Incorrect Sizeof"
+    domain: memory-safety
+    severity: error
+    description: "Using sizeof on pointer instead of array"
+    tags:
+      - c
+      - memory-safety
+      - sizeof
+    rules:
+      - pattern: 'malloc\s*\(\s*sizeof\s*\(\s*\w+\s*\*\s*\)\s*\)'
+        message: "sizeof(pointer) gives pointer size, not array size"
+        suggestion: "Use sizeof(*ptr) * count for allocation size"
+
+  - id: C109
+    name: "Uninitialized Local Variable"
+    domain: memory-safety
+    severity: warning
+    description: "Local variable used without initialization"
+    tags:
+      - c
+      - memory-safety
+      - uninitialized
+    rules:
+      - pattern: '(\w+)\s+\w+\s*;[^}]*\1\s*='
+        message: "Variable declared then assigned - may read before init"
+        suggestion: "Initialize at declaration: int x = 0;"
+
+  - id: C110
+    name: "Realloc Without Temp"
+    domain: memory-safety
+    severity: error
+    description: "realloc can return NULL, losing original pointer"
+    tags:
+      - c
+      - memory-safety
+      - realloc
+    rules:
+      - pattern: '\w+\s*=\s*realloc\s*\(\s*\w+\s*,'
+        message: "Direct realloc assignment - memory leak if NULL"
+        suggestion: "Use temp = realloc(ptr, size); if (temp) ptr = temp;"
+
+  - id: C111
+    name: "Calloc Overflow"
+    domain: memory-safety
+    severity: warning
+    description: "Multiplication in calloc arguments can overflow"
+    tags:
+      - c
+      - memory-safety
+      - overflow
+    rules:
+      - pattern: 'calloc\s*\(\s*[^,]+,\s*[^)]+\*[^)]+\)'
+        message: "Multiplication inside calloc - potential overflow"
+        suggestion: "Let calloc handle multiplication: calloc(count, size)"
+
+  - id: C112
+    name: "Returning Stack Address"
+    domain: memory-safety
+    severity: critical
+    description: "Returning address of local variable"
+    tags:
+      - c
+      - memory-safety
+      - dangling-pointer
+    rules:
+      - pattern: 'return\s+&\w+\s*;'
+        message: "Returning address of local - undefined behavior"
+        suggestion: "Return pointer parameter or allocate with malloc"

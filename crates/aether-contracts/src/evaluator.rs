@@ -3,7 +3,7 @@
 use crate::loader::RuleDefinition;
 use crate::error::ContractResult;
 use crate::pattern::PatternFactory;
-use aether_validation::Violation;
+use aether_validation::{Violation, deduplicate_violations};
 
 /// Rule evaluator for pattern matching.
 ///
@@ -32,7 +32,7 @@ impl RuleEvaluator {
 
         let violations: Vec<Violation> = matches
             .into_iter()
-            .map(|m| self.create_violation(rule, &m.matched, m.start))
+            .map(|m| self.create_violation(rule, &m.matched, m.start, source))
             .collect();
 
         Ok(violations)
@@ -44,14 +44,22 @@ impl RuleEvaluator {
         for rule in rules {
             violations.extend(self.evaluate(rule, source)?);
         }
-        Ok(violations)
+        // Deduplicate violations by ID and message
+        Ok(deduplicate_violations(violations))
     }
 
-    fn create_violation(&self, rule: &RuleDefinition, matched: &str, _position: usize) -> Violation {
+    fn create_violation(&self, rule: &RuleDefinition, matched: &str, position: usize, source: &str) -> Violation {
         let message = rule.message.clone()
             .unwrap_or_else(|| format!("Pattern matched: {}", matched));
 
+        // Calculate line number from position in source
+        let line = source[..position].chars().filter(|&c| c == '\n').count() + 1;
+        
         let mut violation = Violation::warning(&rule.pattern, message);
+        violation.span = Some(aether_validation::Span {
+            line,
+            column: 1,
+        });
         
         if let Some(suggestion) = &rule.suggestion {
             violation = violation.suggest(suggestion);

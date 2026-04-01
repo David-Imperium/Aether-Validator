@@ -1,0 +1,124 @@
+contracts:
+  - id: LUA001
+    name: "Nil Indexing"
+    domain: correctness
+    severity: error
+    description: "Accessing field on potentially nil value"
+    rules:
+      - pattern: '\bnil\s*\['
+        message: "Cannot index nil value"
+        suggestion: "Check for nil before indexing"
+      - pattern: '\[\s*nil\s*\]'
+        message: "Indexing with nil key always returns nil"
+        suggestion: "Use valid key or check key existence"
+
+  - id: LUA002
+    name: "Nil Comparison"
+    domain: correctness
+    severity: warning
+    description: "Comparing with nil using == may not work as expected"
+    rules:
+      - pattern: '==\s*nil\b'
+        message: "Use 'variable == nil' pattern consistently"
+        suggestion: "Prefer 'not variable' for nil checks"
+      - pattern: 'nil\s*=='
+        message: "Unusual nil comparison style"
+        suggestion: "Use 'variable == nil' or 'not variable'"
+
+  - id: LUA003
+    name: "Table Length on Non-Sequence"
+    domain: correctness
+    severity: warning
+    description: "# operator on tables with non-integer keys"
+    rules:
+      - pattern: '#\s*\w+\s*\[.*\]'
+        message: "# operator only counts sequence part"
+        suggestion: "Use pairs() for non-sequence tables"
+
+  - id: LUA004
+    name: "Missing Return Statement"
+    domain: correctness
+    severity: warning
+    description: "Function may not return in all paths"
+    rules:
+      - pattern: 'function\s+\w+\s*\([^)]*\)\s*$'
+        message: "Check all code paths return value"
+        suggestion: "Ensure explicit return in all branches"
+
+  - id: LUA005
+    name: "Numeric For Bounds"
+    domain: correctness
+    severity: error
+    description: "For loop with invalid bounds"
+    rules:
+      - pattern: 'for\s+\w+\s*=\s*nil'
+        message: "For loop start cannot be nil"
+        suggestion: "Initialize loop variable properly"
+      - pattern: 'for\s+\w+\s*=\s*[^,]+,\s*nil'
+        message: "For loop limit cannot be nil"
+        suggestion: "Provide valid loop limit"
+
+  - id: LUA006
+    name: "String Concatenation with Nil"
+    domain: correctness
+    severity: error
+    description: "Concatenating nil with string causes error"
+    rules:
+      - pattern: '\.\.\s*nil\b'
+        message: "Cannot concatenate nil with string"
+        suggestion: "Convert nil to empty string first"
+      - pattern: '\bnil\s*\.\.'
+        message: "Cannot concatenate nil with string"
+        suggestion: "Use tostring() or default value"
+
+  - id: LUA007
+    name: "Invalid Table Key"
+    domain: correctness
+    severity: warning
+    description: "Using nil or NaN as table key"
+    rules:
+      - pattern: '\[\s*nil\s*\]\s*='
+        message: "nil as table key is invalid"
+        suggestion: "Use valid key value"
+      - pattern: '\[\s*0\s*/\s*0\s*\]'
+        message: "NaN as table key is invalid"
+        suggestion: "Avoid NaN as table keys"
+
+  - id: LUA008
+    name: "Division by Zero"
+    domain: correctness
+    severity: error
+    description: "Potential division by zero"
+    rules:
+      - pattern: '/\s*0\b(?![.])'
+        message: "Division by zero causes infinity or NaN"
+        suggestion: "Check divisor before division"
+      - pattern: '/\s*0\.0\b'
+        message: "Division by zero causes infinity or NaN"
+        suggestion: "Check divisor before division"
+
+  - id: LUA009
+    name: "Arithmetic on Nil"
+    domain: correctness
+    severity: error
+    description: "Arithmetic operation on nil value"
+    rules:
+      - pattern: '\bnil\s*[\+\-\*/]'
+        message: "Cannot perform arithmetic on nil"
+        suggestion: "Check variable is numeric"
+      - pattern: '[\+\-\*/]\s*nil\b'
+        message: "Cannot perform arithmetic on nil"
+        suggestion: "Initialize variables properly"
+
+  - id: LUA010
+    name: "Comparison on Different Types"
+    domain: correctness
+    severity: warning
+    description: "Comparing values of different types"
+    rules:
+      - pattern: '\d+\s*[<>=]+\s*["\']'
+        message: "Comparing number with string may not work as expected"
+        suggestion: "Ensure both operands are same type"
+      - pattern: '["\'].*\s*[<>=]+\s*\d+'
+        message: "Comparing string with number may not work as expected"
+        suggestion: "Convert to same type before comparison"

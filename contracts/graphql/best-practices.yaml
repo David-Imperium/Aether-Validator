@@ -1,0 +1,382 @@
+# GraphQL Best Practices Contracts
+# Domain: best-practices
+# Validates GraphQL idioms, patterns, and best practices
+
+contracts:
+  - id: GQL_BP001
+    name: "Query depth limit"
+    domain: best-practices
+    severity: warning
+    description: "Deeply nested queries can cause DoS"
+    tags:
+      - graphql
+      - best-practices
+      - security
+    rules:
+      - pattern: '(\{\s*\w+\s*\{){3,}'
+        message: "Deep query nesting detected - consider depth limit"
+        suggestion: "Limit query depth on server side"
+
+  - id: GQL_BP002
+    name: "Introspection in production"
+    domain: best-practices
+    severity: warning
+    description: "Introspection should be disabled in production"
+    tags:
+      - graphql
+      - best-practices
+      - security
+    rules:
+      - pattern: '__schema|__type'
+        message: "Introspection query - disable in production"
+        suggestion: "Disable introspection for production deployments"
+
+  - id: GQL_BP003
+    name: "Mutation naming"
+    domain: best-practices
+    severity: info
+    description: "Mutations should have clear names"
+    tags:
+      - graphql
+      - best-practices
+      - naming
+    rules:
+      - pattern: 'mutation\s+\w+'
+        message: "Named mutation - good practice"
+        suggestion: "Use verb-first names: createUser, updateUser"
+
+  - id: GQL_BP004
+    name: "Avoid wildcard fields"
+    domain: best-practices
+    severity: warning
+    description: "Explicit field selection is clearer"
+    tags:
+      - graphql
+      - best-practices
+      - fragments
+    rules:
+      - pattern: '\.\.\.\s*\w+'
+        message: "Fragment spread - ensure fields are intentional"
+        suggestion: "Be explicit about selected fields"
+
+  - id: GQL_BP005
+    name: "Input validation"
+    domain: best-practices
+    severity: error
+    description: "Input types should have validation"
+    tags:
+      - graphql
+      - best-practices
+      - validation
+    rules:
+      - pattern: 'input\s+\w+\s*\{[^}]*\}'
+        message: "Input type defined - add validation rules"
+        suggestion: "Add constraints and validation for inputs"
+
+  - id: GQL_BP006
+    name: "Use DataLoader for N+1"
+    domain: best-practices
+    severity: error
+    description: "Batch nested field resolution with DataLoader"
+    tags:
+      - graphql
+      - best-practices
+      - performance
+    rules:
+      - query: |
+          SELECT resolver, nested_field_count
+          FROM resolvers
+          WHERE nested_field_count > 1 AND NOT uses_dataloader
+        message: "Nested resolver without DataLoader - potential N+1"
+        suggestion: "Implement DataLoader for batch resolution"
+
+  - id: GQL_BP007
+    name: "Pagination on lists"
+    domain: best-practices
+    severity: warning
+    description: "List fields should use Relay-style pagination"
+    tags:
+      - graphql
+      - best-practices
+      - pagination
+    rules:
+      - query: |
+          SELECT name, type FROM fields
+          WHERE type LIKE '%List' OR type LIKE '%['
+            AND NOT has_pagination_args
+        message: "List field without pagination arguments"
+        suggestion: "Add first, after, last, before for pagination"
+
+  - id: GQL_BP008
+    name: "Nullable by default"
+    domain: best-practices
+    severity: info
+    description: "Fields should be nullable unless definitely required"
+    tags:
+      - graphql
+      - best-practices
+      - types
+    rules:
+      - query: |
+          SELECT name, type FROM fields
+          WHERE type LIKE '%!' AND is_optional
+        message: "Optional field marked NonNull - consider nullable"
+        suggestion: "Make field nullable if value can be absent"
+
+  - id: GQL_BP009
+    name: "Global Object Identification"
+    domain: best-practices
+    severity: info
+    description: "Implement Node interface for global IDs"
+    tags:
+      - graphql
+      - best-practices
+      - relay
+    rules:
+      - pattern: 'interface\s+Node|type\s+\w+\s+implements\s+Node'
+        message: "Consider implementing Node interface for entities"
+        suggestion: "Implement Node { id: ID! } for cache consistency"
+
+  - id: GQL_BP010
+    name: "Consistent error handling"
+    domain: best-practices
+    severity: warning
+    description: "Use consistent error format across schema"
+    tags:
+      - graphql
+      - best-practices
+      - errors
+    rules:
+      - query: |
+          SELECT mutation_name FROM mutations
+          WHERE NOT returns_error_union
+        message: "Mutation without error handling in payload"
+        suggestion: "Return union type or errors field in mutation payload"
+
+  - id: GQL_BP011
+    name: "Document all types"
+    domain: best-practices
+    severity: info
+    description: "All types should have descriptions"
+    tags:
+      - graphql
+      - best-practices
+      - documentation
+    rules:
+      - query: |
+          SELECT name FROM types
+          WHERE description IS NULL OR description = ''
+        message: "Type without description"
+        suggestion: 'Add """Description""" above type definition'
+
+  - id: GQL_BP012
+    name: "Use custom scalars"
+    domain: best-practices
+    severity: info
+    description: "Create custom scalars for domain types"
+    tags:
+      - graphql
+      - best-practices
+      - scalars
+    rules:
+      - pattern: 'DateTime|Email|URL|UUID|scalar\s+\w+'
+        message: "Consider custom scalars for domain-specific types"
+        suggestion: "Create scalar for: DateTime, Email, URL, etc."
+
+  - id: GQL_BP013
+    name: "Mutation payload pattern"
+    domain: best-practices
+    severity: info
+    description: "Mutations should return payload type"
+    tags:
+      - graphql
+      - best-practices
+      - mutations
+    rules:
+      - query: |
+          SELECT name, return_type FROM mutations
+          WHERE return_type NOT LIKE '%Payload' AND return_type NOT LIKE '%Result'
+        message: "Mutation returns entity directly - use payload type"
+        suggestion: "Return CreateUserPayload with success, errors, user fields"
+
+  - id: GQL_BP014
+    name: "Subscription filtering"
+    domain: best-practices
+    severity: warning
+    description: "Subscriptions should have filtering arguments"
+    tags:
+      - graphql
+      - best-practices
+      - subscriptions
+    rules:
+      - pattern: 'subscription\s*\{[^}]*\w+\s*\{'
+        message: "Subscription without filter - add arguments"
+        suggestion: "Add filter: subscription onMessage(filter: {roomId: ID!})"
+
+  - id: GQL_BP015
+    name: "Federation key directive"
+    domain: best-practices
+    severity: info
+    description: "Use @key for federated schemas"
+    tags:
+      - graphql
+      - best-practices
+      - federation
+    rules:
+      - query: |
+          SELECT name FROM types
+          WHERE is_entity AND NOT has_key_directive
+        message: "Entity type without @key directive"
+        suggestion: "Add @key(fields: \"id\") for federation"
+
+  - id: GQL_BP016
+    name: "Avoid empty types"
+    domain: best-practices
+    severity: warning
+    description: "Types should have at least one field"
+    tags:
+      - graphql
+      - best-practices
+      - schema
+    rules:
+      - query: |
+          SELECT name FROM types
+          WHERE field_count = 0
+        message: "Type has no fields"
+        suggestion: "Add fields or remove empty type"
+
+  - id: GQL_BP017
+    name: "Use enums for fixed values"
+    domain: best-practices
+    severity: info
+    description: "Fixed value sets should use enums"
+    tags:
+      - graphql
+      - best-practices
+      - enums
+    rules:
+      - query: |
+          SELECT name, type FROM fields
+          WHERE is_fixed_values AND type != 'enum'
+        message: "Field with fixed values - use enum type"
+        suggestion: "Create enum for: status, role, type fields"
+
+  - id: GQL_BP018
+    name: "Defer slow fields"
+    domain: best-practices
+    severity: info
+    description: "Use @defer for non-critical slow fields"
+    tags:
+      - graphql
+      - best-practices
+      - performance
+    rules:
+      - query: |
+          SELECT field, avg_resolve_time
+          FROM resolver_stats
+          WHERE avg_resolve_time > 200
+        message: "Slow field - consider @defer directive"
+        suggestion: "Add @defer for incremental delivery"
+
+  - id: GQL_BP019
+    name: "Stream large lists"
+    domain: best-practices
+    severity: info
+    description: "Use @stream for large list responses"
+    tags:
+      - graphql
+      - best-practices
+      - performance
+    rules:
+      - query: |
+          SELECT field, avg_items_returned
+          FROM resolver_stats
+          WHERE avg_items_returned > 50
+        message: "Large list - consider @stream directive"
+        suggestion: "Add @stream for progressive loading"
+
+  - id: GQL_BP020
+    name: "Schema first design"
+    domain: best-practices
+    severity: info
+    description: "Define schema before resolvers"
+    tags:
+      - graphql
+      - best-practices
+      - design
+    rules:
+      - pattern: 'schema\s*\{|type\s+Query|type\s+Mutation'
+        message: "Schema-first approach recommended"
+        suggestion: "Design schema types before implementing resolvers"
+
+  - id: GQL_BP021
+    name: "Version with @deprecated"
+    domain: best-practices
+    severity: info
+    description: "Use @deprecated for field versioning"
+    tags:
+      - graphql
+      - best-practices
+      - versioning
+    rules:
+      - pattern: '@deprecated'
+        message: "Use @deprecated(reason: \"Use newField\") for migrations"
+        suggestion: "Deprecate old fields before removing"
+
+  - id: GQL_BP022
+    name: "Avoid resolver logic in schema"
+    domain: best-practices
+    severity: warning
+    description: "Business logic belongs in resolvers, not schema"
+    tags:
+      - graphql
+      - best-practices
+      - architecture
+    rules:
+      - pattern: '@resolve|@computed|@formula'
+        message: "Computed fields should be in resolvers"
+        suggestion: "Move business logic to resolver implementations"
+
+  - id: GQL_BP023
+    name: "Consistent naming conventions"
+    domain: best-practices
+    severity: info
+    description: "Follow GraphQL naming conventions"
+    tags:
+      - graphql
+      - best-practices
+      - naming
+    rules:
+      - pattern: 'type\s+[a-z]|field\s+[A-Z]|enum\s+[a-z]'
+        message: "Follow conventions: Types PascalCase, fields camelCase"
+        suggestion: "Use: type UserProfile, field: userName"
+
+  - id: GQL_BP024
+    name: "Limit introspection exposure"
+    domain: best-practices
+    severity: warning
+    description: "Limit what introspection reveals"
+    tags:
+      - graphql
+      - best-practices
+      - security
+    rules:
+      - query: |
+          SELECT field FROM schema_fields
+          WHERE is_sensitive AND is_exposed_introspection
+        message: "Sensitive field exposed via introspection"
+        suggestion: "Hide sensitive fields from introspection"
+
+  - id: GQL_BP025
+    name: "Persisted queries for production"
+    domain: best-practices
+    severity: info
+    description: "Use persisted queries in production"
+    tags:
+      - graphql
+      - best-practices
+      - production
+    rules:
+      - pattern: 'persistedQueries|persisted-queries'
+        message: "Consider persisted queries for production"
+        suggestion: "Enable persisted queries for production deployments"

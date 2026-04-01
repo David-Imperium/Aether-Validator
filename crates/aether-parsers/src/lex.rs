@@ -194,7 +194,7 @@ impl Lexer {
             if ch.is_ascii_digit() {
                 num_str.push(ch);
                 self.advance();
-            } else if ch == '.' && self.peek(1).map_or(false, |c| c.is_ascii_digit()) {
+            } else if ch == '.' && self.peek(1).is_some_and(|c| c.is_ascii_digit()) {
                 is_float = true;
                 num_str.push(ch);
                 self.advance();
@@ -421,8 +421,10 @@ impl LexParserInternal {
     }
     
     fn parse(&mut self) -> AST {
-        let mut root = ASTNode::default();
-        root.kind = NodeKind::Module;
+        let mut root = ASTNode {
+            kind: NodeKind::Module,
+            ..Default::default()
+        };
         
         loop {
             let (token, line, col) = self.current();
@@ -454,9 +456,11 @@ impl LexParserInternal {
         self.advance(); // Consume keyword
         
         let _name = self.parse_name()?;
-        let mut node = ASTNode::default();
-        node.kind = kind;
-        node.span = ASTSpan::new(0, 0); // Simplified
+        let mut node = ASTNode {
+            kind,
+            span: ASTSpan::new(0, 0),
+            ..Default::default()
+        };
         
         // Note: name is stored in the definition node (simplified for now)
         
@@ -529,14 +533,18 @@ impl LexParserInternal {
     
     fn parse_property(&mut self, name: String) -> Option<ASTNode> {
         self.advance(); // Consume identifier
-        
-        let mut node = ASTNode::default();
-        node.kind = NodeKind::Property;
-        node.span = ASTSpan::new(0, 0);
-        
+
+        let node = ASTNode {
+            kind: NodeKind::Property,
+            span: ASTSpan::new(0, 0),
+            ..Default::default()
+        };
+
         // Store property name in the first child
-        let mut name_node = ASTNode::default();
-        name_node.kind = NodeKind::Unknown;
+        let _name_node = ASTNode {
+            kind: NodeKind::Unknown,
+            ..Default::default()
+        };
         // The property name is stored in the node's structure
         
         // Expect ':'
@@ -652,10 +660,12 @@ impl LexParserInternal {
         };
         
         self.advance(); // Consume keyword
-        
-        let mut node = ASTNode::default();
-        node.kind = NodeKind::Condition;
-        node.span = ASTSpan::new(0, 0);
+
+        let node = ASTNode {
+            kind: NodeKind::Condition,
+            span: ASTSpan::new(0, 0),
+            ..Default::default()
+        };
         
         // Parse condition expression (identifier or function call)
         let (expr_token, _, _) = self.current();

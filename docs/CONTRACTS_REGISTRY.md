@@ -463,7 +463,7 @@ aether contracts update --offline
 **Output:**
 ```
 .factory/
-├── settings.json           ← Hook PreToolUse
+├── settings.json           ← Config validazione
 ├── contracts/
 │   ├── rust/
 │   │   └── v1.2.0.yaml
@@ -476,19 +476,11 @@ aether contracts update --offline
 **settings.json:**
 ```json
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Create|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \".factory/scripts/validate.ps1\"",
-            "timeout": 30
-          }
-        ]
-      }
-    ]
+  "aether": {
+    "enabled": true,
+    "languages": ["rust", "prism"],
+    "level": "standard",
+    "validateOnSave": true
   }
 }
 ```
@@ -578,16 +570,12 @@ aether-vscode/
     "languages": ["rust", "prism"],
     "level": "standard",
     "validateOnGenerate": true
-  },
-  "hooks": {
-    "preGenerate": ".gemini/scripts/validate.sh"
   }
 }
 ```
 
 **Integrazione:**
 - Validazione prima di ogni generazione codice
-- Hook per `gemini generate` e `gemini chat`
 - Contratti applicati ai file generati
 
 ### 6.7 Antigravity

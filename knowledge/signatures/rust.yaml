@@ -1,0 +1,373 @@
+# Rust API Signatures
+
+rust:
+  std:
+    fs:
+      read_to_string:
+        params:
+          - name: path
+            type: "impl AsRef<Path>"
+            optional: false
+        return: "Result<String, io::Error>"
+        note: "Convenience function - reads entire file"
+      
+      read:
+        params:
+          - name: path
+            type: "impl AsRef<Path>"
+            optional: false
+        return: "Result<Vec<u8>, io::Error>"
+      
+      write:
+        params:
+          - name: path
+            type: "impl AsRef<Path>"
+            optional: false
+          - name: contents
+            type: "impl AsRef<[u8]>"
+            optional: false
+        return: "Result<(), io::Error>"
+      
+      File:
+        open:
+          params:
+            - name: path
+              type: "impl AsRef<Path>"
+              optional: false
+          return: "Result<File, io::Error>"
+          note: "Open for reading only"
+        
+        create:
+          params:
+            - name: path
+              type: "impl AsRef<Path>"
+              optional: false
+          return: "Result<File, io::Error>"
+          note: "Create or truncate for writing"
+        
+        options:
+          note: "Use OpenOptions for fine-grained control"
+    
+    collections:
+      HashMap:
+        new:
+          params: []
+          return: "HashMap<K, V>"
+        
+        with_capacity:
+          params:
+            - name: capacity
+              type: usize
+              optional: false
+          return: "HashMap<K, V>"
+        
+        insert:
+          params:
+            - name: key
+              type: K
+              optional: false
+            - name: value
+              type: V
+              optional: false
+          return: "Option<V>"  # Old value if present
+        
+        get:
+          params:
+            - name: key
+              type: "&Q"
+              optional: false
+          return: "Option<&V>"
+        
+        entry:
+          params:
+            - name: key
+              type: K
+              optional: false
+          return: "Entry<K, V>"
+          note: "Returns Entry for in-place manipulation"
+      
+      Vec:
+        new:
+          params: []
+          return: "Vec<T>"
+        
+        with_capacity:
+          params:
+            - name: capacity
+              type: usize
+              optional: false
+          return: "Vec<T>"
+        
+        push:
+          params:
+            - name: value
+              type: T
+              optional: false
+          return: "()"
+        
+        pop:
+          params: []
+          return: "Option<T>"
+        
+        iter:
+          params: []
+          return: "Iter<T>"
+        
+        into_iter:
+          params: []
+          return: "IntoIter<T>"
+          note: "Consumes the Vec"
+    
+    option:
+      Option:
+        unwrap:
+          params: []
+          return: T
+          raises: "panic!"
+          common_errors:
+            - error: "unwrap on None"
+              description: "Will panic if None"
+              correct: "opt.unwrap_or(default) or opt?"
+              wrong: "opt.unwrap()  # panics on None"
+        
+        expect:
+          params:
+            - name: msg
+              type: "&str"
+              optional: false
+          return: T
+          raises: "panic! with msg"
+        
+        unwrap_or:
+          params:
+            - name: default
+              type: T
+              optional: false
+          return: T
+        
+        unwrap_or_else:
+          params:
+            - name: f
+              type: "impl FnOnce() -> T"
+              optional: false
+          return: T
+        
+        map:
+          params:
+            - name: f
+              type: "impl FnOnce(T) -> U"
+              optional: false
+          return: "Option<U>"
+        
+        and_then:
+          params:
+            - name: f
+              type: "impl FnOnce(T) -> Option<U>"
+              optional: false
+          return: "Option<U>"
+        
+        ok_or:
+          params:
+            - name: err
+              type: E
+              optional: false
+          return: "Result<T, E>"
+    
+    result:
+      Result:
+        unwrap:
+          params: []
+          return: T
+          raises: "panic!"
+          common_errors:
+            - error: "unwrap on Err"
+              description: "Will panic if Err"
+              correct: "result? or result.unwrap_or_else(|e| default)"
+        
+        expect:
+          params:
+            - name: msg
+              type: "&str"
+              optional: false
+          return: T
+          raises: "panic! with msg"
+        
+        ok:
+          params: []
+          return: "Option<T>"
+        
+        err:
+          params: []
+          return: "Option<E>"
+        
+        map:
+          params:
+            - name: f
+              type: "impl FnOnce(T) -> U"
+              optional: false
+          return: "Result<U, E>"
+        
+        map_err:
+          params:
+            - name: f
+              type: "impl FnOnce(E) -> F"
+              optional: false
+          return: "Result<T, F>"
+        
+        and_then:
+          params:
+            - name: f
+              type: "impl FnOnce(T) -> Result<U, E>"
+              optional: false
+          return: "Result<U, E>"
+        
+        unwrap_or:
+          params:
+            - name: default
+              type: T
+              optional: false
+          return: T
+    
+    str:
+      parse:
+        params: []
+        return: "Result<F, E>"  # Where F: FromStr
+        note: "Generic - type inference required"
+        common_errors:
+          - error: "parse without type annotation"
+            description: "Rust needs to know target type"
+            correct: "let n: i32 = s.parse()?; or s.parse::<i32>()?"
+            wrong: "let n = s.parse()  # Error: type annotation needed"
+    
+    string:
+      String:
+        from:
+          params:
+            - name: s
+              type: "&str"
+              optional: false
+          return: String
+        
+        from_utf8:
+          params:
+            - name: bytes
+              type: "Vec<u8>"
+              optional: false
+          return: "Result<String, FromUtf8Error>"
+    
+    clone:
+      Clone:
+        clone:
+          params: []
+          return: Self
+          note: "Creates deep copy"
+          common_errors:
+            - error: "Unnecessary clone"
+              description: "Value could be moved instead"
+              correct: "fn take(v: Vec<i32>) { /* use v */ }"
+              wrong: "fn take(v: &Vec<i32>) { let owned = v.clone(); /* ... */ }"
+    
+    iter:
+      Iterator:
+        map:
+          params:
+            - name: f
+              type: "impl FnMut(Self::Item) -> B"
+              optional: false
+          return: "Map<Self, F>"
+          note: "Lazy - returns adapter, doesn't iterate"
+        
+        filter:
+          params:
+            - name: predicate
+              type: "impl FnMut(&Self::Item) -> bool"
+              optional: false
+          return: "Filter<Self, P>"
+          note: "Lazy"
+        
+        collect:
+          params: []
+          return: "B where B: FromIterator<Self::Item>"
+          note: "Consumes iterator, collects into container"
+        
+        for_each:
+          params:
+            - name: f
+              type: "impl FnMut(Self::Item)"
+              optional: false
+          return: "()"
+          note: "Consumes iterator"
+        
+        fold:
+          params:
+            - name: init
+              type: B
+              optional: false
+            - name: f
+              type: "impl FnMut(B, Self::Item) -> B"
+              optional: false
+          return: B
+  
+  # Common crates
+  serde_json:
+    from_str:
+      params:
+        - name: s
+          type: "&str"
+          optional: false
+      return: "Result<T, Error>"
+      note: "Generic - T must implement Deserialize"
+    
+    to_string:
+      params:
+        - name: value
+          type: "&T"
+          optional: false
+      return: "Result<String, Error>"
+      note: "T must implement Serialize"
+    
+    to_string_pretty:
+      params:
+        - name: value
+          type: "&T"
+          optional: false
+      return: "Result<String, Error>"
+    
+    Value:
+      from:
+        note: "Can convert from various types"
+      
+      get:
+        params:
+          - name: path
+            type: "&str"
+            optional: false
+        return: "Option<&Value>"
+  
+  tokio:
+    fs:
+      read_to_string:
+        params:
+          - name: path
+            type: "impl AsRef<Path>"
+            optional: false
+        return: "Result<String, io::Error>"
+        note: "Async version of std::fs::read_to_string"
+    
+    runtime:
+      Runtime:
+        block_on:
+          params:
+            - name: future
+              type: "impl Future"
+              optional: false
+          return: "T"
+          note: "Blocks current thread until future completes"
+    
+    spawn:
+      params:
+        - name: task
+          type: "impl Future<Output = T> + Send + 'static"
+          optional: false
+      return: "JoinHandle<T>"
+      note: "Spawns async task on runtime"

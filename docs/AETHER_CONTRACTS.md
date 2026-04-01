@@ -1,6 +1,6 @@
 # Aether — Contract System
 
-**Version:** 0.1.0  
+**Version:** 0.2.0  
 **Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md)
 
 ---
@@ -38,6 +38,31 @@ Contracts are organized by **domain** — the area of concern:
 | `style` | Naming, formatting |
 | `logic` | Preconditions, invariants |
 | `domain-specific` | Game rules, API contracts |
+
+### Contract Loading
+
+Contracts are loaded by the **ContractLayer** from the filesystem:
+
+| Location | Description |
+|----------|-------------|
+| `~/.aether/contracts/{language}/*.yaml` | User contracts (default) |
+| `./contracts/{language}/*.yaml` | Project-local contracts |
+| Built-in registry | Core contracts bundled with Aether |
+
+**ContractLayer** is the first layer in the validation pipeline. It:
+1. Loads YAML contracts for the target language
+2. Evaluates regex patterns against source code
+3. Converts matches to violations with severity mapping
+4. Caches loaded contracts for performance
+
+**CLI Usage:**
+```bash
+# Default: loads from ~/.aether/contracts/
+aether validate src/main.py --lang python
+
+# Custom contracts directory
+aether validate src/main.py --lang python --contracts ./my-contracts/
+```
 
 ---
 
@@ -129,6 +154,44 @@ pattern:
   type: regex
   pattern: "\\b(malloc|free|realloc)\\s*\\("
   flags: [case-sensitive]
+```
+
+**Multiline Matching:** The `.` character in regex does NOT match newlines. For patterns spanning multiple lines, use:
+
+| Pattern | Description |
+|---------|-------------|
+| `[\s\S]*?` | Match any character including newlines (non-greedy) |
+| `[\s\S]+?` | Match one or more characters including newlines |
+| `(?s)` | Enable DOTALL mode (makes `.` match newlines) |
+
+**Example - Detect silent exception catching:**
+```yaml
+# WRONG - doesn't match across lines
+pattern: "except.*:\s*pass"
+
+# CORRECT - matches multiline code
+pattern: "except[^:]*:[\s\S]*?pass"
+
+# ALSO CORRECT - using DOTALL mode
+pattern: "(?s)except.*?:\s*pass"
+```
+
+**Real-world example:**
+```yaml
+contracts:
+  - id: PYERR001
+    name: silent-exception-caught
+    description: "Silent exception caught - errors are hidden"
+    severity: error
+    pattern: "except[^:]*:[\\s\\S]*?pass"
+    suggestion: "Log or handle the exception properly"
+
+  - id: PYERR002
+    name: print-in-except
+    description: "Using print() in exception handler - use logging"
+    severity: warning
+    pattern: "(?s)except.*?:\\s*print"
+    suggestion: "Use logging.error() or logging.exception() instead"
 ```
 
 ### 3. Semantic Query

@@ -12,7 +12,7 @@ contracts:
       - error-handling
       - anti-pattern
     rules:
-      - pattern: 'except.*:\s*pass'
+      - pattern: 'except[^:]*:[\s\S]*?pass'
         message: "Silent exception caught - errors are hidden"
         suggestion: "Handle the exception or log it, don't just pass"
 
@@ -26,7 +26,7 @@ contracts:
       - error-handling
       - logging
     rules:
-      - pattern: 'except.*:\s*print'
+      - pattern: '(?s)except.*?:\s*print'
         message: "Use logging instead of print for errors"
         suggestion: "Use 'logger.exception()' or 'logger.error()'"
 
@@ -53,7 +53,7 @@ contracts:
       - error-handling
       - cleanup
     rules:
-      - pattern: 'try:\s*\n.*\n.*=\s*open\('
+      - pattern: '(?s)try:\s*\n.*?=\s*open\('
         message: "Resource allocation in try block without finally"
         suggestion: "Use 'try-finally' or context manager for cleanup"
 

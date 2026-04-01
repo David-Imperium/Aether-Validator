@@ -1,0 +1,174 @@
+contracts:
+  - id: CUDA_PERF001
+    name: "Memory coalescing"
+    domain: performance
+    severity: warning
+    description: "Global memory accesses should be coalesced"
+    rules:
+      - pattern: '\[\s*threadIdx\.x\s*\+'
+        message: "Potential coalesced access pattern - verify alignment"
+        suggestion: "Ensure base address is 128-byte aligned for coalescing"
+      - pattern: '\[\s*blockIdx\.x\s*\*\s*blockDim\.x\s*\+'
+        message: "Good - linear access pattern for coalescing"
+        suggestion: ""
+      - pattern: '\[\s*\w+\s*\*\s*blockDim\.x\s*\+'
+        message: "Strided access pattern - may cause uncoalesced reads"
+        suggestion: "Restructure for contiguous access when possible"
+
+  - id: CUDA_PERF002
+    name: "Kernel occupancy"
+    domain: performance
+    severity: info
+    description: "Kernel configuration affects occupancy"
+    rules:
+      - pattern: '<<<\s*\d+,\s*(128|256|512)\s*>>>'
+        message: "Good - common optimal block size"
+        suggestion: ""
+      - pattern: '<<<\s*\d+,\s*\d{1,2}\s*>>>'
+        message: "Very small block size - low occupancy expected"
+        suggestion: "Use 128-512 threads per block for better occupancy"
+      - pattern: '<<<\s*\d+,\s*(1[0-9]{2}|1[0-9]{3})\s*>>>'
+        message: "Block size over 1024 may exceed limit"
+        suggestion: "Check device limits with cudaGetDeviceProperties"
+
+  - id: CUDA_PERF003
+    name: "Shared memory usage"
+    domain: performance
+    severity: info
+    description: "Shared memory can improve performance"
+    rules:
+      - pattern: '__shared__\s+\w+\s+\w+\s*\[\s*\d+\s*\]'
+        message: "Static shared memory allocation - good"
+        suggestion: ""
+      - pattern: 'extern\s+__shared__'
+        message: "Dynamic shared memory - flexible for varying sizes"
+        suggestion: ""
+      - pattern: '__shared__\s+\w+\s+\w+\s*\[\s*blockDim'
+        message: "Shared memory sized by blockDim - verify bank conflicts"
+        suggestion: "Consider padding to avoid bank conflicts"
+
+  - id: CUDA_PERF004
+    name: "CUDA streams"
+    domain: performance
+    severity: info
+    description: "Streams enable concurrent kernel execution"
+    rules:
+      - pattern: 'cudaStreamCreate'
+        message: "Stream created - enables concurrency"
+        suggestion: ""
+      - pattern: 'cudaStreamSynchronize'
+        message: "Stream synchronization - may reduce concurrency"
+        suggestion: "Minimize synchronization for overlapping execution"
+      - pattern: '<<<[^>]+,\s*[^>]+,\s*[^>]+,\s*stream'
+        message: "Kernel launched in stream - good for concurrency"
+        suggestion: ""
+
+  - id: CUDA_PERF005
+    name: "Asynchronous operations"
+    domain: performance
+    severity: info
+    description: "Async operations enable overlap"
+    rules:
+      - pattern: 'cudaMemcpyAsync'
+        message: "Async memory copy - enables overlap"
+        suggestion: "Use async operations with streams for overlapping"
+      - pattern: 'cudaMemcpy\s*\('
+        message: "Synchronous memcpy - consider async version"
+        suggestion: "Use cudaMemcpyAsync with streams for better performance"
+      - pattern: 'cudaMemsetAsync'
+        message: "Async memset - good for initialization overlap"
+        suggestion: ""
+
+  - id: CUDA_PERF006
+    name: "Atomic operations performance"
+    domain: performance
+    severity: warning
+    description: "Atomics can cause serialization"
+    rules:
+      - pattern: 'atomic(Add|Sub|Inc|Dec|Exch|Min|Max|CAS)\s*\('
+        message: "Atomic operation - may cause contention"
+        suggestion: "Consider reducing atomic operations or using shared memory reduction"
+      - pattern: 'atomicAdd\s*\(\s*&\w+\[\s*0\s*\]'
+        message: "Atomic on single location - high contention expected"
+        suggestion: "Use parallel reduction or shared memory buffer"
+
+  - id: CUDA_PERF007
+    name: "Warp-level primitives"
+    domain: performance
+    severity: info
+    description: "Warp-level functions are more efficient"
+    rules:
+      - pattern: '__shfl(_sync)?\s*\('
+        message: "Warp shuffle - efficient for intra-warp communication"
+        suggestion: ""
+      - pattern: '__ballot(_sync)?\s*\('
+        message: "Ballot function - efficient warp voting"
+        suggestion: ""
+      - pattern: '__any(_sync)?\s*\('
+        message: "Any function - efficient warp voting"
+        suggestion: ""
+
+  - id: CUDA_PERF008
+    name: "Register usage"
+    domain: performance
+    severity: info
+    description: "Register usage affects occupancy"
+    rules:
+      - pattern: '__launch_bounds__\s*\('
+        message: "Launch bounds specified - good for occupancy control"
+        suggestion: "Use __launch_bounds__ to optimize register usage"
+      - pattern: 'maxnreg\s*='
+        message: "Register limit specified"
+        suggestion: ""
+
+  - id: CUDA_PERF009
+    name: "Constant memory usage"
+    domain: performance
+    severity: info
+    description: "Constant memory can improve read performance"
+    rules:
+      - pattern: '__constant__\s+\w+'
+        message: "Constant memory used - good for broadcast reads"
+        suggestion: "Use constant memory for read-only data accessed uniformly"
+      - pattern: '__device__\s+const\s+\w+'
+        message: "Const device variable - consider constant memory"
+        suggestion: "Move to __constant__ for cached broadcast reads"
+
+  - id: CUDA_PERF010
+    name: "Texture memory"
+    domain: performance
+    severity: info
+    description: "Texture memory provides caching benefits"
+    rules:
+      - pattern: 'cudaBindTexture'
+        message: "Texture binding - good for spatial locality"
+        suggestion: ""
+      - pattern: 'tex(1D|2D|3D)fetch'
+        message: "Texture fetch - cached memory access"
+        suggestion: "Use texture memory for 2D/3D spatial access patterns"
+
+  - id: CUDA_PERF011
+    name: "Pinned memory"
+    domain: performance
+    severity: info
+    description: "Pinned memory enables faster transfers"
+    rules:
+      - pattern: 'cudaMallocHost'
+        message: "Pinned host memory - faster transfers"
+        suggestion: "Use pinned memory for frequent host-device transfers"
+      - pattern: 'cudaHostAlloc'
+        message: "Host allocated pinned memory"
+        suggestion: ""
+
+  - id: CUDA_PERF012
+    name: "Kernel fusion opportunities"
+    domain: performance
+    severity: info
+    description: "Fusing kernels reduces launch overhead"
+    rules:
+      - pattern: '<<<.*>>>\s*;\s*\w+\s*<<<'
+        message: "Sequential kernel launches - consider fusion"
+        suggestion: "Fuse kernels to reduce launch overhead and memory traffic"
+      - pattern: 'cudaDeviceSynchronize\s*\(\s*\)\s*;\s*\w+.*<<<'
+        message: "Sync between kernels - consider fusion"
+        suggestion: "Remove sync and fuse kernels if possible"

@@ -1,0 +1,103 @@
+contracts:
+  - id: YAMLPF001
+    name: "Large file size"
+    domain: performance
+    severity: warning
+    description: "Large YAML files impact parsing performance"
+    rules:
+      - pattern: '(.|\n){50000,}'
+        message: "File exceeds 50KB"
+        suggestion: "Split into multiple files for better parsing performance"
+
+  - id: YAMLPF002
+    name: "Excessive anchor usage"
+    domain: performance
+    severity: warning
+    description: "Too many anchors increase memory overhead"
+    rules:
+      - pattern: '(&[\w-]+.*){20,}'
+        message: "More than 20 anchors detected"
+        suggestion: "Reduce anchor count or split file"
+
+  - id: YAMLPF003
+    name: "Deep nesting level"
+    domain: performance
+    severity: warning
+    description: "Deep nesting impacts parsing and memory"
+    rules:
+      - pattern: '^(\s{2}){6,}[a-zA-Z_]+:'
+        message: "Structure nested more than 5 levels"
+        suggestion: "Flatten structure or split into separate documents"
+
+  - id: YAMLPF004
+    name: "Complex flow style"
+    domain: performance
+    severity: info
+    description: "Complex inline structures are slower to parse"
+    rules:
+      - pattern: ':\s*\{[^}]{200,}\}'
+        message: "Complex inline mapping"
+        suggestion: "Use block style for complex structures"
+      - pattern: ':\s*\[[^\]]{200,}\]'
+        message: "Complex inline sequence"
+        suggestion: "Use block style for long sequences"
+
+  - id: YAMLPF005
+    name: "Large multiline strings"
+    domain: performance
+    severity: warning
+    description: "Large multiline blocks increase memory usage"
+    rules:
+      - pattern: '[|>]\s*\n(\s{2,}.+\n){100,}'
+        message: "Multiline block exceeds 100 lines"
+        suggestion: "Consider external file references for large content"
+
+  - id: YAMLPF006
+    name: "Circular alias reference"
+    domain: performance
+    severity: critical
+    description: "Circular references cause infinite loops"
+    rules:
+      - pattern: '&[\w-]+\s*\n(.|\n)*\*[\w-]+\s*\n(.|\n)*\*[\w-]+'
+        message: "Potential circular alias structure"
+        suggestion: "Avoid circular references in anchor/alias chains"
+
+  - id: YAMLPF007
+    name: "Repeated alias resolution"
+    domain: performance
+    severity: info
+    description: "Same alias resolved multiple times"
+    rules:
+      - pattern: '(\*[\w-]+).*(\1)'
+        message: "Same alias used multiple times"
+        suggestion: "Consider if intermediate anchor would help"
+
+  - id: YAMLPF008
+    name: "Long scalar values"
+    domain: performance
+    severity: info
+    description: "Very long scalar values impact parsing"
+    rules:
+      - pattern: ':\s*[^\n]{1000,}'
+        message: "Scalar value exceeds 1000 characters"
+        suggestion: "Use multiline syntax or external reference"
+
+  - id: YAMLPF009
+    name: "Large sequence without anchors"
+    domain: performance
+    severity: warning
+    description: "Repeated sequence items should use anchors"
+    rules:
+      - pattern: '^(\s*)- [a-zA-Z_]+:\s*(.+)\n(\1- [a-zA-Z_]+:\s*\2\n){3,}'
+        message: "Repeated sequence item content"
+        suggestion: "Use anchors to define repeated sequence items"
+
+  - id: YAMLPF010
+    name: "Unanchored repeated mapping"
+    domain: performance
+    severity: info
+    description: "Identical mappings should share definition"
+    rules:
+      - pattern: '^(\s*)([a-zA-Z_]+):\s*\n(\1\s{2}[a-zA-Z_]+:.+\n)+(.|\n)*\1\2:\s*\n(\1\s{2}[a-zA-Z_]+:.+\n)+'
+        message: "Repeated mapping structure"
+        suggestion: "Define anchor on first occurrence and alias for repeats"

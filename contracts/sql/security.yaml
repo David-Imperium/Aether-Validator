@@ -1,0 +1,206 @@
+contracts:
+  - id: SQL001
+    name: "SQL Injection via String Concatenation"
+    domain: security
+    severity: critical
+    description: "Concatenating user input into SQL queries allows injection attacks"
+    tags:
+      - sql
+      - security
+      - injection
+    rules:
+      - pattern: '(?i)(SELECT|INSERT|UPDATE|DELETE|EXEC)\s+.*\+.*'
+        message: "SQL query built with string concatenation"
+        suggestion: "Use parameterized queries or prepared statements"
+      - pattern: '(?i)WHERE\s+\w+\s*=\s*["\']?\s*\$\{'
+        message: "String interpolation in WHERE clause"
+        suggestion: "Use bound parameters instead"
+
+  - id: SQL002
+    name: "Hardcoded Credentials"
+    domain: security
+    severity: critical
+    description: "Database credentials hardcoded in source"
+    tags:
+      - sql
+      - security
+      - secrets
+    rules:
+      - pattern: '(?i)(password|passwd|pwd)\s*=\s*["\'][^"\']{4,}["\']'
+        message: "Hardcoded database password detected"
+        suggestion: "Use environment variables or secret management"
+      - pattern: '(?i)(user|username|login)\s*=\s*["\'][^"\']+["\'].*(?i)password'
+        message: "Hardcoded database credentials"
+        suggestion: "Store credentials in environment variables"
+
+  - id: SQL003
+    name: "Dangerous File Operations"
+    domain: security
+    severity: error
+    description: "SQL file operations can lead to data exfiltration"
+    tags:
+      - sql
+      - security
+      - file-operations
+    rules:
+      - pattern: '(?i)LOAD_FILE\s*\('
+        message: "LOAD_FILE can read server files"
+        suggestion: "Avoid LOAD_FILE or validate paths strictly"
+      - pattern: '(?i)INTO\s+(OUT|DUMP)FILE'
+        message: "File write operation in SQL"
+        suggestion: "Restrict file write permissions, validate paths"
+
+  - id: SQL004
+    name: "Dynamic SQL Execution"
+    domain: security
+    severity: error
+    description: "Executing dynamic SQL strings is dangerous"
+    tags:
+      - sql
+      - security
+      - injection
+    rules:
+      - pattern: '(?i)EXEC(UTE)?(\s+|\()'
+        message: "Dynamic SQL execution detected"
+        suggestion: "Use parameterized stored procedures"
+      - pattern: '(?i)sp_executesql'
+        message: "sp_executesql used - ensure parameters are bound"
+        suggestion: "Use sp_executesql with proper parameter binding"
+
+  - id: SQL005
+    name: "xp_cmdshell Usage"
+    domain: security
+    severity: critical
+    description: "xp_cmdshell allows OS command execution from SQL"
+    tags:
+      - sql
+      - security
+      - command-execution
+    rules:
+      - pattern: '(?i)xp_cmdshell'
+        message: "xp_cmdshell detected - extreme security risk"
+        suggestion: "Disable xp_cmdshell, use safer alternatives"
+
+  - id: SQL006
+    name: "Unquoted Identifiers"
+    domain: security
+    severity: warning
+    description: "Unquoted table/column names can cause issues"
+    tags:
+      - sql
+      - security
+      - identifiers
+    rules:
+      - pattern: '(?i)FROM\s+([a-z_][a-z0-9_]*)\s+WHERE'
+        message: "Table name not quoted - potential keyword conflict"
+        suggestion: "Quote identifiers with backticks or double quotes"
+
+  - id: SQL007
+    name: "LIKE Injection"
+    domain: security
+    severity: warning
+    description: "LIKE patterns with wildcards can be exploited"
+    tags:
+      - sql
+      - security
+      - injection
+    rules:
+      - pattern: '(?i)LIKE\s+["\'].*%'
+        message: "LIKE with leading wildcard can enable DoS"
+        suggestion: "Escape user-provided wildcards or use full-text search"
+
+  - id: SQL008
+    name: "UNION Injection"
+    domain: security
+    severity: critical
+    description: "UNION can be used to extract arbitrary data"
+    tags:
+      - sql
+      - security
+      - injection
+    rules:
+      - pattern: '(?i)UNION\s+(ALL\s+)?SELECT'
+        message: "UNION SELECT detected - verify it's not user-controlled"
+        suggestion: "Validate input and use allowlists for queries"
+
+  - id: SQL009
+    name: "Bulk Copy Without Validation"
+    domain: security
+    severity: error
+    description: "Bulk insert operations bypass validation"
+    tags:
+      - sql
+      - security
+      - bulk-operations
+    rules:
+      - pattern: '(?i)BULK\s+INSERT'
+        message: "Bulk insert - verify source data is trusted"
+        suggestion: "Validate data before bulk insert or use staged import"
+      - pattern: '(?i)LOAD\s+DATA\s+INFILE'
+        message: "Load data from file - verify file source"
+        suggestion: "Use secure file location and validate contents"
+
+  - id: SQL010
+    name: "Privileged Grant"
+    domain: security
+    severity: warning
+    description: "Granting excessive privileges"
+    tags:
+      - sql
+      - security
+      - privileges
+    rules:
+      - pattern: '(?i)GRANT\s+(ALL|SUPER|FILE|SHUTDOWN)'
+        message: "Granting powerful privilege - verify necessity"
+        suggestion: "Grant minimum required privileges per principle of least privilege"
+      - pattern: '(?i)GRANT\s+.*TO\s+PUBLIC'
+        message: "Granting to PUBLIC affects all users"
+        suggestion: "Grant to specific roles/users instead"
+
+  - id: SQL011
+    name: "Dynamic Table Name"
+    domain: security
+    severity: error
+    description: "Dynamic table names enable SQL injection"
+    tags:
+      - sql
+      - security
+      - injection
+    rules:
+      - pattern: '(?i)FROM\s+\+\s*'
+        message: "Dynamic table name via concatenation"
+        suggestion: "Use allowlist for table names, never user input directly"
+      - pattern: '(?i)INTO\s+\+\s*'
+        message: "Dynamic table name in INSERT"
+        suggestion: "Validate table name against allowlist"
+
+  - id: SQL012
+    name: "Information Schema Access"
+    domain: security
+    severity: warning
+    description: "Accessing information schema may expose metadata"
+    tags:
+      - sql
+      - security
+      - information-disclosure
+    rules:
+      - pattern: '(?i)FROM\s+(INFORMATION_SCHEMA|SYS\.|PG_)'
+        message: "System catalog access - verify authorization"
+        suggestion: "Restrict information_schema access in production"
+
+  - id: SQL013
+    name: "Raw Password in Query"
+    domain: security
+    severity: critical
+    description: "Passwords should be hashed, not stored in plain text"
+    tags:
+      - sql
+      - security
+      - password-storage
+    rules:
+      - pattern: '(?i)INSERT\s+INTO\s+\w*user\w*\s*\([^)]*password[^)]*\)\s*VALUES\s*\(["\']'
+        message: "Password inserted as plain text"
+        suggestion: "Hash passwords before storage: INSERT ... VALUES (HASH(password))"
+      - pattern: '(?i)UPDATE\s+\w*user\w*\s+SET\s+password\s*=\s*["\']'
+        message: "Password updated as plain text"
+        suggestion: "Update with hashed password value"

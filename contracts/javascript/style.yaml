@@ -1,0 +1,143 @@
+# JavaScript Style Contracts
+# Domain: style
+
+contracts:
+  - id: JSSTY001
+    name: "Use const/let instead of var"
+    domain: style
+    severity: warning
+    description: "var has function scope and hoisting issues"
+    tags:
+      - javascript
+      - style
+      - es6
+    rules:
+      - pattern: 'var\s+\w+'
+        message: "var has hoisting issues and function scope"
+        suggestion: "Use const for immutable references, let for reassignable"
+
+  - id: JSSTY002
+    name: "Use arrow functions for callbacks"
+    domain: style
+    severity: info
+    description: "Arrow functions are concise and preserve 'this'"
+    tags:
+      - javascript
+      - style
+      - es6
+    rules:
+      - pattern: '\.then\(\s*function\s*\('
+        message: "Regular function as callback - arrow function is shorter"
+        suggestion: "Use arrow functions: .then(x => ...) or arr.map(x => ...)"
+
+  - id: JSSTY003
+    name: "Use destructuring assignment"
+    domain: style
+    severity: info
+    description: "Destructuring extracts values concisely"
+    tags:
+      - javascript
+      - style
+      - es6
+    rules:
+      - pattern: 'const\s+\w+\s*=\s*\w+\.\w+;\s*$'
+        message: "Single property access can use destructuring"
+        suggestion: "Use const { prop } = obj; or const { a, b } = obj;"
+
+  - id: JSSTY004
+    name: "Use template literals for string interpolation"
+    domain: style
+    severity: info
+    description: "Template literals are more readable than concatenation"
+    tags:
+      - javascript
+      - style
+      - es6
+    rules:
+      - pattern: '"[^"]*"\s*\+\s*\w+'
+        message: "String concatenation - template literals are cleaner"
+        suggestion: "Use template literals: `Hello ${name}`"
+
+  - id: JSSTY005
+    name: "Use object shorthand properties"
+    domain: style
+    severity: info
+    description: "Object shorthand reduces repetition"
+    tags:
+      - javascript
+      - style
+      - es6
+    rules:
+      - pattern: '\{\s*\w+:\s*\w+\s*\}'
+        message: "Property value same as key - use shorthand"
+        suggestion: "Use { name } instead of { name: name }"
+
+  - id: JSSTY006
+    name: "Use camelCase naming convention"
+    domain: style
+    severity: info
+    description: "JavaScript conventions use camelCase for variables and functions"
+    tags:
+      - javascript
+      - style
+      - naming
+    rules:
+      - pattern: '(function|const|let)\s+\w+_\w+'
+        message: "snake_case variable - use camelCase"
+        suggestion: "Use camelCase: myVariable, not my_variable"
+
+  - id: JSSTY007
+    name: "Organize imports at top of file"
+    domain: style
+    severity: info
+    description: "Imports should be at the top, grouped logically"
+    tags:
+      - javascript
+      - style
+      - modules
+    rules:
+      - pattern: '\n\nimport\s+'
+        message: "Import statement after code - move to top"
+        suggestion: "Place all imports at the beginning of the file"
+
+  - id: JSSTY008
+    name: "Use meaningful variable names"
+    domain: style
+    severity: info
+    description: "Variable names should describe their purpose"
+    tags:
+      - javascript
+      - style
+      - naming
+    rules:
+      - pattern: '(let|const)\s+[a-z]\s*='
+        message: "Single letter variable - use descriptive name"
+        suggestion: "Use descriptive names: index, item, result instead of i, x, r"
+
+  - id: JSSTY009
+    name: "Avoid trailing commas in function parameters"
+    domain: style
+    severity: info
+    description: "Trailing commas in parameters can cause issues"
+    tags:
+      - javascript
+      - style
+      - syntax
+    rules:
+      - pattern: 'function\s*\([^)]*,\s*\)'
+        message: "Trailing comma in function parameters"
+        suggestion: "Remove trailing comma from parameter list"
+
+  - id: JSSTY010
+    name: "Use consistent quote style"
+    domain: style
+    severity: info
+    description: "Prefer single quotes for strings, double for JSX"
+    tags:
+      - javascript
+      - style
+      - formatting
+    rules:
+      - pattern: '"[^"]*\$\{'
+        message: "Double quotes with template - prefer backticks"
+        suggestion: "Use backticks for template literals or single quotes for plain strings"

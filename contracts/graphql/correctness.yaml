@@ -1,0 +1,314 @@
+# GraphQL Correctness Contracts
+# Domain: correctness
+# Validates schema definitions, type consistency, and GraphQL correctness
+
+contracts:
+  - id: GQL_CORR001
+    name: "Schema has query root"
+    domain: correctness
+    severity: error
+    description: "Schema must have a Query root type"
+    tags:
+      - graphql
+      - correctness
+      - schema
+    rules:
+      - pattern: 'type\s+Query\s*\{'
+        message: "Schema missing Query root type"
+        suggestion: "Add: type Query { ... }"
+
+  - id: GQL_CORR002
+    name: "Mutation returns result"
+    domain: correctness
+    severity: warning
+    description: "Mutations should return the modified entity or result"
+    tags:
+      - graphql
+      - correctness
+      - mutation
+    rules:
+      - pattern: 'mutation\s+\w+\s*\([^)]*\)\s*:\s*(Boolean|String|Int|Float)'
+        message: "Mutation returns scalar - consider returning payload type"
+        suggestion: "Return payload type: createUser(input: UserInput!): UserPayload!"
+
+  - id: GQL_CORR003
+    name: "Input type for mutations"
+    domain: correctness
+    severity: warning
+    description: "Mutations should use input types for arguments"
+    tags:
+      - graphql
+      - correctness
+      - mutation
+    rules:
+      - pattern: 'mutation\s+\w+\s*\([^)]*:\s*String![^)]*\)\s*:'
+        message: "Mutation with raw arguments - use input type"
+        suggestion: "Create input type: input CreateUserInput { ... }"
+
+  - id: GQL_CORR004
+    name: "NonNull on required fields"
+    domain: correctness
+    severity: warning
+    description: "Required fields should have NonNull type"
+    tags:
+      - graphql
+      - correctness
+      - types
+    rules:
+      - query: |
+          SELECT name, type FROM fields
+          WHERE is_required AND type NOT LIKE '%!'
+        message: "Required field without NonNull"
+        suggestion: "Add ! to type: name: String!"
+
+  - id: GQL_CORR005
+    name: "Enum values uppercase"
+    domain: correctness
+    severity: info
+    description: "Enum values should be SCREAMING_SNAKE_CASE"
+    tags:
+      - graphql
+      - correctness
+      - enum
+    rules:
+      - pattern: 'enum\s+\w+\s*\{[^}]*[a-z][^}]*\}'
+        message: "Enum values should be uppercase"
+        suggestion: "Use: enum Status { ACTIVE INACTIVE PENDING }"
+
+  - id: GQL_CORR006
+    name: "Interface implementation complete"
+    domain: correctness
+    severity: error
+    description: "Types implementing interfaces must define all fields"
+    tags:
+      - graphql
+      - correctness
+      - interface
+    rules:
+      - query: |
+          SELECT t.name, i.field
+          FROM types t
+          JOIN interfaces i ON t.implements = i.name
+          WHERE i.field NOT IN (SELECT field FROM t.fields)
+        message: "Type missing interface field"
+        suggestion: "Implement all interface fields in type"
+
+  - id: GQL_CORR007
+    name: "Union members are object types"
+    domain: correctness
+    severity: error
+    description: "Union members must be object types, not scalars or interfaces"
+    tags:
+      - graphql
+      - correctness
+      - union
+    rules:
+      - pattern: 'union\s+\w+\s*=\s*[^=]*\|.*String|union\s+\w+\s*=\s*[^=]*\|.*Int'
+        message: "Union contains scalar type"
+        suggestion: "Union members must be object types only"
+
+  - id: GQL_CORR008
+    name: "Connection type structure"
+    domain: correctness
+    severity: warning
+    description: "Relay connections should have edges and pageInfo"
+    tags:
+      - graphql
+      - correctness
+      - relay
+    rules:
+      - query: |
+          SELECT name FROM types
+          WHERE name LIKE '%Connection'
+            AND NOT has_edges_field
+        message: "Connection type missing edges field"
+        suggestion: "Add: edges: [Edge!]! and pageInfo: PageInfo!"
+
+  - id: GQL_CORR009
+    name: "Edge type has cursor and node"
+    domain: correctness
+    severity: warning
+    description: "Relay edges should have cursor and node"
+    tags:
+      - graphql
+      - correctness
+      - relay
+    rules:
+      - query: |
+          SELECT name FROM types
+          WHERE name LIKE '%Edge'
+            AND NOT (has_cursor AND has_node)
+        message: "Edge type missing cursor or node"
+        suggestion: "Add: cursor: String! and node: Type"
+
+  - id: GQL_CORR010
+    name: "Input field types valid"
+    domain: correctness
+    severity: error
+    description: "Input types can only contain input types or scalars"
+    tags:
+      - graphql
+      - correctness
+      - input
+    rules:
+      - query: |
+          SELECT f.name, f.type
+          FROM input_types it
+          JOIN fields f ON it.name = f.parent
+          WHERE f.type IN (SELECT name FROM object_types)
+        message: "Input field references object type"
+        suggestion: "Use input type instead of object type in inputs"
+
+  - id: GQL_CORR011
+    name: "Variable types match"
+    domain: correctness
+    severity: error
+    description: "Variable types must match argument types"
+    tags:
+      - graphql
+      - correctness
+      - variables
+    rules:
+      - query: |
+          SELECT v.name, v.type, a.type as arg_type
+          FROM variables v
+          JOIN arguments a ON v.used_in = a.name
+          WHERE v.type != a.type
+        message: "Variable type doesn't match argument type"
+        suggestion: "Ensure variable type matches: $id: ID! for id: ID!"
+
+  - id: GQL_CORR012
+    name: "Default values for optional args"
+    domain: correctness
+    severity: info
+    description: "Optional arguments can have default values"
+    tags:
+      - graphql
+      - correctness
+      - defaults
+    rules:
+      - pattern: '\w+\s*\([^)!]*:\s*\w+(?=\s*\)|\s*=)'
+        message: "Optional argument without default"
+        suggestion: "Add default: limit: Int = 10"
+
+  - id: GQL_CORR013
+    name: "Fragment type condition valid"
+    domain: correctness
+    severity: error
+    description: "Fragment type condition must exist in schema"
+    tags:
+      - graphql
+      - correctness
+      - fragments
+    rules:
+      - query: |
+          SELECT f.name, f.type_condition
+          FROM fragments f
+          WHERE f.type_condition NOT IN (SELECT name FROM types)
+        message: "Fragment references undefined type"
+        suggestion: "Define type or fix fragment type condition"
+
+  - id: GQL_CORR014
+    name: "Field selection on union"
+    domain: correctness
+    severity: error
+    description: "Fields on union types must use inline fragments"
+    tags:
+      - graphql
+      - correctness
+      - union
+    rules:
+      - pattern: '\.\.\.\s*on\s+\w+'
+        message: "Inline fragment on union type - good"
+        suggestion: ""
+
+  - id: GQL_CORR015
+    name: "Directive location valid"
+    domain: correctness
+    severity: error
+    description: "Directives must be used in valid locations"
+    tags:
+      - graphql
+      - correctness
+      - directives
+    rules:
+      - query: |
+          SELECT d.name, d.location
+          FROM directive_usage d
+          WHERE d.location NOT IN d.allowed_locations
+        message: "Directive used in invalid location"
+        suggestion: "Check directive definition for allowed locations"
+
+  - id: GQL_CORR016
+    name: "Subscription returns type not list"
+    domain: correctness
+    severity: warning
+    description: "Subscriptions typically return single items"
+    tags:
+      - graphql
+      - correctness
+      - subscription
+    rules:
+      - pattern: 'subscription\s*\{[^}]*:\s*\[[^\]]+\]'
+        message: "Subscription returns list - may cause issues"
+        suggestion: "Consider returning single item from subscription"
+
+  - id: GQL_CORR017
+    name: "ID type for identifiers"
+    domain: correctness
+    severity: info
+    description: "Use ID type for identifier fields"
+    tags:
+      - graphql
+      - correctness
+      - types
+    rules:
+      - pattern: '(id|ID|_id)\s*:\s*String!'
+        message: "Identifier using String - consider ID type"
+        suggestion: "Use: id: ID! for identifier fields"
+
+  - id: GQL_CORR018
+    name: "Deprecated with reason"
+    domain: correctness
+    severity: info
+    description: "Deprecated fields should have reason"
+    tags:
+      - graphql
+      - correctness
+      - deprecation
+    rules:
+      - pattern: '@deprecated\s*$|@deprecated\s*\}'
+        message: "Deprecated without reason"
+        suggestion: "Add reason: @deprecated(reason: \"Use newField instead\")"
+
+  - id: GQL_CORR019
+    name: "Query field names unique"
+    domain: correctness
+    severity: error
+    description: "Query type fields must have unique names"
+    tags:
+      - graphql
+      - correctness
+      - naming
+    rules:
+      - query: |
+          SELECT name, COUNT(*) as count
+          FROM query_fields
+          GROUP BY name
+          HAVING COUNT(*) > 1
+        message: "Duplicate query field name"
+        suggestion: "Rename field to be unique"
+
+  - id: GQL_CORR020
+    name: "Schema description present"
+    domain: correctness
+    severity: info
+    description: "Schema should have description"
+    tags:
+      - graphql
+      - correctness
+      - documentation
+    rules:
+      - pattern: '"[^"]+"|description:'
+        message: "Consider adding descriptions to schema types"
+        suggestion: "Add: \"Description text\" or description: \"...\""

@@ -1,6 +1,6 @@
 # Aether — Security Model
 
-**Version:** 0.1.0  
+**Version:** 0.2.0  
 **Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md)
 
 ---

@@ -1,0 +1,130 @@
+contracts:
+  - id: C_ERR001
+    name: "Missing Return Value Check"
+    domain: error-handling
+    severity: warning
+    description: "Function return value not checked for errors"
+    tags:
+      - c
+      - error-handling
+      - return-values
+    rules:
+      - pattern: 'malloc\s*\([^)]+\)\s*;'
+        message: "malloc return value not checked for NULL"
+        suggestion: "Check: if (ptr == NULL) { handle_error(); }"
+      - pattern: 'fopen\s*\([^)]+\)\s*;'
+        message: "fopen return value not checked"
+        suggestion: "Check: if (file == NULL) { handle_error(); }"
+
+  - id: C_ERR002
+    name: "Ignored Function Return"
+    domain: error-handling
+    severity: warning
+    description: "Important function return value discarded"
+    tags:
+      - c
+      - error-handling
+      - return-values
+    rules:
+      - pattern: '\(void\)\s*\w+\s*\('
+        message: "Return value explicitly ignored"
+        suggestion: "Handle or explicitly document why return is ignored"
+      - pattern: 'fgets\s*\([^)]+\)\s*;'
+        message: "fgets return not checked - may indicate EOF or error"
+        suggestion: "Check fgets return for NULL"
+
+  - id: C_ERR003
+    name: "Missing Errno Check"
+    domain: error-handling
+    severity: warning
+    description: "Library function that sets errno called without checking"
+    tags:
+      - c
+      - error-handling
+      - errno
+    rules:
+      - pattern: 'strtol\s*\([^)]+\)\s*;'
+        message: "strtol return not checked - use errno for validation"
+        suggestion: "Set errno=0 before call, check after for errors"
+      - pattern: 'strtod\s*\([^)]+\)\s*;'
+        message: "strtod return not checked properly"
+        suggestion: "Check errno and endptr for conversion errors"
+
+  - id: C_ERR004
+    name: "Empty Error Handler"
+    domain: error-handling
+    severity: error
+    description: "Error condition detected but not handled"
+    tags:
+      - c
+      - error-handling
+      - error-handling
+    rules:
+      - pattern: 'if\s*\([^)]*==\s*NULL\s*\)\s*\{\s*\}'
+        message: "Empty NULL check - error not handled"
+        suggestion: "Add error handling: log, return error code, or cleanup"
+      - pattern: 'if\s*\([^)]*<\s*0\s*\)\s*\{\s*\}'
+        message: "Empty error check - no handling"
+        suggestion: "Handle the error condition appropriately"
+
+  - id: C_ERR005
+    name: "Silent Integer Overflow"
+    domain: error-handling
+    severity: warning
+    description: "Integer arithmetic without overflow check"
+    tags:
+      - c
+      - error-handling
+      - overflow
+    rules:
+      - pattern: '\*\s*malloc\s*\('
+        message: "Multiplication in malloc - potential overflow"
+        suggestion: "Use calloc or check: if (a > SIZE_MAX/b)"
+      - pattern: '\w+\s*\+\s*\w+\s*;'
+        message: "Addition may overflow - consider bounds"
+        suggestion: "Check for overflow before operation if inputs untrusted"
+
+  - id: C_ERR006
+    name: "Division Without Zero Check"
+    domain: error-handling
+    severity: error
+    description: "Division without checking for zero divisor"
+    tags:
+      - c
+      - error-handling
+      - division
+    rules:
+      - pattern: '/\s*\w+\s*[;\)]'
+        message: "Division - verify divisor is not zero"
+        suggestion: "Add check: if (divisor != 0) or handle error"
+      - pattern: '%\s*\w+\s*[;\)]'
+        message: "Modulo - verify divisor is not zero"
+        suggestion: "Add check: if (divisor != 0) before modulo"
+
+  - id: C_ERR007
+    name: "Missing Cleanup on Error"
+    domain: error-handling
+    severity: warning
+    description: "Resources not freed on error path"
+    tags:
+      - c
+      - error-handling
+      - resource-leak
+    rules:
+      - pattern: 'return\s+-1\s*;[^}]*malloc'
+        message: "Error return without freeing previous allocation"
+        suggestion: "Use goto cleanup pattern or free before return"
+
+  - id: C_ERR008
+    name: "Assert in Production Code"
+    domain: error-handling
+    severity: warning
+    description: "assert() is disabled in release builds"
+    tags:
+      - c
+      - error-handling
+      - assertions
+    rules:
+      - pattern: 'assert\s*\('
+        message: "assert is removed in release - use for debug only"
+        suggestion: "Add runtime check: if (!cond) { handle_error(); }"

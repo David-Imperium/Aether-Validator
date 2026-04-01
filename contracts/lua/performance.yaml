@@ -1,0 +1,60 @@
+contracts:
+  - id: LUV011
+    name: "Image Loading Performance"
+    domain: performance
+    severity: warning
+    description: "Loading images in love.update or love.draw is slow"
+    rules:
+      - pattern: 'love\.graphics\.newImage'
+        message: "Loading images in love.update or love.draw is slow"
+        suggestion: "Load images in love.load() and reuse"
+
+  - id: LUV012
+    name: "Font Loading Performance"
+    domain: performance
+    severity: warning
+    description: "Loading fonts every frame is slow"
+    rules:
+      - pattern: 'love\.graphics\.newFont'
+        message: "Loading fonts every frame is slow - load once"
+        suggestion: "Load fonts in love.load() and store reference"
+
+  - id: LUV030
+    name: "Explicit Garbage Collection"
+    domain: performance
+    severity: info
+    description: "Explicit garbage collection can cause frame drops"
+    rules:
+      - pattern: 'collectgarbage\s*\('
+        message: "Explicit garbage collection can cause frame drops"
+        suggestion: "Let Lua manage garbage collection automatically"
+
+  - id: LUV040
+    name: "Debug Hook Performance"
+    domain: performance
+    severity: warning
+    description: "debug.sethook affects performance significantly"
+    rules:
+      - pattern: 'debug\.sethook'
+        message: "debug.sethook affects performance significantly"
+        suggestion: "Remove debug hooks in production"
+
+  - id: LUV090
+    name: "Raw Table Set"
+    domain: best-practices
+    severity: warning
+    description: "rawset bypasses __newindex metamethod"
+    rules:
+      - pattern: 'rawset\s*\('
+        message: "rawset bypasses __newindex metamethod"
+        suggestion: "Use normal table assignment unless necessary"
+
+  - id: LUV091
+    name: "Raw Table Get"
+    domain: best-practices
+    severity: warning
+    description: "rawget bypasses __index metamethod"
+    rules:
+      - pattern: 'rawget\s*\('
+        message: "rawget bypasses __index metamethod"
+        suggestion: "Use normal table access unless necessary"

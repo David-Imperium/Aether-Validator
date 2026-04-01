@@ -1,0 +1,168 @@
+# Markdown Accessibility Contracts
+# Domain: accessibility (a11y)
+
+contracts:
+  - id: MD_A11Y001
+    name: "Missing alt text in images"
+    domain: accessibility
+    severity: error
+    description: "Images must have alt text for screen readers"
+    tags:
+      - markdown
+      - accessibility
+      - images
+      - screen-reader
+    rules:
+      - pattern: '!\[\s*\]\([^)]+\)'
+        message: "Image with empty alt text"
+        suggestion: "Add descriptive alt text: ![description](image.png)"
+      - pattern: '!\[[^\]]*\]\([^)]+\.(png|jpg|jpeg|gif|svg)\)'
+        message: "Image with generic or missing meaningful alt"
+        suggestion: "Describe the image content for screen reader users"
+
+  - id: MD_A11Y002
+    name: "Skipped heading levels"
+    domain: accessibility
+    severity: error
+    description: "Heading levels should increment sequentially"
+    tags:
+      - markdown
+      - accessibility
+      - headings
+      - structure
+    rules:
+      - pattern: '^#{1}\s.*\n(?!#)#{3,}'
+        message: "Heading level skipped (h1 to h3+)"
+        suggestion: "Use sequential headings: h1 → h2 → h3"
+      - pattern: '^#{2}\s.*\n(?!#)#{4,}'
+        message: "Heading level skipped (h2 to h4+)"
+        suggestion: "Use sequential headings without skipping"
+      - pattern: '^#{3}\s.*\n(?!#)#{5,}'
+        message: "Heading level skipped (h3 to h5+)"
+        suggestion: "Use sequential headings"
+
+  - id: MD_A11Y003
+    name: "Multiple H1 headings"
+    domain: accessibility
+    severity: warning
+    description: "Document should have single H1 heading"
+    tags:
+      - markdown
+      - accessibility
+      - headings
+      - structure
+    rules:
+      - pattern: '^#\s.*\n[\s\S]*^#\s'
+        message: "Multiple H1 headings found"
+        suggestion: "Use single H1 for document title, H2+ for sections"
+
+  - id: MD_A11Y004
+    name: "Non-descriptive link text"
+    domain: accessibility
+    severity: warning
+    description: "Link text should describe destination"
+    tags:
+      - markdown
+      - accessibility
+      - links
+    rules:
+      - pattern: '\[\s*click here\s*\]\([^)]+\)'
+        message: "Non-descriptive link text 'click here'"
+        suggestion: "Use descriptive text: [Read the documentation](url)"
+      - pattern: '\[\s*here\s*\]\([^)]+\)'
+        message: "Non-descriptive link text 'here'"
+        suggestion: "Describe what the link leads to"
+      - pattern: '\[\s*read more\s*\]\([^)]+\)'
+        message: "Vague link text 'read more'"
+        suggestion: "Add context: [Read more about topic](url)"
+      - pattern: '\[\s*more\s*\]\([^)]+\)'
+        message: "Vague link text 'more'"
+        suggestion: "Be specific: [Learn more about X](url)"
+
+  - id: MD_A11Y005
+    name: "Bare URLs without link syntax"
+    domain: accessibility
+    severity: info
+    description: "URLs should use proper link syntax for accessibility"
+    tags:
+      - markdown
+      - accessibility
+      - links
+    rules:
+      - pattern: '(?<![\[\(])https?://[^\s\)]+(?![\)\]])'
+        message: "Bare URL - screen readers read entire URL"
+        suggestion: "Use [link text](url) format"
+
+  - id: MD_A11Y006
+    name: "Tables without headers"
+    domain: accessibility
+    severity: warning
+    description: "Tables need header rows for screen readers"
+    tags:
+      - markdown
+      - accessibility
+      - tables
+    rules:
+      - pattern: '\|[^\|]+\|\n\|[-:\s]+\|\n\|[^\|]+\|'
+        message: "Table found - ensure header row is defined"
+        suggestion: "First row should be headers with | separator below"
+
+  - id: MD_A11Y007
+    name: "Emphasis-only headings"
+    domain: accessibility
+    severity: warning
+    description: "Don't use emphasis for visual headings"
+    tags:
+      - markdown
+      - accessibility
+      - headings
+    rules:
+      - pattern: '^\*\*[^*]+\*\*\s*$'
+        message: "Bold text as pseudo-heading - use proper # heading"
+        suggestion: "Use ### heading instead of bold for structure"
+      - pattern: '^__[^_]+__\s*$'
+        message: "Bold text as pseudo-heading"
+        suggestion: "Use markdown heading for proper document structure"
+
+  - id: MD_A11Y008
+    name: "Long paragraphs"
+    domain: accessibility
+    severity: info
+    description: "Long paragraphs are hard to read"
+    tags:
+      - markdown
+      - accessibility
+      - readability
+    rules:
+      - pattern: '[^\n]{500,}'
+        message: "Very long line/paragraph - consider breaking up"
+        suggestion: "Break into smaller paragraphs for readability"
+
+  - id: MD_A11Y009
+    name: "Missing link title for external links"
+    domain: accessibility
+    severity: info
+    description: "External links benefit from title attribute"
+    tags:
+      - markdown
+      - accessibility
+      - links
+    rules:
+      - pattern: '\[[^\]]+\]\(https?://(?![^)]+\s+")'
+        message: "External link without title"
+        suggestion: "Add title for context: [text](url 'title')"
+
+  - id: MD_A11Y010
+    name: "Emoji-only list markers"
+    domain: accessibility
+    severity: info
+    description: "Screen readers may not convey emoji meaning"
+    tags:
+      - markdown
+      - accessibility
+      - lists
+      - emoji
+    rules:
+      - pattern: '^\s*[\u{1F300}-\u{1F9FF}]\s'
+        message: "Emoji as list marker - may not be accessible"
+        suggestion: "Use standard list markers (-, *, 1.) with emoji as supplement"

@@ -1,0 +1,106 @@
+contracts:
+  - id: YAMLC001
+    name: "Tab indentation"
+    domain: correctness
+    severity: error
+    description: "YAML does not allow tab characters for indentation"
+    rules:
+      - pattern: '^\t+'
+        message: "Tab character used for indentation"
+        suggestion: "Use spaces (2 or 4) for indentation"
+
+  - id: YAMLC002
+    name: "Inconsistent indentation"
+    domain: correctness
+    severity: error
+    description: "Indentation must be consistent throughout"
+    rules:
+      - pattern: '^(  )[^ ]'
+        message: "2-space indent detected"
+        suggestion: "Maintain consistent indentation"
+      - pattern: '^(    )[^ ]'
+        message: "4-space indent detected"
+        suggestion: "Maintain consistent indentation"
+
+  - id: YAMLC003
+    name: "Invalid multiline string"
+    domain: correctness
+    severity: error
+    description: "Multiline strings need proper syntax"
+    rules:
+      - pattern: ':\s*[^|>|\n]+\n\s{2,}[a-zA-Z]'
+        message: "Possible invalid multiline string"
+        suggestion: "Use | or > for multiline strings"
+
+  - id: YAMLC004
+    name: "Unquoted special characters"
+    domain: correctness
+    severity: error
+    description: "Values with special chars need quotes"
+    rules:
+      - pattern: ':\s*[^\s"\']*[:{}\[&*#?|<>%@`]'
+        message: "Unquoted value with special character"
+        suggestion: "Quote values containing special characters"
+
+  - id: YAMLC005
+    name: "Invalid boolean"
+    domain: correctness
+    severity: warning
+    description: "Boolean values should be true/false"
+    rules:
+      - pattern: ':\s*(yes|no|on|off|Yes|No|On|Off)\s*$'
+        message: "Non-standard boolean value"
+        suggestion: "Use true/false for boolean values"
+
+  - id: YAMLC006
+    name: "Float as integer"
+    domain: correctness
+    severity: warning
+    description: "Numbers with trailing zeros may be parsed as floats"
+    rules:
+      - pattern: ':\s*\d+\.0+\s*$'
+        message: "Integer with decimal zeros"
+        suggestion: "Remove trailing zeros or quote value"
+
+  - id: YAMLC007
+    name: "Octal notation confusion"
+    domain: correctness
+    severity: warning
+    description: "Numbers starting with 0 are parsed as octal"
+    rules:
+      - pattern: ':\s*0[0-7]+\s*$'
+        message: "Possible unintended octal number"
+        suggestion: "Remove leading zero or use 0o prefix explicitly"
+
+  - id: YAMLC008
+    name: "Empty document separator"
+    domain: correctness
+    severity: warning
+    description: "Document separators should have content between"
+    rules:
+      - pattern: '^---\s*\n---'
+        message: "Empty document between separators"
+        suggestion: "Remove empty document or add content"
+
+  - id: YAMLC009
+    name: "Invalid escape sequence"
+    domain: correctness
+    severity: error
+    description: "Double-quoted strings have limited escapes"
+    rules:
+      - pattern: '"[^"]*\\[abd-cefhlnrstuvxDNPUu0-9][^"]*"'
+        message: "Potential invalid escape sequence"
+        suggestion: "Use valid escape sequences or single quotes"
+
+  - id: YAMLC010
+    name: "Merge key misuse"
+    domain: correctness
+    severity: warning
+    description: "Merge key (<<) requires valid anchor reference"
+    rules:
+      - pattern: '^(\s*)<<:\s*\*[\w-]+\s*$'
+        message: "Merge key with anchor reference"
+        suggestion: "Ensure anchor is defined and valid"
+      - pattern: '^(\s*)<<:\s*[^*]'
+        message: "Merge key without anchor reference"
+        suggestion: "Use *anchor syntax for merge key"

@@ -1,0 +1,153 @@
+# GLSL Shader Contracts — Error patterns in shader code
+
+contracts:
+  # Precision & Correctness
+  - id: GLSL001
+    name: "Unused uniform"
+    domain: optimization
+    severity: warning
+    description: "Uniform declared but never used - wastes GPU resources"
+    rules:
+      - pattern: "uniform"
+        message: "Uniform found - verify it's used in calculations"
+        suggestion: "Remove unused uniforms to save binding slots"
+
+  - id: GLSL002
+    name: "Division by zero risk"
+    domain: correctness
+    severity: error
+    description: "Division without zero check"
+    rules:
+      - pattern: "regex:/ [^/]"
+        message: "Division without zero check - may cause NaN"
+        suggestion: "Add max(epsilon, divisor) or explicit check"
+
+  - id: GLSL003
+    name: "No precision specified"
+    domain: correctness
+    severity: warning
+    description: "Float without precision qualifier in fragment"
+    rules:
+      - pattern: "in vec"
+        message: "Varying without precision - may cause precision issues on mobile"
+        suggestion: "Add precision qualifier: highp/mediump/lowp"
+
+  - id: GLSL004
+    name: "Infinite loop risk"
+    domain: correctness
+    severity: error
+    description: "Loop without break condition"
+    rules:
+      - pattern: "while ("
+        message: "While loop in shader - may cause GPU hang"
+        suggestion: "Use bounded for loop with max iterations"
+
+  - id: GLSL005
+    name: "Array out of bounds"
+    domain: correctness
+    severity: error
+    description: "Array access without bounds check"
+    rules:
+      - pattern: "[lid]"
+        message: "Array indexed by local ID - verify bounds"
+        suggestion: "Add if (index < array.length) check"
+
+  - id: GLSL006
+    name: "Missing barrier"
+    domain: concurrency
+    severity: error
+    description: "Shared memory read/write without barrier"
+    rules:
+      - pattern: "shared"
+        message: "Shared memory used - ensure barrier() after write"
+        suggestion: "Add barrier() before reading shared data"
+
+  - id: GLSL007
+    name: "Normalization of normalized"
+    domain: performance
+    severity: hint
+    description: "normalize() on already normalized vector"
+    rules:
+      - pattern: "normalize(v_norm"
+        message: "Normalizing already normalized vector - redundant"
+        suggestion: "Remove if vector is already unit length"
+
+  - id: GLSL008
+    name: "Texture out of bounds"
+    domain: correctness
+    severity: warning
+    description: "Texture lookup with modified coords"
+    rules:
+      - pattern: "texture("
+        message: "Texture lookup - verify coords are in [0,1] range"
+        suggestion: "Use clamp() or ensure UV bounds"
+
+  - id: GLSL009
+    name: "No explicit output location"
+    domain: compatibility
+    severity: info
+    description: "Output without explicit location"
+    rules:
+      - pattern: "out vec"
+        message: "Output without location - may cause issues on some GPUs"
+        suggestion: "Use layout(location = 0) out vec4 fragColor"
+
+  - id: GLSL010
+    name: "Color overflow"
+    domain: correctness
+    severity: warning
+    description: "Color value may exceed 1.0"
+    rules:
+      - pattern: "* 2.0"
+        message: "Color multiplied by 2.0 - may overflow"
+        suggestion: "Clamp or ensure value doesn't exceed 1.0"
+
+  - id: GLSL011
+    name: "Dead code after return"
+    domain: optimization
+    severity: info
+    description: "Code after return statement"
+    rules:
+      - pattern: "return;"
+        message: "Return statement - check for dead code after"
+        suggestion: "Remove unreachable code"
+
+  - id: GLSL012
+    name: "Swizzle mismatch"
+    domain: correctness
+    severity: warning
+    description: "Varying swizzle mismatch between vertex/fragment"
+    rules:
+      - pattern: "out vec3"
+        message: "Output type - verify matching input in next stage"
+        suggestion: "Ensure vertex out matches fragment in type and components"
+
+  - id: GLSL013
+    name: "Compute workgroup size"
+    domain: optimization
+    severity: info
+    description: "Workgroup size considerations"
+    rules:
+      - pattern: "local_size_x"
+        message: "Workgroup size - consider GPU warp size (32/64)"
+        suggestion: "Use multiples of 32 (NVIDIA) or 64 (AMD) for efficiency"
+
+  - id: GLSL014
+    name: "Attenutation calculation"
+    domain: physics
+    severity: warning
+    description: "Light attenuation may be wrong"
+    rules:
+      - pattern: "/ (dist * dist)"
+        message: "Inverse square attenuation - may be too harsh"
+        suggestion: "Use physically based: 1.0 / (constant + linear*d + quadratic*d*d)"
+
+  - id: GLSL015
+    name: "Matrix multiply order"
+    domain: correctness
+    severity: error
+    description: "Matrix multiplication order matters"
+    rules:
+      - pattern: "* vec4"
+        message: "Matrix * vector - verify order matches convention"
+        suggestion: "Column-major: M * v, Row-major: v * M"

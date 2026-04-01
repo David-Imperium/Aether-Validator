@@ -1,0 +1,143 @@
+# JavaScript Best Practices Contracts
+# Domain: best-practices
+
+contracts:
+  - id: JSBP001
+    name: "Use strict mode"
+    domain: best-practices
+    severity: warning
+    description: "Strict mode catches common errors and enables optimizations"
+    tags:
+      - javascript
+      - best-practices
+      - strict-mode
+    rules:
+      - pattern: '^(?!\s*[\'"]use strict[\'"])'
+        message: "Missing 'use strict' directive"
+        suggestion: "Add 'use strict'; at the top of the file or function"
+
+  - id: JSBP002
+    name: "Use default parameters"
+    domain: best-practices
+    severity: info
+    description: "Default parameters are cleaner than || checks"
+    tags:
+      - javascript
+      - best-practices
+      - es6
+    rules:
+      - pattern: 'function\s*\([^)]*\)\s*\{[^}]*\w+\s*\|\|\s*["\'\d]'
+        message: "Default value with || - use default parameter"
+        suggestion: "Use function(param = 'default') instead of || inside function"
+
+  - id: JSBP003
+    name: "Use spread operator for array/object copying"
+    domain: best-practices
+    severity: info
+    description: "Spread operator creates shallow copies concisely"
+    tags:
+      - javascript
+      - best-practices
+      - es6
+    rules:
+      - pattern: 'Object\.assign\(\s*\{\s*\},\s*\w+'
+        message: "Object.assign for copying - spread is cleaner"
+        suggestion: "Use { ...obj } instead of Object.assign({}, obj)"
+
+  - id: JSBP004
+    name: "Use strict equality (===)"
+    domain: best-practices
+    severity: warning
+    description: "Loose equality (==) has type coercion quirks"
+    tags:
+      - javascript
+      - best-practices
+      - equality
+    rules:
+      - pattern: '[^=!]==\s*["\'\d\w]'
+        message: "Loose equality (==) - use strict equality (===)"
+        suggestion: "Use === to avoid type coercion surprises"
+
+  - id: JSBP005
+    name: "Avoid eval()"
+    domain: best-practices
+    severity: error
+    description: "eval() is a security risk and performance hazard"
+    tags:
+      - javascript
+      - best-practices
+      - security
+    rules:
+      - pattern: 'eval\s*\('
+        message: "eval() is dangerous - executes arbitrary code"
+        suggestion: "Use JSON.parse for JSON, or refactor to avoid eval"
+
+  - id: JSBP006
+    name: "Use Object.freeze for constants"
+    domain: best-practices
+    severity: info
+    description: "Object.freeze prevents mutation of constant objects"
+    tags:
+      - javascript
+      - best-practices
+      - immutability
+    rules:
+      - pattern: 'const\s+\w+\s*=\s*\{[^}]*\}\s*;'
+        message: "Object constant can be mutated - consider Object.freeze"
+        suggestion: "Use Object.freeze({ ... }) for true constants"
+
+  - id: JSBP007
+    name: "Use optional chaining for nested property access"
+    domain: best-practices
+    severity: info
+    description: "Optional chaining prevents TypeError on null/undefined"
+    tags:
+      - javascript
+      - best-practices
+      - es2020
+    rules:
+      - pattern: '\w+\s*&&\s*\w+\.\w+'
+        message: "Manual null check - optional chaining is cleaner"
+        suggestion: "Use obj?.prop instead of obj && obj.prop"
+
+  - id: JSBP008
+    name: "Avoid modifying built-in prototypes"
+    domain: best-practices
+    severity: error
+    description: "Modifying prototypes breaks for-in loops and causes conflicts"
+    tags:
+      - javascript
+      - best-practices
+      - prototypes
+    rules:
+      - pattern: '(Array|Object|String)\.prototype\.\w+\s*='
+        message: "Modifying built-in prototype is dangerous"
+        suggestion: "Create utility functions instead of extending prototypes"
+
+  - id: JSBP009
+    name: "Use Array.isArray() for array checks"
+    domain: best-practices
+    severity: info
+    description: "instanceof Array fails across frames"
+    tags:
+      - javascript
+      - best-practices
+      - arrays
+    rules:
+      - pattern: '\w+\s+instanceof\s+Array'
+        message: "instanceof Array - Array.isArray is more reliable"
+        suggestion: "Use Array.isArray() for reliable array type checking"
+
+  - id: JSBP010
+    name: "Handle promise rejections"
+    domain: best-practices
+    severity: warning
+    description: "Unhandled promise rejections cause runtime errors"
+    tags:
+      - javascript
+      - best-practices
+      - promises
+    rules:
+      - pattern: '\.then\([^)]+\)(?!\s*\.catch)'
+        message: "Promise chain without .catch - rejection unhandled"
+        suggestion: "Add .catch() or use async/await with try/catch"

@@ -1,0 +1,50 @@
+contracts:
+  - id: TRITON001
+    name: "Use Triton::Logger instead of print"
+    domain: style
+    severity: warning
+    description: "Use Triton::Logger for logging"
+    rules:
+      - pattern: '\bprint\s*\('
+        message: "Use Triton::Logger instead of print"
+        suggestion: "Use TRITON_INFO(), TRITON_WARN(), or TRITON_ERROR()"
+
+  - id: TRITON002
+    name: "Use Triton::Logger instead of console.log"
+    domain: style
+    severity: warning
+    description: "Use Triton::Logger for logging"
+    rules:
+      - pattern: 'console\.log'
+        message: "Use Triton::Logger instead of console.log"
+        suggestion: "Use TRITON_INFO() or TRITON_DEBUG()"
+
+  - id: TRITON003
+    name: "Use Triton::Logger instead of dbg!"
+    domain: style
+    severity: error
+    description: "Use Triton::Logger for debug logging"
+    rules:
+      - pattern: 'dbg!\s*\('
+        message: "Use Triton::Logger instead of dbg!"
+        suggestion: "Use triton::log::debug!() for debug logging"
+
+  - id: TRITON004
+    name: "Use Triton::Logger instead of println!"
+    domain: style
+    severity: error
+    description: "Use Triton::Logger for logging"
+    rules:
+      - pattern: 'println!\s*\('
+        message: "Use Triton::Logger instead of println!"
+        suggestion: "Use triton::log::info!() for logging"
+
+  - id: TRITON005
+    name: "Use Triton::Logger instead of eprintln!"
+    domain: style
+    severity: warning
+    description: "Use Triton::Logger for error logging"
+    rules:
+      - pattern: 'eprintln!\s*\('
+        message: "Use Triton::Logger instead of eprintln!"
+        suggestion: "Use triton::log::error!() for error logging"

@@ -1,0 +1,109 @@
+contracts:
+  - id: TOMLPF001
+    name: "Large file size"
+    domain: performance
+    severity: warning
+    description: "Large TOML files impact parsing performance"
+    rules:
+      - pattern: '^(?:(?!\n).){50000,}'
+        message: "File size may exceed 50KB"
+        suggestion: "Split large config into multiple files or use includes"
+
+  - id: TOMLPF002
+    name: "Deep nesting overhead"
+    domain: performance
+    severity: warning
+    description: "Deep nesting increases parsing complexity"
+    rules:
+      - pattern: '^\[[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\.[a-zA-Z_]+\]'
+        message: "5+ level deep nesting detected"
+        suggestion: "Deep nesting slows parsing; flatten where possible"
+
+  - id: TOMLPF003
+    name: "Large inline arrays"
+    domain: performance
+    severity: warning
+    description: "Large arrays impact memory and parsing"
+    rules:
+      - pattern: '=\s*\[[^\]]{5000,}\]'
+        message: "Inline array exceeds 5000 characters"
+        suggestion: "Consider array of tables or external data file"
+      - pattern: '=\s*\[[^\]]*(?:,[^\]]*){100,}\]'
+        message: "Array with 100+ elements"
+        suggestion: "Large arrays slow parsing; use external data files"
+
+  - id: TOMLPF004
+    name: "Redundant comments"
+    domain: performance
+    severity: info
+    description: "Excessive comments add parsing overhead"
+    rules:
+      - pattern: '(?:^#[^\n]*\n){20,}'
+        message: "Block of 20+ consecutive comments"
+        suggestion: "Reduce comment volume; use documentation files for detailed info"
+      - pattern: '^# .+\n\w+ = .+\n# .+\n\w+ = .+\n# .+\n\w+ = .+\n# .+\n\w+ = .+\n# .+\n\w+ = .+'
+        message: "Per-line comments pattern"
+        suggestion: "Group related items with single comment header"
+
+  - id: TOMLPF005
+    name: "String concatenation pattern"
+    domain: performance
+    severity: info
+    description: "Avoid patterns requiring string processing"
+    rules:
+      - pattern: '=\s*"[^"]*"\s*\+\s*"'
+        message: "String concatenation pattern detected"
+        suggestion: "TOML doesn't support concatenation; use single string or multiline"
+
+  - id: TOMLPF006
+    name: "Repeated table definitions"
+    domain: performance
+    severity: warning
+    description: "Repeated table headers add parsing overhead"
+    rules:
+      - pattern: '^\[\w+\].*\n(?:.*\n)*?\[\1\]'
+        message: "Same table header appears multiple times"
+        suggestion: "Consolidate into single table definition"
+
+  - id: TOMLPF007
+    name: "Array of tables count"
+    domain: performance
+    severity: warning
+    description: "Many array of tables elements impact performance"
+    rules:
+      - pattern: '(?:^\[\[\w+\]\].*\n(?:.*\n)*?){50,}'
+        message: "50+ array of tables entries"
+        suggestion: "Large collections should use external data format (JSON/YAML)"
+
+  - id: TOMLPF008
+    name: "Complex multiline strings"
+    domain: performance
+    severity: info
+    description: "Large multiline strings consume memory"
+    rules:
+      - pattern: '"""[\s\S]{10000,}"""'
+        message: "Multiline string exceeds 10KB"
+        suggestion: "Large text content should be in external files"
+      - pattern: "'''[\\s\\S]{10000,}'''"
+        message: "Literal multiline string exceeds 10KB"
+        suggestion: "Large text content should be in external files"
+
+  - id: TOMLPF009
+    name: "Duplicate key validation cost"
+    domain: performance
+    severity: info
+    description: "Duplicate keys require validation overhead"
+    rules:
+      - pattern: '^\[\w+\]\s*\n(?:(?:\w+ = .+\n){1,100})'
+        message: "Table with 100+ keys"
+        suggestion: "Large tables increase duplicate key validation; split if needed"
+
+  - id: TOMLPF010
+    name: "Excessive dotted keys"
+    domain: performance
+    severity: info
+    description: "Many dotted keys per table slow parsing"
+    rules:
+      - pattern: '^\[\w+\]\s*\n(?:\w+\.\w+\.\w+ = .+\n){20,}'
+        message: "20+ deeply dotted keys in one table"
+        suggestion: "Use nested table headers instead of many dotted keys"

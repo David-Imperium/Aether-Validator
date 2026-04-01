@@ -1,0 +1,121 @@
+contracts:
+  - id: BASH_STYLE_001
+    name: "Inconsistent Quoting"
+    domain: style
+    severity: warning
+    description: "Mixing quote styles reduces readability"
+    rules:
+      - pattern: '\$[A-Za-z_][A-Za-z0-9_]*[^"\'\s\w]'
+        message: "Unquoted variable expansion"
+        suggestion: "Always quote variables: \"$VAR\""
+      - pattern: '"[^"]*\$\([^)]*\)[^"]*"'
+        message: "Double-quoted command substitution"
+        suggestion: "Acceptable, but ensure nested quotes are correct"
+
+  - id: BASH_STYLE_002
+    name: "Magic Numbers"
+    domain: style
+    severity: info
+    description: "Hardcoded values reduce maintainability"
+    rules:
+      - pattern: '(sleep\s+|exit\s+|kill\s+-)[0-9]+'
+        message: "Magic number in command"
+        suggestion: "Define constant: readonly TIMEOUT=5; sleep $TIMEOUT"
+
+  - id: BASH_STYLE_003
+    name: "Non-Descriptive Variable Names"
+    domain: style
+    severity: info
+    description: "Single-letter variables reduce readability"
+    rules:
+      - pattern: '\b[a-z]\b='
+        message: "Single-letter variable assignment"
+        suggestion: "Use descriptive names: count, index, name"
+      - pattern: 'for\s+[a-z]\s+in'
+        message: "Single-letter loop variable"
+        suggestion: "Use: for item in, for file in, for line in"
+
+  - id: BASH_STYLE_004
+    name: "Inconsistent Indentation"
+    domain: style
+    severity: info
+    description: "Mixed tabs and spaces or inconsistent depth"
+    rules:
+      - pattern: '^    [^\s]'
+        message: "4-space indentation detected"
+        suggestion: "Bash convention is 2 spaces or tabs - be consistent"
+      - pattern: '^\t {2,}'
+        message: "Mixed tabs and spaces"
+        suggestion: "Use only tabs or only spaces"
+
+  - id: BASH_STYLE_005
+    name: "Long Lines"
+    domain: style
+    severity: info
+    description: "Lines over 80-100 chars are hard to read"
+    rules:
+      - pattern: '^.{120,}$'
+        message: "Line exceeds 120 characters"
+        suggestion: "Break with \\ or use multiple lines"
+
+  - id: BASH_STYLE_006
+    name: "Deprecated Syntax"
+    domain: style
+    severity: warning
+    description: "Old bash syntax patterns"
+    rules:
+      - pattern: '^\s*\[\s+[^]]*\s+\]\s*$'
+        message: "Using [ ] instead of [[ ]]"
+        suggestion: "Use [[ ]] for tests - safer and more features"
+      - pattern: '\btest\s+[^;]*$'
+        message: "Using test command directly"
+        suggestion: "Use [[ ]] for readability"
+
+  - id: BASH_STYLE_007
+    name: "Function Declaration Style"
+    domain: style
+    severity: info
+    description: "Inconsistent function declaration syntax"
+    rules:
+      - pattern: '^\s*function\s+\w+\s*\(\)\s*\{'
+        message: "Both 'function' keyword and () used"
+        suggestion: "Use either: function name { or name() {, not both"
+      - pattern: '^\s*function\s+\w+\s*\{'
+        message: "KSH-style function declaration"
+        suggestion: "Acceptable, but be consistent across script"
+
+  - id: BASH_STYLE_008
+    name: "Redirection Style"
+    domain: style
+    severity: info
+    description: "Redirection placement affects readability"
+    rules:
+      - pattern: '\b\w+\s+>\s*\S+\s*$'
+        message: "Redirection at end of line"
+        suggestion: "Place redirections at start for clarity: > file cmd"
+      - pattern: '2>&1\s*$'
+        message: "stderr merged to stdout at end"
+        suggestion: "Consider: cmd > out.log 2>&1 for clarity"
+
+  - id: BASH_STYLE_009
+    name: "Command Grouping Style"
+    domain: style
+    severity: info
+    description: "Inconsistent use of braces vs subshells"
+    rules:
+      - pattern: '\(\s*[^)]*;\s*\)'
+        message: "Subshell for grouping - may be unnecessary"
+        suggestion: "Use { } for grouping without subshell overhead"
+
+  - id: BASH_STYLE_010
+    name: "Comment Style"
+    domain: style
+    severity: info
+    description: "Missing or inconsistent comments"
+    rules:
+      - pattern: '^#!.*/bash\n\n'
+        message: "No header comment after shebang"
+        suggestion: "Add script description, usage, author"
+      - pattern: 'function\s+\w+[^#]*\{'
+        message: "Function without documentation"
+        suggestion: "Add comment describing purpose and parameters"

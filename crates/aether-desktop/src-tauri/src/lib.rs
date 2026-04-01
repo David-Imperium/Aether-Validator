@@ -5,6 +5,7 @@
 //! - Validation reports
 //! - Settings management
 //! - System tray integration
+//! - File watcher for AI-generated code validation
 
 use tauri::{
     menu::{Menu, MenuItem},
@@ -15,8 +16,14 @@ use tauri::{
 mod commands;
 mod config;
 mod state;
+mod watcher;
+mod validation_service;
+mod auto_fix;
 
 pub use state::AppState;
+pub use watcher::{FileWatcher, WatchConfig, WatchEvent};
+pub use validation_service::{ValidationService, ValidationResult, ClassifiedError, ErrorClass, SeverityLevel};
+pub use auto_fix::{AutoFixService, FixProposal};
 
 /// Run the Tauri application
 pub fn run() {
@@ -114,6 +121,17 @@ pub fn run() {
             commands::get_config,
             commands::save_config,
             commands::get_status,
+            commands::start_watcher,
+            commands::stop_watcher,
+            commands::get_errors,
+            commands::clear_errors,
+            commands::request_fix,
+            commands::apply_fix,
+            commands::get_watcher_status,
+            commands::list_directory,
+            commands::read_file,
+            commands::get_workspace_root,
+            commands::save_file,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

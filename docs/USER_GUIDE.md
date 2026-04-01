@@ -1,7 +1,8 @@
 # Aether — User Guide
 
-**Versione:** 0.1.0  
-**Aggiornato:** 2026-03-11
+**Versione:** 2.0 (Autonomous Design)
+**Aggiornato:** 2026-03-18
+**Vedi anche:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md), [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
 
 ---
 
@@ -12,26 +13,31 @@
 3. [Quick Start](#quick-start)
 4. [CLI Reference](#cli-reference)
 5. [Configurazione](#configurazione)
-6. [Linguaggi Supportati](#linguaggi-supportati)
-7. [Contratti](#contratti)
-8. [Certificazione](#certificazione)
-9. [Integrazioni](#integrazioni)
-10. [Troubleshooting](#troubleshooting)
+6. [Memory Commands](#memory-commands)
+7. [Linguaggi Supportati](#linguaggi-supportati)
+8. [Contratti](#contratti)
+9. [Certificazione](#certificazione)
+10. [Integrazioni](#integrazioni)
+11. [Troubleshooting](#troubleshooting)
 
 ---
 
 ## Introduzione
 
-Aether è un sistema di validazione e certificazione del codice che utilizza contratti YAML per verificare la qualità, sicurezza e correttezza del codice.
+Aether è un sistema di validazione **autonomo** che utilizza contratti YAML e memoria appresa per verificare la qualità, sicurezza e correttezza del codice. Nessuna AI esterna richiesta per il core di validazione.
 
 ### Caratteristiche Principali
 
+- **AI-Free Core**: Validazione senza dipendenze esterne (AI opzionale come dizionario)
+- **Memory-Driven**: Impara dal progetto, configura layers dinamicamente
+- **Dubbioso Mode**: Chiede chiarimenti via MCP quando incerto (confidence < threshold)
 - **Validazione multi-layer**: Syntax, Semantic, Logic, Security, Style, Architecture
-- **9 linguaggi supportati**: Rust, Python, JavaScript, TypeScript, C++, Go, Java, Lua, Lex
+- **23 linguaggi pubblici + Prism (privato)**: Rust, Python, JavaScript, TypeScript, C++, C, Go, Java, Lua, Bash, Lex, GLSL, CSS, HTML, JSON, YAML, TOML, CMake, CUDA, SQL, GraphQL, Markdown, Notebook
 - **Contratti YAML**: Regole personalizzabili per ogni progetto
 - **Certificazione crittografica**: Firma Ed25519 per codice validato
 - **Integrazione MCP**: Usabile da LLM agents (Claude, GPT, etc.)
-- **Python bindings**: Libreria Python con PyO3
+
+- **TOML Format**: File di stato leggibili e modificabili
 
 ---
 
@@ -57,12 +63,6 @@ git clone https://github.com/aether-cloud/aether.git
 cd aether
 cargo build --release
 cargo install --path crates/aether-cli
-```
-
-### Python Bindings
-
-```bash
-pip install aether
 ```
 
 ---
@@ -99,10 +99,10 @@ aether analyze src/main.rs --format json
 aether generate-keypair
 
 # Certifica un file validato
-aether certify src/main.rs --output cert.json
+aether certify src/main.rs --output cert.toml
 
 # Verifica un certificato
-aether verify cert.json
+aether verify cert.toml
 ```
 
 ---
@@ -220,6 +220,84 @@ output:
 | `AETHER_KEYPAIR` | Path al keypair |
 | `AETHER_CONTRACTS` | Directory contratti aggiuntivi |
 | `AETHER_NO_COLOR` | Disabilita colori output |
+
+---
+
+## Memory Commands
+
+Aether impara dal tuo progetto e memorizza configurazioni, pattern e correzioni in file TOML leggibili.
+
+### Comandi Principali
+
+```bash
+# Mostra lo stato della memoria del progetto
+aether memory status
+
+# Lista pattern appresi
+aether memory list --type patterns
+
+# Lista correzioni salvate
+aether memory list --type corrections
+
+# Esporta memoria in formato leggibile
+aether memory export --output ./project-memory.toml
+
+# Importa memoria da file
+aether memory import ./project-memory.toml
+
+# Reset memoria (mantieni presets)
+aether memory reset --keep-presets
+
+# Configura dubbioso mode
+aether memory config --doubt-threshold 0.5
+```
+
+### Struttura Memoria TOML
+
+```toml
+# ~/.aether/projects/myproject/state.toml
+
+[project]
+name = "myproject"
+language = "rust"
+learned_at = "2026-03-18T10:30:00Z"
+
+[learned.thresholds]
+max_function_lines = 50
+max_cyclomatic_complexity = 10
+min_test_coverage = 0.8
+
+[learned.patterns]
+avoid_unwrap = true
+prefer_result = true
+allowed_unsafe = ["ffi_bindings.rs"]
+
+[learned.whitelist]
+# File/path ignorati per regole specifiche
+skip_security_check = ["tests/**"]
+
+[dubbioso]
+enabled = true
+confidence_threshold = 0.5
+ask_via_mcp = true
+```
+
+### Dubbioso Mode
+
+Quando Aether è "dubbioso" (confidence < threshold), chiede chiarimenti via MCP:
+
+```bash
+# Abilita dubbioso mode
+aether config set dubbioso.enabled true
+
+# Imposta soglia (0.0-1.0)
+aether config set dubbioso.threshold 0.5
+
+# Test dubbioso mode
+aether validate src/ambiguous.rs --verbose
+```
+
+> **Nota**: Dubbioso mode richiede integrazione MCP attiva per le domande interattive.
 
 ---
 
@@ -414,10 +492,10 @@ Un certificato Aether contiene:
 
 ```bash
 # Verifica un certificato
-aether verify cert.json
+aether verify cert.toml
 
 # Verifica con chiave pubblica specifica
-aether verify cert.json --public-key /path/to/public.key
+aether verify cert.toml --public-key /path/to/public.key
 ```
 
 ---
@@ -440,49 +518,18 @@ Aether può essere usato come MCP server per LLM agents:
 }
 ```
 
-Tools disponibili:
-- `aether_validate` — Valida codice
-- `aether_certify` — Certifica codice
-- `aether_analyze` — Analizza AST
-
-### Python API
-
-```python
-from aether import Client
-
-client = Client()
-
-# Valida
-result = client.validate_file("src/main.rs")
-print(f"Passed: {result.passed}")
-print(f"Violations: {result.violations}")
-
-# Certifica
-cert = client.certify_file("src/main.rs")
-print(f"Certificate: {cert.signature}")
-
-# Analizza
-ast = client.analyze_file("src/main.rs")
-print(f"Functions: {ast.function_count}")
-print(f"Structs: {ast.struct_count}")
-```
-
-### HTTP API
-
-```bash
-# Start server
-aether serve --port 8080
-
-# Validate endpoint
-curl -X POST http://localhost:8080/validate \
-  -H "Content-Type: application/json" \
-  -d '{"language": "rust", "code": "..."}'
-
-# Certify endpoint
-curl -X POST http://localhost:8080/certify \
-  -H "Content-Type: application/json" \
-  -d '{"language": "rust", "code": "..."}'
-```
+Tools disponibili (13 tools):
+- `validate_file` — Valida un file con contratti
+- `batch_validate` — Valida più file in batch
+- `analyze_code` — Analizza struttura AST
+- `get_metrics` — Metriche codice (LOC, complessità)
+- `suggest_fixes` — Suggerimenti per errori
+- `certify_code` — Valida e firma crittograficamente
+- `get_language_info` — Info su un linguaggio
+- `list_languages` — Lista linguaggi supportati (24)
+- `list_contracts` — Lista contratti disponibili
+- `get_version` — Versione Aether
+- `watch_start/check/stop` — Monitora cambiamenti file
 
 ---
 

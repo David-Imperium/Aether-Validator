@@ -1,23 +1,36 @@
-# Aether — Universal AI Validation Layer
+# Aether — Universal Autonomous Validation Layer
 
-**Version:** 0.1.0
-**Status:** Design Phase
-**Last Updated:** 2026-03-10
+**Version:** 3.0 (Core First Philosophy)
+**Status:** 85% Complete (Phase 15 in progress)
+**Last Updated:** 2026-03-19
 **Implementation Language:** Rust
+**See Also:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md), [PRICING_STRATEGY.md](./PRICING_STRATEGY.md)
 
 ---
 
 ## Executive Summary
 
-Aether is a universal validation framework that ensures AI-generated code meets rigorous quality standards. It acts as a **trust layer** between AI agents and production code, providing:
+Aether is a universal **autonomous** validation framework that ensures AI-generated code meets rigorous quality standards. It acts as a **trust layer** between AI agents and production code, providing:
 
-- **Prompt Analysis** — Understanding user intent before code generation
+- **AI-Free Core** — No external AI required for validation (optional dictionary role)
 - **Multi-Language Validation** — Syntax, semantic, logic, and style checks
 - **Contract Engine** — Formal verification against defined rules
 - **Code Certification** — Cryptographic proof of validated code
-- **Iteration Loop** — Automated feedback until code passes
+- **Memory-Driven Learning** — Dynamic layer configuration from learned patterns
 
-**Mission:** Make AI-generated code trustworthy through formal validation, not hope.
+**Key Principles (v3.0):**
+- **Core First**: Tutto il core autonomo disponibile per TUTTI i tier (incluso Free)
+- **AI-Free Core**: Nessuna AI esterna richiesta per validazione
+- **Graph RAG Autonomo**: Attraversa progetti, capisce dipendenze, impara pattern
+- **Dubbioso Mode**: Confidence-based validation, chiede quando incerto via MCP
+- **TOML Format**: Memoria leggibile e modificabile dall'utente
+
+**Mission:** Make AI-generated code trustworthy through autonomous validation, not hope.
+
+**Key Differentiator — Core First Philosophy:**
+All core features (Memory-Driven Core, Hyper-Context, Dubbioso, MCP, Custom Contracts) are available to ALL tiers. Differentiation is on limits, integrations, and support — NOT on core features. The Free tier demonstrates Aether's full power.
+
+> See [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md) for full architecture.
 
 ---
 
@@ -37,41 +50,36 @@ The market doesn't trust AI agents with code because:
 
 ## High-Level Architecture
 
-### Phase 4: Dual-Track Validation Architecture (2026)
+### Standalone Validation Architecture (2026)
 
 Based on market research (CodeRabbit Report 2025):
 - AI generates **1.7x more issues** overall
 - Security issues **2.74x higher** in AI code
 - **84%** developers use AI, but only **29%** trust it
 
-**Key Insight:** Market wants validation in workflow, not real-time blocking.
+**Key Insight:** Universal validation for all AI agents and CI/CD pipelines.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER VALIDATION (Phase 4 Architecture)                  │
+│                    AETHER VALIDATION                                         │
 │                                                                             │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
-│  │                          DUAL-TRACK SYSTEM                           │   │
+│  │                      VALIDATORE STANDALONE                           │   │
 │  │                                                                       │   │
-│  │  ┌───────────────────────────┐   ┌─────────────────────────────────┐ │   │
-│  │  │   PROXY HTTP (Real-time)  │   │   VALIDATORE STANDALONE         │ │   │
-│  │  │                           │   │                                 │ │   │
-│  │  │   • Intercepta API        │   │   • CLI, Desktop, CI/CD        │ │   │
-│  │  │   • Estrae codice         │   │   • Git hooks (pre-commit)     │ │   │
-│  │  │   • Valida background     │   │   • UNIVERSALE (tutti agenti)  │ │   │
-│  │  │   • Notifiche desktop     │   │                                 │ │   │
-│  │  │                           │   │   Compatibilita':               │ │   │
-│  │  │   Compatibilita':         │   │   [x] Tutti gli agenti AI      │ │   │
-│  │  │   [x] Droid               │   │   [x] Ollama, Copilot          │ │   │
-│  │  │   [x] Claude Code         │   │   [x] CI/CD, Git hooks         │ │   │
-│  │  │   [x] Cursor              │   │                                 │ │   │
-│  │  │   [ ] Ollama, Copilot     │   │                                 │ │   │
-│  │  └───────────────────────────┘   └─────────────────────────────────┘ │   │
+│  │  • CLI, VS Code Extension, CI/CD                                     │   │
+│  │  • UNIVERSALE: tutti gli agenti AI                                   │   │
 │  │                                                                       │   │
-│  │  ┌─────────────────────────────────────────────────────────────────┐ │   │
-│  │  │                     RAG (Apprendimento)                          │ │   │
-│  │  │   • Pattern, errori, correzioni -> Migliora nel tempo           │ │   │
-│  │  └─────────────────────────────────────────────────────────────────┘ │   │
+│  │  Compatibilita':                                                     │   │
+│  │  [x] Droid, Claude Code, Cursor                                      │   │
+│  │  [x] Ollama, Copilot                                                 │   │
+│  │  [x] CI/CD, manual validation                                        │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │              MEMORY-DRIVEN CORE (Apprendimento)                      │   │
+│  │   • LearnedConfig → Layers dinamici                                 │   │
+│  │   • Thresholds, rules, conventions → Unici per progetto            │   │
+│  │   • Pattern, errori, correzioni → Migliora nel tempo               │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -152,7 +160,7 @@ Based on market research (CodeRabbit Report 2025):
 
 **Output:** Structured prompt context that guides code generation.
 
-See: [AETHER_PROMPT_ANALYZER.md](./AETHER_PROMPT_ANALYZER.md)
+See: [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md) (consolidato)
 
 ---
 
@@ -323,18 +331,19 @@ Aether: "Inconsistent with pattern. Use 'faction' not 'team'"
 
 ---
 
-## Language Adapters (Phase 1)
+## Language Adapters
 
-Initial support for 3 languages:
+Currently supporting **23 public languages** + Prism (private):
 
-| Language | Parser | Priority |
-|----------|--------|----------|
-| **Rust** | syn + tree-sitter-rust | 1 |
-| **C++** | tree-sitter-cpp | 2 |
-| **Lex** | Custom parser (from Aegis) | 3 |
+| Category | Languages |
+|----------|-----------|
+| **System** | Rust, C, C++, CUDA, Go, Java |
+| **Scripting** | Python, JavaScript, TypeScript, Lua, Bash |
+| **DSL** | Lex, GLSL, SQL, GraphQL, CSS, HTML, Markdown |
+| **Config** | JSON, YAML, TOML, CMake, Notebook (.ipynb) |
+| **Private** | Prism (David only, not in public releases) |
 
-**Future (Phase 2+):**
-Python, JavaScript, TypeScript, Go, Java, SQL, JSON, YAML
+All languages use tree-sitter parsers except Lex (custom parser).
 
 ---
 
@@ -367,7 +376,7 @@ aether validate src/main.cpp --contracts ./contracts/
 aether validate src/main.cpp --fix-hints
 
 # Generate certificate
-aether certify src/main.cpp --output cert.json
+aether certify src/main.cpp --output cert.toml
 
 # Analyze a prompt
 aether analyze-prompt "Add a patrol enemy" --context ./project/
@@ -463,10 +472,11 @@ Aether/
 │   ├── AETHER_MASTER_DESIGN.md      # This file
 │   ├── AETHER_ARCHITECTURE.md       # Technical architecture
 │   ├── AETHER_CONTRACTS.md          # Contract system
-│   ├── AETHER_PROMPT_ANALYZER.md    # Prompt analysis
+│   ├── AETHER_INTELLIGENCE.md       # AI Intelligence (consolidato)
 │   ├── AETHER_CERTIFICATION.md      # Certification system
 │   ├── AETHER_RUST_IMPLEMENTATION.md# Rust-specific details
-│   └── AETHER_INTEGRATION.md        # Agent integration
+│   ├── MEMORY_DRIVEN_CORE.md        # Memory-Driven Core architecture
+│   └── TIER_SEPARATION.md           # OSS/Commercial separation
 │
 ├── src/                             # Core engine (Rust)
 │   ├── core/
@@ -540,10 +550,12 @@ Aether/
 - [ ] Ed25519 signing
 - [ ] Audit log storage
 
-### Phase 4 — Prompt Analysis (v0.4)
-- [ ] Intent classifier
+### Phase 4 — Prompt Analysis (v0.4) [OPZIONALE]
+- [ ] Intent classifier (richiede LLM opzionale)
 - [ ] Ambiguity detector
 - [ ] Context binding
+
+> **Nota**: Il Prompt Analysis richiede LLM esterno. Il core autonomo funziona senza.
 
 ### Phase 5 — Iteration (v0.5)
 - [ ] Automated retry loop
@@ -555,6 +567,15 @@ Aether/
 - [ ] Python SDK
 - [ ] Full agent integration
 - [ ] Documentation complete
+
+### Phase 16 — Memory-Driven Core (v0.2)
+- [x] Architecture document (MEMORY_DRIVEN_CORE.md)
+- [ ] LearnedConfig implementation
+- [ ] Dynamic layer configuration
+- [ ] Memory-driven validation flow
+- [ ] CLI memory commands
+
+> Full roadmap: [ROADMAP_INDEX.md](./ROADMAP_INDEX.md)
 
 ---
 
@@ -570,6 +591,121 @@ Aether/
 
 ---
 
+## Commercial Strategy
+
+**Core First Philosophy (v3.0):** All core features available to ALL tiers. Differentiation on limits, integrations, and support.
+
+### Pricing Tiers
+
+| Tier | Price | Scans/day | Files | Projects | Contracts | Target |
+|------|-------|-----------|-------|----------|-----------|--------|
+| **Solo** | FREE | 100 | 50 | 1 | 3 | Dev singoli |
+| **Pro** | $9/mo | 1,000 | 500 | 5 | 20 | Freelancer |
+| **Team** | $29/user/mo | Unlimited | Unlimited | Unlimited | Unlimited | Team 5-50 |
+| **Enterprise** | Custom | Unlimited | Unlimited | Unlimited | Unlimited | Big orgs |
+
+> **Nota:** Files = "Files letti per scan" (non files per progetto). VS Code Extension dedicata = Pro+ tier only. Free tier ha solo MCP protocol access.
+
+### Core Features (ALL Tiers)
+
+**Available to Solo, Pro, Team, Enterprise:**
+- Memory-Driven Core (TOML)
+- Hyper-Context Engine (Graph RAG)
+- Dubbioso Mode
+- 23 Languages (public) + Prism (private)
+- All Validation Layers (Syntax, Semantic, Logic, Security, Style, Architecture)
+- Custom Contracts (with tier limits)
+- Dataflow Analysis (Full)
+- MCP Integration (VS Code, Claude, Cursor)
+- CLI (Full access)
+- Code Certification (Ed25519)
+
+### Tier Differentiators
+
+**Solo (Free):**
+- TUTTO il core autonomo
+- Limiti: 100 scans/giorno, 50 files, 1 progetto, 3 contracts
+- Local TOML storage
+- Community support
+
+**Pro ($9/mo):**
+- TUTTO il core + integrazioni
+- CI/CD Integration (GitHub Actions, GitLab CI, Azure DevOps)
+- Cloud Backup (memoria)
+- Limiti: 1,000 scans/giorno, 500 files, 5 progetti, 20 contracts
+- Email support
+
+**Team ($29/user/mo):**
+- TUTTO il core + team features
+- Unlimited scans, files, projects, contracts
+- Cloud Sync (Qdrant)
+- Team Memory Sharing
+- Web Dashboard
+- SSO (Google, GitHub)
+- Slack/Teams notifications
+- Priority support
+
+**Enterprise (Custom):**
+- TUTTO il core + enterprise features
+- On-premise deployment
+- SSO (SAML, OIDC, LDAP)
+- Compliance Reports (SOC2, ISO27001, GDPR, HIPAA)
+- API Access
+- Source Access (aether-pro crate)
+- Taint Tracking
+- Dedicated support
+- SLA 99.9%
+
+### Memory-Driven Core (Project Memory)
+
+AI agents forget decisions between sessions. Aether's Memory-Driven Core solves this by **configuring validation layers dynamically** based on learned project knowledge:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                MEMORY-DRIVEN CORE ARCHITECTURE                   │
+├─────────────────────────────────────────────────────────────────┤
+│  STORAGE LAYER                                                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │   SQLite     │  │   Qdrant     │  │  PostgreSQL  │          │
+│  │   (Solo/Pro) │  │   (Team)     │  │  (Enterprise)│          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+├─────────────────────────────────────────────────────────────────┤
+│  LEARNED CONFIG (Dynamic Layer Configuration)                   │
+│  • Thresholds (complexity, line length, parameters)            │
+│  • Custom rules (discovered from violation patterns)           │
+│  • Security whitelist (accepted violations with reason)        │
+│  • Style conventions (learned from existing code)              │
+├─────────────────────────────────────────────────────────────────┤
+│  DATA TYPES                                                     │
+│  • Architectural Decisions ("Why we chose X")                  │
+│  • Violation History (fixed, ignored, false positives)         │
+│  • Learned Patterns (naming, structure, idioms)                │
+│  • User Annotations (notes on specific code)                   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Retention Value:**
+
+| Time | False Positives | Custom Rules | Switch Cost |
+|------|-----------------|--------------|-------------|
+| Day 1 | 30% | 0 | Low |
+| Month 3 | 12% | 8 | Medium |
+| Year 1 | 2% | 25 | **Very High** |
+
+> Full architecture: [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
+
+### Market Opportunity
+
+| Statistic | Source |
+|-----------|--------|
+| 45% AI code has vulnerabilities | Veracode 2025 |
+| 62% contains security flaws | Medium 2025 |
+| 40%+ enterprise code is AI-generated | Industry 2025 |
+| 2.74x more vulnerabilities than human code | SoftwareSeni 2026 |
+| 84% developers use AI, only 29% trust it | CodeRabbit 2025 |
+
+---
+
 ## Success Metrics
 
 | Metric | Target |
@@ -579,6 +715,8 @@ Aether/
 | False positive rate | < 5% |
 | Validation latency | < 100ms for typical file |
 | Certificate verification | < 10ms |
+| 6-month MRR target | $5,000 |
+| Paying customers (6 mo) | 50 |
 
 ---
 

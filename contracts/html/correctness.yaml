@@ -1,0 +1,243 @@
+# HTML Correctness Contracts
+# Domain: correctness
+
+contracts:
+  - id: HTML_CORR001
+    name: "Invalid nesting"
+    domain: correctness
+    severity: error
+    description: "Elements must follow HTML content model"
+    tags:
+      - html
+      - correctness
+      - nesting
+    rules:
+      - pattern: '<p[^>]*>[\s\S]*?<div'
+        message: "div cannot be nested inside p element"
+        suggestion: "Close p before div, or use div instead of p"
+      - pattern: '<p[^>]*>[\s\S]*?<ul'
+        message: "ul cannot be nested inside p element"
+        suggestion: "Close p before ul"
+      - pattern: '<p[^>]*>[\s\S]*?<table'
+        message: "table cannot be nested inside p element"
+        suggestion: "Close p before table"
+      - pattern: '<a[^>]*>[\s\S]*?<a'
+        message: "a element cannot be nested inside another a"
+        suggestion: "Remove nested links"
+
+  - id: HTML_CORR002
+    name: "Required attributes missing"
+    domain: correctness
+    severity: error
+    description: "Elements must have required attributes"
+    tags:
+      - html
+      - correctness
+      - attributes
+    rules:
+      - pattern: '<img(?![^>]*src)'
+        message: "img element missing src attribute"
+        suggestion: "Add src='image.jpg'"
+      - pattern: '<a(?![^>]*href)'
+        message: "a element missing href attribute"
+        suggestion: "Add href='url' or use button instead"
+      - pattern: '<input(?![^>]*type)'
+        message: "input element missing type attribute"
+        suggestion: "Add type='text', 'checkbox', etc."
+      - pattern: '<script(?![^>]*(src|type))[^>]*>'
+        message: "script without src should have type or content"
+        suggestion: "Add type='text/javascript' or include script content"
+
+  - id: HTML_CORR003
+    name: "Obsolete elements"
+    domain: correctness
+    severity: warning
+    description: "Deprecated elements should be replaced"
+    tags:
+      - html
+      - correctness
+      - deprecated
+    rules:
+      - pattern: '<center[^>]*>'
+        message: "center element is deprecated"
+        suggestion: "Use CSS text-align: center"
+      - pattern: '<font[^>]*>'
+        message: "font element is deprecated"
+        suggestion: "Use CSS for styling text"
+      - pattern: '<marquee[^>]*>'
+        message: "marquee element is deprecated"
+        suggestion: "Use CSS animations instead"
+      - pattern: '<blink[^>]*>'
+        message: "blink element is deprecated"
+        suggestion: "Use CSS animations instead"
+      - pattern: '<frame[^>]*>'
+        message: "frame element is deprecated"
+        suggestion: "Use iframe instead"
+
+  - id: HTML_CORR004
+    name: "Duplicate IDs"
+    domain: correctness
+    severity: error
+    description: "ID attributes must be unique"
+    tags:
+      - html
+      - correctness
+      - id
+    rules:
+      - pattern: 'id="([^"]+)"[\s\S]*?id="\1"'
+        message: "Duplicate ID found in document"
+        suggestion: "Use unique IDs or class instead"
+
+  - id: HTML_CORR005
+    name: "Invalid attribute value"
+    domain: correctness
+    severity: error
+    description: "Attribute values must be valid"
+    tags:
+      - html
+      - correctness
+      - attributes
+    rules:
+      - pattern: 'target="[^_blank_self_parent_top]{4,}"'
+        message: "Invalid target attribute value"
+        suggestion: "Use _blank, _self, _parent, or _top"
+      - pattern: 'type="txt"'
+        message: "Invalid input type 'txt'"
+        suggestion: "Use type='text'"
+      - pattern: 'rel="nofolow"'
+        message: "Misspelled rel value 'nofolow'"
+        suggestion: "Use rel='nofollow'"
+
+  - id: HTML_CORR006
+    name: "Unclosed elements"
+    domain: correctness
+    severity: error
+    description: "Void elements don't need closing, others do"
+    tags:
+      - html
+      - correctness
+      - syntax
+    rules:
+      - pattern: '</img>'
+        message: "img is a void element - no closing tag needed"
+        suggestion: "Remove </img>, use <img ... /> or just <img ...>"
+      - pattern: '</br>'
+        message: "br is a void element - no closing tag needed"
+        suggestion: "Remove </br>, use <br> or <br />"
+      - pattern: '</input>'
+        message: "input is a void element - no closing tag needed"
+        suggestion: "Remove </input>"
+      - pattern: '</meta>'
+        message: "meta is a void element - no closing tag needed"
+        suggestion: "Remove </meta>"
+
+  - id: HTML_CORR007
+    name: "Invalid doctype"
+    domain: correctness
+    severity: error
+    description: "Documents should have valid doctype"
+    tags:
+      - html
+      - correctness
+      - doctype
+    rules:
+      - pattern: '<!DOCTYPE[^>]*HTML[^>]*4'
+        message: "HTML4 doctype - use HTML5"
+        suggestion: "Use <!DOCTYPE html>"
+      - pattern: '<!DOCTYPE[^>]*XHTML'
+        message: "XHTML doctype - use HTML5"
+        suggestion: "Use <!DOCTYPE html> for modern HTML"
+
+  - id: HTML_CORR008
+    name: "Missing required child elements"
+    domain: correctness
+    severity: warning
+    description: "Some elements require specific children"
+    tags:
+      - html
+      - correctness
+      - structure
+    rules:
+      - pattern: '<tr[^>]*>(?![\s\S]*<(td|th))'
+        message: "tr must contain td or th elements"
+        suggestion: "Add <td> or <th> inside <tr>"
+      - pattern: '<table[^>]*>(?![\s\S]*<(tr|thead|tbody))'
+        message: "table should contain tr, thead, or tbody"
+        suggestion: "Add row elements inside table"
+      - pattern: '<ul[^>]*>(?![\s\S]*<li)'
+        message: "ul must contain li elements"
+        suggestion: "Add <li> elements inside <ul>"
+      - pattern: '<ol[^>]*>(?![\s\S]*<li)'
+        message: "ol must contain li elements"
+        suggestion: "Add <li> elements inside <ol>"
+
+  - id: HTML_CORR009
+    name: "Boolean attribute syntax"
+    domain: correctness
+    severity: info
+    description: "Boolean attributes should use correct syntax"
+    tags:
+      - html
+      - correctness
+      - attributes
+    rules:
+      - pattern: 'disabled="false"'
+        message: "Boolean attribute with 'false' value"
+        suggestion: "Remove disabled attribute entirely for false"
+      - pattern: 'checked="false"'
+        message: "Boolean attribute with 'false' value"
+        suggestion: "Remove checked attribute for false"
+      - pattern: 'required="false"'
+        message: "Boolean attribute with 'false' value"
+        suggestion: "Remove required attribute for false"
+
+  - id: HTML_CORR010
+    name: "Self-closing non-void elements"
+    domain: correctness
+    severity: warning
+    description: "Only void elements should be self-closing"
+    tags:
+      - html
+      - correctness
+      - syntax
+    rules:
+      - pattern: '<div\s*/>'
+        message: "div is not a void element - should not self-close"
+        suggestion: "Use <div></div>"
+      - pattern: '<span\s*/>'
+        message: "span is not a void element - should not self-close"
+        suggestion: "Use <span></span>"
+      - pattern: '<p\s*/>'
+        message: "p is not a void element - should not self-close"
+        suggestion: "Use <p></p>"
+
+  - id: HTML_CORR011
+    name: "Invalid character encoding"
+    domain: correctness
+    severity: error
+    description: "Document should declare charset"
+    tags:
+      - html
+      - correctness
+      - encoding
+    rules:
+      - pattern: '<meta[^>]*charset\s*=\s*["\']?utf-8'
+        message: "UTF-8 charset declared - correct"
+        suggestion: "Keep UTF-8 encoding"
+      - pattern: '<head[^>]*>(?![\s\S]*charset)'
+        message: "No charset declaration found"
+        suggestion: "Add <meta charset='UTF-8'> in head"
+
+  - id: HTML_CORR012
+    name: "Viewport meta missing"
+    domain: correctness
+    severity: warning
+    description: "Mobile-responsive pages need viewport meta"
+    tags:
+      - html
+      - correctness
+      - responsive
+    rules:
+      - pattern: '<head[^>]*>(?![\s\S]*viewport)'
+        message: "No viewport meta tag found"
+        suggestion: "Add <meta name='viewport' content='width=device-width, initial-scale=1'>"

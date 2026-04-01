@@ -1,0 +1,145 @@
+contracts:
+  - id: CUDA_CORR001
+    name: "Race condition detection"
+    domain: correctness
+    severity: error
+    description: "Unprotected shared memory writes cause races"
+    rules:
+      - pattern: '__shared__[^;]*\w+\s*\[\s*\d+\s*\][^;]*;'
+        message: "Shared memory declared - verify all accesses are synchronized"
+        suggestion: "Use __syncthreads() before/after shared memory access"
+      - pattern: '\w+\s*\[\s*threadIdx\.x\s*\]\s*='
+        message: "Shared/global memory write by thread - check for races"
+        suggestion: "Ensure each thread writes to unique location or use atomics"
+
+  - id: CUDA_CORR002
+    name: "Syncthreads usage"
+    domain: correctness
+    severity: error
+    description: "Improper syncthreads can cause deadlock"
+    rules:
+      - pattern: 'if\s*\([^)]*\)\s*\{[^}]*__syncthreads\s*\(\s*\)'
+        message: "__syncthreads inside if - potential deadlock"
+        suggestion: "All threads must reach __syncthreads or use __syncwarp"
+      - pattern: 'for\s*\([^)]*\)\s*\{[^}]*__syncthreads\s*\(\s*\)[^}]*\}'
+        message: "__syncthreads in loop - verify all threads iterate same amount"
+        suggestion: "Ensure uniform loop count across all threads"
+      - pattern: '__syncthreads\s*\(\s*\)\s*;\s*\}'
+        message: "__syncthreads near block end - good placement"
+        suggestion: ""
+
+  - id: CUDA_CORR003
+    name: "Bounds checking"
+    domain: correctness
+    severity: error
+    description: "Array accesses should be bounds-checked"
+    rules:
+      - pattern: '\[\s*threadIdx\.x\s*\]'
+        message: "Thread index access - verify against array bounds"
+        suggestion: "Add: if (idx < N) before array access"
+      - pattern: '\[\s*blockIdx\.x\s*\*\s*blockDim\.x\s*\+'
+        message: "Global index pattern - add bounds check"
+        suggestion: "Add: if (globalIdx < arraySize) protection"
+      - pattern: 'if\s*\(\s*\w+\s*<\s*\w+'
+        message: "Bounds check present - good"
+        suggestion: ""
+
+  - id: CUDA_CORR004
+    name: "Null pointer checks"
+    domain: correctness
+    severity: error
+    description: "Device pointers should be validated"
+    rules:
+      - pattern: 'cudaMalloc\s*\([^,]+,\s*\w+\s*\)'
+        message: "cudaMalloc - check return value for nullptr"
+        suggestion: "Check: if (d_ptr == nullptr) handle error"
+      - pattern: 'cudaMemcpy\s*\(\s*\w+\s*,\s*\w+\s*,'
+        message: "cudaMemcpy - verify pointers are valid"
+        suggestion: "Add null checks before memcpy operations"
+
+  - id: CUDA_CORR005
+    name: "Grid stride loops"
+    domain: correctness
+    severity: info
+    description: "Grid stride loops handle arbitrary data sizes"
+    rules:
+      - pattern: 'for\s*\(\s*int\s+\w+\s*=\s*blockIdx\.x\s*\*\s*blockDim\.x\s*\+\s*threadIdx\.x\s*;\s*\w+\s*<\s*\w+\s*;\s*\w+\s*\+=\s*gridDim\.x\s*\*\s*blockDim\.x'
+        message: "Grid stride loop pattern - robust for any data size"
+        suggestion: "Use grid stride loops for portable, scalable kernels"
+      - pattern: 'for\s*\(\s*int\s+\w+\s*=\s*0\s*;\s*\w+\s*<\s*\w+\s*;\s*\w+\+\+\s*\)\s*\{'
+        message: "Loop in kernel - verify bounds handling"
+        suggestion: "Consider grid stride loops for flexibility"
+
+  - id: CUDA_CORR006
+    name: "Double-checked synchronization"
+    domain: correctness
+    severity: warning
+    description: "Missing synchronization can cause data corruption"
+    rules:
+      - pattern: '__shared__.*=\s*[^;]+;'
+        message: "Shared memory initialization - needs syncthreads before use"
+        suggestion: "Add __syncthreads() after shared memory init"
+      - pattern: '__syncthreads\s*\(\s*\)\s*;\s*\w+\s*='
+        message: "Write after sync - good pattern"
+        suggestion: ""
+
+  - id: CUDA_CORR007
+    name: "Warp divergence"
+    domain: correctness
+    severity: warning
+    description: "Divergent warps reduce efficiency"
+    rules:
+      - pattern: 'if\s*\(\s*threadIdx\.x\s*%'
+        message: "Thread-dependent conditional - causes warp divergence"
+        suggestion: "Restructure to minimize divergence within warps"
+      - pattern: 'if\s*\(\s*threadIdx\.y\s*[<>=!]'
+        message: "Thread index conditional - potential divergence"
+        suggestion: "Consider warp-level operations instead"
+
+  - id: CUDA_CORR008
+    name: "Memory fence usage"
+    domain: correctness
+    severity: warning
+    description: "Memory fences ensure ordering"
+    rules:
+      - pattern: '__threadfence\s*\(\s*\)'
+        message: "Thread fence used - ensures global visibility"
+        suggestion: ""
+      - pattern: '__threadfence_block\s*\(\s*\)'
+        message: "Block fence - ensures ordering within block"
+        suggestion: ""
+      - pattern: '__threadfence_system\s*\(\s*\)'
+        message: "System fence - ensures across devices"
+        suggestion: "Use only when needed for multi-GPU coherence"
+
+  - id: CUDA_CORR009
+    name: "CUDA error handling"
+    domain: correctness
+    severity: error
+    description: "CUDA API calls should check errors"
+    rules:
+      - pattern: 'cudaMalloc\s*\([^)]*\)\s*;'
+        message: "cudaMalloc without error check"
+        suggestion: "Check: cudaError_t err = cudaMalloc(...); if (err != cudaSuccess)"
+      - pattern: 'cudaMemcpy\s*\([^)]*\)\s*;'
+        message: "cudaMemcpy without error check"
+        suggestion: "Check return value or use CUDA_CHECK macro"
+      - pattern: 'cudaFree\s*\([^)]*\)\s*;'
+        message: "cudaFree without error check"
+        suggestion: "Check return value"
+      - pattern: 'cudaGetLastError\s*\(\s*\)'
+        message: "Good - checking for kernel launch errors"
+        suggestion: "Always call cudaGetLastError after kernel launches"
+
+  - id: CUDA_CORR010
+    name: "Managed memory sync"
+    domain: correctness
+    severity: warning
+    description: "Managed memory needs explicit synchronization"
+    rules:
+      - pattern: 'cudaMallocManaged'
+        message: "Managed memory allocated - requires sync for CPU/GPU access"
+        suggestion: "Use cudaDeviceSynchronize before CPU access to GPU-modified data"
+      - pattern: 'cudaMemPrefetchAsync'
+        message: "Prefetch for managed memory - good for performance"
+        suggestion: ""

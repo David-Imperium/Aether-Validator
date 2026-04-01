@@ -51,7 +51,7 @@ pub struct ASTMatch {
 }
 
 /// AST query engine
-#[allow(dead_code)]
+#[allow(dead_code)] // Prepared for future: error context, snippet extraction
 pub struct ASTQuery {
     /// Source code (for context)
     source: String,

@@ -88,7 +88,31 @@ pub enum NodeKind {
     Property,
     /// Condition block (Lex)
     Condition,
-    
+
+    // Jupyter Notebook constructs
+    /// Jupyter Notebook
+    Notebook,
+    /// Notebook cell
+    NotebookCell,
+    /// Cell source code
+    CellSource,
+    /// Cell outputs
+    CellOutputs,
+    /// Notebook metadata
+    NotebookMetadata,
+    /// Kernel spec
+    KernelSpec,
+    /// Cell magic (%%bash, %%time, etc.)
+    CellMagic,
+
+    // Prism language constructs
+    /// Import statement (Prism)
+    Import,
+    /// Union type (Prism)
+    Union,
+    /// Variable declaration (Prism)
+    Variable,
+
     /// Unknown node
     Unknown,
 }

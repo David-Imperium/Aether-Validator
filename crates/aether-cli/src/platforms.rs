@@ -23,8 +23,13 @@ pub const LEVELS: &[&str] = &["Basic", "Standard", "Strict"];
 
 /// Supported languages
 pub const LANGUAGES: &[&str] = &[
-    "Rust", "C++", "Python", "Prism", "Lua",
-    "JavaScript", "TypeScript", "Go", "Java",
+    // Core languages (implemented)
+    "Rust", "C++", "Python", "JavaScript", "TypeScript",
+    "Go", "Java", "Lua", "Lex",
+    // New languages (implemented)
+    "C", "GLSL", "CSS", "HTML", "JSON", "YAML",
+    // Planned
+    "SCSS", "TOML", "CMake", "CUDA", "Markdown", "Prism", "Cython",
 ];
 
 /// Normalize platform name (case-insensitive matching)

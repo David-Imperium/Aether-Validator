@@ -1,0 +1,143 @@
+# Java Performance Contracts
+# Domain: performance
+
+contracts:
+  - id: JAVAPERF001
+    name: "Use StringBuilder for string concatenation in loops"
+    domain: performance
+    severity: warning
+    description: "String concatenation in loops creates many temporary objects"
+    tags:
+      - java
+      - performance
+      - strings
+    rules:
+      - pattern: 'for\s*\([^)]+\)\s*\{[^}]*\+=\s*"'
+        message: "String concatenation in loop creates new String each iteration"
+        suggestion: "Use StringBuilder.append() inside loops"
+
+  - id: JAVAPERF002
+    name: "Avoid autoboxing in loops"
+    domain: performance
+    severity: warning
+    description: "Autoboxing creates unnecessary object allocations"
+    tags:
+      - java
+      - performance
+      - primitives
+    rules:
+      - pattern: 'for\s*\([^)]+\)\s*\{[^}]*\(Integer|Long|Double|Float|Boolean\)\s*\w+'
+        message: "Autoboxing in loop - use primitive types"
+        suggestion: "Use int, long, double, float, boolean instead of wrapper classes"
+
+  - id: JAVAPERF003
+    name: "Use primitive types over boxed types"
+    domain: performance
+    severity: info
+    description: "Primitive types are more efficient than wrapper classes"
+    tags:
+      - java
+      - performance
+      - primitives
+    rules:
+      - pattern: '(Integer|Long|Double|Float|Boolean)\s+\w+\s*='
+        message: "Boxed type used where primitive suffices"
+        suggestion: "Use int, long, double, float, boolean for better performance"
+
+  - id: JAVAPERF004
+    name: "Consider Stream vs loop performance"
+    domain: performance
+    severity: info
+    description: "Streams have overhead - loops may be faster for simple operations"
+    tags:
+      - java
+      - performance
+      - streams
+    rules:
+      - pattern: '\.stream\(\)\.forEach\('
+        message: "Stream.forEach for simple iteration - loop may be faster"
+        suggestion: "Use enhanced for-loop for simple iterations"
+
+  - id: JAVAPERF005
+    name: "Preallocate ArrayList with known size"
+    domain: performance
+    severity: info
+    description: "ArrayList grows dynamically - preallocate to avoid resizing"
+    tags:
+      - java
+      - performance
+      - collections
+    rules:
+      - pattern: 'new\s+ArrayList<>\s*\(\s*\)'
+        message: "ArrayList without initial capacity may resize multiple times"
+        suggestion: "Use new ArrayList<>(expectedSize) when size is known"
+
+  - id: JAVAPERF006
+    name: "Avoid premature optimization"
+    domain: performance
+    severity: info
+    description: "Write clear code first, optimize after profiling"
+    tags:
+      - java
+      - performance
+      - design
+    rules:
+      - pattern: '(volatile|synchronized)\s+\w+\s*;'
+        message: "Concurrency modifiers without clear need - measure first"
+        suggestion: "Profile before adding synchronization or volatile"
+
+  - id: JAVAPERF007
+    name: "Use appropriate collection type"
+    domain: performance
+    severity: info
+    description: "Different collections have different performance characteristics"
+    tags:
+      - java
+      - performance
+      - collections
+    rules:
+      - pattern: 'new\s+(ArrayList|LinkedList)<>\s*\(\s*\)'
+        message: "Consider access patterns when choosing List implementation"
+        suggestion: "ArrayList for random access, LinkedList for frequent insertions"
+
+  - id: JAVAPERF008
+    name: "Avoid creating objects in loops unnecessarily"
+    domain: performance
+    severity: warning
+    description: "Object creation in loops impacts GC performance"
+    tags:
+      - java
+      - performance
+      - memory
+    rules:
+      - pattern: 'for\s*\([^)]+\)\s*\{[^}]*new\s+\w+\('
+        message: "Object creation inside loop - consider reuse or hoisting"
+        suggestion: "Create objects outside loop or reuse them"
+
+  - id: JAVAPERF009
+    name: "Use String.isEmpty() instead of length check"
+    domain: performance
+    severity: info
+    description: "isEmpty() is more readable and semantically clear"
+    tags:
+      - java
+      - performance
+      - strings
+    rules:
+      - pattern: '\.length\(\)\s*==\s*0'
+        message: "length() == 0 check - use isEmpty()"
+        suggestion: "Use String.isEmpty() for clarity"
+
+  - id: JAVAPERF010
+    name: "Prefer EnumSet/EnumMap for enum collections"
+    domain: performance
+    severity: info
+    description: "EnumSet and EnumMap are optimized for enum types"
+    tags:
+      - java
+      - performance
+      - collections
+    rules:
+      - pattern: '(HashSet|HashMap)<\s*Enum'
+        message: "HashSet/HashMap for enum keys - use EnumSet/EnumMap"
+        suggestion: "EnumSet and EnumMap are faster and more memory efficient"

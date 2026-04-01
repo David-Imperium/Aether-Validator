@@ -37,45 +37,52 @@ impl ContractLoader {
         Err(ContractError::ParseError(path.display().to_string(), "Invalid contract format".to_string()))
     }
 
-    /// Load all contracts from a directory.
+    /// Load all contracts from a directory (including imported/).
     pub fn load_dir(&self, dir: impl AsRef<Path>) -> ContractResult<Vec<ContractDefinition>> {
+        let lang = dir.as_ref().to_string_lossy().to_string();
         let dir_path = self.base_path.join(dir.as_ref());
         let mut all_contracts = Vec::new();
 
-        for entry in std::fs::read_dir(&dir_path)
-            .map_err(|e| ContractError::LoadError(dir_path.display().to_string(), e.to_string()))?
-        {
-            let entry = entry.map_err(|e| ContractError::LoadError(dir_path.display().to_string(), e.to_string()))?;
-            let path = entry.path();
-            
-            if path.extension().map(|e| e == "yaml").unwrap_or(false) {
-                // Read and parse directly to avoid double path joining
-                let content = std::fs::read_to_string(&path)
-                    .map_err(|e| ContractError::LoadError(path.display().to_string(), e.to_string()))?;
+        // 1. Load from language-specific directory
+        if dir_path.exists() {
+            for entry in std::fs::read_dir(&dir_path)
+                .map_err(|e| ContractError::LoadError(dir_path.display().to_string(), e.to_string()))?
+            {
+                let entry = entry.map_err(|e| ContractError::LoadError(dir_path.display().to_string(), e.to_string()))?;
+                let path = entry.path();
                 
-                // Try wrapped format first (contracts: [...])
-                match serde_yaml::from_str::<ContractsFile>(&content) {
-                    Ok(wrapped) => {
-                        all_contracts.extend(wrapped.contracts);
-                        continue;
-                    }
-                    Err(e) => {
-                        eprintln!("DEBUG: Failed to parse as wrapped format: {}", e);
+                if path.extension().map(|e| e == "yaml").unwrap_or(false) {
+                    if let Ok(content) = std::fs::read_to_string(&path) {
+                        if let Ok(wrapped) = serde_yaml::from_str::<ContractsFile>(&content) {
+                            all_contracts.extend(wrapped.contracts);
+                        }
                     }
                 }
-                
-                // Try single contract format
-                match serde_yaml::from_str::<ContractDefinition>(&content) {
-                    Ok(single) => {
-                        all_contracts.push(single);
-                        continue;
-                    }
-                    Err(e) => {
-                        eprintln!("DEBUG: Failed to parse as single contract: {}", e);
-                    }
+            }
+        }
+
+        // 2. Load from imported/imported_{lang}.yaml
+        let imported_path = self.base_path.join("imported").join(format!("imported_{}.yaml", lang));
+        if imported_path.exists() {
+            if let Ok(content) = std::fs::read_to_string(&imported_path) {
+                if let Ok(wrapped) = serde_yaml::from_str::<ContractsFile>(&content) {
+                    all_contracts.extend(wrapped.contracts);
                 }
-                
-                return Err(ContractError::ParseError(path.display().to_string(), "Invalid contract format".to_string()));
+            }
+        }
+
+        // 3. Load from imported/imported_all.yaml (filter by tag)
+        let all_path = self.base_path.join("imported").join("imported_all.yaml");
+        if all_path.exists() {
+            if let Ok(content) = std::fs::read_to_string(&all_path) {
+                if let Ok(wrapped) = serde_yaml::from_str::<ContractsFile>(&content) {
+                    let lang_lower = lang.to_lowercase();
+                    let filtered: Vec<ContractDefinition> = wrapped.contracts
+                        .into_iter()
+                        .filter(|c| c.tags.iter().any(|t| t.to_lowercase() == lang_lower))
+                        .collect();
+                    all_contracts.extend(filtered);
+                }
             }
         }
 

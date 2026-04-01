@@ -1,0 +1,314 @@
+# Lex Best Practices Contracts
+# Domain: best-practices
+# Validates lexer idioms, patterns, and best practices
+
+contracts:
+  - id: LEX_BP001
+    name: "Use lexer generator"
+    domain: best-practices
+    severity: info
+    description: "Prefer lexer generators over hand-written lexers"
+    tags:
+      - lex
+      - best-practices
+      - tooling
+    rules:
+      - pattern: 'flex|lex|antlr|re2c|ragel'
+        message: "Consider using established lexer generator"
+        suggestion: "Use tools like Flex, ANTLR, or Ragel for production lexers"
+
+  - id: LEX_BP002
+    name: "Test all token patterns"
+    domain: best-practices
+    severity: warning
+    description: "All token patterns should have test cases"
+    tags:
+      - lex
+      - best-practices
+      - testing
+    rules:
+      - query: |
+          SELECT t.name
+          FROM tokens t
+          LEFT JOIN test_cases tc ON t.name = tc.token
+          WHERE tc.token IS NULL
+        message: "Token without test cases"
+        suggestion: "Add test cases for token: valid and invalid matches"
+
+  - id: LEX_BP003
+    name: "Document token semantics"
+    domain: best-practices
+    severity: info
+    description: "Tokens should have documented semantics"
+    tags:
+      - lex
+      - best-practices
+      - documentation
+    rules:
+      - query: |
+          SELECT name FROM tokens
+          WHERE description IS NULL
+            AND comment IS NULL
+        message: "Token without semantic documentation"
+        suggestion: "Add comment explaining token's purpose and usage"
+
+  - id: LEX_BP004
+    name: "Handle edge cases"
+    domain: best-practices
+    severity: warning
+    description: "Patterns should handle edge cases"
+    tags:
+      - lex
+      - best-practices
+      - robustness
+    rules:
+      - query: |
+          SELECT name, pattern
+          FROM tokens
+          WHERE name LIKE '%STRING%'
+            AND pattern NOT LIKE '%escape%'
+            AND pattern NOT LIKE '%\\\\%'
+        message: "String pattern may not handle escape sequences"
+        suggestion: "Test: empty string, escaped quotes, multiline strings"
+
+  - id: LEX_BP005
+    name: "Explicit token priorities"
+    domain: best-practices
+    severity: warning
+    description: "Token priorities should be explicit when needed"
+    tags:
+      - lex
+      - best-practices
+      - priority
+    rules:
+      - query: |
+          SELECT t1.name, t2.name
+          FROM tokens t1, tokens t2
+          WHERE t1.name < t2.name
+            AND could_conflict(t1.pattern, t2.pattern)
+            AND t1.priority IS NULL
+            AND t2.priority IS NULL
+        message: "Potentially conflicting tokens without explicit priority"
+        suggestion: "Add priority field: priority: high/medium/low"
+
+  - id: LEX_BP006
+    name: "Lexer mode for different contexts"
+    domain: best-practices
+    severity: info
+    description: "Use lexer modes for different parsing contexts"
+    tags:
+      - lex
+      - best-practices
+      - modes
+    rules:
+      - pattern: 'mode\s+\w+|push\s+mode|pop\s+mode'
+        message: "Consider lexer modes for complex grammars"
+        suggestion: "Use modes for strings, comments, or embedded languages"
+
+  - id: LEX_BP007
+    name: "Recoverable error handling"
+    domain: best-practices
+    severity: warning
+    description: "Lexer should handle errors gracefully"
+    tags:
+      - lex
+      - best-practices
+      - error-handling
+    rules:
+      - query: |
+          SELECT name FROM tokens
+          WHERE name LIKE '%ERROR%' OR name LIKE '%INVALID%'
+        message: "No error token defined for recovery"
+        suggestion: "Define ERROR token with recovery strategy"
+
+  - id: LEX_BP008
+    name: "Track token positions"
+    domain: best-practices
+    severity: info
+    description: "Tokens should include position information"
+    tags:
+      - lex
+      - best-practices
+      - positions
+    rules:
+      - pattern: 'line|column|offset|position'
+        message: "Consider tracking token positions for error messages"
+        suggestion: "Include line, column in token metadata"
+
+  - id: LEX_BP009
+    name: "Unicode-aware lexer"
+    domain: best-practices
+    severity: info
+    description: "Lexer should handle Unicode properly"
+    tags:
+      - lex
+      - best-practices
+      - unicode
+    rules:
+      - pattern: '\\p\{|\\\\x|utf-8|unicode'
+        message: "Lexer may not handle Unicode"
+        suggestion: "Add Unicode support: \\p{L} for letters, \\p{N} for numbers"
+
+  - id: LEX_BP010
+    name: "Separate lexical and semantic errors"
+    domain: best-practices
+    severity: info
+    description: "Distinguish lexical errors from semantic errors"
+    tags:
+      - lex
+      - best-practices
+      - error-handling
+    rules:
+      - pattern: 'error|invalid|unexpected'
+        message: "Ensure lexical errors are separate from parser errors"
+        suggestion: "Use distinct error types: LexicalError vs SemanticError"
+
+  - id: LEX_BP011
+    name: "Configurable whitespace handling"
+    domain: best-practices
+    severity: info
+    description: "Whitespace handling should be configurable"
+    tags:
+      - lex
+      - best-practices
+      - whitespace
+    rules:
+      - query: |
+          SELECT name FROM tokens
+          WHERE name LIKE '%WHITESPACE%' OR name LIKE '%WS%'
+        message: "Whitespace handling should be documented"
+        suggestion: "Document: skip, preserve, or tokenize whitespace"
+
+  - id: LEX_BP012
+    name: "Lexer state isolation"
+    domain: best-practices
+    severity: warning
+    description: "Lexer states should be isolated"
+    tags:
+      - lex
+      - best-practices
+      - states
+    rules:
+      - query: |
+          SELECT s1.name, s2.name
+          FROM states s1, states s2
+          WHERE s1.name != s2.name
+            AND shares_tokens(s1, s2) > 0
+            AND NOT is_compatible(s1, s2)
+        message: "States share tokens but may conflict"
+        suggestion: "Ensure state-specific tokens don't overlap"
+
+  - id: LEX_BP013
+    name: "Document lexer limitations"
+    domain: best-practices
+    severity: info
+    description: "Lexer limitations should be documented"
+    tags:
+      - lex
+      - best-practices
+      - documentation
+    rules:
+      - pattern: '#\s*LIMITATION|#\s*NOTE|#\s*CAVEAT|#\s*RESTRICTION'
+        message: "Document lexer limitations and edge cases"
+        suggestion: "Add LIMITATION comments for known issues"
+
+  - id: LEX_BP014
+    name: "Incremental lexing support"
+    domain: best-practices
+    severity: info
+    description: "Consider incremental lexing for IDEs"
+    tags:
+      - lex
+      - best-practices
+      - incremental
+    rules:
+      - pattern: 'incremental|delta|partial'
+        message: "Lexer may not support incremental updates"
+        suggestion: "Consider incremental lexer for IDE integration"
+
+  - id: LEX_BP015
+    name: "Thread-safe lexer"
+    domain: best-practices
+    severity: info
+    description: "Lexer should be thread-safe if needed"
+    tags:
+      - lex
+      - best-practices
+      - threading
+    rules:
+      - pattern: 'mutable|static|global'
+        message: "Lexer may not be thread-safe"
+        suggestion: "Use immutable lexer state or thread-local storage"
+
+  - id: LEX_BP016
+    name: "Debug output available"
+    domain: best-practices
+    severity: info
+    description: "Lexer should have debug mode"
+    tags:
+      - lex
+      - best-practices
+      - debugging
+    rules:
+      - pattern: 'debug|trace|verbose|log'
+        message: "No debug mode detected"
+        suggestion: "Add debug mode for token tracing"
+
+  - id: LEX_BP017
+    name: "Performance benchmarked"
+    domain: best-practices
+    severity: info
+    description: "Lexer should have performance benchmarks"
+    tags:
+      - lex
+      - best-practices
+      - performance
+    rules:
+      - pattern: 'benchmark|perf|timing|throughput'
+        message: "No performance benchmarks found"
+        suggestion: "Add benchmark tests for lexer throughput"
+
+  - id: LEX_BP018
+    name: "Use semantic predicates sparingly"
+    domain: best-practices
+    severity: warning
+    description: "Semantic predicates should be used judiciously"
+    tags:
+      - lex
+      - best-practices
+      - predicates
+    rules:
+      - pattern: '\{.*\}|=>|predicate'
+        message: "Semantic predicate in lexer - consider parser-level check"
+        suggestion: "Move semantic checks to parser when possible"
+
+  - id: LEX_BP019
+    name: "Version compatibility documented"
+    domain: best-practices
+    severity: info
+    description: "Lexer generator version should be documented"
+    tags:
+      - lex
+      - best-practices
+      - versioning
+    rules:
+      - pattern: 'flex\s+[0-9]|antlr\s+[0-9]|ragel\s+[0-9]'
+        message: "Lexer generator version not documented"
+        suggestion: "Add comment: # Generated with Flex 2.6.4"
+
+  - id: LEX_BP020
+    name: "Integration tests present"
+    domain: best-practices
+    severity: warning
+    description: "Lexer should have integration tests with parser"
+    tags:
+      - lex
+      - best-practices
+      - testing
+    rules:
+      - query: |
+          SELECT file FROM test_files
+          WHERE file NOT LIKE '%integration%'
+            AND file NOT LIKE '%e2e%'
+        message: "No integration tests with parser"
+        suggestion: "Add integration tests covering lexer-parser interaction"

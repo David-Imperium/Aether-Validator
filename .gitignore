@@ -79,3 +79,15 @@ crates/aether-desktop/.vite-debug.log
 
 # Factory settings
 .factory/
+
+# Business/strategic docs (not for public)
+docs/PRICING_STRATEGY.md
+docs/TIER_SEPARATION.md
+docs/tiers.md
+docs/FEATURE_ROADMAP.md
+
+# Internal planning
+.planning/
+
+# Test fixtures (cloned repos)
+crates/fixtures/repos/

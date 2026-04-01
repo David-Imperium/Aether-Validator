@@ -1,0 +1,140 @@
+contracts:
+  - id: GLSL_STYLE001
+    name: "Magic Numbers"
+    domain: style
+    severity: info
+    description: "Hardcoded numeric constants without explanation"
+    tags:
+      - glsl
+      - style
+      - magic-numbers
+    rules:
+      - pattern: '\b[0-9]+\.[0-9]+\b[^x0-9a-zA-Z]'
+        message: "Float literal - consider named constant"
+        suggestion: "Define: const float PI = 3.14159; const float EPSILON = 0.001;"
+
+  - id: GLSL_STYLE002
+    name: "Inconsistent Naming"
+    domain: style
+    severity: info
+    description: "Mixed naming conventions"
+    tags:
+      - glsl
+      - style
+      - naming
+    rules:
+      - pattern: '\b[a-z][a-z0-9_]*\s+[a-z][A-Z][a-zA-Z]*\s*='
+        message: "Mixed snake_case and camelCase"
+        suggestion: "Use consistent naming: snake_case or camelCase"
+
+  - id: GLSL_STYLE003
+    name: "Long Shader Function"
+    domain: style
+    severity: warning
+    description: "Function exceeds reasonable length"
+    tags:
+      - glsl
+      - style
+      - complexity
+    rules:
+      - pattern: '\w+\s+\w+\s*\([^)]*\)\s*\{[^}]{300,}'
+        message: "Long function - consider splitting"
+        suggestion: "Extract helper functions for clarity"
+
+  - id: GLSL_STYLE004
+    name: "Missing Precision Qualifier"
+    domain: style
+    severity: warning
+    description: "Variables without precision qualifier in fragment"
+    tags:
+      - glsl
+      - style
+      - precision
+    rules:
+      - pattern: '\bfloat\s+\w+\s*='
+        message: "float without precision - use default or explicit qualifier"
+        suggestion: "Add precision: highp float or mediump float"
+
+  - id: GLSL_STYLE005
+    name: "Commented Dead Code"
+    domain: style
+    severity: info
+    description: "Commented out shader code"
+    tags:
+      - glsl
+      - style
+      - dead-code
+    rules:
+      - pattern: '//\s*(if|for|vec|mat|texture)\s*[\(=]'
+        message: "Commented out code"
+        suggestion: "Remove dead code - version control preserves history"
+
+  - id: GLSL_STYLE006
+    name: "Hardcoded Color Values"
+    domain: style
+    severity: info
+    description: "Color values without named constants"
+    tags:
+      - glsl
+      - style
+      - colors
+    rules:
+      - pattern: 'vec[34]\s*\(\s*[0-9]+\.[0-9]+\s*,'
+        message: "Hardcoded color - consider named constant"
+        suggestion: "Define: const vec3 RED = vec3(1.0, 0.0, 0.0);"
+
+  - id: GLSL_STYLE007
+    name: "Deeply Nested Conditionals"
+    domain: style
+    severity: warning
+    description: "More than 2 levels of nesting in shader"
+    tags:
+      - glsl
+      - style
+      - complexity
+    rules:
+      - pattern: 'if\s*\([^)]*\)[^}]*if\s*\([^)]*\)[^}]*if'
+        message: "Deep nesting in shader - hurts readability"
+        suggestion: "Use early returns or step/mix for branchless logic"
+
+  - id: GLSL_STYLE008
+    name: "Unused Varying"
+    domain: style
+    severity: warning
+    description: "Varying declared but not used in fragment"
+    tags:
+      - glsl
+      - style
+      - unused
+    rules:
+      - pattern: 'varying\s+\w+\s+\w+\s*;'
+        message: "Verify varying is used in fragment shader"
+        suggestion: "Remove unused varyings to reduce bandwidth"
+
+  - id: GLSL_STYLE009
+    name: "Inconsistent Vector Types"
+    domain: style
+    severity: info
+    description: "Mixing vec2/vec3/vec4 without clear reason"
+    tags:
+      - glsl
+      - style
+      - types
+    rules:
+      - pattern: 'vec2\s+\w+[^;]*vec4\s+\w+'
+        message: "Mixed vector dimensions nearby"
+        suggestion: "Use consistent vector types or document why different"
+
+  - id: GLSL_STYLE010
+    name: "Missing Layout Qualifiers"
+    domain: style
+    severity: warning
+    description: "Input/output without explicit layout"
+    tags:
+      - glsl
+      - style
+      - layout
+    rules:
+      - pattern: '(?<!layout\s*\()in\s+\w+\s+\w+;'
+        message: "Input without layout location"
+        suggestion: "Use: layout(location = 0) in vec3 position;"

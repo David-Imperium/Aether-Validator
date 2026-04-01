@@ -1,0 +1,100 @@
+contracts:
+  - id: JSONST001
+    name: "Inconsistent key naming"
+    domain: style
+    severity: warning
+    description: "Key naming should be consistent (camelCase or snake_case)"
+    rules:
+      - pattern: '"[a-z]+_[a-z_]+"\s*:\s*[^,]*,\s*"[a-z]+[A-Z][a-zA-Z]+"'
+        message: "Mixed snake_case and camelCase keys"
+        suggestion: "Use consistent naming convention"
+
+  - id: JSONST002
+    name: "Numeric keys"
+    domain: style
+    severity: info
+    description: "String keys that are numbers should be reconsidered"
+    rules:
+      - pattern: '"\d+"\s*:'
+        message: "Numeric string key detected"
+        suggestion: "Consider using array instead of numeric keys"
+
+  - id: JSONST003
+    name: "Long lines"
+    domain: style
+    severity: warning
+    description: "Lines should not exceed 120 characters"
+    rules:
+      - pattern: '.{121,}'
+        message: "Line exceeds 120 characters"
+        suggestion: "Break long lines for readability"
+
+  - id: JSONST004
+    name: "Deeply nested structures"
+    domain: style
+    severity: warning
+    description: "Avoid deeply nested JSON (max 4 levels)"
+    rules:
+      - pattern: '(\{[^{}]*\{[^{}]*\{[^{}]*\{[^{}]*\{)'
+        message: "JSON nested more than 4 levels deep"
+        suggestion: "Flatten structure or split into separate objects"
+
+  - id: JSONST005
+    name: "Large arrays"
+    domain: style
+    severity: info
+    description: "Very large arrays may impact performance"
+    rules:
+      - pattern: '\[[^\]]{5000,}\]'
+        message: "Array with many elements detected"
+        suggestion: "Consider pagination or splitting"
+
+  - id: JSONST006
+    name: "Empty objects"
+    domain: style
+    severity: info
+    description: "Empty objects may indicate incomplete data"
+    rules:
+      - pattern: '"[a-zA-Z_]+"\s*:\s*\{\s*\}'
+        message: "Empty object found"
+        suggestion: "Remove or populate empty objects"
+
+  - id: JSONST007
+    name: "Empty arrays"
+    domain: style
+    severity: info
+    description: "Empty arrays may indicate incomplete data"
+    rules:
+      - pattern: '"[a-zA-Z_]+"\s*:\s*\[\s*\]'
+        message: "Empty array found"
+        suggestion: "Remove or populate empty arrays"
+
+  - id: JSONST008
+    name: "Boolean naming"
+    domain: style
+    severity: info
+    description: "Boolean keys should use is/has/can prefixes"
+    rules:
+      - pattern: '"(?!is|has|can|should|will|was|were)[a-z]+"\s*:\s*(true|false)'
+        message: "Boolean value without conventional prefix"
+        suggestion: "Use is/has/can prefix for boolean keys"
+
+  - id: JSONST009
+    name: "Magic numbers"
+    domain: style
+    severity: info
+    description: "Magic numbers should be named constants"
+    rules:
+      - pattern: ':\s*(2[0-4][0-9]{2}|30[0-2][0-9]|1000)\s*[,}]'
+        message: "HTTP status code or magic number detected"
+        suggestion: "Use named constants for status codes"
+
+  - id: JSONST010
+    name: "Key ordering"
+    domain: style
+    severity: info
+    description: "Consider alphabetically sorting keys"
+    rules:
+      - pattern: '"[a-z]+"\s*:\s*[^,]+,\s*"[a-z]+"\s*:\s*[^,]+'
+        message: "Keys may not be sorted"
+        suggestion: "Consider alphabetical key ordering for consistency"

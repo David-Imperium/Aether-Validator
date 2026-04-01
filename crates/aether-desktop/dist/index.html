@@ -100,20 +100,8 @@
                             <div class="tool-method">File Watcher</div>
                         </label>
                         <label class="tool-card">
-                            <input type="checkbox" name="tool" value="openai-api">
-                            <div class="tool-icon">🟢</div>
-                            <div class="tool-name">OpenAI API</div>
-                            <div class="tool-method">HTTP Proxy</div>
-                        </label>
-                        <label class="tool-card">
-                            <input type="checkbox" name="tool" value="anthropic-api">
-                            <div class="tool-icon">🟣</div>
-                            <div class="tool-name">Anthropic API</div>
-                            <div class="tool-method">HTTP Proxy</div>
-                        </label>
-                        <label class="tool-card">
                             <input type="checkbox" name="tool" value="other">
-                            <div class="tool-icon">⚙️</div>
+                            <div class="tool-icon">🔧</div>
                             <div class="tool-name">Other</div>
                             <div class="tool-method">Manual</div>
                         </label>
@@ -237,18 +225,6 @@
                 <h2>Settings</h2>
 
                 <div class="settings-section">
-                    <h3>Proxy</h3>
-                    <div class="setting-row">
-                        <label>Port:</label>
-                        <input type="number" id="proxy-port" value="8080" min="1024" max="65535">
-                    </div>
-                    <div class="setting-row">
-                        <button id="toggle-proxy" class="btn btn-secondary">Start Proxy</button>
-                        <span id="proxy-status" class="status-badge offline">Stopped</span>
-                    </div>
-                </div>
-
-                <div class="settings-section">
                     <h3>File Watcher</h3>
                     <div class="setting-row">
                         <label>Watch paths:</label>
@@ -268,11 +244,6 @@
                 <h2>System Status</h2>
 
                 <div class="status-grid">
-                    <div class="status-card">
-                        <h3>Proxy Server</h3>
-                        <div id="proxy-status-card" class="status-value">Stopped</div>
-                        <p>Listens on localhost:8080</p>
-                    </div>
                     <div class="status-card">
                         <h3>File Watcher</h3>
                         <div id="watcher-status-card" class="status-value">Stopped</div>

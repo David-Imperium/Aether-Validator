@@ -1,0 +1,115 @@
+contracts:
+  - id: CMAKE_STYLE001
+    name: "Consistent function casing"
+    domain: style
+    severity: info
+    description: "CMake functions should use consistent casing"
+    rules:
+      - pattern: '\b(add_library|add_executable|target_link_libraries|target_include_directories)\s*\('
+        message: "Lowercase function style - preferred"
+        suggestion: "Use lowercase for CMake functions"
+
+  - id: CMAKE_STYLE002
+    name: "Variable naming convention"
+    domain: style
+    severity: info
+    description: "Variables should follow naming conventions"
+    rules:
+      - pattern: '\$\{[A-Z][A-Z0-9_]*\}'
+        message: "Uppercase variable reference - standard convention"
+        suggestion: "Use UPPERCASE for cache and project variables"
+      - pattern: '\$\{[a-z][a-z0-9_]*\}'
+        message: "Lowercase variable reference"
+        suggestion: "Use lowercase for local variables"
+
+  - id: CMAKE_STYLE003
+    name: "Indentation style"
+    domain: style
+    severity: info
+    description: "Consistent indentation improves readability"
+    rules:
+      - pattern: '^\t+'
+        message: "Tab indentation detected"
+        suggestion: "Consider using 2 or 4 spaces for consistent display"
+      - pattern: '^  \S'
+        message: "2-space indentation - common in CMake"
+        suggestion: ""
+
+  - id: CMAKE_STYLE004
+    name: "Target naming convention"
+    domain: style
+    severity: info
+    description: "Targets should have consistent naming"
+    rules:
+      - pattern: '\badd_library\s*\(\s*[a-z][a-z0-9_-]*'
+        message: "Lowercase library target name - good"
+        suggestion: "Use lowercase with hyphens or underscores for target names"
+      - pattern: '\badd_executable\s*\(\s*[a-z][a-z0-9_-]*'
+        message: "Lowercase executable target name - good"
+        suggestion: ""
+
+  - id: CMAKE_STYLE005
+    name: "Blank lines between blocks"
+    domain: style
+    severity: info
+    description: "Blank lines separate logical blocks"
+    rules:
+      - pattern: '\n\n\n'
+        message: "Multiple blank lines - consider single blank line"
+        suggestion: "Use single blank line between logical sections"
+
+  - id: CMAKE_STYLE006
+    name: "Comment style"
+    domain: style
+    severity: info
+    description: "Comments should follow consistent style"
+    rules:
+      - pattern: '#\s*[A-Z]'
+        message: "Comment starts with capital letter - good style"
+        suggestion: "Capitalize first letter of comments"
+      - pattern: '#[^#\s]'
+        message: "Comment missing space after #"
+        suggestion: "Add space after # for readability"
+
+  - id: CMAKE_STYLE007
+    name: "Argument alignment"
+    domain: style
+    severity: info
+    description: "Multi-line arguments should be aligned"
+    rules:
+      - pattern: '\n\s+[a-z_]+\s+[a-z_]+\s+[a-z_]+'
+        message: "Multiple arguments on same line"
+        suggestion: "Consider one argument per line for readability"
+
+  - id: CMAKE_STYLE008
+    name: "End parenthesis placement"
+    domain: style
+    severity: info
+    description: "Closing parenthesis should be consistent"
+    rules:
+      - pattern: '\)\s*$'
+        message: "Closing parenthesis at end of line - good"
+        suggestion: ""
+      - pattern: '^\s*\)$'
+        message: "Closing parenthesis on own line - also valid"
+        suggestion: ""
+
+  - id: CMAKE_STYLE009
+    name: "Include guard for cmake scripts"
+    domain: style
+    severity: info
+    description: "CMake scripts should have include guards"
+    rules:
+      - pattern: 'if\(NOT\s+\w+_INCLUDED\)'
+        message: "Include guard pattern detected - good"
+        suggestion: "Use include guards in .cmake files"
+
+  - id: CMAKE_STYLE010
+    name: "Project structure organization"
+    domain: style
+    severity: info
+    description: "CMakeLists should follow standard order"
+    rules:
+      - pattern: 'cmake_minimum_required[^$]*project\s*\('
+        message: "Good - cmake_minimum_required before project"
+        suggestion: "Order: cmake_minimum_required, project, then other commands"

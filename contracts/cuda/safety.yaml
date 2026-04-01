@@ -1,0 +1,56 @@
+contracts:
+  - id: CUDA001
+    name: "Check CUDA errors"
+    domain: safety
+    severity: error
+    description: "CUDA calls should check for errors"
+    rules:
+      - pattern: 'cudaMalloc\s*\('
+        message: "cudaMalloc without error check"
+        suggestion: "Check return value or use CUDA_CHECK macro"
+      - pattern: 'cudaMemcpy\s*\('
+        message: "cudaMemcpy without error check"
+        suggestion: "Check return value or use CUDA_CHECK macro"
+      - pattern: 'cudaFree\s*\('
+        message: "cudaFree without error check"
+        suggestion: "Check return value or use CUDA_CHECK macro"
+
+  - id: CUDA002
+    name: "Kernel launch bounds"
+    domain: performance
+    severity: warning
+    description: "Kernel launches should check grid/block bounds"
+    rules:
+      - pattern: '<<<\s*\d+,\s*\d+\s*>>>'
+        message: "Hardcoded kernel launch bounds"
+        suggestion: "Calculate bounds based on device capabilities"
+
+  - id: CUDA003
+    name: "Shared memory bank conflicts"
+    domain: performance
+    severity: info
+    description: "Shared memory accesses should avoid bank conflicts"
+    rules:
+      - pattern: '__shared__\s+\w+\s+\w+\s*\['
+        message: "Shared memory array - consider padding to avoid bank conflicts"
+        suggestion: "Pad arrays to avoid bank conflicts"
+
+  - id: CUDA004
+    name: "Syncthreads in branches"
+    domain: correctness
+    severity: error
+    description: "__syncthreads in conditional can deadlock"
+    rules:
+      - pattern: '(if|else)\s*\{[^}]*__syncthreads\s*\(\s*\)'
+        message: "__syncthreads in conditional branch - potential deadlock"
+        suggestion: "Move __syncthreads outside branches"
+
+  - id: CUDA005
+    name: "Coalesced memory access"
+    domain: performance
+    severity: info
+    description: "Global memory access should be coalesced"
+    rules:
+      - pattern: '\[[^]]*\s*\+\s*[^]]*\]'
+        message: "Non-linear array access pattern"
+        suggestion: "Use coalesced access patterns for performance"

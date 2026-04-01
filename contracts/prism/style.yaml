@@ -1,0 +1,50 @@
+contracts:
+  - id: PRISM001
+    name: "Use Prism::Log instead of std::cout"
+    domain: style
+    severity: warning
+    description: "Use Prism::Log for logging"
+    rules:
+      - pattern: 'std::cout'
+        message: "Use Prism::Log instead of std::cout"
+        suggestion: "Use PRISM_INFO(), PRISM_WARN(), or PRISM_ERROR() macros"
+
+  - id: PRISM002
+    name: "Use Prism::Log instead of std::cerr"
+    domain: style
+    severity: warning
+    description: "Use Prism::Log for error logging"
+    rules:
+      - pattern: 'std::cerr'
+        message: "Use Prism::Log instead of std::cerr"
+        suggestion: "Use PRISM_ERROR() for error logging"
+
+  - id: PRISM003
+    name: "Use Prism::Log instead of printf"
+    domain: style
+    severity: error
+    description: "Use Prism::Log for logging"
+    rules:
+      - pattern: 'printf\s*\('
+        message: "Use Prism::Log instead of printf"
+        suggestion: "Use PRISM_INFO() or PRISM_DEBUG() for logging"
+
+  - id: PRISM010
+    name: "Avoid iostream"
+    domain: style
+    severity: info
+    description: "Use Prism::Log for logging, not iostream"
+    rules:
+      - pattern: '#include\s*<iostream>'
+        message: "Use Prism::Log for logging, not iostream"
+        suggestion: "Use PRISM_INFO() etc."
+
+  - id: PRISM011
+    name: "Avoid using namespace std"
+    domain: style
+    severity: warning
+    description: "Avoid 'using namespace std' in headers"
+    rules:
+      - pattern: 'using\s+namespace\s+std\s*;'
+        message: "Avoid 'using namespace std' in headers"
+        suggestion: "Use explicit std:: prefix"

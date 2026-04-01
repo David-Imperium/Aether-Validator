@@ -1,0 +1,226 @@
+# Markdown Correctness Contracts
+# Domain: correctness
+
+contracts:
+  - id: MD_CORR001
+    name: "Unmatched brackets"
+    domain: correctness
+    severity: error
+    description: "Brackets must be properly paired"
+    tags:
+      - markdown
+      - correctness
+      - syntax
+    rules:
+      - pattern: '\[[^\]]*$'
+        message: "Unclosed bracket in link/image"
+        suggestion: "Close with ] for link syntax"
+      - pattern: '^\([^\)]*$'
+        message: "Unclosed parenthesis in URL"
+        suggestion: "Close parenthesis for valid link"
+
+  - id: MD_CORR002
+    name: "Invalid link syntax"
+    domain: correctness
+    severity: error
+    description: "Links must follow proper syntax"
+    tags:
+      - markdown
+      - correctness
+      - links
+    rules:
+      - pattern: '\[[^\]]+\]\s*[^(\s]'
+        message: "Link text followed by non-parenthesis"
+        suggestion: "Use [text](url) format"
+      - pattern: '\[\]\([^)]+\)'
+        message: "Empty link text"
+        suggestion: "Add descriptive text inside brackets"
+
+  - id: MD_CORR003
+    name: "Invalid image syntax"
+    domain: correctness
+    severity: error
+    description: "Images must use proper syntax"
+    tags:
+      - markdown
+      - correctness
+      - images
+    rules:
+      - pattern: '!\s*\[[^\]]+\][^(]'
+        message: "Image syntax missing URL parenthesis"
+        suggestion: "Use ![alt](url) format"
+      - pattern: '!\s*[^[]'
+        message: "Invalid image syntax - missing alt brackets"
+        suggestion: "Start with ![ for images"
+
+  - id: MD_CORR004
+    name: "Malformed code fence"
+    domain: correctness
+    severity: error
+    description: "Code fences must be properly closed"
+    tags:
+      - markdown
+      - correctness
+      - code-blocks
+    rules:
+      - pattern: '^```[a-z]*\n(?![\s\S]*^```)'
+        message: "Unclosed code fence"
+        suggestion: "Close code block with ```"
+      - pattern: '^~~~[a-z]*\n(?![\s\S]*^~~~)'
+        message: "Unclosed code fence (tilde style)"
+        suggestion: "Close code block with ~~~"
+
+  - id: MD_CORR005
+    name: "Invalid table syntax"
+    domain: correctness
+    severity: warning
+    description: "Tables must have consistent column count"
+    tags:
+      - markdown
+      - correctness
+      - tables
+    rules:
+      - pattern: '\|[^|]+\|\n\|[^|]+\|[^|]+\|'
+        message: "Inconsistent table column count"
+        suggestion: "Ensure all rows have same number of columns"
+      - pattern: '\|[-:]+\|(?!\n\|)'
+        message: "Table header separator without data rows"
+        suggestion: "Add data rows after separator"
+
+  - id: MD_CORR006
+    name: "Invalid list syntax"
+    domain: correctness
+    severity: warning
+    description: "Lists must use proper markers"
+    tags:
+      - markdown
+      - correctness
+      - lists
+    rules:
+      - pattern: '^\s*\d+\.\s+\d+\.'
+        message: "Numbered list with inconsistent numbering"
+        suggestion: "Use sequential numbers or unordered list"
+      - pattern: '^\s*-\s+\*\s'
+        message: "Mixed list markers in same list"
+        suggestion: "Use consistent marker throughout list"
+
+  - id: MD_CORR007
+    name: "Invalid heading syntax"
+    domain: correctness
+    severity: warning
+    description: "Headings must have space after #"
+    tags:
+      - markdown
+      - correctness
+      - headings
+    rules:
+      - pattern: '^#{1,6}[^\s#]'
+        message: "Heading without space after #"
+        suggestion: "Add space: # Heading"
+
+  - id: MD_CORR008
+    name: "Broken reference links"
+    domain: correctness
+    severity: error
+    description: "Reference-style links need definitions"
+    tags:
+      - markdown
+      - correctness
+      - links
+    rules:
+      - pattern: '\[[^\]]+\]\[[^\]]+\]'
+        message: "Reference link - verify reference is defined"
+        suggestion: "Define reference: [id]: url"
+      - pattern: '\[[^\]]+\]\s*\[\s*\]'
+        message: "Empty reference link"
+        suggestion: "Define the reference or use inline link"
+
+  - id: MD_CORR009
+    name: "Invalid HTML in markdown"
+    domain: correctness
+    severity: warning
+    description: "HTML should be well-formed"
+    tags:
+      - markdown
+      - correctness
+      - html
+    rules:
+      - pattern: '<(?!(br|hr|img|input|meta|link))[^>]+(?<!/)>[^<]*$'
+        message: "Potentially unclosed HTML tag"
+        suggestion: "Ensure HTML tags are properly closed"
+      - pattern: '<[A-Z]+'
+        message: "HTML tags should be lowercase"
+        suggestion: "Use lowercase HTML tags for consistency"
+
+  - id: MD_CORR010
+    name: "Invalid emphasis nesting"
+    domain: correctness
+    severity: warning
+    description: "Emphasis markers should be properly paired"
+    tags:
+      - markdown
+      - correctness
+      - emphasis
+    rules:
+      - pattern: '\*[^*]*\*[^*]*$'
+        message: "Potentially unpaired asterisk for emphasis"
+        suggestion: "Ensure *emphasis* is properly closed"
+      - pattern: '_[^_]*_[^_]*$'
+        message: "Potentially unpaired underscore for emphasis"
+        suggestion: "Ensure _emphasis_ is properly closed"
+
+  - id: MD_CORR011
+    name: "Invalid escape sequences"
+    domain: correctness
+    severity: info
+    description: "Backslash escapes only work on special characters"
+    tags:
+      - markdown
+      - correctness
+      - escaping
+    rules:
+      - pattern: '\\[a-zA-Z]'
+        message: "Backslash before letter - may not escape anything"
+        suggestion: "Only escape: \\`*_{}[]()>#+-.!|"
+
+  - id: MD_CORR012
+    name: "Setext heading without underline"
+    domain: correctness
+    severity: warning
+    description: "Setext headings need = or - underline"
+    tags:
+      - markdown
+      - correctness
+      - headings
+    rules:
+      - pattern: '^[^\s#].*\n[^\s=-]'
+        message: "Text line that might be intended as heading"
+        suggestion: "Use # heading or add === or --- underline"
+
+  - id: MD_CORR013
+    name: "Definition list syntax invalid"
+    domain: correctness
+    severity: info
+    description: "Definition lists are not standard markdown"
+    tags:
+      - markdown
+      - correctness
+      - extensions
+    rules:
+      - pattern: '^[^\s:]+:\s+'
+        message: "Definition list syntax - not standard markdown"
+        suggestion: "Use HTML <dl> or check if renderer supports it"
+
+  - id: MD_CORR014
+    name: "Footnote syntax issues"
+    domain: correctness
+    severity: warning
+    description: "Footnotes need proper syntax"
+    tags:
+      - markdown
+      - correctness
+      - footnotes
+    rules:
+      - pattern: '\[\^[^\]]+\](?!:)'
+        message: "Footnote reference - verify footnote defined"
+        suggestion: "Add footnote: [^id]: definition"

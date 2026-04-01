@@ -1,0 +1,112 @@
+contracts:
+  - id: BASH_PERF_001
+    name: "Useless Subshell"
+    domain: performance
+    severity: warning
+    description: "Subshells created without need add overhead"
+    rules:
+      - pattern: '\(\$[^)]+\)'
+        message: "Subshell used for simple command - unnecessary overhead"
+        suggestion: "Execute directly without subshell: $cmd"
+      - pattern: '\([^|)]+\|[^|)]+\)'
+        message: "Subshell wrapping single pipe"
+        suggestion: "Remove subshell, pipe works without it"
+
+  - id: BASH_PERF_002
+    name: "Pipeline to Single Command"
+    domain: performance
+    severity: info
+    description: "Pipes create subshells; prefer redirections when possible"
+    rules:
+      - pattern: '\bcat\s+\S+\s*\|\s*\b(grep|sed|awk)\b'
+        message: "Useless cat - pipe adds overhead"
+        suggestion: "Use: grep 'pattern' file or sed 's/old/new/' file"
+      - pattern: '\becho\s+[^|]+\s*\|\s*\b(grep|sed|awk)\b'
+        message: "echo piped to text processor"
+        suggestion: "Use here-string: grep 'pattern' <<< 'text'"
+
+  - id: BASH_PERF_003
+    name: "Inefficient Loop Over Command Output"
+    domain: performance
+    severity: warning
+    description: "for loop over command output spawns subshell per iteration"
+    rules:
+      - pattern: 'for\s+\w+\s+in\s+\$\([^)]+\)'
+        message: "for loop over command substitution - consider while read"
+        suggestion: "Use: cmd | while read -r line; do ...; done"
+
+  - id: BASH_PERF_004
+    name: "Multiple echo Calls"
+    domain: performance
+    severity: info
+    description: "Multiple echo calls in loop are slower than single printf"
+    rules:
+      - pattern: '(echo\s+["\'][^"\']*["\']\s*;\s*){3,}'
+        message: "Multiple sequential echo calls"
+        suggestion: "Use single printf or heredoc for multi-line output"
+
+  - id: BASH_PERF_005
+    name: "External Command in Loop Condition"
+    domain: performance
+    severity: warning
+    description: "External commands in loop conditions execute repeatedly"
+    rules:
+      - pattern: 'while\s+\[[^]]*\$\([^)]+\)[^]]*\]'
+        message: "Command substitution in while condition"
+        suggestion: "Store result once before loop: result=$(cmd); while [[ ... ]]"
+      - pattern: 'until\s+\[[^]]*\$\([^)]+\)[^]]*\]'
+        message: "Command substitution in until condition"
+        suggestion: "Cache command result before loop"
+
+  - id: BASH_PERF_006
+    name: "Inefficient String Concatenation"
+    domain: performance
+    severity: info
+    description: "String concatenation in loop can be optimized"
+    rules:
+      - pattern: '(\w+=\$\w+[^;]*;\s*){5,}'
+        message: "Repeated string concatenation pattern"
+        suggestion: "Use array and printf '%s' \"${arr[@]}\""
+
+  - id: BASH_PERF_007
+    name: "Redirection Per Iteration"
+    domain: performance
+    severity: warning
+    description: "Opening file inside loop is slower than redirecting loop"
+    rules:
+      - pattern: '(for|while)\s+.*;\s*do[^>]*>\s*\S+[^d]*done'
+        message: "Redirection inside loop - file opened each iteration"
+        suggestion: "Redirect entire loop: done >> file"
+
+  - id: BASH_PERF_008
+    name: "Unnecessary grep Pipeline"
+    domain: performance
+    severity: info
+    description: "grep before awk/sed can be combined"
+    rules:
+      - pattern: '\bgrep\b[^|]*\|\s*\bawk\b'
+        message: "grep piped to awk - awk can filter"
+        suggestion: "Use: awk '/pattern/ { ... }' file"
+      - pattern: '\bgrep\b[^|]*\|\s*\bsed\b'
+        message: "grep piped to sed - sed can filter"
+        suggestion: "Use: sed -n '/pattern/p' file or sed '/pattern/!d'"
+
+  - id: BASH_PERF_009
+    name: "Process Substitution Overhead"
+    domain: performance
+    severity: info
+    description: "Process substitution creates extra file descriptors"
+    rules:
+      - pattern: '<\([^)]+\)\s*<\([^)]+\)'
+        message: "Multiple process substitutions - high FD overhead"
+        suggestion: "Consider alternative approaches for comparing streams"
+
+  - id: BASH_PERF_010
+    name: "Sort on Each Iteration"
+    domain: performance
+    severity: error
+    description: "Calling sort inside loop is O(n log n) per iteration"
+    rules:
+      - pattern: '(for|while)\s+.*;\s*do[^;]*\bsort\b[^;]*;'
+        message: "sort called inside loop"
+        suggestion: "Move sort outside loop or sort entire output at end"

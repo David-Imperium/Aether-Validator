@@ -1,0 +1,46 @@
+contracts:
+  - id: JSON001
+    name: "Trailing commas"
+    domain: correctness
+    severity: error
+    description: "JSON does not allow trailing commas"
+    rules:
+      - pattern: ',\s*[\]\}]'
+        message: "Trailing comma in JSON - not allowed in strict JSON"
+        suggestion: "Remove trailing comma"
+
+  - id: JSON002
+    name: "Single quotes"
+    domain: correctness
+    severity: error
+    description: "JSON requires double quotes for strings"
+    rules:
+      - pattern: ":\s*'[^']*'"
+        message: "Single quotes not allowed in JSON strings"
+        suggestion: "Use double quotes for string values"
+      - pattern: "^\s*'[^']*'"
+        message: "Single quotes not allowed for JSON keys"
+        suggestion: "Use double quotes for keys"
+
+  - id: JSON003
+    name: "Unquoted keys"
+    domain: correctness
+    severity: error
+    description: "JSON requires all keys to be quoted"
+    rules:
+      - pattern: '\{\s*[a-zA-Z_][a-zA-Z0-9_]*\s*:'
+        message: "Unquoted key in JSON"
+        suggestion: "Wrap keys in double quotes"
+
+  - id: JSON004
+    name: "Comments not allowed"
+    domain: correctness
+    severity: warning
+    description: "Standard JSON does not support comments"
+    rules:
+      - pattern: '//.*$'
+        message: "Comments not allowed in standard JSON"
+        suggestion: "Remove comments or use JSONC"
+      - pattern: '/\*'
+        message: "Block comments not allowed in standard JSON"
+        suggestion: "Remove comments or use JSONC"

@@ -1,0 +1,203 @@
+# Python Contracts — Error patterns common in AI-generated Python
+
+contracts:
+  # Error Handling
+  - id: PY001
+    name: "No bare except"
+    domain: error-handling
+    severity: error
+    description: "Bare except catches system exceptions"
+    rules:
+      - pattern: "except:"
+        message: "Bare except catches KeyboardInterrupt, SystemExit"
+        suggestion: "Use except Exception as e: or specific exception type"
+
+  - id: PY002
+    name: "No silent exception swallowing"
+    domain: error-handling
+    severity: warning
+    description: "pass in except block"
+    rules:
+      - pattern: "except:"
+        message: "Exception caught and ignored silently"
+        suggestion: "Log the error or re-raise"
+
+  - id: PY003
+    name: "No eval on user input"
+    domain: security
+    severity: critical
+    description: "eval() with untrusted input"
+    rules:
+      - pattern: "eval("
+        message: "eval() is dangerous with user input - code injection risk"
+        suggestion: "Use ast.literal_eval() for safe evaluation"
+
+  - id: PY004
+    name: "No exec on user input"
+    domain: security
+    severity: critical
+    description: "exec() with untrusted input"
+    rules:
+      - pattern: "exec("
+        message: "exec() is dangerous with user input - code injection risk"
+        suggestion: "Avoid exec() entirely or use restricted sandbox"
+
+  - id: PY005
+    name: "No SQL injection via format"
+    domain: security
+    severity: critical
+    description: "SQL query string formatting"
+    rules:
+      - pattern: "regex:format!.*SELECT"
+        message: "SQL injection risk - use parameterized queries"
+        suggestion: "Use cursor.execute(query, params)"
+
+  - id: PY006
+    name: "No SQL injection via f-string"
+    domain: security
+    severity: critical
+    description: "f-string in SQL query"
+    rules:
+      - pattern: "regex:f\".*SELECT"
+        message: "SQL injection risk via f-string"
+        suggestion: "Use parameterized queries with %s or ?"
+
+  - id: PY007
+    name: "No command injection"
+    domain: security
+    severity: critical
+    description: "os.system with user input"
+    rules:
+      - pattern: "os.system("
+        message: "Command injection risk - use subprocess with list args"
+        suggestion: "Use subprocess.run([cmd, arg1, arg2])"
+
+  - id: PY008
+    name: "No mutable default args"
+    domain: correctness
+    severity: warning
+    description: "Mutable default argument"
+    rules:
+      - pattern: "=[]"
+        message: "Mutable default argument - shared across calls"
+        suggestion: "Use None and create inside function"
+
+  - id: PY009
+    name: "No mutable default dict"
+    domain: correctness
+    severity: warning
+    description: "Dict default argument"
+    rules:
+      - pattern: "={}"
+        message: "Mutable default dict - shared across calls"
+        suggestion: "Use None and create inside function"
+
+  - id: PY010
+    name: "No file read without close"
+    domain: resource
+    severity: warning
+    description: "File opened but not guaranteed closed"
+    rules:
+      - pattern: "open("
+        message: "File opened - ensure with statement or explicit close"
+        suggestion: "Use with open(path) as f:"
+
+  - id: PY011
+    name: "No memory explosion"
+    domain: performance
+    severity: warning
+    description: "Read entire file into memory"
+    rules:
+      - pattern: ".read()"
+        message: "read() loads entire file - may cause memory issues"
+        suggestion: "Use streaming or read in chunks"
+
+  - id: PY012
+    name: "No import in function"
+    domain: performance
+    severity: hint
+    description: "Import inside function"
+    rules:
+      - pattern: "import "
+        message: "Import inside function - moved to module level"
+        suggestion: "Move import to top of file"
+
+  - id: PY013
+    name: "No re.compile in loop"
+    domain: performance
+    severity: warning
+    description: "Regex compiled inside loop"
+    rules:
+      - pattern: "re.compile("
+        message: "re.compile inside loop - compile once outside"
+        suggestion: "Pre-compile regex at module level"
+
+  - id: PY014
+    name: "No infinite loop"
+    domain: logic
+    severity: warning
+    description: "while True without break"
+    rules:
+      - pattern: "while True:"
+        message: "Infinite loop - ensure break condition"
+        suggestion: "Add timeout or break condition"
+
+  - id: PY015
+    name: "No hardcoded credentials"
+    domain: security
+    severity: critical
+    description: "Password in code"
+    rules:
+      - pattern: "password = \""
+        message: "Hardcoded password - use environment variable"
+        suggestion: "Use os.environ.get('PASSWORD')"
+
+  - id: PY016
+    name: "No API key in code"
+    domain: security
+    severity: critical
+    description: "API key hardcoded"
+    rules:
+      - pattern: "api_key = \""
+        message: "Hardcoded API key - use environment variable"
+        suggestion: "Use os.environ.get('API_KEY')"
+
+  - id: PY017
+    name: "No missing type hints"
+    domain: maintainability
+    severity: info
+    description: "Function without type hints"
+    rules:
+      - pattern: "def "
+        message: "Function defined - consider adding type hints"
+        suggestion: "Add parameter and return type annotations"
+
+  - id: PY018
+    name: "No print in production"
+    domain: maintainability
+    severity: info
+    description: "print() for logging"
+    rules:
+      - pattern: "print("
+        message: "print() for output - use logging module"
+        suggestion: "Use logging.info() or logger.info()"
+
+  - id: PY019
+    name: "No requests without timeout"
+    domain: reliability
+    severity: warning
+    description: "HTTP request without timeout"
+    rules:
+      - pattern: "requests.get("
+        message: "HTTP request without timeout - may hang"
+        suggestion: "Add timeout=30 parameter"
+
+  - id: PY020
+    name: "No synchronous requests in loop"
+    domain: performance
+    severity: warning
+    description: "Sequential HTTP requests"
+    rules:
+      - pattern: "requests.post("
+        message: "Synchronous requests in loop - use asyncio/aiohttp"
+        suggestion: "Use aiohttp for concurrent requests"

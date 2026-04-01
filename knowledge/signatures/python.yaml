@@ -1,0 +1,302 @@
+# Python API Signatures
+# Format: module.function -> parameters, return type, common errors
+
+python:
+  # Standard Library
+  os:
+    path:
+      join:
+        params:
+          - name: path
+            type: str | bytes
+            optional: false
+          - name: paths
+            type: "*str | *bytes"
+            optional: true
+            variadic: true
+        return: str
+        raises: []
+      
+      exists:
+        params:
+          - name: path
+            type: str | bytes | PathLike
+            optional: false
+        return: bool
+        raises: []
+      
+      basename:
+        params:
+          - name: path
+            type: str | bytes | PathLike
+            optional: false
+        return: str
+        raises: []
+    
+    listdir:
+      params:
+        - name: path
+          type: str | bytes | PathLike
+          optional: true
+          default: "."
+      return: List[str]
+      raises: [FileNotFoundError, PermissionError, NotADirectoryError]
+    
+    makedirs:
+      params:
+        - name: name
+          type: str | bytes | PathLike
+          optional: false
+        - name: mode
+          type: int
+          optional: true
+          default: "0o777"
+        - name: exist_ok
+          type: bool
+          optional: true
+          default: "False"
+      return: None
+      raises: [FileExistsError, PermissionError, OSError]
+  
+  json:
+    load:
+      params:
+        - name: fp
+          type: TextIO | BinaryIO
+          optional: false
+        - name: cls
+          type: JSONDecoder
+          optional: true
+        - name: object_hook
+          type: Callable
+          optional: true
+      return: Any
+      raises: [JSONDecodeError]
+    
+    loads:
+      params:
+        - name: s
+          type: str | bytes | bytearray
+          optional: false
+        - name: cls
+          type: JSONDecoder
+          optional: true
+      return: Any
+      raises: [JSONDecodeError]
+    
+    dump:
+      params:
+        - name: obj
+          type: Any
+          optional: false
+        - name: fp
+          type: TextIO | BinaryIO
+          optional: false
+        - name: indent
+          type: int
+          optional: true
+      return: None
+      raises: [TypeError]
+    
+    dumps:
+      params:
+        - name: obj
+          type: Any
+          optional: false
+        - name: indent
+          type: int
+          optional: true
+      return: str
+      raises: [TypeError]
+  
+  # Third-party (popular)
+  requests:
+    get:
+      params:
+        - name: url
+          type: str
+          optional: false
+          position: 0
+        - name: params
+          type: dict | None
+          optional: true
+          position: 1
+        - name: data
+          type: dict | bytes | None
+          optional: true
+        - name: json
+          type: dict | None
+          optional: true
+        - name: headers
+          type: dict | None
+          optional: true
+        - name: cookies
+          type: dict | None
+          optional: true
+        - name: files
+          type: dict | None
+          optional: true
+        - name: auth
+          type: tuple | None
+          optional: true
+        - name: timeout
+          type: float | tuple | None
+          optional: true
+        - name: allow_redirects
+          type: bool
+          optional: true
+          default: "True"
+      return: Response
+      raises: [RequestException, Timeout, ConnectionError]
+      common_errors:
+        - error: "timeout positional before url"
+          description: "timeout is keyword-only, not positional"
+          correct: "requests.get(url, timeout=30)"
+          wrong: "requests.get(timeout=30, url)"  # Also wrong param order
+    
+    post:
+      params:
+        - name: url
+          type: str
+          optional: false
+          position: 0
+        - name: data
+          type: dict | bytes | None
+          optional: true
+        - name: json
+          type: dict | None
+          optional: true
+        - name: timeout
+          type: float | tuple | None
+          optional: true
+      return: Response
+      raises: [RequestException, Timeout, ConnectionError]
+    
+    Session:
+      params: []
+      return: Session
+      raises: []
+      methods:
+        get:
+          params:
+            - name: url
+              type: str
+              optional: false
+          return: Response
+        post:
+          params:
+            - name: url
+              type: str
+              optional: false
+            - name: data
+              type: dict | None
+              optional: true
+            - name: json
+              type: dict | None
+              optional: true
+          return: Response
+  
+  # File handling
+  open:
+    params:
+      - name: file
+        type: str | PathLike | int
+        optional: false
+        position: 0
+      - name: mode
+        type: str
+        optional: true
+        default: "'r'"
+        position: 1
+      - name: buffering
+        type: int
+        optional: true
+        position: 2
+      - name: encoding
+        type: str | None
+        optional: true
+        position: 3
+      - name: errors
+        type: str | None
+        optional: true
+      - name: newline
+        type: str | None
+        optional: true
+    return: TextIOWrapper | BufferedReader | BufferedWriter
+    raises: [FileNotFoundError, PermissionError, IsADirectoryError]
+    common_errors:
+      - error: "open() without close()"
+        description: "File handle leak - use context manager"
+        correct: "with open(path) as f: ..."
+        wrong: "f = open(path); f.read()  # No close"
+  
+  # String methods
+  str:
+    format:
+      params:
+        - name: args
+          type: "*Any"
+          optional: true
+          variadic: true
+        - name: kwargs
+          type: "**Any"
+          optional: true
+      return: str
+    
+    split:
+      params:
+        - name: sep
+          type: str | None
+          optional: true
+          default: "None"
+        - name: maxsplit
+          type: int
+          optional: true
+          default: "-1"
+      return: list[str]
+    
+    join:
+      params:
+        - name: iterable
+          type: Iterable[str]
+          optional: false
+      return: str
+      common_errors:
+        - error: "str.join(str) instead of iterable"
+          description: "join expects iterable, not string"
+          correct: "','.join(['a', 'b'])"
+          wrong: "','.join('ab')  # Returns 'a,b' not error but probably unintended"
+  
+  # Common gotchas
+  sorted:
+    params:
+      - name: iterable
+        type: Iterable
+        optional: false
+        position: 0
+      - name: key
+        type: Callable | None
+        optional: true
+      - name: reverse
+        type: bool
+        optional: true
+        default: "False"
+    return: list
+    note: "Returns NEW list, does not sort in-place"
+  
+  list.sort:
+    params:
+      - name: key
+        type: Callable | None
+        optional: true
+      - name: reverse
+        type: bool
+        optional: true
+        default: "False"
+    return: None
+    note: "Sorts IN-PLACE, returns None"
+    common_errors:
+      - error: "Using result of list.sort()"
+        description: "sort() returns None, not the sorted list"
+        correct: "lst.sort(); use lst"
+        wrong: "new_lst = lst.sort()  # new_lst is None"

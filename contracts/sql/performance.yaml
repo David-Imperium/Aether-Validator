@@ -1,0 +1,143 @@
+contracts:
+  - id: SQL_PERF001
+    name: "SELECT * Usage"
+    domain: performance
+    severity: warning
+    description: "SELECT * retrieves all columns, wasting bandwidth and preventing index covering"
+    tags:
+      - sql
+      - performance
+      - select
+    rules:
+      - pattern: '(?i)SELECT\s+\*\s+FROM'
+        message: "SELECT * retrieves unnecessary columns"
+        suggestion: "List only required columns: SELECT id, name, created_at FROM"
+
+  - id: SQL_PERF002
+    name: "Missing WHERE Clause"
+    domain: performance
+    severity: warning
+    description: "UPDATE/DELETE without WHERE affects all rows"
+    tags:
+      - sql
+      - performance
+      - full-scan
+    rules:
+      - pattern: '(?i)UPDATE\s+\w+\s+SET'
+        message: "UPDATE without visible WHERE - verify scope"
+        suggestion: "Add WHERE clause to limit affected rows"
+      - pattern: '(?i)DELETE\s+FROM'
+        message: "DELETE without WHERE - verify scope"
+        suggestion: "Add WHERE clause or use TRUNCATE for full table"
+
+  - id: SQL_PERF003
+    name: "Leading Wildcard LIKE"
+    domain: performance
+    severity: error
+    description: "LIKE with leading wildcard prevents index usage"
+    tags:
+      - sql
+      - performance
+      - indexes
+    rules:
+      - pattern: "(?i)LIKE\s+['\"]%"
+        message: "LIKE with leading % forces full table scan"
+        suggestion: "Use trailing wildcard or full-text search"
+
+  - id: SQL_PERF004
+    name: "OR in WHERE Clause"
+    domain: performance
+    severity: info
+    description: "OR conditions may prevent index usage"
+    tags:
+      - sql
+      - performance
+      - indexes
+    rules:
+      - pattern: '(?i)WHERE\s+[^)]+\s+OR\s+'
+        message: "OR in WHERE - consider UNION for index usage"
+        suggestion: "Try UNION ALL or ensure both sides are indexed"
+
+  - id: SQL_PERF005
+    name: "Function on Indexed Column"
+    domain: performance
+    severity: warning
+    description: "Applying function to column prevents index usage"
+    tags:
+      - sql
+      - performance
+      - indexes
+    rules:
+      - pattern: '(?i)WHERE\s+(UPPER|LOWER|DATE|YEAR|MONTH)\s*\(\s*\w+\s*\)'
+        message: "Function on column prevents index usage"
+        suggestion: "Store computed value or use function on constant side"
+
+  - id: SQL_PERF006
+    name: "Implicit Type Conversion"
+    domain: performance
+    severity: warning
+    description: "Comparing different types may prevent index usage"
+    tags:
+      - sql
+      - performance
+      - types
+    rules:
+      - pattern: '(?i)WHERE\s+\w+_id\s*=\s*["\']'
+        message: "String literal for numeric column - implicit conversion"
+        suggestion: "Use numeric literal: id = 123 not id = '123'"
+
+  - id: SQL_PERF007
+    name: "Cartesian Product"
+    domain: performance
+    severity: error
+    description: "JOIN without ON clause creates Cartesian product"
+    tags:
+      - sql
+      - performance
+      - joins
+    rules:
+      - pattern: '(?i)FROM\s+\w+\s*,\s*\w+'
+        message: "Implicit cross join - likely unintended"
+        suggestion: "Use explicit JOIN with ON clause"
+
+  - id: SQL_PERF008
+    name: "DISTINCT with Large Result"
+    domain: performance
+    severity: info
+    description: "DISTINCT requires sorting and may indicate schema issue"
+    tags:
+      - sql
+      - performance
+      - distinct
+    rules:
+      - pattern: '(?i)SELECT\s+DISTINCT'
+        message: "DISTINCT may indicate missing join condition or GROUP BY"
+        suggestion: "Review if DISTINCT is needed or fix join conditions"
+
+  - id: SQL_PERF009
+    name: "Subquery in SELECT"
+    domain: performance
+    severity: warning
+    description: "Correlated subquery executes per row"
+    tags:
+      - sql
+      - performance
+      - subqueries
+    rules:
+      - pattern: '(?i)SELECT\s+[^,]+\(SELECT'
+        message: "Subquery in SELECT list - runs per row"
+        suggestion: "Use JOIN or derived table instead"
+
+  - id: SQL_PERF010
+    name: "NOT IN with Subquery"
+    domain: performance
+    severity: warning
+    description: "NOT IN with subquery is slow and NULL-sensitive"
+    tags:
+      - sql
+      - performance
+      - subqueries
+    rules:
+      - pattern: '(?i)NOT\s+IN\s*\(\s*SELECT'
+        message: "NOT IN subquery - use NOT EXISTS instead"
+        suggestion: "NOT EXISTS handles NULLs correctly and is often faster"

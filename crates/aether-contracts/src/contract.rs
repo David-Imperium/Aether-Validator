@@ -25,18 +25,16 @@ pub struct ContractMeta {
 /// Severity level for contracts.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
+#[derive(Default)]
 pub enum Severity {
+    Critical,
     Error,
+    #[default]
     Warning,
     Info,
     Hint,
 }
 
-impl Default for Severity {
-    fn default() -> Self {
-        Self::Warning
-    }
-}
 
 /// Contract trait for validation rules.
 ///

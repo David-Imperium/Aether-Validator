@@ -1,0 +1,309 @@
+# Lex Correctness Contracts
+# Domain: correctness
+# Validates token rules, state machine definitions, and lexer correctness
+
+contracts:
+  - id: LEX_CORR001
+    name: "Token requires pattern"
+    domain: correctness
+    severity: error
+    description: "Every token definition must have a pattern"
+    tags:
+      - lex
+      - token
+      - pattern
+    rules:
+      - pattern: 'token\s+\w+\s*\{[^}]*\}'
+        requires: 'pattern:'
+        message: "Token definition missing pattern"
+        suggestion: "Add pattern property: pattern: /[a-zA-Z]+/"
+
+  - id: LEX_CORR002
+    name: "State requires transitions"
+    domain: correctness
+    severity: error
+    description: "State definitions must have at least one transition"
+    tags:
+      - lex
+      - state
+      - transition
+    rules:
+      - pattern: 'state\s+\w+\s*\{[^}]*\}'
+        requires: 'transition|on'
+        message: "State has no transitions defined"
+        suggestion: "Add transition: on TOKEN goto STATE"
+
+  - id: LEX_CORR003
+    name: "Token name unique"
+    domain: correctness
+    severity: error
+    description: "Token names must be unique across the lexer"
+    tags:
+      - lex
+      - token
+      - unique
+    rules:
+      - query: |
+          SELECT name, COUNT(*) as count
+          FROM tokens
+          GROUP BY name
+          HAVING COUNT(*) > 1
+        message: "Duplicate token name found"
+        suggestion: "Rename token to avoid collision"
+
+  - id: LEX_CORR004
+    name: "Pattern valid regex"
+    domain: correctness
+    severity: error
+    description: "Token patterns must be valid regular expressions"
+    tags:
+      - lex
+      - pattern
+      - regex
+    rules:
+      - pattern: 'pattern:\s*/[^/]*/'
+        message: "Verify regex syntax is valid"
+        suggestion: "Test regex pattern in regex tester"
+
+  - id: LEX_CORR005
+    name: "State reference exists"
+    domain: correctness
+    severity: error
+    description: "State transitions must reference defined states"
+    tags:
+      - lex
+      - state
+      - reference
+    rules:
+      - query: |
+          SELECT t.from_state, t.target_state
+          FROM transitions t
+          WHERE t.target_state NOT IN (SELECT name FROM states)
+        message: "Transition references undefined state"
+        suggestion: "Define state '%TARGET%' before referencing it"
+
+  - id: LEX_CORR006
+    name: "Initial state defined"
+    domain: correctness
+    severity: error
+    description: "Lexer must have an initial state defined"
+    tags:
+      - lex
+      - state
+      - initial
+    rules:
+      - pattern: 'initial\s+state|start\s+state'
+        message: "No initial state defined"
+        suggestion: "Add: initial state: START or start state: INIT"
+
+  - id: LEX_CORR007
+    name: "EOF token defined"
+    domain: correctness
+    severity: warning
+    description: "Lexer should define an EOF token for proper termination"
+    tags:
+      - lex
+      - token
+      - eof
+    rules:
+      - pattern: 'token\s+EOF|token\s+END_OF_FILE'
+        message: "No EOF token defined"
+        suggestion: "Add EOF token for clean lexer termination"
+
+  - id: LEX_CORR008
+    name: "Escape sequences valid"
+    domain: correctness
+    severity: error
+    description: "Escape sequences in patterns must be valid"
+    tags:
+      - lex
+      - pattern
+      - escape
+    rules:
+      - pattern: '\\[^nrt\\\"\']'
+        message: "Invalid escape sequence in pattern"
+        suggestion: "Use valid escapes: \\n, \\r, \\t, \\\\, \\\", \\'"
+
+  - id: LEX_CORR009
+    name: "Character class valid"
+    domain: correctness
+    severity: warning
+    description: "Character classes in patterns should be properly formed"
+    tags:
+      - lex
+      - pattern
+      - charset
+    rules:
+      - pattern: '\[[^\]]*-'
+        message: "Potentially malformed character class"
+        suggestion: "Escape hyphen or place at start/end: [a-z] or [-abc]"
+
+  - id: LEX_CORR010
+    name: "Whitespace token defined"
+    domain: correctness
+    severity: info
+    description: "Lexer should handle whitespace explicitly"
+    tags:
+      - lex
+      - token
+      - whitespace
+    rules:
+      - pattern: 'token\s+(WS|WHITESPACE|SPACE)'
+        message: "No whitespace token defined"
+        suggestion: "Add WHITESPACE token with skip action"
+
+  - id: LEX_CORR011
+    name: "Action references valid token"
+    domain: correctness
+    severity: error
+    description: "Token actions must reference defined tokens"
+    tags:
+      - lex
+      - action
+      - reference
+    rules:
+      - query: |
+          SELECT a.token, a.action
+          FROM actions a
+          WHERE a.token NOT IN (SELECT name FROM tokens)
+        message: "Action references undefined token"
+        suggestion: "Define token '%TOKEN%' before using in actions"
+
+  - id: LEX_CORR012
+    name: "Priority order defined"
+    domain: correctness
+    severity: warning
+    description: "Token priority should be explicitly defined for conflicts"
+    tags:
+      - lex
+      - token
+      - priority
+    rules:
+      - pattern: 'priority|precedence|order'
+        message: "No token priority defined"
+        suggestion: "Add priority rules for tokens that may conflict"
+
+  - id: LEX_CORR013
+    name: "No unreachable states"
+    domain: correctness
+    severity: warning
+    description: "All states should be reachable from initial state"
+    tags:
+      - lex
+      - state
+      - reachable
+    rules:
+      - query: |
+          SELECT s.name
+          FROM states s
+          WHERE s.name NOT IN (
+            SELECT target FROM transitions
+            UNION SELECT initial_state FROM lexer
+          )
+        message: "Unreachable state detected"
+        suggestion: "Remove unused state or add transition to it"
+
+  - id: LEX_CORR014
+    name: "Number literal format"
+    domain: correctness
+    severity: warning
+    description: "Number token patterns should handle all formats"
+    tags:
+      - lex
+      - token
+      - number
+    rules:
+      - pattern: 'pattern:\s*/\d+/'
+        message: "Number pattern may not handle floats or negatives"
+        suggestion: "Consider: /[+-]?\d+(\.\d+)?([eE][+-]?\d+)?/"
+
+  - id: LEX_CORR015
+    name: "String literal handles escapes"
+    domain: correctness
+    severity: warning
+    description: "String token patterns should handle escape sequences"
+    tags:
+      - lex
+      - token
+      - string
+    rules:
+      - pattern: 'pattern:\s*/"[^"]*"/'
+        message: "String pattern doesn't handle escapes"
+        suggestion: "Use: /\"(?:[^\"\\\\]|\\\\.)*\"/"
+
+  - id: LEX_CORR016
+    name: "Comment token defined"
+    domain: correctness
+    severity: info
+    description: "Lexer should define comment handling"
+    tags:
+      - lex
+      - token
+      - comment
+    rules:
+      - pattern: 'token\s+(COMMENT|LINE_COMMENT|BLOCK_COMMENT)'
+        message: "No comment token defined"
+        suggestion: "Add COMMENT token for single-line and/or multi-line comments"
+
+  - id: LEX_CORR017
+    name: "Identifier pattern valid"
+    domain: correctness
+    severity: warning
+    description: "Identifier patterns should follow language conventions"
+    tags:
+      - lex
+      - token
+      - identifier
+    rules:
+      - pattern: 'pattern:\s*/[a-zA-Z_][a-zA-Z0-9_]*/'
+        message: "Verify identifier pattern matches language spec"
+        suggestion: "Adjust identifier pattern for specific language rules"
+
+  - id: LEX_CORR018
+    name: "Keyword before identifier"
+    domain: correctness
+    severity: error
+    description: "Keywords should be matched before identifier pattern"
+    tags:
+      - lex
+      - token
+      - keyword
+    rules:
+      - query: |
+          SELECT k.name, i.priority
+          FROM keywords k
+          JOIN identifiers i ON k.priority > i.priority
+        message: "Keywords should have higher priority than identifiers"
+        suggestion: "Reorder token definitions: keywords before IDENTIFIER"
+
+  - id: LEX_CORR019
+    name: "No ambiguous patterns"
+    domain: correctness
+    severity: warning
+    description: "Patterns should not be ambiguous or overlapping"
+    tags:
+      - lex
+      - pattern
+      - ambiguous
+    rules:
+      - query: |
+          SELECT t1.name, t2.name
+          FROM tokens t1, tokens t2
+          WHERE t1.name != t2.name
+            AND patterns_overlap(t1.pattern, t2.pattern)
+        message: "Potentially overlapping patterns detected"
+        suggestion: "Use priority or more specific patterns"
+
+  - id: LEX_CORR020
+    name: "Error token defined"
+    domain: correctness
+    severity: info
+    description: "Lexer should define an error token for invalid input"
+    tags:
+      - lex
+      - token
+      - error
+    rules:
+      - pattern: 'token\s+(ERROR|INVALID|UNKNOWN)'
+        message: "No error token defined"
+        suggestion: "Add ERROR token as catch-all for invalid input"

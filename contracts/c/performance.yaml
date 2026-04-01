@@ -1,0 +1,112 @@
+contracts:
+  - id: C_PERF001
+    name: "Inefficient String Concatenation"
+    domain: performance
+    severity: warning
+    description: "Using strcat in loop is O(n²) - each strcat scans for null terminator"
+    tags:
+      - c
+      - performance
+      - strings
+    rules:
+      - pattern: 'while\s*\([^)]*\)[^}]*strcat\s*\('
+        message: "strcat in loop is inefficient"
+        suggestion: "Track end position and use memcpy, or use snprintf"
+
+  - id: C_PERF002
+    name: " strlen in Loop Condition"
+    domain: performance
+    severity: warning
+    description: "Calling strlen in loop condition recalculates length each iteration"
+    tags:
+      - c
+      - performance
+      - strings
+    rules:
+      - pattern: 'for\s*\([^;]*strlen\s*\([^)]*\)[^;]*;'
+        message: "strlen in loop condition - O(n²) behavior"
+        suggestion: "Cache string length before loop: size_t len = strlen(s)"
+
+  - id: C_PERF003
+    name: "Unnecessary memcpy for Small Data"
+    domain: performance
+    severity: info
+    description: "memcpy for small fixed sizes is slower than direct assignment"
+    tags:
+      - c
+      - performance
+      - memory
+    rules:
+      - pattern: 'memcpy\s*\([^,]+,\s*[^,]+,\s*(sizeof\s*\([^)]+\)|[0-9]+)\s*\)'
+        message: "memcpy for small sizes - consider direct struct assignment"
+        suggestion: "Use direct assignment: dest = src for small structs"
+
+  - id: C_PERF004
+    name: "printf for Simple Output"
+    domain: performance
+    severity: info
+    description: "printf has parsing overhead for simple strings"
+    tags:
+      - c
+      - performance
+      - io
+    rules:
+      - pattern: 'printf\s*\(\s*"[^%]*"\s*\)'
+        message: "printf without format specifiers"
+        suggestion: "Use fputs(str, stdout) or puts() for plain strings"
+
+  - id: C_PERF005
+    name: "Excessive malloc Calls"
+    domain: performance
+    severity: warning
+    description: "Many small mallocs cause heap fragmentation"
+    tags:
+      - c
+      - performance
+      - memory
+    rules:
+      - pattern: 'for\s*\([^)]*\)[^}]*malloc\s*\('
+        message: "malloc inside loop - consider pre-allocation"
+        suggestion: "Allocate once with larger buffer or use memory pool"
+
+  - id: C_PERF006
+    name: "Slow Integer to String"
+    domain: performance
+    severity: info
+    description: "sprintf for integer conversion is slow"
+    tags:
+      - c
+      - performance
+      - conversion
+    rules:
+      - pattern: 'sprintf\s*\([^,]+,\s*"%[dilu]"\s*,'
+        message: "sprintf for integer - consider itoa or snprintf"
+        suggestion: "Use custom itoa or snprintf for better performance"
+
+  - id: C_PERF007
+    name: "Unbuffered File I/O"
+    domain: performance
+    severity: warning
+    description: "Character-by-character file reading is slow"
+    tags:
+      - c
+      - performance
+      - io
+    rules:
+      - pattern: 'while\s*\([^)]*\)[^}]*fgetc\s*\('
+        message: "fgetc in loop - use buffered reading"
+        suggestion: "Use fgets or fread for buffered I/O"
+
+  - id: C_PERF008
+    name: "Unaligned Memory Access"
+    domain: performance
+    severity: info
+    description: "Casting to larger types from unaligned addresses"
+    tags:
+      - c
+      - performance
+      - memory
+    rules:
+      - pattern: '\(uint[0-9]+_t\s*\*\)\s*\([^)]*\)'
+        message: "Potential unaligned cast - may be slow on some archs"
+        suggestion: "Use memcpy for unaligned access or ensure alignment"

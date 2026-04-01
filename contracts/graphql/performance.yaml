@@ -1,0 +1,321 @@
+# GraphQL Performance Contracts
+# Domain: performance
+# Validates N+1 queries, fragments, and GraphQL performance patterns
+
+contracts:
+  - id: GQL_PERF001
+    name: "Avoid N+1 query pattern"
+    domain: performance
+    severity: error
+    description: "Nested fields without batching cause N+1 queries"
+    tags:
+      - graphql
+      - performance
+      - n+1
+    rules:
+      - pattern: '\w+\s*\{\s*\w+\s*\{\s*\w+'
+        message: "Nested query - ensure DataLoader or batching"
+        suggestion: "Use DataLoader for batched resolution"
+      - query: |
+          SELECT resolver, call_count
+          FROM resolver_stats
+          WHERE call_count > queries_count * 2
+        message: "Potential N+1 query detected"
+        suggestion: "Implement DataLoader for this resolver"
+
+  - id: GQL_PERF002
+    name: "Use fragments for repeated fields"
+    domain: performance
+    severity: info
+    description: "Fragments reduce query size and duplication"
+    tags:
+      - graphql
+      - performance
+      - fragments
+    rules:
+      - pattern: '\{\s*(\w+\s+){3,}\}'
+        message: "Repeated field selections - consider fragments"
+        suggestion: "Extract to fragment: fragment UserFields on User { ... }"
+
+  - id: GQL_PERF003
+    name: "Limit pagination arguments"
+    domain: performance
+    severity: warning
+    description: "Queries should have pagination limits"
+    tags:
+      - graphql
+      - performance
+      - pagination
+    rules:
+      - pattern: '\w+\s*\([^)]*\)\s*\{'
+        message: "Query without pagination - add first/last/limit"
+        suggestion: "Add pagination: users(first: 10) { ... }"
+      - query: |
+          SELECT name FROM fields
+          WHERE type = 'Connection' AND NOT has_pagination
+        message: "Connection field without pagination"
+        suggestion: "Add first, last, before, after arguments"
+
+  - id: GQL_PERF004
+    name: "Defer/stream for slow fields"
+    domain: performance
+    severity: info
+    description: "Slow fields should use @defer or @stream"
+    tags:
+      - graphql
+      - performance
+      - defer
+    rules:
+      - query: |
+          SELECT field, avg_resolve_time
+          FROM resolver_stats
+          WHERE avg_resolve_time > 500
+        message: "Slow resolver - consider @defer"
+        suggestion: "Use @defer on slow fields: ...SlowField @defer"
+
+  - id: GQL_PERF005
+    name: "Cache control headers"
+    domain: performance
+    severity: info
+    description: "Queries should specify cache control"
+    tags:
+      - graphql
+      - performance
+      - caching
+    rules:
+      - pattern: '@cache|cacheControl|maxAge'
+        message: "Consider adding cache control directives"
+        suggestion: "Add @cacheControl(maxAge: 3600) for cacheable fields"
+
+  - id: GQL_PERF006
+    name: "Connection fields efficient"
+    domain: performance
+    severity: warning
+    description: "Connections should use cursor-based pagination"
+    tags:
+      - graphql
+      - performance
+      - pagination
+    rules:
+      - pattern: 'offset|skip.*limit|page.*size'
+        message: "Offset-based pagination - consider cursor-based"
+        suggestion: "Use cursor pagination: before/after with edges"
+
+  - id: GQL_PERF007
+    name: "Batch mutations"
+    domain: performance
+    severity: info
+    description: "Consider batch mutations for multiple operations"
+    tags:
+      - graphql
+      - performance
+      - mutations
+    rules:
+      - pattern: 'mutation\s*\{[^}]*\w+\s*\{[^}]*\}\s*\w+\s*\{'
+        message: "Multiple mutations - consider batch mutation"
+        suggestion: "Use batch mutation: createUsers(input: [...])"
+
+  - id: GQL_PERF008
+    name: "Avoid over-fetching"
+    domain: performance
+    severity: info
+    description: "Select only needed fields"
+    tags:
+      - graphql
+      - performance
+      - over-fetching
+    rules:
+      - query: |
+          SELECT query, field_count
+          FROM queries
+          WHERE field_count > 50
+        message: "Many fields selected - may over-fetch"
+        suggestion: "Select only necessary fields"
+
+  - id: GQL_PERF009
+    name: "Query complexity analysis"
+    domain: performance
+    severity: warning
+    description: "Enable query complexity analysis"
+    tags:
+      - graphql
+      - performance
+      - complexity
+    rules:
+      - query: |
+          SELECT config_value FROM server_config
+          WHERE config_key = 'complexity_analysis'
+            AND config_value = false
+        message: "Complexity analysis not enabled"
+        suggestion: "Enable complexity analysis with reasonable limits"
+
+  - id: GQL_PERF010
+    name: "Resolver caching"
+    domain: performance
+    severity: info
+    description: "Expensive resolvers should be cached"
+    tags:
+      - graphql
+      - performance
+      - caching
+    rules:
+      - query: |
+          SELECT resolver, avg_resolve_time, cache_hit_rate
+          FROM resolver_stats
+          WHERE avg_resolve_time > 100 AND cache_hit_rate < 0.5
+        message: "Slow resolver with low cache hit rate"
+        suggestion: "Add caching to resolver or use DataLoader"
+
+  - id: GQL_PERF011
+    name: "Persisted queries enabled"
+    domain: performance
+    severity: info
+    description: "Persisted queries improve performance"
+    tags:
+      - graphql
+      - performance
+      - persisted-queries
+    rules:
+      - pattern: 'persistedQueries|persisted-queries'
+        message: "Consider enabling persisted queries"
+        suggestion: "Enable persisted query cache for production"
+
+  - id: GQL_PERF012
+    name: "Query document size limit"
+    domain: performance
+    severity: warning
+    description: "Large queries should be limited"
+    tags:
+      - graphql
+      - performance
+      - query-size
+    rules:
+      - query: |
+          SELECT LENGTH(query) as size
+          FROM queries
+          WHERE LENGTH(query) > 10000
+        message: "Query document exceeds 10KB"
+        suggestion: "Split large queries or use fragments"
+
+  - id: GQL_PERF013
+    name: "Subscription memory management"
+    domain: performance
+    severity: warning
+    description: "Long-lived subscriptions need memory management"
+    tags:
+      - graphql
+      - performance
+      - subscription
+    rules:
+      - pattern: 'subscription\s*\{'
+        message: "Subscription - ensure proper cleanup and limits"
+        suggestion: "Add subscription timeout and max connections limit"
+
+  - id: GQL_PERF014
+    name: "Avoid deeply nested fragments"
+    domain: performance
+    severity: info
+    description: "Deeply nested fragments are hard to optimize"
+    tags:
+      - graphql
+      - performance
+      - fragments
+    rules:
+      - pattern: 'fragment\s+\w+\s+on\s+\w+\s*\{[^}]*\.\.\.\w+[^}]*\.\.\.\w+[^}]*\.\.\.\w+'
+        message: "Deeply nested fragment spreads"
+        suggestion: "Flatten fragment structure for better optimization"
+
+  - id: GQL_PERF015
+    name: "Index hints for queries"
+    domain: performance
+    severity: info
+    description: "Database queries should use indexes"
+    tags:
+      - graphql
+      - performance
+      - database
+    rules:
+      - query: |
+          SELECT resolver, query_pattern
+          FROM resolver_stats
+          WHERE has_full_scan = true
+        message: "Resolver may cause full table scan"
+        suggestion: "Add database index for queried fields"
+
+  - id: GQL_PERF016
+    name: "Batch DataLoader configuration"
+    domain: performance
+    severity: warning
+    description: "DataLoader should be properly configured"
+    tags:
+      - graphql
+      - performance
+      - dataloader
+    rules:
+      - pattern: 'DataLoader|dataLoader'
+        message: "DataLoader detected - check batch config"
+        suggestion: "Configure batch size and cache for DataLoader"
+
+  - id: GQL_PERF017
+    name: "Resolver timeout handling"
+    domain: performance
+    severity: warning
+    description: "Resolvers should have timeout limits"
+    tags:
+      - graphql
+      - performance
+      - timeout
+    rules:
+      - query: |
+          SELECT resolver, max_resolve_time
+          FROM resolver_stats
+          WHERE max_resolve_time > 30000
+        message: "Resolver exceeds 30s timeout"
+        suggestion: "Add timeout handling or optimize resolver"
+
+  - id: GQL_PERF018
+    name: "Query plan caching"
+    domain: performance
+    severity: info
+    description: "Enable query plan caching for repeated queries"
+    tags:
+      - graphql
+      - performance
+      - query-planning
+    rules:
+      - query: |
+          SELECT config_value FROM server_config
+          WHERE config_key = 'query_plan_cache'
+        message: "Query plan caching may improve performance"
+        suggestion: "Enable query plan caching for production"
+
+  - id: GQL_PERF019
+    name: "Response compression"
+    domain: performance
+    severity: info
+    description: "Large responses should be compressed"
+    tags:
+      - graphql
+      - performance
+      - compression
+    rules:
+      - query: |
+          SELECT AVG(response_size) as avg_size
+          FROM responses
+          WHERE avg_size > 100000
+        message: "Large responses - enable compression"
+        suggestion: "Enable gzip/br compression for responses"
+
+  - id: GQL_PERF020
+    name: "Federation subquery optimization"
+    domain: performance
+    severity: warning
+    description: "Federation queries should minimize round trips"
+    tags:
+      - graphql
+      - performance
+      - federation
+    rules:
+      - pattern: '@key|@external|@requires'
+        message: "Federation directives - check subquery efficiency"
+        suggestion: "Optimize @key and @requires for minimal round trips"

@@ -1,0 +1,143 @@
+# Java Error Handling Contracts
+# Domain: error-handling
+
+contracts:
+  - id: JAVAERR001
+    name: "Check Optional return values"
+    domain: error-handling
+    severity: warning
+    description: "Optional values must be checked before access"
+    tags:
+      - java
+      - error-handling
+      - optional
+    rules:
+      - pattern: '\.get\(\)'
+        message: "Optional.get() without isPresent() check throws NoSuchElementException"
+        suggestion: "Use orElse(), orElseThrow(), or ifPresent() instead"
+
+  - id: JAVAERR002
+    name: "Use try-with-resources"
+    domain: error-handling
+    severity: warning
+    description: "Resources implementing AutoCloseable must be properly closed"
+    tags:
+      - java
+      - error-handling
+      - resources
+    rules:
+      - pattern: 'finally\s*\{\s*\w+\.close\(\)'
+        message: "Manual close in finally block - use try-with-resources"
+        suggestion: "Use try (Resource r = ...) for automatic resource management"
+
+  - id: JAVAERR003
+    name: "Catch specific exceptions"
+    domain: error-handling
+    severity: warning
+    description: "Catch specific exception types instead of broad categories"
+    tags:
+      - java
+      - error-handling
+      - exceptions
+    rules:
+      - pattern: 'catch\s*\(\s*Exception\s+\w+\s*\)'
+        message: "Catching Exception is too broad - catches RuntimeException too"
+        suggestion: "Catch specific exception types like IOException, SQLException"
+
+  - id: JAVAERR004
+    name: "Don't catch Error or Throwable"
+    domain: error-handling
+    severity: error
+    description: "Never catch Error or Throwable - they indicate serious problems"
+    tags:
+      - java
+      - error-handling
+      - exceptions
+    rules:
+      - pattern: 'catch\s*\(\s*(Error|Throwable)\s+'
+        message: "Catching Error/Throwable masks serious JVM problems"
+        suggestion: "Let Errors propagate - they indicate unrecoverable conditions"
+
+  - id: JAVAERR005
+    name: "Proper exception chaining"
+    domain: error-handling
+    severity: warning
+    description: "Preserve original exception when wrapping"
+    tags:
+      - java
+      - error-handling
+      - exceptions
+    rules:
+      - pattern: 'throw\s+new\s+\w+Exception\s*\(\s*"[^"]*"\s*\)\s*;'
+        message: "Exception thrown without cause - original exception lost"
+        suggestion: "Use constructor with cause: new Exception(message, e)"
+
+  - id: JAVAERR006
+    name: "Custom exception naming convention"
+    domain: error-handling
+    severity: info
+    description: "Custom exceptions should end with 'Exception'"
+    tags:
+      - java
+      - error-handling
+      - naming
+    rules:
+      - pattern: 'class\s+\w+(?<!Exception)\s+extends\s+\w*Exception'
+        message: "Exception class doesn't end with 'Exception'"
+        suggestion: "Name custom exceptions with Exception suffix"
+
+  - id: JAVAERR007
+    name: "Avoid empty catch blocks"
+    domain: error-handling
+    severity: error
+    description: "Empty catch blocks silently swallow exceptions"
+    tags:
+      - java
+      - error-handling
+      - exceptions
+    rules:
+      - pattern: 'catch\s*\([^)]+\)\s*\{\s*\}'
+        message: "Empty catch block - exception is silently ignored"
+        suggestion: "Log the exception or add a comment explaining why it's ignored"
+
+  - id: JAVAERR008
+    name: "Use specific exception messages"
+    domain: error-handling
+    severity: info
+    description: "Exception messages should explain what went wrong"
+    tags:
+      - java
+      - error-handling
+      - exceptions
+    rules:
+      - pattern: 'throw\s+new\s+\w+Exception\s*\(\s*""'
+        message: "Empty exception message - hard to debug"
+        suggestion: "Provide descriptive message with context"
+
+  - id: JAVAERR009
+    name: "Don't use exceptions for flow control"
+    domain: error-handling
+    severity: warning
+    description: "Exceptions are expensive and should not control normal flow"
+    tags:
+      - java
+      - error-handling
+      - performance
+    rules:
+      - pattern: 'catch\s*\([^)]+\)\s*\{\s*[^}]*return'
+        message: "Exception used for flow control - use conditional checks"
+        suggestion: "Check conditions explicitly instead of relying on exceptions"
+
+  - id: JAVAERR010
+    name: "Close resources in finally or use try-with-resources"
+    domain: error-handling
+    severity: warning
+    description: "Resources like streams must be closed even on exception"
+    tags:
+      - java
+      - error-handling
+      - resources
+    rules:
+      - pattern: '(InputStream|OutputStream|Reader|Writer)\s+\w+\s*=\s*new'
+        message: "Resource opened without try-with-resources may leak"
+        suggestion: "Use try-with-resources to ensure automatic closure"

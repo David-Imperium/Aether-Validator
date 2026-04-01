@@ -1,0 +1,121 @@
+contracts:
+  - id: TOMLC001
+    name: "Invalid table header"
+    domain: correctness
+    severity: error
+    description: "Table headers must have valid syntax"
+    rules:
+      - pattern: '^\[[^\]]+$'
+        message: "Unclosed table header bracket"
+        suggestion: "Close table header with ]"
+      - pattern: '^\[\]|\[[^\w.]'
+        message: "Empty or invalid table name"
+        suggestion: "Provide valid table name"
+
+  - id: TOMLC002
+    name: "Invalid key syntax"
+    domain: correctness
+    severity: error
+    description: "Keys must follow TOML syntax rules"
+    rules:
+      - pattern: '^\s*[^a-zA-Z0-9_"\'\[]'
+        message: "Invalid key starting character"
+        suggestion: "Keys must start with letter, number, underscore, or be quoted"
+      - pattern: '^[\w-]+\s*=\s*\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
+        message: "Datetime value detected"
+        suggestion: "Ensure datetime format is RFC 3339"
+
+  - id: TOMLC003
+    name: "Invalid string escape"
+    domain: correctness
+    severity: error
+    description: "Escape sequences must be valid"
+    rules:
+      - pattern: '"[^"]*\\[^"\\bfnrtu].*"'
+        message: "Invalid escape sequence in string"
+        suggestion: "Use valid escape sequences: \\b, \\f, \\n, \\r, \\t, \\uXXXX"
+
+  - id: TOMLC004
+    name: "Multiline string issues"
+    domain: correctness
+    severity: error
+    description: "Multiline strings need proper delimiters"
+    rules:
+      - pattern: '"""[^"]*"[^"]'
+        message: "Unterminated multiline basic string"
+        suggestion: "Close multiline string with \"\"\""
+
+  - id: TOMLC005
+    name: "Array type mixing"
+    domain: correctness
+    severity: error
+    description: "Arrays must contain same type"
+    rules:
+      - pattern: '=\s*\[[^\]]*,\s*\d+.*"[^"]*"[^\]]*\]'
+        message: "Mixed string and number in array"
+        suggestion: "Keep arrays homogeneous"
+      - pattern: '=\s*\[[^\]]*(true|false).*"[^"]*"[^\]]*\]'
+        message: "Mixed boolean and string in array"
+        suggestion: "Keep arrays homogeneous"
+
+  - id: TOMLC006
+    name: "Invalid number format"
+    domain: correctness
+    severity: error
+    description: "Numbers must be valid format"
+    rules:
+      - pattern: '=\s*\d+\.\d+\.\d+'
+        message: "Multiple decimal points in number"
+        suggestion: "Fix number format"
+      - pattern: '=\s*0[0-9]+\.\d'
+        message: "Leading zeros in float"
+        suggestion: "Remove leading zeros"
+
+  - id: TOMLC007
+    name: "Duplicate key in table"
+    domain: correctness
+    severity: error
+    description: "Keys within table must be unique"
+    rules:
+      - pattern: '^(\w+)\s*=\s*.+\n(?:.*\n)*?\s*\1\s*='
+        message: "Duplicate key detected"
+        suggestion: "Rename or remove duplicate key"
+
+  - id: TOMLC008
+    name: "Invalid inline table"
+    domain: correctness
+    severity: error
+    description: "Inline tables must be valid"
+    rules:
+      - pattern: '=\s*\{[^}]*[^,}]\s*[^}]*,'
+        message: "Malformed inline table"
+        suggestion: "Check inline table syntax"
+      - pattern: '=\s*\{[^}]*\{[^}]*\}[^}]*\}'
+        message: "Nested inline tables not allowed"
+        suggestion: "Use standard table syntax"
+
+  - id: TOMLC009
+    name: "Array of tables syntax"
+    domain: correctness
+    severity: error
+    description: "Array of tables must use [[ ]]
+    rules:
+      - pattern: '^\[[^[]+[[]'
+        message: "Invalid table array syntax"
+        suggestion: "Use [[table_name]] for array of tables"
+      - pattern: '^\[\[[^\]]+\]\][^\s\]\n]'
+        message: "Characters after table array header"
+        suggestion: "Table array headers should be on their own line"
+
+  - id: TOMLC010
+    name: "Dotted key issues"
+    domain: correctness
+    severity: error
+    description: "Dotted keys must be valid"
+    rules:
+      - pattern: '^\s*\.\s*\w+\s*='
+        message: "Key cannot start with dot"
+        suggestion: "Remove leading dot from key"
+      - pattern: '^\s*\w+\.\s*=\s*'
+        message: "Empty key segment in dotted key"
+        suggestion: "Provide name for all key segments"

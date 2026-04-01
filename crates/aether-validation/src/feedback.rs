@@ -94,6 +94,7 @@ impl FeedbackProvider {
     /// Generate AI-friendly description
     pub fn generate_description(&self, violation: &Violation) -> String {
         let severity_emoji = match violation.severity {
+            Severity::Critical => "💥",
             Severity::Error => "🔴",
             Severity::Warning => "🟡",
             Severity::Info => "🔵",

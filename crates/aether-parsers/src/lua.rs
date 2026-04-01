@@ -10,7 +10,7 @@ use crate::ast::{AST, ASTNode, NodeKind, Token, TokenKind, Span as ASTSpan};
 use crate::error::ParseResult;
 
 /// Parser for Lua source code (including Love2D).
-#[allow(dead_code)]
+#[allow(dead_code)] // Fields prepared for future: comment/string parsing
 pub struct LuaParser {
     function_pattern: Regex,
     local_function_pattern: Regex,

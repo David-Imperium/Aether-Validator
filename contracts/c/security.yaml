@@ -1,0 +1,213 @@
+contracts:
+  - id: C001
+    name: "Dangerous gets() Usage"
+    domain: security
+    severity: critical
+    description: "gets() has no buffer size limit - buffer overflow guaranteed"
+    tags:
+      - c
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: '\bgets\s*\('
+        message: "gets() is dangerous and deprecated"
+        suggestion: "Use fgets() with size limit"
+
+  - id: C002
+    name: "strcpy Buffer Overflow"
+    domain: security
+    severity: error
+    description: "strcpy doesn't check destination size"
+    tags:
+      - c
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: '\bstrcpy\s*\('
+        message: "strcpy can overflow destination buffer"
+        suggestion: "Use strncpy() or strlcpy() with size check"
+
+  - id: C003
+    name: "sprintf Buffer Overflow"
+    domain: security
+    severity: error
+    description: "sprintf writes without bounds checking"
+    tags:
+      - c
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: '\bsprintf\s*\('
+        message: "sprintf can overflow buffer"
+        suggestion: "Use snprintf() with buffer size"
+
+  - id: C004
+    name: "strcat Buffer Overflow"
+    domain: security
+    severity: error
+    description: "strcat appends without bounds checking"
+    tags:
+      - c
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: '\bstrcat\s*\('
+        message: "strcat can overflow destination"
+        suggestion: "Use strncat() with remaining space check"
+
+  - id: C005
+    name: "Format String Vulnerability"
+    domain: security
+    severity: critical
+    description: "printf with user-controlled format string"
+    tags:
+      - c
+      - security
+      - format-string
+    rules:
+      - pattern: '(printf|fprintf|sprintf)\s*\([^,]*\)'
+        message: "printf without format string - potential vulnerability"
+        suggestion: "Use printf(\"%s\", str) not printf(str)"
+
+  - id: C006
+    name: "system() Command Injection"
+    domain: security
+    severity: critical
+    description: "system() executes shell commands"
+    tags:
+      - c
+      - security
+      - injection
+    rules:
+      - pattern: '\bsystem\s*\('
+        message: "system() can execute arbitrary commands"
+        suggestion: "Use exec family with proper argument handling"
+
+  - id: C007
+    name: "scanf Without Size Limit"
+    domain: security
+    severity: error
+    description: "scanf with %s can overflow buffer"
+    tags:
+      - c
+      - security
+      - input-validation
+    rules:
+      - pattern: '\bscanf\s*\([^)]*%s[^)]*\)'
+        message: "scanf %s without size limit"
+        suggestion: "Use scanf %Ns with size or fgets"
+
+  - id: C008
+    name: "Hardcoded Paths"
+    domain: security
+    severity: warning
+    description: "Hardcoded paths reduce portability"
+    tags:
+      - c
+      - security
+      - portability
+    rules:
+      - pattern: '"/(tmp|var|etc|usr)/'
+        message: "Hardcoded absolute path"
+        suggestion: "Use configurable paths or environment variables"
+
+  - id: C009
+    name: "Hardcoded Credentials"
+    domain: security
+    severity: critical
+    description: "Passwords or secrets hardcoded in source code"
+    tags:
+      - c
+      - security
+      - secrets
+    rules:
+      - pattern: '(?i)(password|passwd|pwd|secret|key)\s*=\s*"[^"]{4,}"'
+        message: "Hardcoded credential detected"
+        suggestion: "Use environment variables or config files"
+
+  - id: C010
+    name: "Insecure Random"
+    domain: security
+    severity: warning
+    description: "rand() is not cryptographically secure"
+    tags:
+      - c
+      - security
+      - random
+    rules:
+      - pattern: '\brand\s*\(\s*\)'
+        message: "rand() is not suitable for security purposes"
+        suggestion: "Use getrandom() or OS-specific secure random"
+
+  - id: C011
+    name: "Unchecked Return from malloc"
+    domain: security
+    severity: error
+    description: "malloc can return NULL on failure"
+    tags:
+      - c
+      - security
+      - null-check
+    rules:
+      - pattern: '\bmalloc\s*\([^)]+\)\s*;'
+        message: "malloc return not checked for NULL"
+        suggestion: "Check: if (ptr == NULL) { error_handler(); }"
+
+  - id: C012
+    name: "TOCTOU Race Condition"
+    domain: security
+    severity: error
+    description: "Time-of-check to time-of-use race condition"
+    tags:
+      - c
+      - security
+      - race-condition
+    rules:
+      - pattern: 'access\s*\([^)]+\)[^;]*open\s*\('
+        message: "access() then open() - TOCTOU race possible"
+        suggestion: "Open file directly and check with fstat()"
+
+  - id: C013
+    name: "strncpy No Null Termination"
+    domain: security
+    severity: warning
+    description: "strncpy may not null-terminate if source is too long"
+    tags:
+      - c
+      - security
+      - buffer-overflow
+    rules:
+      - pattern: '\bstrncpy\s*\([^,]+,\s*[^,]+,\s*sizeof\s*\('
+        message: "strncpy with sizeof - may not null-terminate"
+        suggestion: "Set dest[size-1] = '\\0' after strncpy"
+
+  - id: C014
+    name: "popen Command Injection"
+    domain: security
+    severity: critical
+    description: "popen executes shell commands"
+    tags:
+      - c
+      - security
+      - injection
+    rules:
+      - pattern: '\bpopen\s*\('
+        message: "popen() passes command to shell"
+        suggestion: "Avoid popen with user input, use pipe+exec"
+
+  - id: C015
+    name: "Temp File Race"
+    domain: security
+    severity: error
+    description: "tmpnam/tmpnam_r have race conditions"
+    tags:
+      - c
+      - security
+      - race-condition
+    rules:
+      - pattern: '\btmpnam\s*\('
+        message: "tmpnam() is unsafe - race condition"
+        suggestion: "Use mkstemp() for secure temp files"
+      - pattern: '\btempnam\s*\('
+        message: "tempnam() is unsafe"
+        suggestion: "Use mkstemp() for secure temp files"

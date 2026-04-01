@@ -1,0 +1,316 @@
+# Notebook Correctness Contracts
+# Domain: correctness
+# Validates outputs, types, and notebook correctness
+
+contracts:
+  - id: NB_CORR001
+    name: "Sequential execution order"
+    domain: correctness
+    severity: error
+    description: "Cells should execute in sequential order"
+    tags:
+      - notebook
+      - correctness
+      - execution
+    rules:
+      - query: |
+          SELECT cell_number, execution_count
+          FROM cells
+          WHERE cell_type = 'code'
+          ORDER BY cell_number
+        message: "Execution counts not sequential"
+        suggestion: "Restart kernel and run all cells sequentially"
+
+  - id: NB_CORR002
+    name: "No undefined variables"
+    domain: correctness
+    severity: error
+    description: "Variables should be defined before use"
+    tags:
+      - notebook
+      - correctness
+      - variables
+    rules:
+      - query: |
+          SELECT variable, used_in_cell, defined_in_cell
+          FROM variable_usage
+          WHERE used_in_cell < defined_in_cell
+        message: "Variable used before definition"
+        suggestion: "Define variable before using it"
+
+  - id: NB_CORR003
+    name: "Import before use"
+    domain: correctness
+    severity: error
+    description: "Modules should be imported before use"
+    tags:
+      - notebook
+      - correctness
+      - imports
+    rules:
+      - query: |
+          SELECT module, used_in_cell, imported_in_cell
+          FROM module_usage
+          WHERE used_in_cell < imported_in_cell
+        message: "Module used before import"
+        suggestion: "Move import to earlier cell or top of notebook"
+
+  - id: NB_CORR004
+    name: "Cell outputs match execution"
+    domain: correctness
+    severity: warning
+    description: "Code cells should have outputs if executed"
+    tags:
+      - notebook
+      - correctness
+      - outputs
+    rules:
+      - query: |
+          SELECT cell_number
+          FROM cells
+          WHERE cell_type = 'code'
+            AND execution_count IS NOT NULL
+            AND outputs IS NULL
+        message: "Executed cell has no output"
+        suggestion: "Verify cell executed correctly"
+
+  - id: NB_CORR005
+    name: "Exception handling present"
+    domain: correctness
+    severity: warning
+    description: "Risky operations should have exception handling"
+    tags:
+      - notebook
+      - correctness
+      - exceptions
+    rules:
+      - pattern: '(open\(|requests\.|pd\.read|cursor\.execute)(?!.*try:)'
+        message: "Risky operation without try/except"
+        suggestion: "Add exception handling for robust code"
+
+  - id: NB_CORR006
+    name: "DataFrame columns exist"
+    domain: correctness
+    severity: error
+    description: "Referenced DataFrame columns should exist"
+    tags:
+      - notebook
+      - correctness
+      - pandas
+    rules:
+      - query: |
+          SELECT df, column, cell
+          FROM column_references
+          WHERE column NOT IN (SELECT column FROM dataframe_schema WHERE name = df)
+        message: "Referenced column doesn't exist in DataFrame"
+        suggestion: "Check DataFrame columns: print(df.columns)"
+
+  - id: NB_CORR007
+    name: "Function arguments valid"
+    domain: correctness
+    severity: error
+    description: "Function calls should have valid arguments"
+    tags:
+      - notebook
+      - correctness
+      - functions
+    rules:
+      - query: |
+          SELECT function, call_cell, signature
+          FROM function_calls
+          WHERE arguments_match = false
+        message: "Function call with invalid arguments"
+        suggestion: "Check function signature and arguments"
+
+  - id: NB_CORR008
+    name: "File paths valid"
+    domain: correctness
+    severity: warning
+    description: "Referenced files should exist"
+    tags:
+      - notebook
+      - correctness
+      - files
+    rules:
+      - query: |
+          SELECT file_path, cell
+          FROM file_references
+          WHERE file_exists = false
+        message: "Referenced file doesn't exist"
+        suggestion: "Verify file path is correct"
+
+  - id: NB_CORR009
+    name: "Type consistency"
+    domain: correctness
+    severity: warning
+    description: "Operations should have consistent types"
+    tags:
+      - notebook
+      - correctness
+      - types
+    rules:
+      - pattern: 'df\[.*\]\s*\+\s*["\']|df\[.*\]\s*-\s*\d+\.\d+.*\[.*\]'
+        message: "Potential type mismatch in operation"
+        suggestion: "Check dtypes: df['col'].dtype"
+
+  - id: NB_CORR010
+    name: "Index alignment"
+    domain: correctness
+    severity: warning
+    description: "DataFrame operations should align indexes"
+    tags:
+      - notebook
+      - correctness
+      - pandas
+    rules:
+      - pattern: 'df\[.*\]\s*=\s*df2\[.*\]|df\[.*\]\s*=\s*\[.*\]'
+        message: "Assignment may have index misalignment"
+        suggestion: "Use df['col'] = df2['col'].values or reset_index()"
+
+  - id: NB_CORR011
+    name: "No division by zero"
+    domain: correctness
+    severity: warning
+    description: "Avoid division by zero"
+    tags:
+      - notebook
+      - correctness
+      - math
+    rules:
+      - pattern: '/\s*(df\[|np\.)|/\s*\w+\s*$'
+        message: "Division - verify denominator is non-zero"
+        suggestion: "Add check: if denom != 0: or use np.where"
+
+  - id: NB_CORR012
+    name: "Merge key consistency"
+    domain: correctness
+    severity: warning
+    description: "Merge keys should have consistent types"
+    tags:
+      - notebook
+      - correctness
+      - pandas
+    rules:
+      - pattern: 'pd\.merge\(|df\.merge\('
+        message: "Merge - verify key types match"
+        suggestion: "Check merge key dtypes are compatible"
+
+  - id: NB_CORR013
+    name: "No empty cells with code"
+    domain: correctness
+    severity: info
+    description: "Code cells should have content"
+    tags:
+      - notebook
+      - correctness
+      - structure
+    rules:
+      - query: |
+          SELECT cell_number
+          FROM cells
+          WHERE cell_type = 'code' AND source IS NULL OR source = ''
+        message: "Empty code cell"
+        suggestion: "Remove empty cell or add code"
+
+  - id: NB_CORR014
+    name: "Markdown cells renderable"
+    domain: correctness
+    severity: info
+    description: "Markdown should be valid"
+    tags:
+      - notebook
+      - correctness
+      - markdown
+    rules:
+      - pattern: '`[^`]{50,}|#{7,}|!\[[^\]]*\]\s*$'
+        message: "Potentially malformed markdown"
+        suggestion: "Fix markdown syntax"
+
+  - id: NB_CORR015
+    name: "Return statements in functions"
+    domain: correctness
+    severity: warning
+    description: "Functions should have return statements where expected"
+    tags:
+      - notebook
+      - correctness
+      - functions
+    rules:
+      - pattern: 'def\s+\w+\s*\(.*\):\s*\n\s*[^r][^e][^t][^u][^r][^n].*\n\s*$'
+        message: "Function may be missing return statement"
+        suggestion: "Add return statement if function should return value"
+
+  - id: NB_CORR016
+    name: "No infinite loops"
+    domain: correctness
+    severity: error
+    description: "Loops should have termination conditions"
+    tags:
+      - notebook
+      - correctness
+      - control-flow
+    rules:
+      - pattern: 'while\s+True\s*:|while\s+1\s*:'
+        message: "Potential infinite loop"
+        suggestion: "Add break condition or use for loop"
+
+  - id: NB_CORR017
+    name: "Assertion messages"
+    domain: correctness
+    severity: info
+    description: "Assertions should have descriptive messages"
+    tags:
+      - notebook
+      - correctness
+      - testing
+    rules:
+      - pattern: 'assert\s+[^,]+$'
+        message: "Assertion without message"
+        suggestion: "Add message: assert condition, 'message'"
+
+  - id: NB_CORR018
+    name: "GroupBy aggregation valid"
+    domain: correctness
+    severity: warning
+    description: "GroupBy should have aggregation function"
+    tags:
+      - notebook
+      - correctness
+      - pandas
+    rules:
+      - pattern: '\.groupby\([^)]+\)\s*$'
+        message: "GroupBy without aggregation"
+        suggestion: "Add .agg(), .sum(), .mean(), etc."
+
+  - id: NB_CORR019
+    name: "Axis parameter correct"
+    domain: correctness
+    severity: warning
+    description: "Axis parameter should be correct for operation"
+    tags:
+      - notebook
+      - correctness
+      - pandas
+    rules:
+      - pattern: '\.(drop|concat|sum|mean)\([^)]*axis\s*=\s*2'
+        message: "Invalid axis=2 - pandas uses 0 or 1"
+        suggestion: "Use axis=0 (rows) or axis=1 (columns)"
+
+  - id: NB_CORR020
+    name: "Kernel restart before final run"
+    domain: correctness
+    severity: info
+    description: "Restart kernel before final run for reproducibility"
+    tags:
+      - notebook
+      - correctness
+      - reproducibility
+    rules:
+      - query: |
+          SELECT execution_count
+          FROM cells
+          WHERE cell_type = 'code' AND execution_count IS NOT NULL
+          ORDER BY execution_count
+          LIMIT 1
+        message: "Execution count starts from non-1"
+        suggestion: "Restart kernel and run all cells from beginning"

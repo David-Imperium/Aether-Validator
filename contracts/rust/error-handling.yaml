@@ -54,3 +54,53 @@ contracts:
       - pattern: "# Errors\n"
         message: "Error documentation found"
         suggestion: "Continue documenting what errors can be returned and why"
+
+  # === BLIND SPOTS FOUND BY EXTERNAL AUDIT ===
+
+  - id: RUST040
+    name: "Float NaN comparison unsafe"
+    domain: error-handling
+    severity: warning
+    description: "partial_cmp() returns Option because NaN comparisons are undefined. unwrap() will panic if either value is NaN"
+    tags:
+      - rust
+      - error-handling
+      - float
+      - panic
+    rules:
+      - pattern: ".partial_cmp("
+        message: "partial_cmp() returns Option - handle None case for NaN values"
+        suggestion: "Use .unwrap_or(std::cmp::Ordering::Equal) or match on None"
+
+  - id: RUST041
+    name: "Empty collection access"
+    domain: error-handling
+    severity: warning
+    description: "Calling unwrap() on first()/last() will panic if the collection is empty"
+    tags:
+      - rust
+      - error-handling
+      - collections
+      - panic
+    rules:
+      - pattern: 'first\(\)\.unwrap\(\)'
+        message: ".first().unwrap() panics on empty collection"
+        suggestion: "Use .first().copied().unwrap_or_default() or check .is_empty()"
+      - pattern: 'last\(\)\.unwrap\(\)'
+        message: ".last().unwrap() panics on empty collection"
+        suggestion: "Use .last().copied().unwrap_or_default() or check .is_empty()"
+
+  - id: RUST042
+    name: "HashMap/BTreeMap unchecked access"
+    domain: error-handling
+    severity: warning
+    description: "Calling unwrap() on map.get() will panic if the key is not present"
+    tags:
+      - rust
+      - error-handling
+      - collections
+      - panic
+    rules:
+      - pattern: ".get("
+        message: "map.get() returns Option - handle None case when key is missing"
+        suggestion: "Use .get(k).copied().unwrap_or(default) or .expect(\"key must exist\")"

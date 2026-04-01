@@ -1,0 +1,249 @@
+# TypeScript/JavaScript API Signatures
+
+typescript:
+  # Built-in
+  console:
+    log:
+      params:
+        - name: data
+          type: "...any"
+          optional: true
+          variadic: true
+      return: void
+    
+    error:
+      params:
+        - name: data
+          type: "...any"
+          optional: true
+          variadic: true
+      return: void
+  
+  fetch:
+    params:
+      - name: url
+        type: string | URL | Request
+        optional: false
+        position: 0
+      - name: options
+        type: RequestInit
+        optional: true
+        position: 1
+    return: Promise<Response>
+    raises: [TypeError, NetworkError]
+    common_errors:
+      - error: "Missing await"
+        description: "fetch returns Promise, must await"
+        correct: "const res = await fetch(url)"
+        wrong: "const res = fetch(url); res.json()  # Error: .json() on Promise"
+  
+  Response:
+    json:
+      params: []
+      return: Promise<any>
+      note: "Returns Promise, must await"
+      common_errors:
+        - error: "response.json() without await"
+          description: "json() returns Promise"
+          correct: "const data = await response.json()"
+          wrong: "const data = response.json()  # data is Promise"
+    
+    text:
+      params: []
+      return: Promise<string>
+    
+    status:
+      type: number
+      note: "HTTP status code (200, 404, etc.)"
+    
+    ok:
+      type: boolean
+      note: "True if status 200-299"
+  
+  Array:
+    map:
+      params:
+        - name: callback
+          type: "(value: T, index: number, array: T[]) => U"
+          optional: false
+      return: U[]
+      note: "Returns NEW array"
+    
+    filter:
+      params:
+        - name: callback
+          type: "(value: T, index: number, array: T[]) => boolean"
+          optional: false
+      return: T[]
+    
+    forEach:
+      params:
+        - name: callback
+          type: "(value: T, index: number, array: T[]) => void"
+          optional: false
+      return: void
+      common_errors:
+        - error: "Using forEach return value"
+          description: "forEach returns undefined, not array"
+          correct: "arr.forEach(x => console.log(x))"
+          wrong: "const mapped = arr.forEach(x => x * 2)  # undefined"
+    
+    push:
+      params:
+        - name: items
+          type: "...T"
+          optional: true
+          variadic: true
+      return: number  # New length
+      note: "Mutates array, returns new length"
+    
+    splice:
+      params:
+        - name: start
+          type: number
+          optional: false
+        - name: deleteCount
+          type: number
+          optional: true
+        - name: items
+          type: "...T"
+          optional: true
+          variadic: true
+      return: T[]  # Removed elements
+      note: "Mutates array"
+    
+    slice:
+      params:
+        - name: start
+          type: number
+          optional: true
+        - name: end
+          type: number
+          optional: true
+      return: T[]
+      note: "Returns NEW array, does not mutate"
+    
+    sort:
+      params:
+        - name: compareFn
+          type: "((a: T, b: T) => number) | undefined"
+          optional: true
+      return: T[]  # Same reference!
+      note: "Mutates array AND returns it"
+      common_errors:
+        - error: "sort() without compareFn on numbers"
+          description: "Default sort is lexicographic"
+          correct: "[3, 1, 2].sort((a, b) => a - b)  # [1, 2, 3]"
+          wrong: "[3, 1, 2].sort()  # [1, 2, 3] by luck, but [10, 2] => [10, 2]"
+  
+  Promise:
+    then:
+      params:
+        - name: onfulfilled
+          type: "((value: T) => U | PromiseLike<U>) | null"
+          optional: true
+        - name: onrejected
+          type: "((reason: any) => U | PromiseLike<U>) | null"
+          optional: true
+      return: Promise<U>
+    
+    catch:
+      params:
+        - name: onrejected
+          type: "(reason: any) => U | PromiseLike<U>"
+          optional: false
+      return: Promise<U>
+    
+    all:
+      params:
+        - name: values
+          type: "Iterable<T | PromiseLike<T>>"
+          optional: false
+      return: Promise<T[]>
+      note: "Fails fast - rejects on first rejection"
+    
+    allSettled:
+      params:
+        - name: values
+          type: "Iterable<T | PromiseLike<T>>"
+          optional: false
+      return: Promise<PromiseSettledResult<T>[]>
+      note: "Waits for all, never rejects"
+  
+  Object:
+    keys:
+      params:
+        - name: obj
+          type: object
+          optional: false
+      return: string[]
+    
+    values:
+      params:
+        - name: obj
+          type: object
+          optional: false
+      return: any[]
+    
+    entries:
+      params:
+        - name: obj
+          type: object
+          optional: false
+      return: "[string, any][]"
+  
+  JSON:
+    parse:
+      params:
+        - name: text
+          type: string
+          optional: false
+        - name: reviver
+          type: "((key: string, value: any) => any) | undefined"
+          optional: true
+      return: any
+      raises: [SyntaxError]
+    
+    stringify:
+      params:
+        - name: value
+          type: any
+          optional: false
+        - name: replacer
+          type: "((key: string, value: any) => any) | (string | number)[] | null"
+          optional: true
+        - name: space
+          type: "string | number"
+          optional: true
+      return: string
+  
+  # React patterns
+  useState:
+    params:
+      - name: initialState
+        type: "T | (() => T)"
+        optional: false
+    return: "[T, (value: T | ((prev: T) => T)) => void]"
+    note: "React hook - must be called at top level"
+    common_errors:
+      - error: "useState in condition/loop"
+        description: "Hooks must be called unconditionally"
+        correct: "const [val, setVal] = useState(0)"
+        wrong: "if (condition) { const [val, setVal] = useState(0) }"
+  
+  useEffect:
+    params:
+      - name: effect
+        type: "() => void | (() => void)"
+        optional: false
+        position: 0
+      - name: deps
+        type: "any[]"
+        optional: true
+        position: 1
+    return: void
+    common_errors:
+      - error: "Missing dependency"
+        description: "Variables used in effect should be in deps"
+        correct: "useEffect(() => console.log(val), [val])"
+        wrong: "useEffect(() => console.log(val), [])  # val missing from deps"

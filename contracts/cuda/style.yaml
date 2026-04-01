@@ -1,0 +1,104 @@
+contracts:
+  - id: CUDA_STYLE001
+    name: "Kernel function naming"
+    domain: style
+    severity: info
+    description: "Kernel functions should follow naming conventions"
+    rules:
+      - pattern: '__global__\s+void\s+[a-z][a-zA-Z0-9_]*\s*\('
+        message: "Lowercase kernel name - good convention"
+        suggestion: "Use lowercase_underscore for kernel names"
+      - pattern: '__global__\s+void\s+[A-Z][a-zA-Z0-9_]*\s*\('
+        message: "Capitalized kernel name"
+        suggestion: "Consider lowercase for consistency"
+
+  - id: CUDA_STYLE002
+    name: "Device function naming"
+    domain: style
+    severity: info
+    description: "Device functions should be distinguishable"
+    rules:
+      - pattern: '__device__\s+\w+\s+_[a-z][a-zA-Z0-9_]*\s*\('
+        message: "Device function with underscore prefix - good"
+        suggestion: "Prefix device-only functions with underscore"
+      - pattern: '__(inline|forceinline)__\s+__device__'
+        message: "Inline device function - good for performance"
+        suggestion: ""
+
+  - id: CUDA_STYLE003
+    name: "Thread index variables"
+    domain: style
+    severity: info
+    description: "Thread index variables should be consistent"
+    rules:
+      - pattern: 'const\s+int\s+(tid|idx|tx)\s*='
+        message: "Common thread index naming - good"
+        suggestion: "Use consistent names: tid, idx, tx for threadIdx.x"
+      - pattern: 'int\s+(tid|idx|gid|globalIdx)\s*='
+        message: "Index variable declared - standard naming"
+        suggestion: ""
+
+  - id: CUDA_STYLE004
+    name: "Block and grid naming"
+    domain: style
+    severity: info
+    description: "Block and grid variables should be clear"
+    rules:
+      - pattern: '(dim3|uint3)\s+(block|grid|blockDim|gridDim)'
+        message: "Block/grid variable declared"
+        suggestion: "Use descriptive names: threadsPerBlock, blocksPerGrid"
+      - pattern: 'blockDim\.x\s*,\s*blockDim\.y'
+        message: "2D block configuration"
+        suggestion: "Comment the rationale for block dimensions"
+
+  - id: CUDA_STYLE005
+    name: "Launch configuration formatting"
+    domain: style
+    severity: info
+    description: "Kernel launches should be readable"
+    rules:
+      - pattern: '<<<\s*\d+\s*,\s*\d+\s*>>>'
+        message: "Simple launch config - clear"
+        suggestion: ""
+      - pattern: '<<<\s*\w+\s*,\s*\w+\s*,\s*\w+\s*,\s*\w+\s*>>>'
+        message: "Full launch config with shared mem and stream"
+        suggestion: "Comment the purpose of each parameter"
+
+  - id: CUDA_STYLE006
+    name: "Memory qualifier placement"
+    domain: style
+    severity: info
+    description: "Memory qualifiers should precede type"
+    rules:
+      - pattern: '__(global|device|constant|shared)__\s+(const\s+)?\w+'
+        message: "Memory qualifier before type - correct order"
+        suggestion: "Place qualifiers: __global__/__device__/__constant__/__shared__"
+      - pattern: 'const\s+__(global|device)__'
+        message: "Const before memory qualifier - non-standard"
+        suggestion: "Use __device__ const or __constant__ instead"
+
+  - id: CUDA_STYLE007
+    name: "Error checking macros"
+    domain: style
+    severity: info
+    description: "Error checking should use consistent macros"
+    rules:
+      - pattern: 'CUDA_CHECK|CUDA_SAFE_CALL|checkCudaErrors'
+        message: "Error checking macro used - good"
+        suggestion: "Define and use consistent error checking macros"
+      - pattern: 'cudaGetLastError\s*\(\s*\)'
+        message: "Explicit error check - good practice"
+        suggestion: ""
+
+  - id: CUDA_STYLE008
+    name: "Comment style for kernels"
+    domain: style
+    severity: info
+    description: "Kernels should have documentation comments"
+    rules:
+      - pattern: '/\*\*[^*]*\*/\s*__global__'
+        message: "Kernel with documentation comment - good"
+        suggestion: "Document kernel purpose, parameters, and thread requirements"
+      - pattern: '//\s*Kernel:.*\n.*__global__'
+        message: "Kernel with single-line comment"
+        suggestion: "Consider block comment with full documentation"

@@ -1,0 +1,123 @@
+# Go Error Handling Contracts
+# Domain: error-handling
+
+contracts:
+  - id: GOERR001
+    name: "Check error return values"
+    domain: error-handling
+    severity: error
+    description: "Always check and handle error return values"
+    tags:
+      - go
+      - error-handling
+      - safety
+    rules:
+      - pattern: 'err\s*:=\s*\w+\([^)]*\)\s*$'
+        message: "Error return value assigned but not checked"
+        suggestion: "Check error immediately: if err != nil { return err }"
+      - pattern: 'err\s*=\s*\w+\([^)]*\)\s*$'
+        message: "Error value assigned but not checked"
+        suggestion: "Add error check after assignment"
+
+  - id: GOERR002
+    name: "Use errors.Is for error comparison"
+    domain: error-handling
+    severity: warning
+    description: "Use errors.Is() for error comparison instead of =="
+    tags:
+      - go
+      - error-handling
+    rules:
+      - pattern: 'err\s*==\s*\w+Err'
+        message: "Direct error comparison with =="
+        suggestion: "Use errors.Is(err, SomeErr) for error comparison"
+      - pattern: 'err\s*!=\s*\w+Err'
+        message: "Direct error comparison with !="
+        suggestion: "Use !errors.Is(err, SomeErr) for error comparison"
+
+  - id: GOERR003
+    name: "Use errors.As for type assertion"
+    domain: error-handling
+    severity: warning
+    description: "Use errors.As() for error type assertion"
+    tags:
+      - go
+      - error-handling
+    rules:
+      - pattern: '\.\(\*?\w+Error\)\s*\(err\)'
+        message: "Direct type assertion on error"
+        suggestion: "Use errors.As(err, &target) for type assertion"
+
+  - id: GOERR004
+    name: "Wrap errors with context"
+    domain: error-handling
+    severity: info
+    description: "Wrap errors with additional context using fmt.Errorf"
+    tags:
+      - go
+      - error-handling
+    rules:
+      - pattern: 'return\s+nil,\s*err\s*$'
+        message: "Error returned without context"
+        suggestion: "Wrap with fmt.Errorf(\"context: %w\", err)"
+      - pattern: 'return\s+err\s*$'
+        message: "Error returned without context"
+        suggestion: "Wrap with fmt.Errorf(\"context: %w\", err)"
+
+  - id: GOERR005
+    name: "Don't ignore errors with blank identifier"
+    domain: error-handling
+    severity: error
+    description: "Never ignore error return values with _"
+    tags:
+      - go
+      - error-handling
+      - safety
+    rules:
+      - pattern: '_,\s*err\s*:='
+        message: "Error assigned to blank identifier"
+        suggestion: "Handle or explicitly log the error"
+      - pattern: '_\s*=\s*err'
+        message: "Error explicitly ignored"
+        suggestion: "Handle or log the error instead of ignoring"
+
+  - id: GOERR006
+    name: "Use custom error types"
+    domain: error-handling
+    severity: info
+    description: "Create custom error types for domain-specific errors"
+    tags:
+      - go
+      - error-handling
+      - design
+    rules:
+      - pattern: 'errors\.New\(.*\)\s*$'
+        message: "Consider using custom error type for domain errors"
+        suggestion: "Define a custom error type that implements error interface"
+
+  - id: GOERR007
+    name: "Handle defer errors"
+    domain: error-handling
+    severity: warning
+    description: "Don't ignore errors from deferred functions"
+    tags:
+      - go
+      - error-handling
+    rules:
+      - pattern: 'defer\s+\w+\.Close\(\)'
+        message: "Close() error may be ignored in defer"
+        suggestion: "Use defer func() { if err := f.Close(); err != nil { log.Println(err) } }()"
+
+  - id: GOERR008
+    name: "Name error return parameters"
+    domain: error-handling
+    severity: info
+    description: "Use named error return for clarity"
+    tags:
+      - go
+      - error-handling
+      - style
+    rules:
+      - pattern: '\)\s*\(\s*error\s*\)'
+        message: "Unnamed error return parameter"
+        suggestion: "Name the error return: (err error)"

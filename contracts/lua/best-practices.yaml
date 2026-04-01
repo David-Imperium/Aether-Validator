@@ -1,0 +1,120 @@
+contracts:
+  - id: LUA_BP001
+    name: "Use Local Variables"
+    domain: best-practices
+    severity: warning
+    description: "Prefer local variables over globals"
+    rules:
+      - pattern: '^\s*\w+\s*=\s*(?!function)'
+        message: "Implicit global variable - use 'local'"
+        suggestion: "Use 'local' keyword for variable declarations"
+
+  - id: LUA_BP002
+    name: "Table as Module Pattern"
+    domain: best-practices
+    severity: info
+    description: "Use table to define module interface"
+    rules:
+      - pattern: 'module\s*\('
+        message: "module() is deprecated - use table pattern"
+        suggestion: "Use local M = {} and return M pattern"
+
+  - id: LUA_BP003
+    name: "Check Table Length Correctly"
+    domain: best-practices
+    severity: warning
+    description: "# operator only works on sequences"
+    rules:
+      - pattern: '#\s*\w+\s*==\s*0'
+        message: "# may not work for hash tables"
+        suggestion: "Use next(t) == nil to check empty table"
+
+  - id: LUA_BP004
+    name: "Use Pairs for Hash Tables"
+    domain: best-practices
+    severity: info
+    description: "Use pairs() for non-array tables"
+    rules:
+      - pattern: 'for\s+\w+,\s*\w+\s+in\s+ipairs'
+        message: "ipairs only iterates sequence part"
+        suggestion: "Use pairs() for hash tables"
+
+  - id: LUA_BP005
+    name: "Or Operator for Defaults"
+    domain: best-practices
+    severity: info
+    description: "Use 'or' for default values"
+    rules:
+      - pattern: 'if\s+\w+\s*==\s*nil\s+then\s+\w+\s*='
+        message: "Can use 'or' for nil default"
+        suggestion: "Use 'local x = x or default' pattern"
+
+  - id: LUA_BP006
+    name: "Avoid Recursive Require"
+    domain: best-practices
+    severity: error
+    description: "Circular module dependencies"
+    rules:
+      - pattern: 'require\s*\(\s*["\']\.\./'
+        message: "Relative require may cause circular dependencies"
+        suggestion: "Restructure modules to avoid cycles"
+
+  - id: LUA_BP007
+    name: "Use Metatables for OOP"
+    domain: best-practices
+    severity: info
+    description: "Use metatables for class-like behavior"
+    rules:
+      - pattern: 'setmetatable\s*\('
+        message: "Metatable usage for OOP - good"
+        suggestion: "Consider using class library for complex hierarchies"
+
+  - id: LUA_BP008
+    name: "Close File Handles"
+    domain: best-practices
+    severity: warning
+    description: "Always close file handles"
+    rules:
+      - pattern: 'io\.open\s*\('
+        message: "Remember to close file handle"
+        suggestion: "Use file:close() or defer pattern"
+
+  - id: LUA_BP009
+    name: "String Pattern Escaping"
+    domain: best-practices
+    severity: warning
+    description: "Escape special characters in patterns"
+    rules:
+      - pattern: 'string\.find\s*\([^)]*[%.%[%]%(%)]'
+        message: "Pattern contains unescaped magic characters"
+        suggestion: "Escape with % or use string.match with plain flag"
+
+  - id: LUA_BP010
+    name: "Weak Table for Cache"
+    domain: best-practices
+    severity: info
+    description: "Use weak tables for caching"
+    rules:
+      - pattern: 'setmetatable\s*\([^,]+,\s*\{[^}]*__mode'
+        message: "Weak table detected - good for caching"
+        suggestion: "Use 'v' for weak values, 'k' for weak keys"
+
+  - id: LUA_BP011
+    name: "Coroutines for Async"
+    domain: best-practices
+    severity: info
+    description: "Use coroutines for async operations"
+    rules:
+      - pattern: 'coroutine\.create'
+        message: "Coroutine for async - good pattern"
+        suggestion: "Consider coroutine.wrap for simpler interface"
+
+  - id: LUA_BP012
+    name: "Error Handling with pcall"
+    domain: best-practices
+    severity: warning
+    description: "Use pcall for protected calls"
+    rules:
+      - pattern: 'assert\s*\([^)]+\.\w+\s*\('
+        message: "Consider pcall for safer error handling"
+        suggestion: "Use pcall or xpcall for recoverable errors"

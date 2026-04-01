@@ -37,7 +37,7 @@ Supportare 5-7 linguaggi è gestibile manualmente. Ma cosa succede se vogliamo s
 
 ---
 
-### Tier 2: Extended Languages (10-15 linguaggi)
+### Tier 2: Extended Languages (23 linguaggi pubblici)
 
 **Criteri:**
 - Domanda moderata

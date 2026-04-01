@@ -1,0 +1,143 @@
+contracts:
+  - id: GLSL101
+    name: "Uninitialized Uniform"
+    domain: correctness
+    severity: error
+    description: "Uniforms should have default values"
+    tags:
+      - glsl
+      - correctness
+      - initialization
+    rules:
+      - pattern: 'uniform\s+\w+\s+\w+\s*;'
+        message: "Uniform without default value"
+        suggestion: "Add initializer: uniform float val = 1.0;"
+
+  - id: GLSL102
+    name: "Precision Mismatch"
+    domain: correctness
+    severity: warning
+    description: "Mixing precision qualifiers can cause artifacts"
+    tags:
+      - glsl
+      - correctness
+      - precision
+    rules:
+      - pattern: 'highp\s+\w+[^;]*lowp'
+        message: "Mixing highp and lowp in expression"
+        suggestion: "Use consistent precision for calculations"
+      - pattern: 'mediump\s+\w+[^;]*highp'
+        message: "Precision mismatch in calculation"
+        suggestion: "Cast explicitly or use uniform precision"
+
+  - id: GLSL103
+    name: "Uninitialized Variable"
+    domain: correctness
+    severity: error
+    description: "Local variable used before initialization"
+    tags:
+      - glsl
+      - correctness
+      - initialization
+    rules:
+      - pattern: '(\w+\s+)(\w+)\s*;[^;]*\2\s*='
+        message: "Variable declared before initialization"
+        suggestion: "Initialize at declaration: float x = 0.0;"
+
+  - id: GLSL104
+    name: "Division by Zero"
+    domain: correctness
+    severity: warning
+    description: "Potential division by zero"
+    tags:
+      - glsl
+      - correctness
+      - division
+    rules:
+      - pattern: '/\s*\w+\s*[;\)]'
+        message: "Division - verify denominator cannot be zero"
+        suggestion: "Add check: if (denom != 0.0) or use safe division"
+
+  - id: GLSL105
+    name: "Texture LOD Bias"
+    domain: correctness
+    severity: warning
+    description: "LOD bias may not work on all platforms"
+    tags:
+      - glsl
+      - correctness
+      - texture
+    rules:
+      - pattern: 'texture\s*\([^,]+,\s*[^,]+,\s*[^)]+\)'
+        message: "texture() with bias parameter"
+        suggestion: "Verify LOD bias is supported on target platform"
+
+  - id: GLSL106
+    name: "Clip Space Depth"
+    domain: correctness
+    severity: warning
+    description: "gl_FragDepth usage may disable early Z"
+    tags:
+      - glsl
+      - correctness
+      - depth
+    rules:
+      - pattern: 'gl_FragDepth\s*='
+        message: "Writing gl_FragDepth may disable early Z test"
+        suggestion: "Avoid gl_FragDepth if possible for performance"
+
+  - id: GLSL107
+    name: "Integer Division Warning"
+    domain: correctness
+    severity: info
+    description: "Integer division truncates toward zero"
+    tags:
+      - glsl
+      - correctness
+      - math
+    rules:
+      - pattern: '\bint\b[^;]*/[^;]*;'
+        message: "Integer division truncates - verify intent"
+        suggestion: "Use float division and cast if needed"
+
+  - id: GLSL108
+    name: "Matrix Constructor Order"
+    domain: correctness
+    severity: warning
+    description: "Matrix constructor takes column-major order"
+    tags:
+      - glsl
+      - correctness
+      - matrices
+    rules:
+      - pattern: 'mat[234]\s*\([^)]+(,\s*[^)]+){3,}'
+        message: "Matrix initialized with scalars - verify column-major order"
+        suggestion: "Remember: mat2(a,b,c,d) = [a,c][b,d] columns"
+
+  - id: GLSL109
+    name: "Negative Sqrt"
+    domain: correctness
+    severity: error
+    description: "sqrt of negative value is undefined"
+    tags:
+      - glsl
+      - correctness
+      - math
+    rules:
+      - pattern: 'sqrt\s*\([^)]*[\-\*]'
+        message: "sqrt may receive negative value"
+        suggestion: "Use abs() or max(0.0, x) before sqrt"
+
+  - id: GLSL110
+    name: "Dot Product Normalize"
+    domain: correctness
+    severity: warning
+    description: "dot product result should be clamped for acos"
+    tags:
+      - glsl
+      - correctness
+      - math
+    rules:
+      - pattern: 'acos\s*\(\s*dot\s*\('
+        message: "acos(dot()) - clamp result to [-1,1]"
+        suggestion: "acos(clamp(dot(a,b), -1.0, 1.0))"

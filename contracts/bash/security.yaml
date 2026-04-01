@@ -1,0 +1,76 @@
+contracts:
+  - id: BASH001
+    name: "eval Usage"
+    domain: security
+    severity: critical
+    description: "eval executes arbitrary code from strings"
+    rules:
+      - pattern: '\beval\s+["\']?\$'
+        message: "eval with variable - code injection risk"
+        suggestion: "Avoid eval, use arrays or associative arrays"
+      - pattern: '\beval\s+\$\{'
+        message: "eval with variable expansion"
+        suggestion: "Use safer alternatives like case statements"
+
+  - id: BASH002
+    name: "exec Usage"
+    domain: security
+    severity: error
+    description: "exec can replace shell with arbitrary command"
+    rules:
+      - pattern: '\bexec\s+["\']?\$'
+        message: "exec with untrusted input"
+        suggestion: "Validate input before exec, use explicit paths"
+
+  - id: BASH003
+    name: "Unquoted Variable Expansion"
+    domain: security
+    severity: warning
+    description: "Unquoted variables can cause word splitting and globbing"
+    rules:
+      - pattern: '\$\w+[^"\'\w]'
+        message: "Unquoted variable - word splitting risk"
+        suggestion: "Always quote variables: \"$VAR\""
+      - pattern: '\$\{[A-Za-z_][A-Za-z0-9_]*\}[^"\'\w}]'
+        message: "Unquoted brace expansion"
+        suggestion: "Quote variable expansions"
+
+  - id: BASH004
+    name: "Dangerous Command Substitution"
+    domain: security
+    severity: error
+    description: "Command substitution with user input"
+    rules:
+      - pattern: '\$\([^)]*\$'
+        message: "Command substitution contains variable"
+        suggestion: "Validate input before command substitution"
+
+  - id: BASH005
+    name: "source with Variable"
+    domain: security
+    severity: warning
+    description: "Sourcing files from variables can load malicious code"
+    rules:
+      - pattern: '(?i)(source|\.)\s+\$'
+        message: "source with variable path"
+        suggestion: "Validate file paths before sourcing"
+
+  - id: BASH006
+    name: "curl|bash Pattern"
+    domain: security
+    severity: critical
+    description: "Piping curl to bash executes untrusted code"
+    rules:
+      - pattern: '(curl|wget).*\|\s*(bash|sh)'
+        message: "curl|bash detected - executes remote code"
+        suggestion: "Download, inspect, then execute scripts"
+
+  - id: BASH007
+    name: "chmod 777"
+    domain: security
+    severity: error
+    description: "World-writable files are security risks"
+    rules:
+      - pattern: 'chmod\s+(-R\s+)?777'
+        message: "chmod 777 creates world-writable files"
+        suggestion: "Use minimal permissions (e.g., 755, 644)"

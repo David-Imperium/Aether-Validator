@@ -1,0 +1,100 @@
+contracts:
+  - id: LUA_STY001
+    name: "Inconsistent Naming Convention"
+    domain: style
+    severity: warning
+    description: "Variable naming should be consistent"
+    rules:
+      - pattern: '\b[A-Z][a-z]+[A-Z]'
+        message: "PascalCase used - consider snake_case for variables"
+        suggestion: "Use snake_case for variables, PascalCase for types"
+
+  - id: LUA_STY002
+    name: "Magic Numbers"
+    domain: style
+    severity: info
+    description: "Hard-coded numeric literals should be named constants"
+    rules:
+      - pattern: '\bif\s+\w+\s*==\s*\d{2,}\b'
+        message: "Magic number in comparison - use named constant"
+        suggestion: "Define constant with descriptive name"
+
+  - id: LUA_STY003
+    name: "Long Function"
+    domain: style
+    severity: warning
+    description: "Function exceeds 50 lines - consider splitting"
+    rules:
+      - pattern: 'function\s+\w+\s*\([^)]*\)'
+        message: "Consider breaking down long functions"
+        suggestion: "Extract helper functions for clarity"
+
+  - id: LUA_STY004
+    name: "Deeply Nested Code"
+    domain: style
+    severity: warning
+    description: "More than 3 levels of nesting"
+    rules:
+      - pattern: '(\bif\b.*){4,}'
+        message: "Deeply nested code reduces readability"
+        suggestion: "Extract to helper functions or use early returns"
+
+  - id: LUA_STY005
+    name: "Multiple Return Values"
+    domain: style
+    severity: info
+    description: "Function returns many values - consider table"
+    rules:
+      - pattern: 'return\s+\w+,\s*\w+,\s*\w+,\s*\w+'
+        message: "Many return values - consider returning a table"
+        suggestion: "Return structured table for clarity"
+
+  - id: LUA_STY006
+    name: "Global Variable Declaration"
+    domain: style
+    severity: warning
+    description: "Implicit global variable declaration"
+    rules:
+      - pattern: '^\s*\w+\s*=\s*'
+        message: "Implicit global - use 'local' keyword"
+        suggestion: "Add 'local' prefix to make variable scoped"
+
+  - id: LUA_STY007
+    name: "Unused Variable"
+    domain: style
+    severity: info
+    description: "Variable assigned but never used"
+    rules:
+      - pattern: 'local\s+\w+\s*=\s*[^;]+\s*--\s*unused'
+        message: "Variable appears unused"
+        suggestion: "Remove unused variable or document reason"
+
+  - id: LUA_STY008
+    name: "Trailing Whitespace"
+    domain: style
+    severity: info
+    description: "Lines with trailing whitespace"
+    rules:
+      - pattern: '[ \t]+$'
+        message: "Trailing whitespace detected"
+        suggestion: "Remove trailing whitespace"
+
+  - id: LUA_STY009
+    name: "TODO Comment"
+    domain: style
+    severity: info
+    description: "Unresolved TODO comment"
+    rules:
+      - pattern: 'TODO|FIXME|HACK|XXX'
+        message: "Unresolved comment - consider addressing"
+        suggestion: "Create issue or resolve TODO"
+
+  - id: LUA_STY010
+    name: "Single Statement per Line"
+    domain: style
+    severity: info
+    description: "Multiple statements on one line"
+    rules:
+      - pattern: ';\s*\w+\s*='
+        message: "Multiple statements on one line"
+        suggestion: "Put each statement on separate line"

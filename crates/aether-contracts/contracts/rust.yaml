@@ -1,0 +1,233 @@
+# Rust Contracts — Error patterns common in AI-generated code
+
+contracts:
+  # Memory Safety
+  - id: RUST001
+    name: "No Rc<RefCell> cycles"
+    domain: memory-safety
+    severity: warning
+    description: "Rc<RefCell> can cause memory leaks via reference cycles"
+    rules:
+      - pattern: "Rc<RefCell<"
+        message: "Rc<RefCell> detected - ensure no reference cycles"
+        suggestion: "Consider using Weak<T> for back-references or Arc<Mutex<T>> for thread-safe"
+
+  - id: RUST002
+    name: "No unwrap in production"
+    domain: error-handling
+    severity: warning
+    description: "unwrap() can panic in production code"
+    rules:
+      - pattern: ".unwrap()"
+        message: "unwrap() can panic - use ? or expect(\"context\")"
+        suggestion: "Replace with .expect(\"context\") or use ? operator"
+
+  - id: RUST003
+    name: "No clone unnecessarily"
+    domain: performance
+    severity: hint
+    description: "Clone when reference would suffice"
+    rules:
+      - pattern: ".clone()"
+        message: "clone() called - verify if necessary"
+        suggestion: "Consider using a reference &T instead"
+
+  - id: RUST004
+    name: "No Box for small types"
+    domain: performance
+    severity: hint
+    description: "Boxing small types is unnecessary heap allocation"
+    rules:
+      - pattern: "Box<bool>"
+        message: "Box for bool - unnecessary heap allocation"
+        suggestion: "Use bool directly"
+
+  - id: RUST005
+    name: "No Vec<Vec<T>> inefficiency"
+    domain: performance
+    severity: warning
+    description: "Vec<Vec<T>> causes cache misses and fragmentation"
+    rules:
+      - pattern: "Vec<Vec<"
+        message: "Vec<Vec<T>> is inefficient for 2D data"
+        suggestion: "Use flat Vec<T> with row-major indexing"
+
+  - id: RUST006
+    name: "Use with_capacity"
+    domain: performance
+    severity: hint
+    description: "Vec::new() followed by push loop"
+    rules:
+      - pattern: "Vec::new()"
+        message: "Vec::new() called - consider with_capacity() if size known"
+        suggestion: "Use Vec::with_capacity(n) when final size is known"
+
+  - id: RUST007
+    name: "No panic! in library"
+    domain: error-handling
+    severity: error
+    description: "panic! in library code is bad practice"
+    rules:
+      - pattern: "panic!("
+        message: "panic! found - use Result instead"
+        suggestion: "Return Result<T, E> and let caller decide"
+
+  - id: RUST008
+    name: "No todo! in production"
+    domain: error-handling
+    severity: warning
+    description: "todo! will panic at runtime"
+    rules:
+      - pattern: "todo!()"
+        message: "todo!() will panic - implement or use unimplemented!()"
+        suggestion: "Implement the function or mark as unimplemented!"
+
+  - id: RUST009
+    name: "No expect without context"
+    domain: error-handling
+    severity: hint
+    description: "expect with generic message"
+    rules:
+      - pattern: "expect(\"failed\")"
+        message: "expect with generic message - add context"
+        suggestion: "Use expect(\"specific error context\")"
+
+  - id: RUST010
+    name: "Avoid allocations in loops"
+    domain: performance
+    severity: warning
+    description: "String allocation inside loop"
+    rules:
+      - pattern: "format!(\""
+        message: "format! creates allocation - move outside loop if possible"
+        suggestion: "Pre-allocate or use write! macro"
+
+  - id: RUST011
+    name: "No hardcoded values"
+    domain: maintainability
+    severity: info
+    description: "Magic numbers in code"
+    rules:
+      - pattern: "regex:\\b(3000|8080|32\\.0|64\\.0)\\b"
+        message: "Hardcoded value found - consider constant"
+        suggestion: "Define as const or config value"
+
+  - id: RUST012
+    name: "No String for static text"
+    domain: performance
+    severity: hint
+    description: "String for known static values"
+    rules:
+      - pattern: "String::from(\""
+        message: "String allocation for static text"
+        suggestion: "Consider &'static str if value is known at compile time"
+
+  - id: RUST013
+    name: "No unwrap on Option after check"
+    domain: error-handling
+    severity: hint
+    description: "unwrap after contains_key pattern"
+    rules:
+      - pattern: "contains_key"
+        message: "contains_key followed by unwrap - use get() pattern"
+        suggestion: "Use if let Some(v) = map.get(key)"
+
+  - id: RUST014
+    name: "No silent error swallowing"
+    domain: error-handling
+    severity: warning
+    description: "Catch-all that ignores errors"
+    rules:
+      - pattern: "_ => {}"
+        message: "Empty match arm - errors silently ignored"
+        suggestion: "Log or handle the error explicitly"
+
+  - id: RUST015
+    name: "No infinite loop without break"
+    domain: logic
+    severity: warning
+    description: "loop without visible break condition"
+    rules:
+      - pattern: "loop {"
+        message: "Infinite loop - ensure break/return condition exists"
+        suggestion: "Add timeout or break condition"
+
+  - id: RUST016
+    name: "No Arc<Mutex> contention"
+    domain: concurrency
+    severity: warning
+    description: "Arc<Mutex> for high-contention data"
+    rules:
+      - pattern: "Arc<Mutex<"
+        message: "Arc<Mutex> for shared state - consider Arc<RwLock> or channels"
+        suggestion: "Use Arc<RwLock> for read-heavy or tokio::sync for async"
+
+  - id: RUST017
+    name: "No blocking in async"
+    domain: concurrency
+    severity: error
+    description: "Blocking operations in async context"
+    rules:
+      - pattern: "std::thread::sleep"
+        message: "Blocking sleep in async - use tokio::time::sleep"
+        suggestion: "Replace with tokio::time::sleep().await"
+
+  - id: RUST018
+    name: "No SQL injection via format"
+    domain: security
+    severity: error
+    description: "SQL query built with format!"
+    rules:
+      - pattern: "regex:format!\\(.*SELECT.*\\{"
+        message: "SQL injection risk - use parameterized queries"
+        suggestion: "Use sqlx::query! with bind parameters"
+
+  - id: RUST019
+    name: "No path traversal"
+    domain: security
+    severity: error
+    description: "File path from user input"
+    rules:
+      - pattern: ".."
+        message: "Path traversal detected - sanitize user input"
+        suggestion: "Use Path::canonicalize() and verify prefix"
+
+  - id: RUST020
+    name: "No password in plaintext"
+    domain: security
+    severity: error
+    description: "Password stored/transmitted in plaintext"
+    rules:
+      - pattern: "password"
+        message: "Password field found - ensure hashing/encryption"
+        suggestion: "Use bcrypt/argon2 for hashing, never store plaintext"
+
+  - id: RUST021
+    name: "No unvalidated integer cast"
+    domain: correctness
+    severity: warning
+    description: "as i32 without bounds check"
+    rules:
+      - pattern: " as i32"
+        message: "Integer cast may truncate - use try_into()"
+        suggestion: "Use value.try_into()? for safe conversion"
+
+  - id: RUST022
+    name: "No floating point equality"
+    domain: correctness
+    severity: warning
+    description: "Exact float comparison"
+    rules:
+      - pattern: "== 0.0"
+        message: "Float exact comparison - use epsilon comparison"
+        suggestion: "Use (a - b).abs() < EPSILON"
+
+  - id: RUST023
+    name: "No dead code"
+    domain: maintainability
+    severity: info
+    description: "Functions/structs never used"
+    rules:
+      - pattern: "#[allow(dead_code)]"
+        message: "Dead code allowed - consider removing or documenting"
+        suggestion: "Remove unused code or document why kept"

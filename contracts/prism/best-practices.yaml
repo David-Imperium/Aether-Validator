@@ -1,0 +1,126 @@
+contracts:
+  - id: PRISM_BP001
+    name: "Use RAII for GPU Resources"
+    domain: best-practices
+    severity: warning
+    description: "Use RAII wrappers for GPU objects"
+    rules:
+      - pattern: 'glGenBuffers\s*\('
+        message: "Use Prism::GPU::Buffer RAII wrapper"
+        suggestion: "Use Prism::GPU::Buffer::Create()"
+      - pattern: 'glGenTextures\s*\('
+        message: "Use Prism::GPU::Texture RAII wrapper"
+        suggestion: "Use Prism::GPU::Texture::Create()"
+      - pattern: 'glGenVertexArrays\s*\('
+        message: "Use Prism::GPU::VertexArray RAII wrapper"
+        suggestion: "Use Prism::GPU::VertexArray::Create()"
+
+  - id: PRISM_BP002
+    name: "Shader Hot Reloading"
+    domain: best-practices
+    severity: info
+    description: "Support shader hot reload for development"
+    rules:
+      - pattern: 'Prism::Shader::Load'
+        message: "Consider hot reload support"
+        suggestion: "Use Prism::Shader::WatchForChanges"
+
+  - id: PRISM_BP003
+    name: "Command Buffer Recording"
+    domain: best-practices
+    severity: warning
+    description: "Record command buffers efficiently"
+    rules:
+      - pattern: 'vkBeginCommandBuffer\s*\('
+        message: "Consider command buffer reuse"
+        suggestion: "Record once and submit multiple times"
+
+  - id: PRISM_BP004
+    name: "Descriptor Set Management"
+    domain: best-practices
+    severity: info
+    description: "Use descriptor pooling efficiently"
+    rules:
+      - pattern: 'vkAllocateDescriptorSets\s*\('
+        message: "Pool descriptors for reuse"
+        suggestion: "Use Prism::GPU::DescriptorPool"
+
+  - id: PRISM_BP005
+    name: "Pipeline Caching"
+    domain: best-practices
+    severity: info
+    description: "Cache pipeline state objects"
+    rules:
+      - pattern: 'vkCreateGraphicsPipelines\s*\('
+        message: "Enable pipeline caching"
+        suggestion: "Use pipeline cache for faster startup"
+
+  - id: PRISM_BP006
+    name: "Render Graph Pattern"
+    domain: best-practices
+    severity: info
+    description: "Use render graph for pass management"
+    rules:
+      - pattern: 'glBindFramebuffer\s*\('
+        message: "Consider render graph abstraction"
+        suggestion: "Use Prism::RenderGraph for pass management"
+
+  - id: PRISM_BP007
+    name: "Texture Streaming"
+    domain: best-practices
+    severity: info
+    description: "Stream large textures efficiently"
+    rules:
+      - pattern: 'glTexImage2D\s*\(.*GL_TEXTURE_2D.*\d{4,}'
+        message: "Large texture - consider streaming"
+        suggestion: "Use PBO or sparse textures"
+
+  - id: PRISM_BP008
+    name: "GPU Timing Queries"
+    domain: best-practices
+    severity: info
+    description: "Profile GPU performance"
+    rules:
+      - pattern: 'glBeginQuery\s*\(\s*GL_TIME_ELAPSED'
+        message: "GPU timing query - good for profiling"
+        suggestion: "Use Prism::GPU::Timer for profiling"
+
+  - id: PRISM_BP009
+    name: "Debug Callback Registration"
+    domain: best-practices
+    severity: warning
+    description: "Register debug callback for errors"
+    rules:
+      - pattern: 'glDebugMessageCallback\s*\('
+        message: "Debug callback registered - good"
+        suggestion: "Keep enabled in development builds"
+
+  - id: PRISM_BP010
+    name: "Resource Naming"
+    domain: best-practices
+    severity: info
+    description: "Name GPU resources for debugging"
+    rules:
+      - pattern: 'glObjectLabel\s*\('
+        message: "Resource labeled - good for debugging"
+        suggestion: "Label all significant resources"
+
+  - id: PRISM_BP011
+    name: "Error State Checking"
+    domain: best-practices
+    severity: warning
+    description: "Check for GL errors in debug"
+    rules:
+      - pattern: 'glGetError\s*\(\s*\)\s*;'
+        message: "GL error check - good practice"
+        suggestion: "Use Prism::GPU::CheckError macro"
+
+  - id: PRISM_BP012
+    name: "Multithreaded Command Recording"
+    domain: best-practices
+    severity: info
+    description: "Record commands on multiple threads"
+    rules:
+      - pattern: 'vkQueueSubmit\s*\('
+        message: "Consider parallel command recording"
+        suggestion: "Use multiple command pools per thread"

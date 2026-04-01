@@ -76,6 +76,12 @@ crates/aether-intelligence/src/.aether/
 
 # Desktop build artifacts
 crates/aether-desktop/.vite-debug.log
+crates/aether-desktop/dist/
+crates/aether-desktop/src-tauri/gen/
+crates/aether-desktop/package-lock.json
+
+# Temp test files
+test_hook*.txt
 
 # Factory settings
 .factory/

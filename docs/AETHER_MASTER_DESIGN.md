@@ -4,7 +4,7 @@
 **Status:** 85% Complete (Phase 15 in progress)
 **Last Updated:** 2026-03-19
 **Implementation Language:** Rust
-**See Also:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md), [PRICING_STRATEGY.md](./PRICING_STRATEGY.md)
+**See Also:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md)
 
 ---
 

@@ -16,6 +16,8 @@ Thumbs.db
 # Secrets
 *.pem
 *.key
+*.env
+*.env.*
 secrets/
 
 # Test
@@ -73,6 +75,11 @@ check2_stdout.txt
 .aether.toml
 crates/aether-cli/.aether/
 crates/aether-intelligence/src/.aether/
+
+# Neural module (proprietary, not ready for release)
+crates/aether-neural/
+docs/AETHER_NEURAL.md
+docs/ADR/ADR-002-neural-native.md
 
 # Desktop build artifacts
 crates/aether-desktop/.vite-debug.log

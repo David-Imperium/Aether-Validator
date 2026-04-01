@@ -3,7 +3,7 @@
 **Ultimo Aggiornamento:** 2026-03-19
 **Versione:** 2.0 (Autonomous Design)
 **Progresso:** 95% completato (Phase 0-8, 11-15 complete, ADR Phase 1.5 + 2 complete)
-**Vedi anche:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md), [FEATURE_ROADMAP.md](./FEATURE_ROADMAP.md)
+**Vedi anche:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md)
 
 ---
 
@@ -188,7 +188,7 @@ Strategia per scalare a 50+ linguaggi con tree-sitter.
 **Status:** Documentato, non implementato
 
 - [ ] Creare directory `private/aether-prism-layer/`
-- [ ] Definire contratti Prism (shader, memory, neural)
+- [ ] Definire contratti Prism (shader, memory)
 - [ ] Integrare con validation pipeline
 
 ---
@@ -490,13 +490,10 @@ crates/aether-intelligence/
 | [CONTRACTS_REGISTRY.md](./CONTRACTS_REGISTRY.md) | Sistema contratti automatici | 📋 Da implementare |
 | [LANGUAGES.md](./LANGUAGES.md) | Linguaggi supportati (24) | ✅ |
 | [LANGUAGE_SCALING_STRATEGY.md](./LANGUAGE_SCALING_STRATEGY.md) | Strategia scaling linguaggi | ✅ |
-| [TIER_SEPARATION.md](./TIER_SEPARATION.md) | **Strategia separazione Free/Pro** | ✅ 2026-03-18 |
-| [PRICING_STRATEGY.md](./PRICING_STRATEGY.md) | Strategia pricing + Enterprise source | ✅ Updated |
 | [CUSTOM_LANGUAGE_SUPPORT.md](./CUSTOM_LANGUAGE_SUPPORT.md) | 3 livelli per linguaggi custom | ✅ |
 | [aether-ui.md](./aether-ui.md) | VS Code Extension UI | ✅ Updated |
 | [VSCODE_EXTENSION_PLAN.md](./VSCODE_EXTENSION_PLAN.md) | Piano sviluppo VS Code Extension | 📋 |
 | [DUBBIOSO_MODE.md](./DUBBIOSO_MODE.md) | **Hyper-Context Engine + Confidence Intelligence** | 📋 Design |
-| [FEATURE_ROADMAP.md](./FEATURE_ROADMAP.md) | **Feature future per tier (Solo/Pro/Team/Enterprise)** | 📋 Planning |
 
 ## Documenti Consolidati
 

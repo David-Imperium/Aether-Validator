@@ -203,18 +203,6 @@ contracts:
     severity: warning
     check: borrow_check_optional
     message: "Consider enabling borrow check for safety"
-
-  # Neural inference
-  - id: PRISM_NEURAL_001
-    name: "Tensor shape consistency"
-    severity: error
-    check: tensor_shape_consistency
-
-  - id: PRISM_NEURAL_002
-    name: "GPU memory layout"
-    severity: warning
-    check: gpu_memory_layout
-    message: "Consider row-major layout for GPU efficiency"
 ```
 
 ### 3.3 Indice del Registry

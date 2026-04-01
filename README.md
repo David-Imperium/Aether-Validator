@@ -3,7 +3,7 @@
 **Version:** 0.1.0
 **Status:** MCP-Driven Architecture
 **Implementation Language:** Rust
-**Created:** 2026-03-10 (first file: `crates/aether-core/src/lib.rs`, 02:08 UTC)
+**Created:** 2026-03-08 (project directory), first file: `crates/aether-core/src/lib.rs` on 2026-03-10 (02:08 UTC)
 **First commit:** 2026-03-13 (13:45 CET)
 **Author:** David (Imperium)
 

@@ -9,7 +9,7 @@ Change Date:          2029-04-01
 
 Additional Use Grant: None
 
-Change License:       Apache License, Version 2.0
+Change License:       GNU Affero General Public License v3.0 only
 
 ----
 
@@ -103,5 +103,5 @@ NON-INFRINGEMENT.
 The full text of the Business Source License 1.1 is available at:
 https://spdx.org/licenses/BUSL-1.1.html
 
-The Change License (Apache License, Version 2.0) full text is available at:
-https://www.apache.org/licenses/LICENSE-2.0
+The Change License (GNU Affero General Public License v3.0 only) full text is available at:
+https://www.gnu.org/licenses/agpl-3.0.html

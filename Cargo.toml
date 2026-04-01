@@ -25,6 +25,7 @@ edition = "2021"
 rust-version = "1.75"
 authors = ["David <david@imperium.dev>"]
 license = "BUSL-1.1"
+# Change License: AGPL-3.0-only (effective 2029-04-01)
 repository = "https://github.com/David-Imperium/aether"
 
 [workspace.dependencies]

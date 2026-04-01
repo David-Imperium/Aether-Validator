@@ -25,3 +25,57 @@ coverage/
 
 # Bench
 target/criterion/
+
+# Node.js
+node_modules/
+package-lock.json
+
+# Temp files
+*.tmp
+*.temp
+temp_*
+self-val*.txt
+self-val-output.txt
+self-validate-*.txt
+self_val_*.txt
+self-val-json.txt
+check*_stdout.txt
+check*_stderr.txt
+clippy_fix_*.txt
+mcp_requests.txt
+
+# Executables
+*.exe
+*.pdb
+
+# Legal/private docs (not for public repo)
+DENUNCIA_*.md
+SECURITY_BREACH_REPORT.md
+
+# Test artifacts
+test-projects/
+test-snake-game/
+test-suite/
+test_files/
+test_memory/
+*.py
+test_suite_cpp.cpp
+test_type_inference.ts
+test_unused.py
+test_scope.py
+test_syntax.py
+test_ai_generated_code.py
+check2_stderr.txt
+check2_stdout.txt
+
+# Aether local state
+.aether/
+.aether.toml
+crates/aether-cli/.aether/
+crates/aether-intelligence/src/.aether/
+
+# Desktop build artifacts
+crates/aether-desktop/.vite-debug.log
+
+# Factory settings
+.factory/

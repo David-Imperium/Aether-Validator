@@ -12,9 +12,11 @@ members = [
     "crates/aether-api",
     "crates/aether-sdk",
     "crates/aether-cli",
-    # "crates/aether-proxy",      # REMOVED: MCP-driven approach doesn't need HTTP proxy
-    # "crates/aether-watcher",    # REMOVED: MCP-driven approach - AI calls tools directly
-    "crates/aether-desktop/src-tauri",
+    "crates/aether-mcp",
+    "crates/aether-mcp-test",
+    "crates/aether-intelligence",
+    "crates/aether-contract-importer",
+    "crates/aether-neural",
 ]
 
 [workspace.package]
@@ -22,8 +24,8 @@ version = "0.1.0"
 edition = "2021"
 rust-version = "1.75"
 authors = ["David <david@imperium.dev>"]
-license = "MIT OR Apache-2.0"
-repository = "https://github.com/imperium/aether"
+license = "BUSL-1.1"
+repository = "https://github.com/David-Imperium/aether"
 
 [workspace.dependencies]
 # Parser
@@ -36,6 +38,7 @@ tree-sitter = "0.24"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_yaml = "0.9"
+toml = "0.8"
 
 # Crypto
 ed25519-dalek = { version = "2.1", features = ["rand_core"] }
@@ -48,15 +51,9 @@ uuid = { version = "1.0", features = ["v4", "serde"] }
 chrono = { version = "0.4", features = ["serde"] }
 dirs = "5.0"
 
-# Embeddings
-fastembed = { version = "5", features = ["default"] }
-
 # Async
 tokio = { version = "1.0", features = ["full"] }
 async-trait = "0.1"
-
-# CLI
-clap = { version = "4.0", features = ["derive"] }
 
 # Logging
 tracing = "0.1"
@@ -69,12 +66,39 @@ anyhow = "1.0"
 # HTTP (for interfaces)
 axum = "0.7"
 tower = "0.4"
-tower-lsp = "0.20"
 
 # Testing
 criterion = "0.5"
 pretty_assertions = "1.4"
 regex = "1.10"
+
+# === AETHER INTELLIGENCE (Phase 11-15) ===
+# Light mode: no ML deps, rule-based algorithms
+
+# HTTP client (for external LLM APIs - optional)
+reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+
+# Cache (memory layer)
+lru = "0.13"
+
+# Git integration (drift detection)
+git2 = "0.19"
+
+# File walking (drift detection)
+walkdir = "2.4"
+
+# Concurrency
+parking_lot = "0.12"
+
+# TUI (terminal user interface)
+ratatui = "0.28"
+crossterm = "0.28"
+
+# === AETHER NEURAL (Phase Neural Native) ===
+# Burn framework — backend-agnostic ML inference (pre-release: ONNX import only available in 0.21+)
+burn = { version = "0.21.0-pre.2" }
+burn-store = { version = "0.21.0-pre.2", features = ["burnpack"] }
+burn-onnx = { version = "0.21.0-pre.1" }
 
 [profile.release]
 lto = "thin"

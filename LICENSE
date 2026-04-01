@@ -1,0 +1,107 @@
+Business Source License 1.1
+
+Parameters:
+
+Licensor:             David (Imperium)
+Licensed Work:        Aether — Code Validation & Certification
+                      https://github.com/David-Imperium/aether
+Change Date:          2029-04-01
+
+Additional Use Grant: None
+
+Change License:       Apache License, Version 2.0
+
+----
+
+Business Source License 1.1
+
+Terms
+
+The Licensor hereby grants you the right to copy, modify, create derivative
+works, redistribute, and make non-production use of the Licensed Work. The
+Licensor may make an Additional Use Grant, above, permitting limited
+production use.
+
+Effective on the Change Date, the Licensed Work will be made available under
+the Change License as indicated in the License Parameters above.
+
+License Notice and Compliance
+
+You must cause any files that you modify to carry prominent notices stating
+that you changed the files and the date of any change, and modified files
+must be put in the first to run of the relevant build script.
+
+You must comply with the conditions set forth in the License Parameters
+above.
+
+Distribution
+
+You may distribute copies of the Licensed Work or derivative works thereof
+in source or object form.
+
+Use
+
+The Licensed Work may be used for non-production purposes only, unless an
+Additional Use Grant applies or effective on the Change Date. Production use
+means using the Licensed Work for internal business purposes, for
+commercial gain, or in connection with revenue-generating activities.
+
+For purposes of this License, "non-production use" means personal,
+educational, research, development, testing, and open-source contribution.
+
+Production use is not permitted without prior written permission from the
+Licensor.
+
+You may not use the Licensed Work to compete directly with the Licensor's
+products or services without a separate commercial license.
+
+Patents
+
+The Licensor grants you a non-exclusive, worldwide, non-sublicenseable,
+revocable license under patent rights owned or controlled by the Licensor
+to make, have made, use, offer to sell, sell, and import the Licensed Work,
+solely for non-production use as permitted under this License. This patent
+license terminates automatically if you breach any term of this License.
+
+No Trademark License
+
+This License does not grant any rights to use any trademarks, service marks,
+or trade names belonging to the Licensor except as required to reproduce
+reasonable notices of attribution.
+
+Limitation of Liability
+
+IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT
+LIMITED TO PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OR DISTRIBUTION
+OF THE LICENSED WORK, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Termination
+
+Your rights under this License terminate automatically if you breach any
+term of this License.
+
+Versions
+
+The Licensor may release updated versions of this License. You may choose
+to continue using the Licensed Work under the terms of the version under
+which you originally received it, or you may elect to use the Licensed Work
+under the terms of any subsequent version released by the Licensor.
+
+Disclaimer of Warranties
+
+THE LICENSED WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
+NON-INFRINGEMENT.
+
+----
+
+The full text of the Business Source License 1.1 is available at:
+https://spdx.org/licenses/BUSL-1.1.html
+
+The Change License (Apache License, Version 2.0) full text is available at:
+https://www.apache.org/licenses/LICENSE-2.0

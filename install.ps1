@@ -1,5 +1,5 @@
 # Synward MCP Server Installer for Windows
-# Usage: irm https://raw.githubusercontent.com/YOUR_REPO/Synward/main/install.ps1 | iex
+# Usage: irm https://raw.githubusercontent.com/David-Imperium/Synward/main/install.ps1 | iex
 
 param(
     [string]$Version = "latest",
@@ -50,7 +50,7 @@ Write-Info "Detected: $Target"
 # Get latest version if not specified
 if ($Version -eq "latest") {
     Write-Info "Fetching latest version..."
-    $LatestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/modelcontextprotocol/servers/releases/latest" -ErrorAction SilentlyContinue
+    $LatestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/David-Imperium/Synward/releases/latest" -ErrorAction SilentlyContinue
     if ($LatestRelease -and $LatestRelease.tag_name) {
         $Version = $LatestRelease.tag_name
     } else {
@@ -69,7 +69,7 @@ if (-not (Test-Path $InstallDir)) {
 
 # Download binary
 $BinaryName = "synward-mcp-server-$Target.exe"
-$DownloadUrl = "https://github.com/YOUR_REPO/Synward/releases/download/$Version/$BinaryName"
+$DownloadUrl = "https://github.com/David-Imperium/Synward/releases/download/$Version/$BinaryName"
 $BinaryPath = Join-Path $InstallDir "synward-mcp-server.exe"
 
 Write-Info "Downloading from: $DownloadUrl"
@@ -87,7 +87,7 @@ if (-not (Test-Path $ContractsPath)) {
     New-Item -ItemType Directory -Path $ContractsPath -Force | Out-Null
     
     # Download default contracts
-    $ContractsUrl = "https://raw.githubusercontent.com/YOUR_REPO/Synward/main/contracts/"
+    $ContractsUrl = "https://raw.githubusercontent.com/David-Imperium/Synward/main/contracts/"
     @("rust", "cpp", "lex") | ForEach-Object {
         $LangDir = Join-Path $ContractsPath $_
         New-Item -ItemType Directory -Path $LangDir -Force | Out-Null

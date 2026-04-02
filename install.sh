@@ -1,6 +1,6 @@
 #!/bin/bash
 # Synward MCP Server Installer for Linux/macOS
-# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_REPO/Synward/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/David-Imperium/Synward/main/install.sh | bash
 
 set -e
 
@@ -80,7 +80,7 @@ info "Detected: $TARGET"
 # Get latest version if not specified
 if [[ "$VERSION" == "latest" ]]; then
     info "Fetching latest version..."
-    VERSION=$(curl -fsSL https://api.github.com/repos/YOUR_REPO/Synward/releases/latest 2>/dev/null | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/' || echo "v0.1.0")
+    VERSION=$(curl -fsSL https://api.github.com/repos/David-Imperium/Synward/releases/latest 2>/dev/null | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/' || echo "v0.1.0")
     warn "Using version: $VERSION"
 fi
 
@@ -91,7 +91,7 @@ mkdir -p "$INSTALL_DIR"
 
 # Download binary
 BINARY_NAME="synward-mcp-server-$TARGET"
-DOWNLOAD_URL="https://github.com/YOUR_REPO/Synward/releases/download/$VERSION/$BINARY_NAME"
+DOWNLOAD_URL="https://github.com/David-Imperium/Synward/releases/download/$VERSION/$BINARY_NAME"
 BINARY_PATH="$INSTALL_DIR/synward-mcp-server"
 
 info "Downloading from: $DOWNLOAD_URL"

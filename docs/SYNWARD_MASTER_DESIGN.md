@@ -19,7 +19,6 @@ Synward is a universal **autonomous** validation framework that ensures AI-gener
 - **Memory-Driven Learning** — Dynamic layer configuration from learned patterns
 
 **Key Principles (v3.0):**
-- **Core First**: Tutto il core autonomo disponibile per TUTTI i tier (incluso Free)
 - **AI-Free Core**: Nessuna AI esterna richiesta per validazione
 - **Graph RAG Autonomo**: Attraversa progetti, capisce dipendenze, impara pattern
 - **Dubbioso Mode**: Confidence-based validation, chiede quando incerto via MCP
@@ -28,7 +27,7 @@ Synward is a universal **autonomous** validation framework that ensures AI-gener
 **Mission:** Make AI-generated code trustworthy through autonomous validation, not hope.
 
 **Key Differentiator — Core First Philosophy:**
-All core features (Memory-Driven Core, Hyper-Context, Dubbioso, MCP, Custom Contracts) are available to ALL tiers. Differentiation is on limits, integrations, and support — NOT on core features. The Free tier demonstrates Synward's full power.
+All core features (Memory-Driven Core, Hyper-Context, Dubbioso, MCP, Custom Contracts) are available to everyone.
 
 > See [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md) for full architecture.
 
@@ -360,8 +359,6 @@ Synward is implemented in **Rust** for commercial and technical reasons:
 | **Talent Pool** | Growing Rust developer community |
 | **Modern Tooling** | Cargo, clippy, rustfmt built-in |
 
-**Note:** Prism remains an internal tool for Aegis and internal utilities. Synward's commercial success requires a trusted, well-known language.
-
 ---
 
 ## Interfaces
@@ -476,7 +473,6 @@ Synward/
 │   ├── SYNWARD_CERTIFICATION.md      # Certification system
 │   ├── SYNWARD_RUST_IMPLEMENTATION.md# Rust-specific details
 │   ├── MEMORY_DRIVEN_CORE.md        # Memory-Driven Core architecture
-│   └── TIER_SEPARATION.md           # OSS/Commercial separation
 │
 ├── src/                             # Core engine (Rust)
 │   ├── core/
@@ -588,135 +584,6 @@ Synward/
 | **Lex Compiler** | Synward validates `.lex` files via the Lex adapter |
 | **Prism Engine** | Synward validates engine C++ code |
 | **Archivista** | Synward provides context for Archivista (original Synward purpose preserved) |
-
----
-
-## Commercial Strategy
-
-**Core First Philosophy (v3.0):** All core features available to ALL tiers. Differentiation on limits, integrations, and support.
-
-### Pricing Tiers
-
-| Tier | Price | Scans/day | Files | Projects | Contracts | Target |
-|------|-------|-----------|-------|----------|-----------|--------|
-| **Solo** | FREE | 100 | 50 | 1 | 3 | Dev singoli |
-| **Pro** | $9/mo | 1,000 | 500 | 5 | 20 | Freelancer |
-| **Team** | $29/user/mo | Unlimited | Unlimited | Unlimited | Unlimited | Team 5-50 |
-| **Enterprise** | Custom | Unlimited | Unlimited | Unlimited | Unlimited | Big orgs |
-
-> **Nota:** Files = "Files letti per scan" (non files per progetto). VS Code Extension dedicata = Pro+ tier only. Free tier ha solo MCP protocol access.
-
-### Core Features (ALL Tiers)
-
-**Available to Solo, Pro, Team, Enterprise:**
-- Memory-Driven Core (TOML)
-- Hyper-Context Engine (Graph RAG)
-- Dubbioso Mode
-- 23 Languages (public) + Prism (private)
-- All Validation Layers (Syntax, Semantic, Logic, Security, Style, Architecture)
-- Custom Contracts (with tier limits)
-- Dataflow Analysis (Full)
-- MCP Integration (VS Code, Claude, Cursor)
-- CLI (Full access)
-- Code Certification (Ed25519)
-
-### Tier Differentiators
-
-**Solo (Free):**
-- TUTTO il core autonomo
-- Limiti: 100 scans/giorno, 50 files, 1 progetto, 3 contracts
-- Local TOML storage
-- Community support
-
-**Pro ($9/mo):**
-- TUTTO il core + integrazioni
-- CI/CD Integration (GitHub Actions, GitLab CI, Azure DevOps)
-- Cloud Backup (memoria)
-- Limiti: 1,000 scans/giorno, 500 files, 5 progetti, 20 contracts
-- Email support
-
-**Team ($29/user/mo):**
-- TUTTO il core + team features
-- Unlimited scans, files, projects, contracts
-- Cloud Sync (Qdrant)
-- Team Memory Sharing
-- Web Dashboard
-- SSO (Google, GitHub)
-- Slack/Teams notifications
-- Priority support
-
-**Enterprise (Custom):**
-- TUTTO il core + enterprise features
-- On-premise deployment
-- SSO (SAML, OIDC, LDAP)
-- Compliance Reports (SOC2, ISO27001, GDPR, HIPAA)
-- API Access
-- Source Access (synward-pro crate)
-- Taint Tracking
-- Dedicated support
-- SLA 99.9%
-
-### Memory-Driven Core (Project Memory)
-
-AI agents forget decisions between sessions. Synward's Memory-Driven Core solves this by **configuring validation layers dynamically** based on learned project knowledge:
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                MEMORY-DRIVEN CORE ARCHITECTURE                   │
-├─────────────────────────────────────────────────────────────────┤
-│  STORAGE LAYER                                                  │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │   SQLite     │  │   Qdrant     │  │  PostgreSQL  │          │
-│  │   (Solo/Pro) │  │   (Team)     │  │  (Enterprise)│          │
-│  └──────────────┘  └──────────────┘  └──────────────┘          │
-├─────────────────────────────────────────────────────────────────┤
-│  LEARNED CONFIG (Dynamic Layer Configuration)                   │
-│  • Thresholds (complexity, line length, parameters)            │
-│  • Custom rules (discovered from violation patterns)           │
-│  • Security whitelist (accepted violations with reason)        │
-│  • Style conventions (learned from existing code)              │
-├─────────────────────────────────────────────────────────────────┤
-│  DATA TYPES                                                     │
-│  • Architectural Decisions ("Why we chose X")                  │
-│  • Violation History (fixed, ignored, false positives)         │
-│  • Learned Patterns (naming, structure, idioms)                │
-│  • User Annotations (notes on specific code)                   │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-**Retention Value:**
-
-| Time | False Positives | Custom Rules | Switch Cost |
-|------|-----------------|--------------|-------------|
-| Day 1 | 30% | 0 | Low |
-| Month 3 | 12% | 8 | Medium |
-| Year 1 | 2% | 25 | **Very High** |
-
-> Full architecture: [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
-
-### Market Opportunity
-
-| Statistic | Source |
-|-----------|--------|
-| 45% AI code has vulnerabilities | Veracode 2025 |
-| 62% contains security flaws | Medium 2025 |
-| 40%+ enterprise code is AI-generated | Industry 2025 |
-| 2.74x more vulnerabilities than human code | SoftwareSeni 2026 |
-| 84% developers use AI, only 29% trust it | CodeRabbit 2025 |
-
----
-
-## Success Metrics
-
-| Metric | Target |
-|--------|--------|
-| AI code pass rate (first try) | > 80% |
-| AI code pass rate (after 3 iterations) | > 95% |
-| False positive rate | < 5% |
-| Validation latency | < 100ms for typical file |
-| Certificate verification | < 10ms |
-| 6-month MRR target | $5,000 |
-| Paying customers (6 mo) | 50 |
 
 ---
 

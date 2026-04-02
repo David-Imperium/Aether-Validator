@@ -95,7 +95,7 @@ ratatui = "0.28"
 crossterm = "0.28"
 
 # === SYNWARD NEURAL (Phase Neural Native) ===
-# Burn deps moved to crates/synward-neural/Cargo.toml (proprietary module)
+# Neural module dependencies (local only)
 
 [profile.release]
 lto = "thin"

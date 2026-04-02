@@ -281,24 +281,11 @@ synward rag stats
 
 Download the latest binary from [GitHub Releases](https://github.com/David-Imperium/synward/releases):
 
-**Free Tier (synward-mcp):**
+Synward is available as CLI and MCP server. See documentation for details.
+
 ```bash
-# Linux/macOS
-curl -sL https://github.com/David-Imperium/synward/releases/latest/download/synward-mcp-linux-x86_64 -o synward-mcp
-chmod +x synward-mcp
-
-# Windows (PowerShell)
-Invoke-WebRequest -Uri https://github.com/David-Imperium/synward/releases/latest/download/synward-mcp-windows-x86_64.exe -OutFile synward-mcp.exe
-```
-
-**Pro Tier (synward-cli):**
-```bash
-# Linux/macOS
-curl -sL https://github.com/David-Imperium/synward/releases/latest/download/synward-cli-linux-x86_64 -o synward
-chmod +x synward
-
-# Windows (PowerShell)
-Invoke-WebRequest -Uri https://github.com/David-Imperium/synward/releases/latest/download/synward-cli-windows-x86_64.exe -OutFile synward.exe
+# Download from GitHub Releases
+# https://github.com/David-Imperium/synward/releases
 ```
 
 ### Build from Source

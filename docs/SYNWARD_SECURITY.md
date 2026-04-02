@@ -264,23 +264,7 @@ All security-relevant events are logged:
 
 ### 4. Rate Limiting
 
-| Endpoint | Free Tier | Enterprise |
-|----------|-----------|------------|
-| `/api/v1/validate` | 1000/month | Unlimited |
-| `/api/v1/certify` | 500/month | Unlimited |
-| `/api/v1/verify` | Unlimited | Unlimited |
-
-Rate limit response:
-```json
-{
-  "error": "rate_limit_exceeded",
-  "message": "Monthly validation limit reached",
-  "limit": 1000,
-  "used": 1000,
-  "resets_at": "2026-04-01T00:00:00Z",
-  "upgrade_url": "https://synward.dev/pricing"
-}
-```
+Rate limiting is enforced to prevent abuse. Limits depend on the deployment configuration.
 
 ### 5. Input Validation
 
@@ -351,12 +335,8 @@ audit:
   
 # Rate limiting
 rate_limits:
-  free_tier:
-    validate_per_month: 1000
-    certify_per_month: 500
-  enterprise:
-    validate_per_month: -1  # unlimited
-    certify_per_month: -1
+  enabled: true
+  default_per_day: 1000
     
 # Hardening
 hardening:

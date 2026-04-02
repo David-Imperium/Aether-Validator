@@ -80,7 +80,7 @@ crates/synward-cli/.aether/
 crates/synward-intelligence/src/.synward/
 crates/synward-intelligence/src/.aether/
 
-# Neural module (proprietary, not ready for release)
+# WIP modules
 crates/synward-neural/
 docs/SYNWARD_NEURAL.md
 docs/ADR/ADR-002-neural-native.md
@@ -91,11 +91,8 @@ test_hook*.txt
 # Factory settings
 .factory/
 
-# Business/strategic docs (not for public)
-docs/PRICING_STRATEGY.md
-docs/TIER_SEPARATION.md
-docs/tiers.md
-docs/FEATURE_ROADMAP.md
+# Private/internal documents
+docs/private/
 
 # Internal planning
 .planning/

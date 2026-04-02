@@ -2,7 +2,7 @@
 
 **Version:** 0.1.0
 **Protocol:** MCP 2024-11-05
-**Tools Count:** 27
+**Tools Count:** 33
 
 ---
 
@@ -38,6 +38,11 @@
 | `watch_start` | Start directory watch |
 | `watch_check` | Check for file changes |
 | `watch_stop` | Stop directory watch |
+| `get_compliance_status` | Get compliance engine status and statistics |
+| `evaluate_violation` | Evaluate a violation through the compliance engine |
+| `accept_compliance_violation` | Accept a violation with a documented reason |
+| `analyze_drift` | Analyze drift for a file or directory over time |
+| `get_trend_analysis` | Get trend analysis for a file or project |
 
 ---
 
@@ -58,7 +63,7 @@ Returns Synward version, supported languages count, and tools count.
   "version": "0.1.0",
   "name": "Synward",
   "languages_count": 24,
-  "tools_count": 24
+  "tools_count": 33
 }
 ```
 

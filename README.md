@@ -92,7 +92,7 @@ Synward/
 │   ├── synward-api/            # HTTP API (axum)
 │   ├── synward-sdk/            # Agent SDKs
 │   ├── synward-cli/            # CLI interface + RAG
-│   ├── synward-mcp/            # MCP server (24 tools)
+│   ├── synward-mcp/            # MCP server (33 tools)
 │   ├── synward-mcp-test/       # MCP integration tests
 │   ├── synward-intelligence/   # AI-powered analysis (feature-gated)
 │   └── synward-contract-importer/ # Import ESLint, Clippy, Pylint rules
@@ -112,7 +112,7 @@ Synward/
 
 ## MCP Tools
 
-**24 tools** organized by category:
+**33 tools** organized by category:
 
 ### Core Validation
 | Tool | Description |
@@ -166,6 +166,26 @@ Synward/
 | Tool | Description |
 |------|-------------|
 | `accept_violation` | Accept and learn from a violation |
+
+### Advanced Analysis
+| Tool | Description |
+|------|-------------|
+| `analyze_scope` | Analyze variable scopes and detect shadowing/unused variables |
+| `infer_types` | Infer types for variables and expressions |
+| `get_confidence` | Get confidence score for code quality |
+
+### Compliance
+| Tool | Description |
+|------|-------------|
+| `get_compliance_status` | Get compliance engine status and statistics |
+| `evaluate_violation` | Evaluate a violation through the compliance engine |
+| `accept_compliance_violation` | Accept a violation with a documented reason |
+
+### Drift Analysis
+| Tool | Description |
+|------|-------------|
+| `analyze_drift` | Analyze drift for a file or directory over time |
+| `get_trend_analysis` | Get trend analysis for a file or project |
 
 ### Supported Languages
 
@@ -259,26 +279,26 @@ synward rag stats
 
 ### GitHub Releases (Recommended)
 
-Download the latest binary from [GitHub Releases](https://github.com/synward-ai/synward/releases):
+Download the latest binary from [GitHub Releases](https://github.com/David-Imperium/synward/releases):
 
 **Free Tier (synward-mcp):**
 ```bash
 # Linux/macOS
-curl -sL https://github.com/synward-ai/synward/releases/latest/download/synward-mcp-linux-x86_64 -o synward-mcp
+curl -sL https://github.com/David-Imperium/synward/releases/latest/download/synward-mcp-linux-x86_64 -o synward-mcp
 chmod +x synward-mcp
 
 # Windows (PowerShell)
-Invoke-WebRequest -Uri https://github.com/synward-ai/synward/releases/latest/download/synward-mcp-windows-x86_64.exe -OutFile synward-mcp.exe
+Invoke-WebRequest -Uri https://github.com/David-Imperium/synward/releases/latest/download/synward-mcp-windows-x86_64.exe -OutFile synward-mcp.exe
 ```
 
 **Pro Tier (synward-cli):**
 ```bash
 # Linux/macOS
-curl -sL https://github.com/synward-ai/synward/releases/latest/download/synward-cli-linux-x86_64 -o synward
+curl -sL https://github.com/David-Imperium/synward/releases/latest/download/synward-cli-linux-x86_64 -o synward
 chmod +x synward
 
 # Windows (PowerShell)
-Invoke-WebRequest -Uri https://github.com/synward-ai/synward/releases/latest/download/synward-cli-windows-x86_64.exe -OutFile synward.exe
+Invoke-WebRequest -Uri https://github.com/David-Imperium/synward/releases/latest/download/synward-cli-windows-x86_64.exe -OutFile synward.exe
 ```
 
 ### Build from Source

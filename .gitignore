@@ -73,19 +73,17 @@ check2_stdout.txt
 # Synward local state
 .synward/
 .synward.toml
+.aether/
+.aether.toml
 crates/synward-cli/.synward/
+crates/synward-cli/.aether/
 crates/synward-intelligence/src/.synward/
+crates/synward-intelligence/src/.aether/
 
 # Neural module (proprietary, not ready for release)
 crates/synward-neural/
 docs/SYNWARD_NEURAL.md
 docs/ADR/ADR-002-neural-native.md
-
-# Desktop build artifacts
-crates/synward-desktop/.vite-debug.log
-crates/synward-desktop/dist/
-crates/synward-desktop/src-tauri/gen/
-crates/synward-desktop/package-lock.json
 
 # Temp test files
 test_hook*.txt

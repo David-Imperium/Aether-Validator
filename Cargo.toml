@@ -25,7 +25,7 @@ rust-version = "1.75"
 authors = ["David <david@imperium.dev>"]
 license = "BUSL-1.1"
 # Change License: AGPL-3.0-only (effective 2029-04-01)
-repository = "https://github.com/David-Imperium/synward"
+repository = "https://github.com/David-Imperium/Synward"
 
 [workspace.dependencies]
 # Parser
@@ -95,10 +95,7 @@ ratatui = "0.28"
 crossterm = "0.28"
 
 # === SYNWARD NEURAL (Phase Neural Native) ===
-# Burn framework — backend-agnostic ML inference (pre-release: ONNX import only available in 0.21+)
-burn = { version = "0.21.0-pre.2" }
-burn-store = { version = "0.21.0-pre.2", features = ["burnpack"] }
-burn-onnx = { version = "0.21.0-pre.1" }
+# Burn deps moved to crates/synward-neural/Cargo.toml (proprietary module)
 
 [profile.release]
 lto = "thin"

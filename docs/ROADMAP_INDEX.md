@@ -198,7 +198,7 @@ Strategia per scalare a 50+ linguaggi con tree-sitter.
 
 **Status:** Architettura documentata, implementazione da iniziare
 
-- [ ] Creare repository `synward-ai/contracts`
+- [ ] Creare repository `David-Imperium/contracts`
 - [ ] Implementare `ContractLoader` in Rust (auto-update da registry)
 - [ ] Creare TUI con `ratatui` (selezione linguaggi, piattaforme, livelli)
 - [ ] Implementare generatori per ogni piattaforma:

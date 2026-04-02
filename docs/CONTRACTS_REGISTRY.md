@@ -21,7 +21,7 @@ Synward ha bisogno di un sistema per gestire contratti di validazione per lingua
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    SYNWARD CONTRACTS REGISTRY                      │
-│                    (GitHub: synward-ai/contracts)                   │
+│                    (GitHub: David-Imperium/contracts)                   │
 │                                                                   │
 │  index.json                                                       │
 │  ├── rust/                                                        │
@@ -97,8 +97,8 @@ meta:
   version: "1.2.0"
   released: "2026-03-11"
   min_synward: "0.1.0"
-  author: "synward-ai"
-  source: "https://github.com/synward-ai/contracts/blob/main/rust/v1.2.0.yaml"
+  author: "David-Imperium"
+  source: "https://github.com/David-Imperium/contracts/blob/main/rust/v1.2.0.yaml"
 
 contracts:
   # Pattern matching — No code required
@@ -152,8 +152,8 @@ meta:
   version: "0.5.0"
   released: "2026-03-11"
   min_synward: "0.1.0"
-  author: "synward-ai"
-  source: "https://github.com/synward-ai/contracts/blob/main/prism/v0.5.0.yaml"
+  author: "David-Imperium"
+  source: "https://github.com/David-Imperium/contracts/blob/main/prism/v0.5.0.yaml"
 
 contracts:
   # Shader DSL
@@ -653,9 +653,9 @@ synward:
 ### 8.1 Endpoint
 
 ```
-GET https://raw.githubusercontent.com/synward-ai/contracts/main/index.json
-GET https://raw.githubusercontent.com/synward-ai/contracts/main/rust/v1.2.0.yaml
-GET https://raw.githubusercontent.com/synward-ai/contracts/main/prism/v0.5.0.yaml
+GET https://raw.githubusercontent.com/David-Imperium/contracts/main/index.json
+GET https://raw.githubusercontent.com/David-Imperium/contracts/main/rust/v1.2.0.yaml
+GET https://raw.githubusercontent.com/David-Imperium/contracts/main/prism/v0.5.0.yaml
 ```
 
 ### 8.2 Versioning
@@ -669,9 +669,9 @@ GET https://raw.githubusercontent.com/synward-ai/contracts/main/prism/v0.5.0.yam
 ```yaml
 # synward.yaml
 registry:
-  primary: "https://github.com/synward-ai/contracts"
+  primary: "https://github.com/David-Imperium/contracts"
   mirrors:
-    - "https://gitlab.com/synward-ai/contracts"
+    - "https://gitlab.com/David-Imperium/contracts"
     - "https://cdn.synward.ai/contracts"
   
   # Per contratti privati

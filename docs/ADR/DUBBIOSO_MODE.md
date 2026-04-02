@@ -6,7 +6,7 @@
 
 ## Context
 
-Aether validation traditionally uses strict rule-based checks. However, some violations require human judgment because:
+Synward validation traditionally uses strict rule-based checks. However, some violations require human judgment because:
 - Context matters (code purpose, project conventions)
 - False positives waste developer time
 - Learning from user decisions improves accuracy over time
@@ -19,7 +19,7 @@ Dubbioso Mode adds confidence-based validation that:
 ## Implementation
 
 ### Task 1: Graph RAG Multi-Livello ✅
-**File**: `crates/aether-intelligence/src/memory/code_graph/rag.rs`
+**File**: `crates/synward-intelligence/src/memory/code_graph/rag.rs`
 
 Functions implemented:
 - `file_dependencies_deep(file, depth)` — Recursively find all dependencies
@@ -28,7 +28,7 @@ Functions implemented:
 - `context_score(file)` — Calculate importance based on connections
 
 ### Task 2: Tree-sitter Semantic Analysis ✅
-**File**: `crates/aether-intelligence/src/semantic.rs`
+**File**: `crates/synward-intelligence/src/semantic.rs`
 
 Pattern-based semantic analysis:
 - `SemanticAnalyzer` — Analyzes code patterns without full tree-sitter parsing
@@ -36,7 +36,7 @@ Pattern-based semantic analysis:
 - `analyze_semantic_patterns(code, language)` — Extract semantic information
 
 ### Task 3: Context Scoring Algorithm ✅
-**File**: `crates/aether-intelligence/src/dubbioso.rs`
+**File**: `crates/synward-intelligence/src/dubbioso.rs`
 
 Confidence calculation:
 - `DubbiosoAnalyzer` — Combines graph + semantic + heuristics
@@ -49,7 +49,7 @@ confidence = (graph_context * 0.3) + (semantic_confidence * 0.4) + (heuristics *
 ```
 
 ### Task 4: MCP Question Protocol ✅
-**File**: `crates/aether-intelligence/src/mcp_questions.rs`
+**File**: `crates/synward-intelligence/src/mcp_questions.rs`
 
 Interactive questioning:
 - `McpQuestionManager` — Creates and tracks questions
@@ -58,9 +58,9 @@ Interactive questioning:
 - `process_response()` — Updates memory based on answer
 
 ### Task 5: Threshold Configuration ✅
-**File**: `crates/aether-intelligence/src/memory/project_config.rs`
+**File**: `crates/synward-intelligence/src/memory/project_config.rs`
 
-`.aether.toml` configuration:
+`.synward.toml` configuration:
 ```toml
 [dubbioso]
 ask_threshold = 0.60      # Below this, ask user
@@ -71,16 +71,16 @@ max_context_depth = 10    # Max depth for graph traversal
 ```
 
 ### Task 6: Memory Pattern Persistence ✅
-**File**: `crates/aether-intelligence/src/dubbioso_patterns.rs`
+**File**: `crates/synward-intelligence/src/dubbioso_patterns.rs`
 
 Pattern learning:
 - `DubbiosoPattern` — id, pattern, language, accept/reject counts
-- `DubbiosoPatternStore` — Load/save to `.aether/patterns.json`
+- `DubbiosoPatternStore` — Load/save to `.synward/patterns.json`
 - Pattern becomes permanent after `permanent_after` accepts
 - Confidence adjustment: `+(accepts/total)*0.3` or `-(rejects/total)*0.3`
 
 ### Task 7: Feedback Loop Integration ✅
-**File**: `crates/aether-intelligence/src/dubbioso_validator.rs`
+**File**: `crates/synward-intelligence/src/dubbioso_validator.rs`
 
 Complete integration:
 - `DubbiosoValidator` — Combines analyzer + question_manager + pattern_store
@@ -130,7 +130,7 @@ Complete integration:
 
 ## Configuration
 
-Default thresholds (`.aether.toml`):
+Default thresholds (`.synward.toml`):
 ```toml
 [dubbioso]
 ask_threshold = 0.60
@@ -150,7 +150,7 @@ max_context_depth = 10
 | `dubbioso_validator.rs` | Created | Integration layer |
 | `semantic.rs` | Modified | Pattern-based analysis |
 | `project_config.rs` | Modified | DubbiosoSection |
-| `.aether.toml` | Modified | [dubbioso] config |
+| `.synward.toml` | Modified | [dubbioso] config |
 | `lib.rs` | Modified | Module exports |
 
 ## Consequences

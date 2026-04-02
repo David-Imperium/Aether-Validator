@@ -70,22 +70,22 @@ test_ai_generated_code.py
 check2_stderr.txt
 check2_stdout.txt
 
-# Aether local state
-.aether/
-.aether.toml
-crates/aether-cli/.aether/
-crates/aether-intelligence/src/.aether/
+# Synward local state
+.synward/
+.synward.toml
+crates/synward-cli/.synward/
+crates/synward-intelligence/src/.synward/
 
 # Neural module (proprietary, not ready for release)
-crates/aether-neural/
-docs/AETHER_NEURAL.md
+crates/synward-neural/
+docs/SYNWARD_NEURAL.md
 docs/ADR/ADR-002-neural-native.md
 
 # Desktop build artifacts
-crates/aether-desktop/.vite-debug.log
-crates/aether-desktop/dist/
-crates/aether-desktop/src-tauri/gen/
-crates/aether-desktop/package-lock.json
+crates/synward-desktop/.vite-debug.log
+crates/synward-desktop/dist/
+crates/synward-desktop/src-tauri/gen/
+crates/synward-desktop/package-lock.json
 
 # Temp test files
 test_hook*.txt

@@ -1,6 +1,6 @@
 #!/bin/bash
-# Aether MCP Server Installer for Linux/macOS
-# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_REPO/Aether/main/install.sh | bash
+# Synward MCP Server Installer for Linux/macOS
+# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_REPO/Synward/main/install.sh | bash
 
 set -e
 
@@ -32,7 +32,7 @@ while [[ $# -gt 0 ]]; do
         --factory-cli) CONFIGURE_FACTORY=true; shift ;;
         --gemini-cli) CONFIGURE_GEMINI=true; shift ;;
         --help|-h)
-            echo "Aether MCP Server Installer"
+            echo "Synward MCP Server Installer"
             echo ""
             echo "Usage: $0 [options]"
             echo ""
@@ -80,19 +80,19 @@ info "Detected: $TARGET"
 # Get latest version if not specified
 if [[ "$VERSION" == "latest" ]]; then
     info "Fetching latest version..."
-    VERSION=$(curl -fsSL https://api.github.com/repos/YOUR_REPO/Aether/releases/latest 2>/dev/null | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/' || echo "v0.1.0")
+    VERSION=$(curl -fsSL https://api.github.com/repos/YOUR_REPO/Synward/releases/latest 2>/dev/null | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/' || echo "v0.1.0")
     warn "Using version: $VERSION"
 fi
 
-info "Installing Aether MCP $VERSION"
+info "Installing Synward MCP $VERSION"
 
 # Create installation directory
 mkdir -p "$INSTALL_DIR"
 
 # Download binary
-BINARY_NAME="aether-mcp-server-$TARGET"
-DOWNLOAD_URL="https://github.com/YOUR_REPO/Aether/releases/download/$VERSION/$BINARY_NAME"
-BINARY_PATH="$INSTALL_DIR/aether-mcp-server"
+BINARY_NAME="synward-mcp-server-$TARGET"
+DOWNLOAD_URL="https://github.com/YOUR_REPO/Synward/releases/download/$VERSION/$BINARY_NAME"
+BINARY_PATH="$INSTALL_DIR/synward-mcp-server"
 
 info "Downloading from: $DOWNLOAD_URL"
 
@@ -108,7 +108,7 @@ chmod +x "$BINARY_PATH"
 success "Downloaded binary to: $BINARY_PATH"
 
 # Setup contracts
-CONTRACTS_PATH="${CONTRACTS_DIR:-$HOME/.local/share/aether/contracts}"
+CONTRACTS_PATH="${CONTRACTS_DIR:-$HOME/.local/share/synward/contracts}"
 mkdir -p "$CONTRACTS_PATH"/{rust,cpp,lex}
 info "Created contracts directory: $CONTRACTS_PATH"
 
@@ -124,7 +124,7 @@ if [[ "$CONFIGURE_FACTORY" == "true" ]]; then
         # Use jq if available, otherwise use python
         if command -v jq &>/dev/null; then
             jq --arg bin "$BINARY_PATH" --arg contracts "$CONTRACTS_PATH" \
-                '.mcpServers.aether = {type: "stdio", command: $bin, args: ["--contracts", $contracts], disabled: false}' \
+                '.mcpServers.synward = {type: "stdio", command: $bin, args: ["--contracts", $contracts], disabled: false}' \
                 "$MCP_CONFIG" > "${MCP_CONFIG}.tmp" && mv "${MCP_CONFIG}.tmp" "$MCP_CONFIG"
         else
             warn "jq not installed, manual configuration may be needed"
@@ -133,7 +133,7 @@ if [[ "$CONFIGURE_FACTORY" == "true" ]]; then
         cat > "$MCP_CONFIG" <<EOF
 {
   "mcpServers": {
-    "aether": {
+    "synward": {
       "type": "stdio",
       "command": "$BINARY_PATH",
       "args": ["--contracts", "$CONTRACTS_PATH"],
@@ -156,7 +156,7 @@ if [[ "$CONFIGURE_GEMINI" == "true" ]]; then
     if [[ -f "$GEMINI_CONFIG" ]]; then
         if command -v jq &>/dev/null; then
             jq --arg bin "$BINARY_PATH" --arg contracts "$CONTRACTS_PATH" \
-                '.mcpServers.aether = {command: $bin, args: ["--contracts", $contracts]}' \
+                '.mcpServers.synward = {command: $bin, args: ["--contracts", $contracts]}' \
                 "$GEMINI_CONFIG" > "${GEMINI_CONFIG}.tmp" && mv "${GEMINI_CONFIG}.tmp" "$GEMINI_CONFIG"
         else
             warn "jq not installed, manual configuration may be needed"
@@ -165,7 +165,7 @@ if [[ "$CONFIGURE_GEMINI" == "true" ]]; then
         cat > "$GEMINI_CONFIG" <<EOF
 {
   "mcpServers": {
-    "aether": {
+    "synward": {
       "command": "$BINARY_PATH",
       "args": ["--contracts", "$CONTRACTS_PATH"]
     }
@@ -179,7 +179,7 @@ fi
 # Verify installation
 info "Verifying installation..."
 if "$BINARY_PATH" --version &>/dev/null; then
-    success "Aether MCP Server installed successfully!"
+    success "Synward MCP Server installed successfully!"
     echo ""
     echo "Binary:     $BINARY_PATH"
     echo "Contracts:  $CONTRACTS_PATH"
@@ -191,7 +191,7 @@ if "$BINARY_PATH" --version &>/dev/null; then
         cat <<EOF
 {
   "mcpServers": {
-    "aether": {
+    "synward": {
       "type": "stdio",
       "command": "$BINARY_PATH",
       "args": ["--contracts", "$CONTRACTS_PATH"],

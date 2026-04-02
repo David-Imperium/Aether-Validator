@@ -1,6 +1,6 @@
-# Aether Knowledge Base
+# Synward Knowledge Base
 
-Directory contenente la knowledge base per Aether Intelligence.
+Directory contenente la knowledge base per Synward Intelligence.
 
 ## Struttura
 
@@ -54,7 +54,7 @@ Le signatures vengono:
 ## Usage
 
 ```rust
-use aether_intelligence::knowledge::{TypeStubLoader, LlmApiResolver};
+use synward_intelligence::knowledge::{TypeStubLoader, LlmApiResolver};
 
 // Load type stubs
 let loader = TypeStubLoader::new();

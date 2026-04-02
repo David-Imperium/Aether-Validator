@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    {
+      "id": "d228d966-4c2e-42e5-bb61-e8d4bd52c86c",
+      "decision_type": "AcceptViolation",
+      "content": "Test pulito",
+      "location": {
+        "file": "crates/synward-cli/src/main.rs",
+        "line": 0,
+        "column": 0
+      },
+      "timestamp": "2026-03-15T19:57:35.002069100Z",
+      "author": "User",
+      "status": "Accepted",
+      "related": [],
+      "confidence": 0.5,
+      "tags": [
+        "RUST001"
+      ]
+    },
+    {
+      "id": "7e695242-c368-4bcd-92d8-8d8b28b430d9",
+      "decision_type": "AcceptViolation",
+      "content": "Test feedback loop",
+      "location": {
+        "file": "",
+        "line": 0,
+        "column": 0
+      },
+      "timestamp": "2026-03-20T00:59:43.009177800Z",
+      "author": "User",
+      "status": "Accepted",
+      "related": [],
+      "confidence": 0.5,
+      "tags": [
+        "SEC006"
+      ]
+    }
+  ],
+  "edges": []
+}

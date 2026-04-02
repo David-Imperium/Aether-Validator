@@ -1,13 +1,13 @@
-# Aether — Certification System
+# Synward — Certification System
 
 **Version:** 0.2.0  
-**Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md)
+**Related:** [SYNWARD_MASTER_DESIGN.md](./SYNWARD_MASTER_DESIGN.md)
 
 ---
 
 ## Overview
 
-The Certification System provides cryptographic proof that code has been validated by Aether. A certificate is a verifiable, tamper-proof record that code meets specific quality standards.
+The Certification System provides cryptographic proof that code has been validated by Synward. A certificate is a verifiable, tamper-proof record that code meets specific quality standards.
 
 **Purpose:** Enable trust in AI-generated code through cryptographic verification.
 
@@ -27,7 +27,7 @@ Without Certification:
 
 With Certification:
 ┌─────────┐      ┌─────────┐      ┌─────────┐      ┌─────────┐
-│   AI    │─────▶│ Aether  │─────▶│Certified│─────▶│Production│
+│   AI    │─────▶│ Synward  │─────▶│Certified│─────▶│Production│
 │ Agent   │      │ Validate│      │  Code   │      │  Safe!   │
 └─────────┘      └─────────┘      └─────────┘      └─────────┘
                         │
@@ -42,7 +42,7 @@ With Certification:
 
 1. **CI/CD Gates** — Only certified code can merge/deploy
 2. **Audit Trail** — Prove what was validated, when, by whom
-3. **Commercial Trust** — "Certified by Aether" as quality mark
+3. **Commercial Trust** — "Certified by Synward" as quality mark
 4. **Regulatory Compliance** — Verifiable quality for regulated industries
 5. **Supply Chain Security** — Verify dependencies are certified
 
@@ -55,7 +55,7 @@ With Certification:
 ```json
 {
   "version": "1.0",
-  "certificate_id": "AETHER-2026-03-08-ABC12345",
+  "certificate_id": "SYNWARD-2026-03-08-ABC12345",
   
   "timestamp": "2026-03-08T23:45:00Z",
   "expires": "2027-03-08T23:45:00Z",
@@ -105,9 +105,9 @@ With Certification:
   },
   
   "issuer": {
-    "name": "Aether",
+    "name": "Synward",
     "version": "0.1.0",
-    "instance_id": "aether-prod-01"
+    "instance_id": "synward-prod-01"
   },
   
   "signature": {
@@ -123,7 +123,7 @@ With Certification:
 ```json
 {
   "v": "1.0",
-  "id": "AETHER-2026-03-08-ABC12345",
+  "id": "SYNWARD-2026-03-08-ABC12345",
   "ts": "2026-03-08T23:45:00Z",
   "hash": "e3b0c44298fc...",
   "pass": true,
@@ -196,7 +196,7 @@ With Certification:
 
 ### Signing Algorithm
 
-Aether uses **Ed25519** for digital signatures:
+Synward uses **Ed25519** for digital signatures:
 
 - Fast signature generation and verification
 - Small key sizes (32 bytes private, 32 bytes public)
@@ -206,7 +206,7 @@ Aether uses **Ed25519** for digital signatures:
 ### Key Management
 
 ```cpp
-namespace aether::certification {
+namespace synward::certification {
 
 class KeyManager {
 public:
@@ -239,7 +239,7 @@ struct KeyPair {
 ```
 
 ```cpp
-namespace aether::certification {
+namespace synward::certification {
 
 class Signer {
 public:
@@ -268,7 +268,7 @@ private:
 ### Certificate Generator
 
 ```cpp
-namespace aether::certification {
+namespace synward::certification {
 
 class CertificateGenerator {
 public:
@@ -320,13 +320,13 @@ struct Certificate {
 ### Certificate ID Format
 
 ```
-AETHER-YYYY-MM-DD-XXXXXXXX
+SYNWARD-YYYY-MM-DD-XXXXXXXX
 
-AETHER      — Fixed prefix
+SYNWARD      — Fixed prefix
 YYYY-MM-DD  — Date of issuance
 XXXXXXXX    — 8-character random hex
 
-Example: AETHER-2026-03-08-4F3A2B91
+Example: SYNWARD-2026-03-08-4F3A2B91
 ```
 
 ---
@@ -347,16 +347,16 @@ Example: AETHER-2026-03-08-4F3A2B91
 project/
 ├── src/
 │   └── enemy.cpp
-├── .aether/
+├── .synward/
 │   └── certificates/
 │       └── 2026-03/
-│           └── AETHER-2026-03-08-4F3A2B91.json
+│           └── SYNWARD-2026-03-08-4F3A2B91.json
 ```
 
 ### Certificate Registry
 
 ```cpp
-namespace aether::certification {
+namespace synward::certification {
 
 class CertificateRegistry {
 public:
@@ -401,7 +401,7 @@ private:
 ### Verifier
 
 ```cpp
-namespace aether::certification {
+namespace synward::certification {
 
 struct VerificationResult {
     bool valid;
@@ -454,11 +454,11 @@ All certificate operations are logged for auditing.
 {
   "timestamp": "2026-03-08T23:45:00Z",
   "event": "certificate_issued",
-  "certificate_id": "AETHER-2026-03-08-ABC12345",
+  "certificate_id": "SYNWARD-2026-03-08-ABC12345",
   "file": "src/enemy.cpp",
   "agent": "claude-3-opus",
   "validation_result": "pass",
-  "issuer": "aether-prod-01",
+  "issuer": "synward-prod-01",
   "ip_address": "192.168.1.100",
   "user": "david"
 }
@@ -467,7 +467,7 @@ All certificate operations are logged for auditing.
 ### Audit Logger
 
 ```cpp
-namespace aether::certification {
+namespace synward::certification {
 
 enum class AuditEvent {
     CertificateIssued,
@@ -517,7 +517,7 @@ Sometimes certificates need to be revoked (e.g., vulnerability discovered).
   "updated": "2026-03-08T12:00:00Z",
   "revoked": [
     {
-      "certificate_id": "AETHER-2026-03-07-XYZ12345",
+      "certificate_id": "SYNWARD-2026-03-07-XYZ12345",
       "reason": "security_vulnerability",
       "revoked_at": "2026-03-08T11:00:00Z",
       "details": "CVE-2026-XXXXX"
@@ -529,7 +529,7 @@ Sometimes certificates need to be revoked (e.g., vulnerability discovered).
 ### Revocation Checker
 
 ```cpp
-namespace aether::certification {
+namespace synward::certification {
 
 class RevocationChecker {
 public:
@@ -555,8 +555,8 @@ private:
 ### GitHub Actions
 
 ```yaml
-# .github/workflows/aether-verify.yml
-name: Aether Verification
+# .github/workflows/synward-verify.yml
+name: Synward Verification
 
 on:
   pull_request:
@@ -568,23 +568,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Install Aether
+      - name: Install Synward
         run: |
-          curl -sSL https://get.aether.dev | sh
+          curl -sSL https://get.synward.dev | sh
           
       - name: Verify Certificates
         run: |
-          aether verify-changed --fail-on-missing
+          synward verify-changed --fail-on-missing
           
       - name: Validate New Code
         run: |
-          aether validate src/ --certify
+          synward validate src/ --certify
           
       - name: Upload Certificates
         uses: actions/upload-artifact@v4
         with:
-          name: aether-certificates
-          path: .aether/certificates/
+          name: synward-certificates
+          path: .synward/certificates/
 ```
 
 ### Pre-Commit Hook
@@ -601,9 +601,9 @@ if [ -z "$CHANGED_FILES" ]; then
 fi
 
 # Validate and certify
-echo "Running Aether validation..."
+echo "Running Synward validation..."
 for FILE in $CHANGED_FILES; do
-    RESULT=$(aether validate "$FILE" --certify --output json)
+    RESULT=$(synward validate "$FILE" --certify --output json)
     PASSED=$(echo "$RESULT" | jq -r '.passed')
     
     if [ "$PASSED" != "true" ]; then
@@ -669,7 +669,7 @@ Response:
 
 ```json
 {
-  "tool": "aether_certify",
+  "tool": "synward_certify",
   "params": {
     "source": "...",
     "language": "cpp"
@@ -693,7 +693,7 @@ Response:
 ### Configuration
 
 ```yaml
-# .aether/config.yaml
+# .synward/config.yaml
 certification:
   level: full
   
@@ -724,4 +724,4 @@ The Certification System provides:
 5. **CI/CD Integration** — Automated gates
 6. **Multiple Levels** — Basic to enterprise
 
-Certificates transform Aether from a validation tool into a **trust infrastructure** for AI-generated code.
+Certificates transform Synward from a validation tool into a **trust infrastructure** for AI-generated code.

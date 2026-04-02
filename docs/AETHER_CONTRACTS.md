@@ -1,13 +1,13 @@
-# Aether — Contract System
+# Synward — Contract System
 
 **Version:** 0.2.0  
-**Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md)
+**Related:** [SYNWARD_MASTER_DESIGN.md](./SYNWARD_MASTER_DESIGN.md)
 
 ---
 
 ## Overview
 
-The Contract System is the heart of Aether's validation logic. It provides a declarative way to define rules that code must follow, independent of the programming language.
+The Contract System is the heart of Synward's validation logic. It provides a declarative way to define rules that code must follow, independent of the programming language.
 
 ---
 
@@ -45,9 +45,9 @@ Contracts are loaded by the **ContractLayer** from the filesystem:
 
 | Location | Description |
 |----------|-------------|
-| `~/.aether/contracts/{language}/*.yaml` | User contracts (default) |
+| `~/.synward/contracts/{language}/*.yaml` | User contracts (default) |
 | `./contracts/{language}/*.yaml` | Project-local contracts |
-| Built-in registry | Core contracts bundled with Aether |
+| Built-in registry | Core contracts bundled with Synward |
 
 **ContractLayer** is the first layer in the validation pipeline. It:
 1. Loads YAML contracts for the target language
@@ -57,11 +57,11 @@ Contracts are loaded by the **ContractLayer** from the filesystem:
 
 **CLI Usage:**
 ```bash
-# Default: loads from ~/.aether/contracts/
-aether validate src/main.py --lang python
+# Default: loads from ~/.synward/contracts/
+synward validate src/main.py --lang python
 
 # Custom contracts directory
-aether validate src/main.py --lang python --contracts ./my-contracts/
+synward validate src/main.py --lang python --contracts ./my-contracts/
 ```
 
 ---
@@ -78,7 +78,7 @@ meta:
   version: "1.0"
   language: cpp
   domain: memory-safety
-  author: Aether Team
+  author: Synward Team
 
 contracts:
   - id: CPP-MEM-001
@@ -253,7 +253,7 @@ pattern:
 ### Severity Thresholds
 
 ```yaml
-# .aether/config.yaml
+# .synward/config.yaml
 thresholds:
   error_limit: 0       # 0 errors = fail
   warning_limit: 10    # >10 warnings = fail
@@ -445,7 +445,7 @@ contracts:
 The Contract Registry manages all loaded contracts.
 
 ```cpp
-namespace aether::contracts {
+namespace synward::contracts {
 
 class ContractRegistry {
 public:
@@ -480,7 +480,7 @@ private:
 The Rule Evaluator executes contract patterns against the AST.
 
 ```cpp
-namespace aether::contracts {
+namespace synward::contracts {
 
 class RuleEvaluator {
 public:
@@ -519,7 +519,7 @@ class CompositeMatcher : public IPatternMatcher { /* combine matchers */ };
 ## Violation Reporting
 
 ```cpp
-namespace aether::contracts {
+namespace synward::contracts {
 
 class ViolationReporter {
 public:
@@ -555,7 +555,7 @@ Projects can define their own contracts:
 
 ```
 my-project/
-├── .aether/
+├── .synward/
 │   ├── config.yaml
 │   └── contracts/
 │       ├── my-cpp-rules.contracts.yaml
@@ -563,7 +563,7 @@ my-project/
 ```
 
 ```yaml
-# my-project/.aether/contracts/my-cpp-rules.contracts.yaml
+# my-project/.synward/contracts/my-cpp-rules.contracts.yaml
 meta:
   language: cpp
   domain: project-specific
@@ -638,10 +638,10 @@ contracts:
 
 ## Learning from Corrections
 
-Aether can learn from how developers fix violations:
+Synward can learn from how developers fix violations:
 
 ```cpp
-namespace aether::contracts {
+namespace synward::contracts {
 
 class ContractLearner {
 public:
@@ -717,4 +717,4 @@ The Contract System provides:
 4. **Extensibility** — Project-specific contracts
 5. **Learning** — Extract patterns from corrections
 
-This enables Aether to validate code against any set of requirements, making it truly universal.
+This enables Synward to validate code against any set of requirements, making it truly universal.

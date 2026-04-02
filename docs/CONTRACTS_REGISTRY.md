@@ -1,4 +1,4 @@
-# Aether Contracts Registry — Architettura
+# Synward Contracts Registry — Architettura
 
 **Versione:** v1.0
 **Data:** 2026-03-11
@@ -8,7 +8,7 @@
 
 ## 1. Panoramica
 
-Aether ha bisogno di un sistema per gestire contratti di validazione per linguaggi multipli, con:
+Synward ha bisogno di un sistema per gestire contratti di validazione per linguaggi multipli, con:
 
 1. **Installer interattivo** — L'utente sceglie linguaggi, piattaforma, livello
 2. **Aggiornamenti automatici** — I contratti si aggiornano da repository remoti
@@ -20,8 +20,8 @@ Aether ha bisogno di un sistema per gestire contratti di validazione per linguag
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    AETHER CONTRACTS REGISTRY                      │
-│                    (GitHub: aether-ai/contracts)                   │
+│                    SYNWARD CONTRACTS REGISTRY                      │
+│                    (GitHub: synward-ai/contracts)                   │
 │                                                                   │
 │  index.json                                                       │
 │  ├── rust/                                                        │
@@ -40,7 +40,7 @@ Aether ha bisogno di un sistema per gestire contratti di validazione per linguag
                               │ HTTP/Git
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    AETHER INSTALLER                               │
+│                    SYNWARD INSTALLER                               │
 │                                                                   │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
 │  │    TUI      │  │    CLI      │  │  Config     │              │
@@ -70,8 +70,8 @@ Aether ha bisogno di un sistema per gestire contratti di validazione per linguag
 │  │       └── validate │                  │                       │
 │  │                     │                  │                       │
 │  Neovim               Zed                 JetBrains              │
-│  ├── lua/aether/      ├── extensions/    ├── .idea/             │
-│  │   ├── init.lua      │   └── aether/    │   └── aether.xml    │
+│  ├── lua/synward/      ├── extensions/    ├── .idea/             │
+│  │   ├── init.lua      │   └── synward/    │   └── synward.xml    │
 │  │   └── contracts/    │                  │                       │
 │                                                                   │
 │  Gemini CLI           Antigravity                               │
@@ -96,9 +96,9 @@ meta:
   language: rust
   version: "1.2.0"
   released: "2026-03-11"
-  min_aether: "0.1.0"
-  author: "aether-ai"
-  source: "https://github.com/aether-ai/contracts/blob/main/rust/v1.2.0.yaml"
+  min_synward: "0.1.0"
+  author: "synward-ai"
+  source: "https://github.com/synward-ai/contracts/blob/main/rust/v1.2.0.yaml"
 
 contracts:
   # Pattern matching — No code required
@@ -135,7 +135,7 @@ contracts:
     name: "Use-after-free detection"
     severity: error
     check: use_after_free
-    # Calls Rust function in aether-validation/src/semantic/rust.rs
+    # Calls Rust function in synward-validation/src/semantic/rust.rs
 
   - id: RUST_011
     name: "Null pointer dereference"
@@ -151,9 +151,9 @@ meta:
   language: prism
   version: "0.5.0"
   released: "2026-03-11"
-  min_aether: "0.1.0"
-  author: "aether-ai"
-  source: "https://github.com/aether-ai/contracts/blob/main/prism/v0.5.0.yaml"
+  min_synward: "0.1.0"
+  author: "synward-ai"
+  source: "https://github.com/synward-ai/contracts/blob/main/prism/v0.5.0.yaml"
 
 contracts:
   # Shader DSL
@@ -216,22 +216,22 @@ contracts:
     "rust": {
       "latest": "1.2.0",
       "versions": ["1.2.0", "1.1.0", "1.0.0"],
-      "min_aether": "0.1.0"
+      "min_synward": "0.1.0"
     },
     "cpp": {
       "latest": "2.0.0",
       "versions": ["2.0.0", "1.5.0", "1.0.0"],
-      "min_aether": "0.1.0"
+      "min_synward": "0.1.0"
     },
     "prism": {
       "latest": "0.5.0",
       "versions": ["0.5.0", "0.4.0"],
-      "min_aether": "0.1.0"
+      "min_synward": "0.1.0"
     },
     "lua": {
       "latest": "1.0.0",
       "versions": ["1.0.0"],
-      "min_aether": "0.1.0"
+      "min_synward": "0.1.0"
     }
   }
 }
@@ -245,7 +245,7 @@ contracts:
 
 ```
 ╔═══════════════════════════════════════════════════════════════╗
-║                     AETHER SETUP v0.1                          ║
+║                     SYNWARD SETUP v0.1                          ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
 ║  Step 1/3: Seleziona linguaggi                                ║
@@ -265,7 +265,7 @@ contracts:
 ╚═══════════════════════════════════════════════════════════════╝
 
 ╔═══════════════════════════════════════════════════════════════╗
-║                     AETHER SETUP v0.1                          ║
+║                     SYNWARD SETUP v0.1                          ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
 ║  Step 2/3: Seleziona piattaforma                              ║
@@ -284,7 +284,7 @@ contracts:
 ╚═══════════════════════════════════════════════════════════════╝
 
 ╔═══════════════════════════════════════════════════════════════╗
-║                     AETHER SETUP v0.1                          ║
+║                     SYNWARD SETUP v0.1                          ║
 ╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
 ║  Step 3/3: Seleziona livello                                  ║
@@ -324,8 +324,8 @@ contracts:
 ║                                                               ║
 ║  ✓ Installazione completata!                                  ║
 ║                                                               ║
-║  Per aggiornare: aether contracts update                      ║
-║  Per verificare: aether contracts check                        ║
+║  Per aggiornare: synward contracts update                      ║
+║  Per verificare: synward contracts check                        ║
 ║                                                               ║
 ║                    [ Chiudi ]                                  ║
 ╚═══════════════════════════════════════════════════════════════╝
@@ -335,19 +335,19 @@ contracts:
 
 ```bash
 # Installazione completa
-aether init
+synward init
 
 # Modalità non-interattiva
-aether init --lang rust,prism --platform claude --level standard
+synward init --lang rust,prism --platform claude --level standard
 
 # Da file di configurazione
-aether init --config aether.yaml
+synward init --config synward.yaml
 ```
 
 ### 4.3 File di Configurazione
 
 ```yaml
-# aether.yaml
+# synward.yaml
 version: "1.0"
 
 languages:
@@ -386,7 +386,7 @@ custom:
 
 ```bash
 # Controlla se ci sono aggiornamenti
-aether contracts check
+synward contracts check
 
 # Output:
 # Checking for updates...
@@ -394,17 +394,17 @@ aether contracts check
 # ├── prism: v0.5.0 (installed) → v0.5.0 (up to date)
 # └── lua: not installed
 #
-# Run 'aether contracts update' to install updates
+# Run 'synward contracts update' to install updates
 ```
 
 ### 5.2 Aggiornamento
 
 ```bash
 # Aggiorna tutti i contratti
-aether contracts update
+synward contracts update
 
 # Aggiorna solo un linguaggio
-aether contracts update rust
+synward contracts update rust
 
 # Output:
 # Updating contracts...
@@ -419,7 +419,7 @@ aether contracts update rust
 ### 5.3 Cache Locale
 
 ```
-~/.cache/aether/
+~/.cache/synward/
 ├── index.json              ← Cache dell'indice
 ├── rust/
 │   ├── v1.2.0.yaml
@@ -434,7 +434,7 @@ aether contracts update rust
 
 ```bash
 # Se offline, usa cache locale
-aether contracts update --offline
+synward contracts update --offline
 
 # Output:
 # Offline mode: using cached contracts
@@ -464,7 +464,7 @@ aether contracts update --offline
 **settings.json:**
 ```json
 {
-  "aether": {
+  "synward": {
     "enabled": true,
     "languages": ["rust", "prism"],
     "level": "standard",
@@ -481,22 +481,22 @@ aether contracts update --offline
 ├── settings.json           ← Config extension
 └── extensions.json         ← Recommended extensions
 
-aether-vscode/
+synward-vscode/
 ├── package.json
 ├── src/
 │   ├── extension.ts
 │   └── validation.ts
 └── syntaxes/
-    └── aether.json
+    └── synward.json
 ```
 
 **settings.json:**
 ```json
 {
-  "aether.enabled": true,
-  "aether.languages": ["rust", "prism"],
-  "aether.level": "standard",
-  "aether.updateOnSave": true
+  "synward.enabled": true,
+  "synward.languages": ["rust", "prism"],
+  "synward.level": "standard",
+  "synward.updateOnSave": true
 }
 ```
 
@@ -517,7 +517,7 @@ aether-vscode/
 ```
 ~/.config/nvim/
 └── lua/
-    └── aether/
+    └── synward/
         ├── init.lua
         ├── config.lua
         └── contracts/
@@ -531,7 +531,7 @@ aether-vscode/
 ```
 ~/.config/zed/
 └── extensions/
-    └── aether/
+    └── synward/
         ├── extension.toml
         └── src/
             └── lib.rs
@@ -553,7 +553,7 @@ aether-vscode/
 **settings.json:**
 ```json
 {
-  "aether": {
+  "synward": {
     "enabled": true,
     "languages": ["rust", "prism"],
     "level": "standard",
@@ -584,7 +584,7 @@ aether-vscode/
 
 **config.yaml:**
 ```yaml
-aether:
+synward:
   enabled: true
   languages:
     - rust
@@ -653,26 +653,26 @@ aether:
 ### 8.1 Endpoint
 
 ```
-GET https://raw.githubusercontent.com/aether-ai/contracts/main/index.json
-GET https://raw.githubusercontent.com/aether-ai/contracts/main/rust/v1.2.0.yaml
-GET https://raw.githubusercontent.com/aether-ai/contracts/main/prism/v0.5.0.yaml
+GET https://raw.githubusercontent.com/synward-ai/contracts/main/index.json
+GET https://raw.githubusercontent.com/synward-ai/contracts/main/rust/v1.2.0.yaml
+GET https://raw.githubusercontent.com/synward-ai/contracts/main/prism/v0.5.0.yaml
 ```
 
 ### 8.2 Versioning
 
 - **Semver** per versioni contratti
-- **min_aether** per compatibilità
+- **min_synward** per compatibilità
 - **Changelog** per ogni release
 
 ### 8.3 Source Alternatives
 
 ```yaml
-# aether.yaml
+# synward.yaml
 registry:
-  primary: "https://github.com/aether-ai/contracts"
+  primary: "https://github.com/synward-ai/contracts"
   mirrors:
-    - "https://gitlab.com/aether-ai/contracts"
-    - "https://cdn.aether.ai/contracts"
+    - "https://gitlab.com/synward-ai/contracts"
+    - "https://cdn.synward.ai/contracts"
   
   # Per contratti privati
   custom:
@@ -713,7 +713,7 @@ contracts:
 ### 9.2 Import in Config
 
 ```yaml
-# aether.yaml
+# synward.yaml
 imports:
   - "./local-contracts/company.yaml"
   - "https://internal.company.com/contracts/custom.yaml"
@@ -721,12 +721,12 @@ imports:
 
 ---
 
-## 10. Integrazione con Aether Core
+## 10. Integrazione con Synward Core
 
 ### 10.1 Caricamento Contratti
 
 ```rust
-// aether-validation/src/contracts/mod.rs
+// synward-validation/src/contracts/mod.rs
 pub struct ContractLoader {
     cache_dir: PathBuf,
     registry_url: String,
@@ -751,7 +751,7 @@ impl ContractLoader {
 ### 10.2 Validazione
 
 ```rust
-// aether-validation/src/validator.rs
+// synward-validation/src/validator.rs
 impl Validator {
     pub fn validate(&self, code: &str, language: &str) -> Vec<Violation> {
         let contracts = self.contracts.get(language)?;
@@ -786,6 +786,6 @@ impl Validator {
 
 ## 12. Riferimenti
 
-- [Aether Architecture](./ARCHITECTURE.md)
+- [Synward Architecture](./ARCHITECTURE.md)
 - [Private Layers](./PRIVATE_LAYERS_ARCHITECTURE.md)
 - [Validation Pipeline](./VALIDATION_PIPELINE.md)

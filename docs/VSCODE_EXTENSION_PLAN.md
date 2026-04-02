@@ -1,17 +1,17 @@
-# Aether VS Code Extension — Piano Implementazione
+# Synward VS Code Extension — Piano Implementazione
 
 **Data:** 2026-03-19
 **Status:** Piano
-**Prerequisito:** CLI `aether` con `--format json` (gia implementato)
+**Prerequisito:** CLI `synward` con `--format json` (gia implementato)
 
 ---
 
 ## Stato Attuale del CLI
 
-Il CLI `aether validate` supporta gia output JSON strutturato:
+Il CLI `synward validate` supporta gia output JSON strutturato:
 
 ```bash
-aether validate src/main.rs --format json
+synward validate src/main.rs --format json
 ```
 
 ```json
@@ -49,25 +49,25 @@ aether validate src/main.rs --format json
 
 | Comando | Flag | Uso Extension |
 |---------|------|---------------|
-| `aether validate <path>` | `--format json`, `--lang`, `--severity`, `--accept`, `--reason` | Diagnostics |
-| `aether config <path>` | `--show`, `--init` | Settings |
-| `aether memory` | `list`, `recall`, subcommands | Tree View |
-| `aether discover <path>` | `--format json`, `--lang` | Pattern discovery |
-| `aether drift` | `--format json`, `--commits` | Trend analysis |
-| `aether tui` | `<path>` | Open in terminal |
-| `aether analyze <file>` | `--format json` | AST analysis |
+| `synward validate <path>` | `--format json`, `--lang`, `--severity`, `--accept`, `--reason` | Diagnostics |
+| `synward config <path>` | `--show`, `--init` | Settings |
+| `synward memory` | `list`, `recall`, subcommands | Tree View |
+| `synward discover <path>` | `--format json`, `--lang` | Pattern discovery |
+| `synward drift` | `--format json`, `--commits` | Trend analysis |
+| `synward tui` | `<path>` | Open in terminal |
+| `synward analyze <file>` | `--format json` | AST analysis |
 
 ---
 
 ## Struttura Progetto
 
 ```
-Aether/aether-vscode/
+Synward/synward-vscode/
 ├── .vscode/
 │   └── launch.json            # F5 per Extension Development Host
 ├── src/
 │   ├── extension.ts           # Entry point (activate/deactivate)
-│   ├── aetherCli.ts           # Bridge: spawn CLI, parse JSON
+│   ├── synwardCli.ts           # Bridge: spawn CLI, parse JSON
 │   ├── diagnostics.ts         # JSON violations → DiagnosticCollection
 │   ├── codeActions.ts         # Quick Fix da campo "suggestion"
 │   ├── statusBar.ts           # Contatore errori/warning
@@ -88,10 +88,10 @@ Aether/aether-vscode/
 **Cosa fare:**
 - Setup progetto TypeScript con esbuild
 - `package.json` manifest con `activationEvents`, `contributes.languages`
-- `aetherCli.ts`: spawn `aether validate <file> --format json`, parse stdout
+- `synwardCli.ts`: spawn `synward validate <file> --format json`, parse stdout
 - `diagnostics.ts`: mappa violations → `vscode.Diagnostic` con severity, range, message
 - Trigger: `onDidSaveTextDocument` + `onDidOpenTextDocument`
-- Setting: `aether.executablePath` (default: `aether` nel PATH)
+- Setting: `synward.executablePath` (default: `synward` nel PATH)
 
 **Mapping:**
 ```typescript
@@ -105,10 +105,10 @@ Aether/aether-vscode/
 new Range(line - 1, 0, line - 1, Number.MAX_VALUE)
 
 // violation.source → Diagnostic.source
-"aether"
+"synward"
 ```
 
-**Risultato:** Apri un file, salva, vedi errori Aether nel Problems panel e sottolineati nell'editor.
+**Risultato:** Apri un file, salva, vedi errori Synward nel Problems panel e sottolineati nell'editor.
 
 ---
 
@@ -117,19 +117,19 @@ new Range(line - 1, 0, line - 1, Number.MAX_VALUE)
 **Obiettivo:** Quick Fix con suggerimenti e feedback visivo nella status bar.
 
 **Code Actions:**
-- Se violation ha campo `suggestion`, offri Code Action "Aether: Apply Fix"
+- Se violation ha campo `suggestion`, offri Code Action "Synward: Apply Fix"
 - `CodeActionKind.QuickFix`
-- "Fix all Aether issues in file" come azione aggregata
+- "Fix all Synward issues in file" come azione aggregata
 
 **Status Bar:**
 - Item a sinistra: `$(error) 3 $(warning) 5` con colori
-- Click → apre Problems panel filtrato su Aether
+- Click → apre Problems panel filtrato su Synward
 - Aggiornato ad ogni validazione
 
 **Comandi Command Palette:**
-- `Aether: Validate Current File`
-- `Aether: Validate All Open Files`
-- `Aether: Open TUI` → apre terminale integrato con `aether tui`
+- `Synward: Validate Current File`
+- `Synward: Validate All Open Files`
+- `Synward: Open TUI` → apre terminale integrato con `synward tui`
 
 ---
 
@@ -140,19 +140,19 @@ new Range(line - 1, 0, line - 1, Number.MAX_VALUE)
 **VS Code Settings (`contributes.configuration`):**
 ```json
 {
-  "aether.enabled": true,
-  "aether.executablePath": "aether",
-  "aether.validateOnSave": true,
-  "aether.validateOnType": false,
-  "aether.validateOnOpen": true,
-  "aether.severity": "warning",
-  "aether.languages": ["rust", "python", "typescript", "javascript", "cpp", "go", "java", "lua"]
+  "synward.enabled": true,
+  "synward.executablePath": "synward",
+  "synward.validateOnSave": true,
+  "synward.validateOnType": false,
+  "synward.validateOnOpen": true,
+  "synward.severity": "warning",
+  "synward.languages": ["rust", "python", "typescript", "javascript", "cpp", "go", "java", "lua"]
 }
 ```
 
 **Comandi:**
-- `Aether: Open Config` → apre `.aether.toml` nel workspace
-- `Aether: Init Config` → chiama `aether config --init`, poi apre il file creato
+- `Synward: Open Config` → apre `.synward.toml` nel workspace
+- `Synward: Init Config` → chiama `synward config --init`, poi apre il file creato
 
 ---
 
@@ -162,7 +162,7 @@ new Range(line - 1, 0, line - 1, Number.MAX_VALUE)
 
 **Tree View (`contributes.viewsContainers` + `contributes.views`):**
 ```
-AETHER (sidebar icon)
+SYNWARD (sidebar icon)
 ├── Project Status
 │   └── Confidence: 0.82
 ├── Learned Patterns (12)
@@ -180,19 +180,19 @@ AETHER (sidebar icon)
 - Right-click → Accept/Reject/Edit
 - Refresh periodico
 
-**Data source:** `aether memory list --format json` (da implementare nel CLI se mancante)
+**Data source:** `synward memory list --format json` (da implementare nel CLI se mancante)
 
 ---
 
 ### Fase 5 — Dubbioso Mode (futura)
 
-**Obiettivo:** Popup interattivo quando Aether e incerto.
+**Obiettivo:** Popup interattivo quando Synward e incerto.
 
 **Implementazione:**
 - `vscode.window.showInformationMessage` con bottoni
-- "Aether e dubbioso: La funzione X ha 127 righe. E intenzionale?"
+- "Synward e dubbioso: La funzione X ha 127 righe. E intenzionale?"
 - Bottoni: `[Intenzionale]` `[Segnala]` `[Whitelist]`
-- Risposta inviata al CLI: `aether validate --accept <id> --reason "intentional"`
+- Risposta inviata al CLI: `synward validate --accept <id> --reason "intentional"`
 
 ---
 
@@ -210,7 +210,7 @@ AETHER (sidebar icon)
 
 ## Linguaggi Supportati
 
-L'extension attiva Aether per i file con queste estensioni (configurabile):
+L'extension attiva Synward per i file con queste estensioni (configurabile):
 
 | Language ID | Extensions |
 |-------------|-----------|
@@ -245,5 +245,5 @@ L'extension attiva Aether per i file con queste estensioni (configurabile):
 
 - L'extension non ha bisogno di Language Server Protocol (LSP) — il CLI e sufficiente
 - Se in futuro servisse validate-on-type (real-time), si puo aggiungere debouncing
-- L'extension funziona anche con VS Code Remote (SSH, Containers) se `aether` e nel PATH remoto
+- L'extension funziona anche con VS Code Remote (SSH, Containers) se `synward` e nel PATH remoto
 - Per pubblicare: `vsce package` genera `.vsix`, installabile con `code --install-extension`

@@ -68,26 +68,26 @@ jobs:
             ${{ runner.os }}-${{ matrix.target }}-cargo-
       
       - name: Build
-        run: cargo build --release -p aether-mcp --target ${{ matrix.target }}
+        run: cargo build --release -p synward-mcp --target ${{ matrix.target }}
       
       - name: Prepare binary (Windows)
         if: matrix.archive == 'zip'
         run: |
           cd target/${{ matrix.target }}/release
-          7z a ../../../aether-mcp-server-${{ matrix.target }}.zip aether-mcp-server.exe
+          7z a ../../../synward-mcp-server-${{ matrix.target }}.zip synward-mcp-server.exe
       
       - name: Prepare binary (Unix)
         if: matrix.archive == 'tar'
         run: |
           cd target/${{ matrix.target }}/release
-          tar -czf ../../../aether-mcp-server-${{ matrix.target }}.tar.gz aether-mcp-server
+          tar -czf ../../../synward-mcp-server-${{ matrix.target }}.tar.gz synward-mcp-server
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: aether-mcp-server-${{ matrix.target }}
+          name: synward-mcp-server-${{ matrix.target }}
           path: |
-            aether-mcp-server-${{ matrix.target }}.*
+            synward-mcp-server-${{ matrix.target }}.*
 
   contracts:
     name: Package Contracts
@@ -131,9 +131,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.version.outputs.version }}
-          name: Aether MCP Server ${{ steps.version.outputs.version }}
+          name: Synward MCP Server ${{ steps.version.outputs.version }}
           body: |
-            ## Aether MCP Server - Universal AI Validation Layer
+            ## Synward MCP Server - Universal AI Validation Layer
             
             ### Installation
             
@@ -152,16 +152,16 @@ jobs:
             
             ### Available Tools
             
-            - `aether_validate` - Validate code against contracts
-            - `aether_certify` - Generate cryptographic certificate
-            - `aether_analyze` - Analyze code structure and AST
+            - `synward_validate` - Validate code against contracts
+            - `synward_certify` - Generate cryptographic certificate
+            - `synward_analyze` - Analyze code structure and AST
             
             ### Supported Languages
             
             Rust, C++, Lex, Python, JavaScript, TypeScript, Go, Java
             
           files: |
-            artifacts/*/aether-mcp-server-*
+            artifacts/*/synward-mcp-server-*
             artifacts/contracts/contracts.tar.gz
             install.ps1
             install.sh

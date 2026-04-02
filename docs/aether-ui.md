@@ -1,20 +1,20 @@
-# Aether — VS Code Extension
+# Synward — VS Code Extension
 
 **Versione:** 3.0
 **Aggiornato:** 2026-03-19
-**Vedi anche:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md)
+**Vedi anche:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md)
 
 ---
 
 ## Panoramica
 
-Aether fornisce validazione in tempo reale tramite una **VS Code Extension** che sfrutta le API native dell'editor.
+Synward fornisce validazione in tempo reale tramite una **VS Code Extension** che sfrutta le API native dell'editor.
 
 **Interfacce disponibili:**
 | Interfaccia | Uso principale |
 |-------------|----------------|
 | **VS Code Extension** | Real-time validation, quick fixes |
-| **CLI TUI** (`aether tui`) | Vim/Neovim, SSH, CI |
+| **CLI TUI** (`synward tui`) | Vim/Neovim, SSH, CI |
 | **CLI commands** | Scripting, automazione |
 
 ---
@@ -38,36 +38,36 @@ Aether fornisce validazione in tempo reale tramite una **VS Code Extension** che
 ### Status Bar
 - Contatore errori/warning
 - Confidence indicator
-- Quick access a `aether tui`
+- Quick access a `synward tui`
 
 ---
 
 ## Architettura Extension
 
 ```
-aether-vscode/
+synward-vscode/
 ├── src/
 │   ├── extension.ts         # Entry point
 │   ├── validationProvider.ts # Diagnostics
 │   ├── codeActions.ts       # Quick fixes
 │   ├── treeView.ts          # Sidebar panels
-│   └── aetherCli.ts         # Bridge to CLI
+│   └── synwardCli.ts         # Bridge to CLI
 ├── package.json             # Manifest
 └── README.md
 ```
 
-### Comunicazione con Aether CLI
+### Comunicazione con Synward CLI
 
-L'estensione chiama `aether` CLI con `--json` per ottenere output strutturato:
+L'estensione chiama `synward` CLI con `--json` per ottenere output strutturato:
 
 ```bash
-aether validate src/main.rs --lang rust --format json
+synward validate src/main.rs --lang rust --format json
 ```
 
 Output JSON mappato su VS Code Diagnostics:
 
 ```typescript
-interface AetherResult {
+interface SynwardResult {
   violations: Array<{
     id: string;
     severity: "error" | "warning" | "info";
@@ -95,22 +95,22 @@ interface AetherResult {
 
 ```json
 {
-  "aether.enabled": true,
-  "aether.validateOnSave": true,
-  "aether.validateOnType": true,
-  "aether.severity": {
+  "synward.enabled": true,
+  "synward.validateOnSave": true,
+  "synward.validateOnType": true,
+  "synward.severity": {
     "error": "error",
     "warning": "warning",
     "info": "info"
   },
-  "aether.languages": ["rust", "python", "typescript"],
-  "aether.configPath": null
+  "synward.languages": ["rust", "python", "typescript"],
+  "synward.configPath": null
 }
 ```
 
-### .aether.toml
+### .synward.toml
 
-L'estensione legge `.aether.toml` nella root del workspace:
+L'estensione legge `.synward.toml` nella root del workspace:
 
 ```toml
 [validation]
@@ -132,7 +132,7 @@ max_function_lines = 50
 ### Panel Structure
 
 ```
-AETHER
+SYNWARD
 ├── 📊 Project Status
 │   └─ Confidence: 0.82
 ├── 📝 Learned Patterns (12)
@@ -159,7 +159,7 @@ Quando confidence < threshold, l'estensione mostra un popup:
 
 ```
 ┌─────────────────────────────────────────┐
-│  🤔 Aether è dubbioso                   │
+│  🤔 Synward è dubbioso                   │
 │                                         │
 │  Confidence: 0.48 / 0.5                 │
 │                                         │
@@ -178,10 +178,10 @@ Comandi usati dall'estensione:
 
 | Comando | Uso |
 |---------|-----|
-| `aether validate --format json` | Diagnostics |
-| `aether config --show` | Load settings |
-| `aether memory list --format json` | Tree view data |
-| `aether tui` | Open TUI from command |
+| `synward validate --format json` | Diagnostics |
+| `synward config --show` | Load settings |
+| `synward memory list --format json` | Tree view data |
+| `synward tui` | Open TUI from command |
 
 ---
 
@@ -205,13 +205,13 @@ Comandi usati dall'estensione:
 
 ```bash
 # Build CLI
-cd Aether && cargo build --release
+cd Synward && cargo build --release
 
 # Install extension (from VSIX)
-code --install-extension aether-vscode-x.x.x.vsix
+code --install-extension synward-vscode-x.x.x.vsix
 
 # O in development
-cd aether-vscode && npm install && npm run compile
+cd synward-vscode && npm install && npm run compile
 # F5 in VS Code to launch Extension Development Host
 ```
 
@@ -221,9 +221,9 @@ cd aether-vscode && npm install && npm run compile
 
 | Command | Description |
 |---------|-------------|
-| `aether.validate` | Validate current file |
-| `aether.validateAll` | Validate all open files |
-| `aether.openConfig` | Open .aether.toml |
-| `aether.openTui` | Open TUI in terminal |
-| `aether.showMemory` | Show memory panel |
-| `aether.acceptViolation` | Accept current violation |
+| `synward.validate` | Validate current file |
+| `synward.validateAll` | Validate all open files |
+| `synward.openConfig` | Open .synward.toml |
+| `synward.openTui` | Open TUI in terminal |
+| `synward.showMemory` | Show memory panel |
+| `synward.acceptViolation` | Accept current violation |

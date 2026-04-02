@@ -1,16 +1,16 @@
-# Aether Intelligence — Autonomous Validation
+# Synward Intelligence — Autonomous Validation
 
 **Version:** 2.0 (Autonomous Design)
 **Status:** Phase 15 In Progress
 **Last Updated:** 2026-03-18
 **Author:** Droid + David
-**See Also:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md), [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
+**See Also:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md), [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
 
 ---
 
 ## Executive Summary
 
-Aether Intelligence è un sistema **autonomo** con memoria, apprendimento e capacità di scoprire nuovi pattern. L'obiettivo è creare un "guardiano intelligente" che capisce non solo *cosa* è sbagliato, ma *perché* è sbagliato nel contesto del progetto.
+Synward Intelligence è un sistema **autonomo** con memoria, apprendimento e capacità di scoprire nuovi pattern. L'obiettivo è creare un "guardiano intelligente" che capisce non solo *cosa* è sbagliato, ma *perché* è sbagliato nel contesto del progetto.
 
 **Key Principles (v2.0):**
 - **AI-Free Core**: Nessuna AI esterna richiesta per validazione. L'AI è opzionale, solo come "dizionario"
@@ -26,7 +26,7 @@ Aether Intelligence è un sistema **autonomo** con memoria, apprendimento e capa
 
 > **Architettura completa:** Vedi [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
 
-Prima di entrare nei dettagli dei layers AI, è fondamentale capire il **differentiator principale** di Aether:
+Prima di entrare nei dettagli dei layers AI, è fondamentale capire il **differentiator principale** di Synward:
 
 **La memoria non "consulta" il core — lo CONFIGURA dinamicamente.**
 
@@ -40,7 +40,7 @@ Prima di entrare nei dettagli dei layers AI, è fondamentale capire il **differe
 │  Regole → Fisse → Stesso output per tutti                                   │
 │  Problema: Falsi positivi costanti, non rispetta convenzioni team           │
 │                                                                             │
-│  AETHER (Memory-Driven)                                                     │
+│  SYNWARD (Memory-Driven)                                                     │
 │  ─────────────────────────────────────────────────────────────────────────  │
 │  Memory → LearnedConfig → Layers dinamici                                   │
 │  Vantaggio: Regole uniche per progetto, valore che cresce con l'uso        │
@@ -144,13 +144,13 @@ def getUser(user_id: int = None, userId: str = None, id=None):
 
 ---
 
-## Architettura Aether Intelligence
+## Architettura Synward Intelligence
 
 ### Visione a 5 Layers
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      AETHER INTELLIGENCE ARCHITECTURE                        │
+│                      SYNWARD INTELLIGENCE ARCHITECTURE                        │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌───────────────────────────────────────────────────────────────────────┐ │
@@ -187,7 +187,7 @@ def getUser(user_id: int = None, userId: str = None, id=None):
 
 **Status:** ✅ Implementato
 
-Il core attuale di Aether con 5 layer di validazione:
+Il core attuale di Synward con 5 layer di validazione:
 - Syntax Layer (parser-based)
 - Semantic Layer (type checking, scope)
 - Logic Layer (anti-pattern, code smells)
@@ -231,7 +231,7 @@ Invece di un semplice RAG, usiamo un'architettura ibrida che combina approcci pr
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      AETHER MEMORY SYSTEM                                   │
+│                      SYNWARD MEMORY SYSTEM                                   │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌───────────────────────────────────────────────────────────────────────┐ │
@@ -745,10 +745,10 @@ L'Architectural Drift Analysis espande l'analisi a intere strutture di codice.
 
 ```bash
 # Analisi singolo file (baseline)
-aether memory recall drift-trend src/engine/renderer.rs
+synward memory recall drift-trend src/engine/renderer.rs
 
 # Analisi con espansione dipendenze (depth-limited)
-aether memory recall drift-trend src/engine/renderer.rs --depth 2
+synward memory recall drift-trend src/engine/renderer.rs --depth 2
 ```
 
 ##### Output Example
@@ -849,7 +849,7 @@ impl ArchitecturalDriftAnalyzer {
 Per progetti con struttura complessa, è possibile definire moduli manualmente:
 
 ```json
-// .aether/modules.json
+// .synward/modules.json
 {
   "modules": {
     "engine.rendering": {
@@ -882,15 +882,15 @@ Layer 2A (CodeGraph)     Layer 2D (DriftSnapshots)
     ArchitecturalDriftAnalyzer (new)
                    │
                    ▼
-         aether memory recall drift-trend --depth N
+         synward memory recall drift-trend --depth N
 ```
 
-### API Unificata: Aether Recall
+### API Unificata: Synward Recall
 
-Quando l'agente perde contesto, chiama `aether recall`:
+Quando l'agente perde contesto, chiama `synward recall`:
 
 ```rust
-impl AetherMemory {
+impl SynwardMemory {
     /// Query unificata per recuperare contesto
     pub async fn recall(&self, query: MemoryQuery) -> Result<MemoryResponse> {
         match query {
@@ -932,8 +932,8 @@ impl AetherMemory {
 **Esempio di utilizzo:**
 
 ```
-# Agente perde contesto, chiede ad Aether:
-> aether recall "perché c'è questo unwrap()?"
+# Agente perde contesto, chiede ad Synward:
+> synward recall "perché c'è questo unwrap()?"
 
 Response:
 ┌─────────────────────────────────────────────────────────────────┐
@@ -958,7 +958,7 @@ Response:
 
 **Status:** ✅ Implementato
 
-Parte di `aether-intelligence`, il Compliance Engine fornisce applicazione intelligente dei contratti che combina regole rigide con apprendimento contestuale.
+Parte di `synward-intelligence`, il Compliance Engine fornisce applicazione intelligente dei contratti che combina regole rigide con apprendimento contestuale.
 
 ### Obiettivo
 
@@ -1090,7 +1090,7 @@ Day 4:  STYLE002 in test_handler.rs → Accept (from learned pattern)
 ### API Usage
 
 ```rust
-use aether_intelligence::compliance::{
+use synward_intelligence::compliance::{
     ComplianceEngine, ComplianceConfig, ComplianceContext,
     ContractTier, ComplianceAction,
 };
@@ -1227,7 +1227,7 @@ impl PatternDiscovery {
 
 ### Output: Nuove Regole
 
-Quando un pattern viene validato, Aether può proporre nuove regole:
+Quando un pattern viene validato, Synward può proporre nuove regole:
 
 ```yaml
 # Regola scoperta automaticamente
@@ -1254,7 +1254,7 @@ discovered_rules:
 ## Layer 4: Intent Inference (LLM-lite) — **OPZIONALE**
 
 **Status:** 📋 Da implementare
-**Nota:** Questo layer è **opzionale**. Il core di Aether funziona completamente senza LLM.
+**Nota:** Questo layer è **opzionale**. Il core di Synward funziona completamente senza LLM.
 L'LLM viene usato solo come "dizionario" per arricchire l'analisi, non è richiesto.
 
 ### Obiettivo
@@ -1610,7 +1610,7 @@ impl DriftDetector {
 ### Pipeline di Validazione AI
 
 ```rust
-impl AetherIntelligence {
+impl SynwardIntelligence {
     pub async fn validate(&self, request: ValidationRequest) -> Result<ValidationResult> {
         let mut result = ValidationResult::new();
         
@@ -1652,7 +1652,7 @@ impl AetherIntelligence {
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════╗
-║                        AETHER INTELLIGENCE REPORT                          ║
+║                        SYNWARD INTELLIGENCE REPORT                          ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║ File: src/api/handlers.rs                                                  ║
 ║ Language: Rust                                                             ║
@@ -1744,7 +1744,7 @@ impl AetherIntelligence {
 
 - [x] Implementare metriche temporali
 - [x] Git history integration
-- [x] CLI command: `aether drift`
+- [x] CLI command: `synward drift`
 - [x] Trend analysis
 - [x] Layer 2D: Drift Snapshots structure
 
@@ -1753,16 +1753,16 @@ impl AetherIntelligence {
 - [x] Layer 2B: Decision Log (Knowledge Graph)
   - [x] `DecisionNode`, `DecisionEdge`, `DecisionLog` structs
   - [x] `why_exists()`, `is_accepted()`, `recall_semantic()`
-  - [x] `aether recall` CLI command
+  - [x] `synward recall` CLI command
 - [x] Layer 2D: Drift Snapshots (Time-series)
   - [x] Time-series storage
   - [x] `SnapshotMetrics`, `CodeSnapshot`, `Trend`, `DriftReport`
   - [x] `analyze_trend_days()` con regression
   - [x] Alert thresholds configurabili
-  - [x] `DriftSnapshotStore` integrato in `AetherIntelligence`
+  - [x] `DriftSnapshotStore` integrato in `SynwardIntelligence`
 - [x] API Unificata
   - [x] `MemoryQuery` enum con `DriftTrend`, `WhyExists`, `IsAccepted`
-  - [x] `aether memory recall` CLI command
+  - [x] `synward memory recall` CLI command
   - [x] Integration con validation pipeline
 - [x] Architectural Drift Analysis (enhancement)
   - [x] Dependency expansion via CodeGraph
@@ -1779,7 +1779,7 @@ impl AetherIntelligence {
 - [ ] Threshold adaptation (Syntax Layer)
 - [ ] Dynamic whitelist (Security Layer)
 - [ ] Style conventions learning
-- [ ] CLI: `aether memory config show/stats/rules`
+- [ ] CLI: `synward memory config show/stats/rules`
 
 ### Phase 17: Integration & Polish (2 settimane)
 
@@ -1872,11 +1872,11 @@ git2 = "0.18"                 # Git integration
 
 ---
 
-## Knowledge Strategy: Cosa Aether Può Imparare vs Cosa Serve Knowledge Base
+## Knowledge Strategy: Cosa Synward Può Imparare vs Cosa Serve Knowledge Base
 
 ### Auto-Discovered (Layer 3 Pattern Discovery)
 
-Questi pattern vengono scoperti automaticamente dal codice che Aether vede:
+Questi pattern vengono scoperti automaticamente dal codice che Synward vede:
 
 | Tipo | Esempio | Metodo |
 |------|---------|--------|
@@ -1886,7 +1886,7 @@ Questi pattern vengono scoperti automaticamente dal codice che Aether vede:
 | **Inconsistenze stile** | snake_case/camelCase misti | Baseline comparison |
 | **Errori ricorrenti** | Stesso errore 5 volte | Semantic Memory |
 
-**Nessuna libreria da aggiungere** - Aether impara da solo.
+**Nessuna libreria da aggiungere** - Synward impara da solo.
 
 ### Knowledge Base Esterna (Necessaria)
 
@@ -1903,7 +1903,7 @@ Questi pattern richiedono conoscenza esterna:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER KNOWLEDGE SOURCES                                  │
+│                    SYNWARD KNOWLEDGE SOURCES                                  │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
@@ -1937,7 +1937,7 @@ Questi pattern richiedono conoscenza esterna:
 │  │                                                                      │   │
 │  │  Esempio:                                                            │   │
 │  │  User: some_obscure_lib.process(data, config)                       │   │
-│  │  Aether: "Non ho stub per some_obscure_lib"                         │   │
+│  │  Synward: "Non ho stub per some_obscure_lib"                         │   │
 │  │         → Query LLM: "What are the parameters of process()?"        │   │
 │  │         → Cache: some_obscure_lib.process(data, config)             │   │
 │  │         → Check: param order correct?                              │   │
@@ -2158,7 +2158,7 @@ reqwest = { version = "0.11", features = ["json"] }  # OpenAI/Anthropic API
 
 ## Conclusione
 
-Aether Intelligence rappresenta l'evoluzione naturale del validatore: da strumento passivo che applica regole a sistema attivo che **impara**, **capisce**, e **previene** problemi.
+Synward Intelligence rappresenta l'evoluzione naturale del validatore: da strumento passivo che applica regole a sistema attivo che **impara**, **capisce**, e **previene** problemi.
 
 I 5 layers lavorano insieme:
 1. **Layer 1** garantisce baseline di qualità

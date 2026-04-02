@@ -1,16 +1,16 @@
-# Aether — Universal Autonomous Validation Layer
+# Synward — Universal Autonomous Validation Layer
 
 **Version:** 3.0 (Core First Philosophy)
 **Status:** 85% Complete (Phase 15 in progress)
 **Last Updated:** 2026-03-19
 **Implementation Language:** Rust
-**See Also:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md)
+**See Also:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md)
 
 ---
 
 ## Executive Summary
 
-Aether is a universal **autonomous** validation framework that ensures AI-generated code meets rigorous quality standards. It acts as a **trust layer** between AI agents and production code, providing:
+Synward is a universal **autonomous** validation framework that ensures AI-generated code meets rigorous quality standards. It acts as a **trust layer** between AI agents and production code, providing:
 
 - **AI-Free Core** — No external AI required for validation (optional dictionary role)
 - **Multi-Language Validation** — Syntax, semantic, logic, and style checks
@@ -28,7 +28,7 @@ Aether is a universal **autonomous** validation framework that ensures AI-genera
 **Mission:** Make AI-generated code trustworthy through autonomous validation, not hope.
 
 **Key Differentiator — Core First Philosophy:**
-All core features (Memory-Driven Core, Hyper-Context, Dubbioso, MCP, Custom Contracts) are available to ALL tiers. Differentiation is on limits, integrations, and support — NOT on core features. The Free tier demonstrates Aether's full power.
+All core features (Memory-Driven Core, Hyper-Context, Dubbioso, MCP, Custom Contracts) are available to ALL tiers. Differentiation is on limits, integrations, and support — NOT on core features. The Free tier demonstrates Synward's full power.
 
 > See [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md) for full architecture.
 
@@ -44,7 +44,7 @@ The market doesn't trust AI agents with code because:
 4. **No verification** — Output is taken as-is without validation
 5. **Hidden bugs** — Logic errors that pass syntax checks
 
-**Aether's solution:** Don't trust AI — verify AI.
+**Synward's solution:** Don't trust AI — verify AI.
 
 ---
 
@@ -61,7 +61,7 @@ Based on market research (CodeRabbit Report 2025):
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER VALIDATION                                         │
+│                    SYNWARD VALIDATION                                         │
 │                                                                             │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
 │  │                      VALIDATORE STANDALONE                           │   │
@@ -89,7 +89,7 @@ Based on market research (CodeRabbit Report 2025):
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              AETHER LAYER                                   │
+│                              SYNWARD LAYER                                   │
 │                                                                             │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
 │  │                        ORCHESTRATION ENGINE                          │   │
@@ -160,7 +160,7 @@ Based on market research (CodeRabbit Report 2025):
 
 **Output:** Structured prompt context that guides code generation.
 
-See: [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md) (consolidato)
+See: [SYNWARD_INTELLIGENCE.md](./SYNWARD_INTELLIGENCE.md) (consolidato)
 
 ---
 
@@ -180,7 +180,7 @@ See: [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md) (consolidato)
 
 **Extensibility:** Each layer supports custom rules via contracts.
 
-See: [AETHER_ARCHITECTURE.md](./AETHER_ARCHITECTURE.md)
+See: [SYNWARD_ARCHITECTURE.md](./SYNWARD_ARCHITECTURE.md)
 
 ---
 
@@ -218,7 +218,7 @@ contracts:
 - Auto-fix suggestions
 - AI-friendly hints for context
 
-See: [AETHER_CONTRACTS.md](./AETHER_CONTRACTS.md)
+See: [SYNWARD_CONTRACTS.md](./SYNWARD_CONTRACTS.md)
 
 ---
 
@@ -231,7 +231,7 @@ See: [AETHER_CONTRACTS.md](./AETHER_CONTRACTS.md)
 │                    ITERATION LOOP                           │
 │                                                             │
 │  ┌─────────┐      ┌─────────┐      ┌─────────────────┐     │
-│  │  AI     │ ───▶ │ Aether  │ ───▶ │     PASS        │     │
+│  │  AI     │ ───▶ │ Synward  │ ───▶ │     PASS        │     │
 │  │ Proposes│      │ Validates│     │  Certificate    │     │
 │  └─────────┘      └────┬────┘      └─────────────────┘     │
 │                        │                                    │
@@ -275,11 +275,11 @@ See: [AETHER_CONTRACTS.md](./AETHER_CONTRACTS.md)
 
 **Purpose:** Provide cryptographic proof that code was validated.
 
-**Aether Certificate:**
+**Synward Certificate:**
 
 ```json
 {
-  "certificate_id": "AETHER-2026-03-08-ABC123",
+  "certificate_id": "SYNWARD-2026-03-08-ABC123",
   "version": "1.0",
   "timestamp": "2026-03-08T23:30:00Z",
   "hash": {
@@ -305,9 +305,9 @@ See: [AETHER_CONTRACTS.md](./AETHER_CONTRACTS.md)
 **Use Cases:**
 - **CI/CD Integration** — Only certified code can merge
 - **Audit Trail** — Prove what was validated, when, by whom
-- **Commercial Trust** — "Certified by Aether" as quality mark
+- **Commercial Trust** — "Certified by Synward" as quality mark
 
-See: [AETHER_CERTIFICATION.md](./AETHER_CERTIFICATION.md)
+See: [SYNWARD_CERTIFICATION.md](./SYNWARD_CERTIFICATION.md)
 
 ---
 
@@ -326,7 +326,7 @@ See: [AETHER_CERTIFICATION.md](./AETHER_CERTIFICATION.md)
 ```
 Project Pattern: entities always use "faction: Player | Enemy"
 AI proposes: "team: GoodGuys"
-Aether: "Inconsistent with pattern. Use 'faction' not 'team'"
+Synward: "Inconsistent with pattern. Use 'faction' not 'team'"
 ```
 
 ---
@@ -349,7 +349,7 @@ All languages use tree-sitter parsers except Lex (custom parser).
 
 ## Why Rust?
 
-Aether is implemented in **Rust** for commercial and technical reasons:
+Synward is implemented in **Rust** for commercial and technical reasons:
 
 | Factor | Rust Advantage |
 |--------|----------------|
@@ -360,7 +360,7 @@ Aether is implemented in **Rust** for commercial and technical reasons:
 | **Talent Pool** | Growing Rust developer community |
 | **Modern Tooling** | Cargo, clippy, rustfmt built-in |
 
-**Note:** Prism remains an internal tool for Aegis and internal utilities. Aether's commercial success requires a trusted, well-known language.
+**Note:** Prism remains an internal tool for Aegis and internal utilities. Synward's commercial success requires a trusted, well-known language.
 
 ---
 
@@ -370,16 +370,16 @@ Aether is implemented in **Rust** for commercial and technical reasons:
 
 ```bash
 # Validate a file
-aether validate src/main.cpp --contracts ./contracts/
+synward validate src/main.cpp --contracts ./contracts/
 
 # Validate with auto-fix hints
-aether validate src/main.cpp --fix-hints
+synward validate src/main.cpp --fix-hints
 
 # Generate certificate
-aether certify src/main.cpp --output cert.toml
+synward certify src/main.cpp --output cert.toml
 
 # Analyze a prompt
-aether analyze-prompt "Add a patrol enemy" --context ./project/
+synward analyze-prompt "Add a patrol enemy" --context ./project/
 ```
 
 ### HTTP API
@@ -408,7 +408,7 @@ For AI agents using Model Context Protocol:
 
 ```json
 {
-  "tool": "aether_validate",
+  "tool": "synward_validate",
   "params": {
     "source": "...",
     "language": "rust"
@@ -420,14 +420,14 @@ For AI agents using Model Context Protocol:
 
 ## Integration with AI Agents
 
-### The Aether Flow
+### The Synward Flow
 
 ```
 1. USER → Prompt
-2. Aether analyzes prompt → Structured context
-3. Aether sends context to AI Agent
+2. Synward analyzes prompt → Structured context
+3. Synward sends context to AI Agent
 4. AI Agent generates code with full understanding
-5. Aether validates code
+5. Synward validates code
 6. ┌─ PASS → Certificate issued → Code accepted
    └─ FAIL → Structured feedback → AI retries
 7. Repeat until pass or human escalation
@@ -436,12 +436,12 @@ For AI agents using Model Context Protocol:
 ### Agent SDK
 
 ```python
-from aether import AetherClient
+from synward import SynwardClient
 
-aether = AetherClient(api_key="...")
+synward = SynwardClient(api_key="...")
 
 # Analyze prompt
-context = aether.analyze_prompt(
+context = synward.analyze_prompt(
     "Add an enemy that patrols the dungeon",
     project_context="./mygame/"
 )
@@ -450,13 +450,13 @@ context = aether.analyze_prompt(
 code = ai_agent.generate(context)
 
 # Validate and iterate
-result = aether.validate(code, language="cpp")
+result = synward.validate(code, language="cpp")
 while not result.passed and result.iterations < 3:
     code = ai_agent.fix(code, result.violations)
-    result = aether.validate(code)
+    result = synward.validate(code)
 
 if result.passed:
-    cert = aether.certify(code)
+    cert = synward.certify(code)
     print(f"Certified: {cert.id}")
 else:
     escalate_to_human(result)
@@ -467,14 +467,14 @@ else:
 ## File Structure
 
 ```
-Aether/
+Synward/
 ├── docs/
-│   ├── AETHER_MASTER_DESIGN.md      # This file
-│   ├── AETHER_ARCHITECTURE.md       # Technical architecture
-│   ├── AETHER_CONTRACTS.md          # Contract system
-│   ├── AETHER_INTELLIGENCE.md       # AI Intelligence (consolidato)
-│   ├── AETHER_CERTIFICATION.md      # Certification system
-│   ├── AETHER_RUST_IMPLEMENTATION.md# Rust-specific details
+│   ├── SYNWARD_MASTER_DESIGN.md      # This file
+│   ├── SYNWARD_ARCHITECTURE.md       # Technical architecture
+│   ├── SYNWARD_CONTRACTS.md          # Contract system
+│   ├── SYNWARD_INTELLIGENCE.md       # AI Intelligence (consolidato)
+│   ├── SYNWARD_CERTIFICATION.md      # Certification system
+│   ├── SYNWARD_RUST_IMPLEMENTATION.md# Rust-specific details
 │   ├── MEMORY_DRIVEN_CORE.md        # Memory-Driven Core architecture
 │   └── TIER_SEPARATION.md           # OSS/Commercial separation
 │
@@ -583,11 +583,11 @@ Aether/
 
 | Project | Relationship |
 |---------|--------------|
-| **Aegis Validation** | Predecessor. Aether is the universal evolution. Lex-specific logic lives in Aether's `lex` adapter. |
-| **Aegis (Security)** | Aether certificates integrate with Aegis security framework |
-| **Lex Compiler** | Aether validates `.lex` files via the Lex adapter |
-| **Prism Engine** | Aether validates engine C++ code |
-| **Archivista** | Aether provides context for Archivista (original Aether purpose preserved) |
+| **Aegis Validation** | Predecessor. Synward is the universal evolution. Lex-specific logic lives in Synward's `lex` adapter. |
+| **Aegis (Security)** | Synward certificates integrate with Aegis security framework |
+| **Lex Compiler** | Synward validates `.lex` files via the Lex adapter |
+| **Prism Engine** | Synward validates engine C++ code |
+| **Archivista** | Synward provides context for Archivista (original Synward purpose preserved) |
 
 ---
 
@@ -651,14 +651,14 @@ Aether/
 - SSO (SAML, OIDC, LDAP)
 - Compliance Reports (SOC2, ISO27001, GDPR, HIPAA)
 - API Access
-- Source Access (aether-pro crate)
+- Source Access (synward-pro crate)
 - Taint Tracking
 - Dedicated support
 - SLA 99.9%
 
 ### Memory-Driven Core (Project Memory)
 
-AI agents forget decisions between sessions. Aether's Memory-Driven Core solves this by **configuring validation layers dynamically** based on learned project knowledge:
+AI agents forget decisions between sessions. Synward's Memory-Driven Core solves this by **configuring validation layers dynamically** based on learned project knowledge:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -722,7 +722,7 @@ AI agents forget decisions between sessions. Aether's Memory-Driven Core solves 
 
 ## Conclusion
 
-Aether transforms AI-generated code from "probably works" to "proven correct."
+Synward transforms AI-generated code from "probably works" to "proven correct."
 
 By combining:
 - Deep prompt understanding
@@ -732,4 +732,4 @@ By combining:
 
 ...we create a system where **trust is earned through verification, not assumed.**
 
-The market can finally trust AI with code — because Aether guarantees it.
+The market can finally trust AI with code — because Synward guarantees it.

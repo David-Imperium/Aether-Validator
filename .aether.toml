@@ -1,0 +1,31 @@
+version = "1.0"
+
+[thresholds]
+"complexity.max_cyclomatic" = 15.0
+"function.max_lines" = 80.0
+
+# Dubbioso Mode - Confidence-based validation thresholds
+# When confidence is low, ask questions instead of failing blindly
+[dubbioso]
+# Ask questions below this threshold (0.0-1.0)
+ask_threshold = 0.60
+# Warn but continue below this threshold
+warn_threshold = 0.80
+# Auto-accept above this threshold
+auto_accept_threshold = 0.95
+# Make pattern permanent after N acceptances
+permanent_after = 5
+# Maximum depth for graph context traversal
+max_context_depth = 3
+
+[whitelist]
+entries = []
+
+[style.naming]
+
+[style.formatting]
+
+[rules]
+custom = []
+
+[project]

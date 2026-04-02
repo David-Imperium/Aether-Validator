@@ -1,8 +1,8 @@
-# Aether — User Guide
+# Synward — User Guide
 
 **Versione:** 2.0 (Autonomous Design)
 **Aggiornato:** 2026-03-18
-**Vedi anche:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md), [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
+**Vedi anche:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md), [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
 
 ---
 
@@ -24,7 +24,7 @@
 
 ## Introduzione
 
-Aether è un sistema di validazione **autonomo** che utilizza contratti YAML e memoria appresa per verificare la qualità, sicurezza e correttezza del codice. Nessuna AI esterna richiesta per il core di validazione.
+Synward è un sistema di validazione **autonomo** che utilizza contratti YAML e memoria appresa per verificare la qualità, sicurezza e correttezza del codice. Nessuna AI esterna richiesta per il core di validazione.
 
 ### Caratteristiche Principali
 
@@ -47,22 +47,22 @@ Aether è un sistema di validazione **autonomo** che utilizza contratti YAML e m
 
 ```bash
 # Linux/macOS
-curl -sSL https://github.com/aether-cloud/aether/releases/latest/download/aether-linux-x64.tar.gz | tar xz
-sudo mv aether /usr/local/bin/
+curl -sSL https://github.com/synward-cloud/synward/releases/latest/download/synward-linux-x64.tar.gz | tar xz
+sudo mv synward /usr/local/bin/
 
 # Windows (PowerShell)
-Invoke-WebRequest -Uri https://github.com/aether-cloud/aether/releases/latest/download/aether-windows-x64.zip -OutFile aether.zip
-Expand-Archive aether.zip
-Move-Item aether.exe C:\Windows\
+Invoke-WebRequest -Uri https://github.com/synward-cloud/synward/releases/latest/download/synward-windows-x64.zip -OutFile synward.zip
+Expand-Archive synward.zip
+Move-Item synward.exe C:\Windows\
 ```
 
 ### Da Sorgente
 
 ```bash
-git clone https://github.com/aether-cloud/aether.git
-cd aether
+git clone https://github.com/synward-cloud/synward.git
+cd synward
 cargo build --release
-cargo install --path crates/aether-cli
+cargo install --path crates/synward-cli
 ```
 
 ---
@@ -73,36 +73,36 @@ cargo install --path crates/aether-cli
 
 ```bash
 # Valida un file
-aether validate src/main.rs
+synward validate src/main.rs
 
 # Valida con contratti specifici
-aether validate src/main.rs --contracts contracts/rust/memory-safety.yaml
+synward validate src/main.rs --contracts contracts/rust/memory-safety.yaml
 
 # Valida un intero progetto
-aether validate src/ --contracts contracts/rust/
+synward validate src/ --contracts contracts/rust/
 ```
 
 ### 2. Analisi AST
 
 ```bash
 # Analizza un file
-aether analyze src/main.rs
+synward analyze src/main.rs
 
 # Output JSON
-aether analyze src/main.rs --format json
+synward analyze src/main.rs --format json
 ```
 
 ### 3. Certificazione
 
 ```bash
 # Genera keypair (solo la prima volta)
-aether generate-keypair
+synward generate-keypair
 
 # Certifica un file validato
-aether certify src/main.rs --output cert.toml
+synward certify src/main.rs --output cert.toml
 
 # Verifica un certificato
-aether verify cert.toml
+synward verify cert.toml
 ```
 
 ---
@@ -123,7 +123,7 @@ aether verify cert.toml
 ### `validate`
 
 ```bash
-aether validate <FILE|DIR> [OPTIONS]
+synward validate <FILE|DIR> [OPTIONS]
 
 Opzioni:
   --contracts <PATH>     Directory o file YAML contratti
@@ -135,7 +135,7 @@ Opzioni:
 ### `analyze`
 
 ```bash
-aether analyze <FILE> [OPTIONS]
+synward analyze <FILE> [OPTIONS]
 
 Opzioni:
   --format <FORMAT>      Output: text, json (default: text)
@@ -145,10 +145,10 @@ Opzioni:
 ### `certify`
 
 ```bash
-aether certify <FILE> [OPTIONS]
+synward certify <FILE> [OPTIONS]
 
 Opzioni:
-  --keypair <PATH>       Path al keypair (default: ~/.aether/keypair.json)
+  --keypair <PATH>       Path al keypair (default: ~/.synward/keypair.json)
   --output <FILE>        Salva certificato su file
   --format <FORMAT>      Output: text, json (default: json)
 ```
@@ -156,10 +156,10 @@ Opzioni:
 ### `verify`
 
 ```bash
-aether verify <CERTIFICATE> [OPTIONS]
+synward verify <CERTIFICATE> [OPTIONS]
 
 Opzioni:
-  --public-key <PATH>    Path alla chiave pubblica (default: ~/.aether/public.key)
+  --public-key <PATH>    Path alla chiave pubblica (default: ~/.synward/public.key)
 ```
 
 ---
@@ -168,16 +168,16 @@ Opzioni:
 
 ### File di Configurazione
 
-Aether cerca la configurazione in:
+Synward cerca la configurazione in:
 
-1. `./aether.yaml` (progetto)
-2. `~/.aether/config.yaml` (utente)
-3. `/etc/aether/config.yaml` (sistema)
+1. `./synward.yaml` (progetto)
+2. `~/.synward/config.yaml` (utente)
+3. `/etc/synward/config.yaml` (sistema)
 
-### Esempio `aether.yaml`
+### Esempio `synward.yaml`
 
 ```yaml
-# Configurazione Aether
+# Configurazione Synward
 version: 1
 
 # Linguaggio primario del progetto
@@ -216,46 +216,46 @@ output:
 
 | Variabile | Descrizione |
 |-----------|-------------|
-| `AETHER_CONFIG` | Path al file di configurazione |
-| `AETHER_KEYPAIR` | Path al keypair |
-| `AETHER_CONTRACTS` | Directory contratti aggiuntivi |
-| `AETHER_NO_COLOR` | Disabilita colori output |
+| `SYNWARD_CONFIG` | Path al file di configurazione |
+| `SYNWARD_KEYPAIR` | Path al keypair |
+| `SYNWARD_CONTRACTS` | Directory contratti aggiuntivi |
+| `SYNWARD_NO_COLOR` | Disabilita colori output |
 
 ---
 
 ## Memory Commands
 
-Aether impara dal tuo progetto e memorizza configurazioni, pattern e correzioni in file TOML leggibili.
+Synward impara dal tuo progetto e memorizza configurazioni, pattern e correzioni in file TOML leggibili.
 
 ### Comandi Principali
 
 ```bash
 # Mostra lo stato della memoria del progetto
-aether memory status
+synward memory status
 
 # Lista pattern appresi
-aether memory list --type patterns
+synward memory list --type patterns
 
 # Lista correzioni salvate
-aether memory list --type corrections
+synward memory list --type corrections
 
 # Esporta memoria in formato leggibile
-aether memory export --output ./project-memory.toml
+synward memory export --output ./project-memory.toml
 
 # Importa memoria da file
-aether memory import ./project-memory.toml
+synward memory import ./project-memory.toml
 
 # Reset memoria (mantieni presets)
-aether memory reset --keep-presets
+synward memory reset --keep-presets
 
 # Configura dubbioso mode
-aether memory config --doubt-threshold 0.5
+synward memory config --doubt-threshold 0.5
 ```
 
 ### Struttura Memoria TOML
 
 ```toml
-# ~/.aether/projects/myproject/state.toml
+# ~/.synward/projects/myproject/state.toml
 
 [project]
 name = "myproject"
@@ -284,17 +284,17 @@ ask_via_mcp = true
 
 ### Dubbioso Mode
 
-Quando Aether è "dubbioso" (confidence < threshold), chiede chiarimenti via MCP:
+Quando Synward è "dubbioso" (confidence < threshold), chiede chiarimenti via MCP:
 
 ```bash
 # Abilita dubbioso mode
-aether config set dubbioso.enabled true
+synward config set dubbioso.enabled true
 
 # Imposta soglia (0.0-1.0)
-aether config set dubbioso.threshold 0.5
+synward config set dubbioso.threshold 0.5
 
 # Test dubbioso mode
-aether validate src/ambiguous.rs --verbose
+synward validate src/ambiguous.rs --verbose
 ```
 
 > **Nota**: Dubbioso mode richiede integrazione MCP attiva per le domande interattive.
@@ -416,7 +416,7 @@ suggestion: "Come risolvere"  # Suggerimento opzionale
 
 ### Contratti Predefiniti
 
-Aether include contratti predefiniti per ogni linguaggio:
+Synward include contratti predefiniti per ogni linguaggio:
 
 ```
 contracts/
@@ -463,16 +463,16 @@ suggestion: "Completa l'implementazione o rimuovi il commento"
 ### Generazione Keypair
 
 ```bash
-aether generate-keypair
+synward generate-keypair
 # Output:
 # Keypair generated successfully
-# Public key: ~/.aether/public.key
-# Keypair: ~/.aether/keypair.json (KEEP SECRET!)
+# Public key: ~/.synward/public.key
+# Keypair: ~/.synward/keypair.json (KEEP SECRET!)
 ```
 
 ### Certificato
 
-Un certificato Aether contiene:
+Un certificato Synward contiene:
 
 ```json
 {
@@ -492,10 +492,10 @@ Un certificato Aether contiene:
 
 ```bash
 # Verifica un certificato
-aether verify cert.toml
+synward verify cert.toml
 
 # Verifica con chiave pubblica specifica
-aether verify cert.toml --public-key /path/to/public.key
+synward verify cert.toml --public-key /path/to/public.key
 ```
 
 ---
@@ -504,14 +504,14 @@ aether verify cert.toml --public-key /path/to/public.key
 
 ### MCP Server
 
-Aether può essere usato come MCP server per LLM agents:
+Synward può essere usato come MCP server per LLM agents:
 
 ```json
 // Claude Desktop config
 {
   "mcpServers": {
-    "aether": {
-      "command": "aether",
+    "synward": {
+      "command": "synward",
       "args": ["mcp"]
     }
   }
@@ -528,7 +528,7 @@ Tools disponibili (13 tools):
 - `get_language_info` — Info su un linguaggio
 - `list_languages` — Lista linguaggi supportati (24)
 - `list_contracts` — Lista contratti disponibili
-- `get_version` — Versione Aether
+- `get_version` — Versione Synward
 - `watch_start/check/stop` — Monitora cambiamenti file
 
 ---
@@ -557,10 +557,10 @@ Error: Contract 'my-custom-rule' not found
 #### "Keypair not found"
 
 ```
-Error: Keypair not found at ~/.aether/keypair.json
+Error: Keypair not found at ~/.synward/keypair.json
 ```
 
-**Soluzione**: Esegui `aether generate-keypair` prima di certificare.
+**Soluzione**: Esegui `synward generate-keypair` prima di certificare.
 
 #### "Invalid certificate signature"
 
@@ -574,27 +574,27 @@ Error: Certificate signature verification failed
 
 ```bash
 # Abilita debug
-RUST_LOG=debug aether validate src/main.rs
+RUST_LOG=debug synward validate src/main.rs
 
 # Output verboso
-aether validate src/main.rs --format json | jq .
+synward validate src/main.rs --format json | jq .
 ```
 
 ### Log File
 
 I log sono salvati in:
-- Linux/macOS: `~/.aether/logs/aether.log`
-- Windows: `%APPDATA%\aether\logs\aether.log`
+- Linux/macOS: `~/.synward/logs/synward.log`
+- Windows: `%APPDATA%\synward\logs\synward.log`
 
 ---
 
 ## Risorse
 
 - [Documentazione API](./API_REFERENCE.md)
-- [Architettura](./AETHER_ARCHITECTURE.md)
+- [Architettura](./SYNWARD_ARCHITECTURE.md)
 - [Contratti Registry](./CONTRACTS_REGISTRY.md)
-- [GitHub Issues](https://github.com/aether-cloud/aether/issues)
-- [Discord Community](https://discord.gg/aether)
+- [GitHub Issues](https://github.com/synward-cloud/synward/issues)
+- [Discord Community](https://discord.gg/synward)
 
 ---
 
@@ -602,9 +602,9 @@ I log sono salvati in:
 
 Per problemi o domande:
 1. Consulta la [documentazione](./)
-2. Cerca nelle [issues esistenti](https://github.com/aether-cloud/aether/issues)
+2. Cerca nelle [issues esistenti](https://github.com/synward-cloud/synward/issues)
 3. Apri una nuova issue con:
-   - Versione Aether (`aether --version`)
+   - Versione Synward (`synward --version`)
    - Comando eseguito
    - Output completo
    - File di configurazione (se rilevante)

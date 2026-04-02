@@ -1,0 +1,39 @@
+[package]
+name = "synward-sdk"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[lib]
+name = "synward_sdk"
+path = "src/lib.rs"
+
+[dependencies]
+synward-core = { path = "../synward-core" }
+synward-parsers = { path = "../synward-parsers" }
+synward-validation = { path = "../synward-validation" }
+synward-certification = { path = "../synward-certification" }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Crypto
+ed25519-dalek = { workspace = true }
+rand = { workspace = true }
+base64 = { workspace = true }
+
+# Utils
+uuid = { workspace = true }
+chrono = { workspace = true }
+
+# Error handling
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+
+# Async (for future use)
+tokio = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

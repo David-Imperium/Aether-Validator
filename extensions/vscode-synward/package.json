@@ -1,0 +1,128 @@
+{
+  "name": "synward",
+  "displayName": "Synward - Intelligent Code Validator",
+  "description": "AI-powered code validation with intelligent contract enforcement",
+  "version": "0.1.0",
+  "publisher": "synward-ai",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "validation",
+    "linting",
+    "security",
+    "ai",
+    "code quality"
+  ],
+  "activationEvents": [
+    "onLanguage:rust",
+    "onLanguage:python",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:go",
+    "onLanguage:c",
+    "onLanguage:cpp"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "synward.validate",
+        "title": "Synward: Validate Current File"
+      },
+      {
+        "command": "synward.validateProject",
+        "title": "Synward: Validate Project"
+      },
+      {
+        "command": "synward.acceptViolation",
+        "title": "Synward: Accept Violation"
+      },
+      {
+        "command": "synward.showCompliance",
+        "title": "Synward: Show Compliance Status"
+      },
+      {
+        "command": "synward.analyzeDrift",
+        "title": "Synward: Analyze Drift"
+      }
+    ],
+    "configuration": {
+      "title": "Synward",
+      "properties": {
+        "synward.enableValidation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic validation on save"
+        },
+        "synward.validationMode": {
+          "type": "string",
+          "enum": ["strict", "balanced", "lenient"],
+          "default": "balanced",
+          "description": "Validation strictness level"
+        },
+        "synward.dubbiosoMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Dubbioso mode for confidence-based validation"
+        },
+        "synward.showQualityScore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show quality score in status bar"
+        },
+        "synward.synwardPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to synward binary (empty = use PATH)"
+        }
+      }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "synward.validate",
+          "group": "synward",
+          "when": "editorTextFocus"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "synward-contract",
+        "extensions": [".contract.yaml", ".synward.yaml"],
+        "aliases": ["Synward Contract"]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/synward-ai/synward"
+  },
+  "license": "MIT"
+}

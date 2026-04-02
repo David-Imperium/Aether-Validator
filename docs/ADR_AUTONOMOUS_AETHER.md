@@ -1,4 +1,4 @@
-# ADR: Aether Autonomo (AI-free Architecture)
+# ADR: Synward Autonomo (AI-free Architecture)
 
 **Status:** Proposed  
 **Date:** 2026-03-18  
@@ -8,9 +8,9 @@
 
 ## Context
 
-Aether è nato come validatore di codice universale. Durante lo sviluppo è emersa la necessità di chiarire:
+Synward è nato come validatore di codice universale. Durante lo sviluppo è emersa la necessità di chiarire:
 
-1. **Dipendenza da AI esterna** - Aether deve funzionare autonomamente?
+1. **Dipendenza da AI esterna** - Synward deve funzionare autonomamente?
 2. **Come impara** - Graph RAG + Memory = apprendimento senza AI?
 3. **Integrazione Git** - Feedback implicito tramite hooks?
 4. **Interfaccia "dubbiosa"** - Confidence-based questioning?
@@ -19,9 +19,9 @@ Aether è nato come validatore di codice universale. Durante lo sviluppo è emer
 
 ## Decision
 
-### 1. Aether è Autonomo (AI-free Core)
+### 1. Synward è Autonomo (AI-free Core)
 
-**Principio:** Aether NON richiede AI esterna per funzionare. L'AI è opzionale e limitata a funzioni di supporto ("dizionario").
+**Principio:** Synward NON richiede AI esterna per funzionare. L'AI è opzionale e limitata a funzioni di supporto ("dizionario").
 
 | Componente | Autonomo | Richiede AI |
 |------------|----------|-------------|
@@ -74,7 +74,7 @@ Aether è nato come validatore di codice universale. Durante lo sviluppo è emer
 **Memory Structure:**
 
 ```
-~/.aether/                    # Memoria globale utente
+~/.synward/                    # Memoria globale utente
 ├── learned_patterns.toml     # Pattern imparati cross-project (leggibile!)
 ├── global_whitelist.toml     # Whitelist globale
 ├── stats.toml                # Statistiche aggregate
@@ -83,7 +83,7 @@ Aether è nato come validatore di codice universale. Durante lo sviluppo è emer
     ├── python-style.toml
     └── ...
 
-project/.aether/              # Memoria locale (override)
+project/.synward/              # Memoria locale (override)
 ├── learned_config.toml       # Config imparata per progetto
 ├── validation_state.toml     # Stato validazione file
 └── cache/                    # Cache AST (binario, nascosto)
@@ -96,10 +96,10 @@ project/.aether/              # Memoria locale (override)
 #### Formato: TOML (leggibile e modificabile)
 
 ```toml
-# learned_patterns.toml - Pattern imparati da Aether
+# learned_patterns.toml - Pattern imparati da Synward
 
 # Questo file è auto-generato ma può essere modificato manualmente
-# Aether lo ricaricherà alla prossima validazione
+# Synward lo ricaricherà alla prossima validazione
 
 [[patterns]]
 id = "UNWRAP001"
@@ -130,10 +130,10 @@ note = "Questo pattern è sempre accettato, considerare whitelist"
 
 #### Bundled Presets (Distribuzione Pubblica)
 
-Aether include preset pre-impostati, puliti, senza info personali:
+Synward include preset pre-impostati, puliti, senza info personali:
 
 ```
-~/.aether/presets/           # Bundled con Aether
+~/.synward/presets/           # Bundled con Synward
 ├── rust-security.toml       # Regole sicurezza Rust
 ├── rust-style.toml          # Style conventions Rust
 ├── python-security.toml
@@ -173,19 +173,19 @@ confidence_base = 0.8
 
 | Tier | Memoria | Sharing |
 |------|---------|---------|
-| **Free** | Locale singolo utente | `~/.aether/` |
+| **Free** | Locale singolo utente | `~/.synward/` |
 | **Team** | Condivisa nel team | Cloud sync automatico |
 | **Enterprise** | Condivisa + audit | Cloud + policies + backup |
 
 **Free (attuale):**
 ```
-User A → ~/.aether/          # Solo locale
-User B → ~/.aether/          # Separato, non condiviso
+User A → ~/.synward/          # Solo locale
+User B → ~/.synward/          # Separato, non condiviso
 ```
 
 **Team (futuro):**
 ```
-Team X → shared.aether.io/team-x/
+Team X → shared.synward.io/team-x/
          ├── learned_patterns.toml   # Sync automatico
          ├── global_whitelist.toml
          └── policies.toml           # Regole del team
@@ -196,7 +196,7 @@ User B (Team X) → locale + sync con team
 
 **Enterprise (futuro):**
 ```
-Company Y → enterprise.aether.io/
+Company Y → enterprise.synward.io/
             ├── teams/
             │   ├── frontend/
             │   └── backend/
@@ -209,7 +209,7 @@ Company Y → enterprise.aether.io/
 
 ```bash
 # Esporta pattern imparati (pulito, no path personali)
-$ aether memory export --clean > my-patterns.toml
+$ synward memory export --clean > my-patterns.toml
 
 # Il file esportato contiene solo:
 # - Pattern ID
@@ -219,7 +219,7 @@ $ aether memory export --clean > my-patterns.toml
 # NO: file path, snippet codice, timestamp utente
 
 # Importa pattern da qualcun altro
-$ aether memory import friend-patterns.toml --merge
+$ synward memory import friend-patterns.toml --merge
 # --merge: combina con esistenti
 # --replace: sovrascrive
 ```
@@ -228,22 +228,22 @@ $ aether memory import friend-patterns.toml --merge
 
 ```bash
 # Visualizza memoria
-$ aether memory show
+$ synward memory show
   Pattern     | Confidence | Times Seen | Status
   ------------|------------|------------|--------
   UNWRAP001   | 85%        | 12         | Learning
   STYLE003    | 72%        | 5          | Accepted
 
 # Modifica interattiva
-$ aether memory edit
+$ synward memory edit
   Open editor with learned_patterns.toml
 
 # Reset memoria (mantieni presets)
-$ aether memory reset --keep-presets
+$ synward memory reset --keep-presets
 
 # Condividi con team (Team tier)
-$ aether memory push
-$ aether memory pull
+$ synward memory push
+$ synward memory pull
 ```
 
 ---
@@ -263,7 +263,7 @@ $ aether memory pull
 **Configurazione severity:**
 
 ```toml
-# aether.toml
+# synward.toml
 [git]
 pre_commit = true
 block_on = ["error"]  # ["error", "warning", "style"]
@@ -276,7 +276,7 @@ pre_push = false      # Validazione completa
 ```
 Developer committa codice
     ↓
-pre-commit: Aether valida
+pre-commit: Synward valida
     ↓
 Se errori critici (configurabile) → blocca commit
     ↓
@@ -284,7 +284,7 @@ Developer fixa O configurA whitelist
     ↓
 Se procede senza fixare certe violazioni →
     ↓
-post-commit: Aether nota pattern "accettato implicitamente"
+post-commit: Synward nota pattern "accettato implicitamente"
     ↓
 Dopo N volte → suggerisce whitelist automatica
     ↓
@@ -293,13 +293,13 @@ Developer conferma → Memory salva
 
 #### 3.2 Per Agenti AI
 
-Gli agenti usano Aether via MCP:
+Gli agenti usano Synward via MCP:
 
 ```
-Agente → aether.validate_file(path)
+Agente → synward.validate_file(path)
        ← violations[{id, rule, confidence, message}]
        → fixa
-       → aether.accept_violation(id) // "questa è ok"
+       → synward.accept_violation(id) // "questa è ok"
        ← Memory aggiornata
 ```
 
@@ -307,7 +307,7 @@ Agente → aether.validate_file(path)
 
 ### 4. "Dubbioso" Mode
 
-**Principio:** Aether non dice "questo è sbagliato", dice "questo è problematico con X% confidence".
+**Principio:** Synward non dice "questo è sbagliato", dice "questo è problematico con X% confidence".
 
 **Dettagli implementativi:** Vedi [DUBBIOSO_MODE.md](./DUBBIOSO_MODE.md)
 
@@ -315,7 +315,7 @@ Agente → aether.validate_file(path)
 - Confidence scoring basato su statistiche
 - Hyper-Context Engine (Graph RAG + Semantic + Scoring)
 - MCP questioning protocol per feedback
-- Thresholds configurabili in `.aether.toml`
+- Thresholds configurabili in `.synward.toml`
 
 ---
 
@@ -364,20 +364,20 @@ Ogni file viene validato con il parser appropriato. Contratti YAML definiscono r
 
 ```
 project/
-├── aether.toml           # Config utente (editabile)
-├── .aether/              # Dati generati (non toccare)
+├── synward.toml           # Config utente (editabile)
+├── .synward/              # Dati generati (non toccare)
 │   ├── learned_config.json
 │   ├── validation_state.json
 │   └── cache/
-├── .gitignore            # Aether rispetta automaticamente
+├── .gitignore            # Synward rispetta automaticamente
 └── src/
 ```
 
-**aether.toml esempio:**
+**synward.toml esempio:**
 
 ```toml
-# Aether Configuration
-# Generato da: aether init
+# Synward Configuration
+# Generato da: synward init
 
 [project]
 name = "my-project"
@@ -402,7 +402,7 @@ ask_threshold = 0.5
 warn_threshold = 0.3
 
 [memory]
-global = true        # Usa memoria globale ~/.aether/
+global = true        # Usa memoria globale ~/.synward/
 local_override = true # Permetti override locale
 
 [ignore]
@@ -417,9 +417,9 @@ patterns = ["*_generated.rs", "vendor/**"]
 **Wizard setup:**
 
 ```bash
-$ aether init
+$ synward init
 
-Welcome to Aether! Let's configure your project.
+Welcome to Synward! Let's configure your project.
 
 ? Which languages do you use? (auto-detect from files)
   ✓ Rust (.rs)
@@ -441,9 +441,9 @@ Welcome to Aether! Let's configure your project.
   ◉ Use global memory + local overrides
   ○ Isolated per-project
   
-? Done! Created aether.toml
+? Done! Created synward.toml
 
-Run 'aether validate' to check your code.
+Run 'synward validate' to check your code.
 ```
 
 ---
@@ -455,7 +455,7 @@ Run 'aether validate' to check your code.
 **Use cases:**
 - Team enterprise con audit requirements
 - CI/CD pipelines che verificano provenienza
-- Aether come "gate" per produzione
+- Synward come "gate" per produzione
 
 **Default:** Disabilitato per uso generale, abilitabile in config.
 
@@ -520,7 +520,7 @@ After 5 commits with same violation not fixed:
 ## Consequences
 
 ### Positive
-- Aether funziona offline, senza API keys
+- Synward funziona offline, senza API keys
 - Privacy totale: codice non esce mai
 - Apprendimento autonomo via Graph RAG + Memory
 - Interfaccia "dubbiosa" riduce falsi positivi
@@ -551,7 +551,7 @@ After 5 commits with same violation not fixed:
 ### Phase 1.5: Memory Format & Bundled Presets
 - [ ] Implementare formato TOML per memoria
 - [ ] Creare bundled presets per linguaggi comuni
-- [ ] CLI: aether memory show/edit/export/import
+- [ ] CLI: synward memory show/edit/export/import
 - [ ] Pulizia automatica info personali in export
 
 ### Phase 2: Git Integration
@@ -568,9 +568,9 @@ After 5 commits with same violation not fixed:
 - [ ] Feedback loop completo
 
 ### Phase 4: CLI Wizard
-- [ ] aether init (wizard interattivo)
-- [ ] aether config
-- [ ] aether validate
+- [ ] synward init (wizard interattivo)
+- [ ] synward config
+- [ ] synward validate
 
 ### Phase 5: Polish
 - [ ] VS Code Extension integration
@@ -582,5 +582,5 @@ After 5 commits with same violation not fixed:
 ## References
 
 - [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
-- [AETHER_ARCHITECTURE.md](./AETHER_ARCHITECTURE.md)
-- [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md)
+- [SYNWARD_ARCHITECTURE.md](./SYNWARD_ARCHITECTURE.md)
+- [SYNWARD_INTELLIGENCE.md](./SYNWARD_INTELLIGENCE.md)

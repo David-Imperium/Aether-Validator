@@ -1,4 +1,4 @@
-# Aether Intelligence API Reference
+# Synward Intelligence API Reference
 
 **Version:** 0.2.0
 **Status:** Layers 1-5 Complete
@@ -9,7 +9,7 @@
 ## Feature Flags
 
 ```toml
-[dependencies.aether-intelligence]
+[dependencies.synward-intelligence]
 version = "0.2"
 default-features = false
 features = [
@@ -32,11 +32,11 @@ features = [
 ## Quick Start
 
 ```rust
-use aether_intelligence::{AetherIntelligence, Config, MemoryQuery};
+use synward_intelligence::{SynwardIntelligence, Config, MemoryQuery};
 
 // Initialize with config
 let config = Config::default();
-let ai = AetherIntelligence::new(config)?;
+let ai = SynwardIntelligence::new(config)?;
 
 // Query memory (Layer 2)
 let result = ai.recall(MemoryQuery::WhyExists {
@@ -57,7 +57,7 @@ ai.index_project(&PathBuf::from("./src"))?;
 **Purpose:** AST-based structural queries (who calls what, dependencies).
 
 ```rust
-use aether_intelligence::memory::{CodeGraph, CodeNode, CodeNodeType, ImpactResult};
+use synward_intelligence::memory::{CodeGraph, CodeNode, CodeNodeType, ImpactResult};
 
 // Create and populate
 let mut graph = CodeGraph::new();
@@ -95,7 +95,7 @@ println!("Files affected: {:?}", impact.affected_files);
 **Purpose:** Knowledge graph for "why" questions.
 
 ```rust
-use aether_intelligence::memory::{
+use synward_intelligence::memory::{
     DecisionLog, DecisionNode, DecisionType, DecisionAuthor, DecisionStatus
 };
 
@@ -137,7 +137,7 @@ let accepted = log.is_accepted("LOGIC042");
 **Purpose:** File-based persistence for validation state.
 
 ```rust
-use aether_intelligence::memory::{
+use synward_intelligence::memory::{
     ValidationState, ProjectState, FileState, ViolationRecord, AcceptedViolation
 };
 
@@ -164,7 +164,7 @@ let delta = project.compute_file_delta("src/main.rs", &new_hash);
 ### Unified Memory API
 
 ```rust
-use aether_intelligence::MemoryQuery;
+use synward_intelligence::MemoryQuery;
 
 // Who calls this function?
 let result = ai.recall(MemoryQuery::WhoCalls {
@@ -210,7 +210,7 @@ let result = ai.recall(MemoryQuery::ImpactAnalysis {
 ### Feature Extraction
 
 ```rust
-use aether_intelligence::patterns::{CodeFeatures, FeatureExtractor};
+use synward_intelligence::patterns::{CodeFeatures, FeatureExtractor};
 
 let extractor = FeatureExtractor::new();
 
@@ -246,7 +246,7 @@ println!("panic! count: {}", features.panic_count);
 ### Anomaly Detection
 
 ```rust
-use aether_intelligence::patterns::{AnomalyDetector, Anomaly, AnomalyType};
+use synward_intelligence::patterns::{AnomalyDetector, Anomaly, AnomalyType};
 
 let detector = AnomalyDetector::new();
 let anomalies = detector.detect(&features);
@@ -273,7 +273,7 @@ for anomaly in anomalies {
 ### Rule Generation
 
 ```rust
-use aether_intelligence::patterns::{RuleGenerator, CandidateRule};
+use synward_intelligence::patterns::{RuleGenerator, CandidateRule};
 
 let generator = RuleGenerator::new();
 let rules = generator.generate(&features, &anomalies);
@@ -292,7 +292,7 @@ for rule in rules {
 **Feature flag:** `intent-api`
 
 ```rust
-use aether_intelligence::{Intent, IntentInferrer};
+use synward_intelligence::{Intent, IntentInferrer};
 
 // Create with endpoint
 let inferrer = IntentInferrer::new(Some("http://localhost:8080/api".into()));
@@ -332,7 +332,7 @@ let intent = inferrer.infer_with_context(&code, &context).await?;
 **Feature flag:** `drift`
 
 ```rust
-use aether_intelligence::drift::{DriftDetector, DriftMetrics, DriftReport, Trend};
+use synward_intelligence::drift::{DriftDetector, DriftMetrics, DriftReport, Trend};
 
 // Create detector
 let detector = DriftDetector::new(Some(PathBuf::from(".")))?;
@@ -376,7 +376,7 @@ println!("Loaded {} snapshots from last 30 commits", snapshots.len());
 ### Type Stub Loading
 
 ```rust
-use aether_intelligence::knowledge::{TypeStubLoader, ApiSignature};
+use synward_intelligence::knowledge::{TypeStubLoader, ApiSignature};
 
 let mut loader = TypeStubLoader::new();
 
@@ -400,35 +400,35 @@ match result {
 
 ```bash
 # Who calls this function?
-aether recall who-calls --function process_data --file src/main.rs
+synward recall who-calls --function process_data --file src/main.rs
 
 # Why does this code exist?
-aether recall why-exists --file src/config.rs --line 42
+synward recall why-exists --file src/config.rs --line 42
 
 # Is violation accepted?
-aether recall is-accepted --violation LOGIC042 --file src/config.rs
+synward recall is-accepted --violation LOGIC042 --file src/config.rs
 
 # Semantic search
-aether recall search "unwrap without error handling"
+synward recall search "unwrap without error handling"
 
 # Drift trend
-aether recall drift --file src/main.rs --days 30
+synward recall drift --file src/main.rs --days 30
 
 # Impact analysis
-aether recall impact --file src/main.rs --function process_data
+synward recall impact --file src/main.rs --function process_data
 ```
 
 ### Drift
 
 ```bash
 # Analyze drift for project
-aether drift analyze
+synward drift analyze
 
 # Analyze specific file
-aether drift analyze --file src/main.rs
+synward drift analyze --file src/main.rs
 
 # Load from git history
-aether drift load-git --commits 30
+synward drift load-git --commits 30
 ```
 
 ---
@@ -436,7 +436,7 @@ aether drift load-git --commits 30
 ## Error Handling
 
 ```rust
-use aether_intelligence::{Error, Result};
+use synward_intelligence::{Error, Result};
 
 match ai.recall(query) {
     Ok(result) => { /* use result */ },

@@ -1,4 +1,4 @@
-// Test file for Aether C++ validation
+// Test file for Synward C++ validation
 // Contains various patterns to test the validation layers
 
 #include <iostream>
@@ -7,7 +7,7 @@
 #include <memory>
 #include <optional>
 
-namespace aether {
+namespace synward {
 namespace test {
 
 /// A simple class for testing
@@ -180,10 +180,10 @@ void printAll(Args... args) {
 }
 
 } // namespace test
-} // namespace aether
+} // namespace synward
 
 int main() {
-    using namespace aether::test;
+    using namespace synward::test;
 
     // Test factorial
     std::cout << "Factorial(5) = " << factorial(5) << std::endl;

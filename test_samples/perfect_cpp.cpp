@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <numeric>
 
-namespace aether {
+namespace synward {
 namespace clean {
 
 /// A simple counter with proper encapsulation
@@ -253,10 +253,10 @@ private:
 };
 
 } // namespace clean
-} // namespace aether
+} // namespace synward
 
 int main() {
-    using namespace aether::clean;
+    using namespace synward::clean;
 
     // Test counter
     Counter counter;

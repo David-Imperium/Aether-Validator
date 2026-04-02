@@ -1,28 +1,28 @@
-# Aether — Security Model
+# Synward — Security Model
 
 **Version:** 0.2.0  
-**Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md)
+**Related:** [SYNWARD_MASTER_DESIGN.md](./SYNWARD_MASTER_DESIGN.md)
 
 ---
 
 ## Overview
 
-This document describes Aether's security model, including threat analysis, hardening measures, and trust assumptions.
+This document describes Synward's security model, including threat analysis, hardening measures, and trust assumptions.
 
 ---
 
 ## Trust Model
 
-### What Aether Guarantees
+### What Synward Guarantees
 
 | Guarantee | Description |
 |-----------|-------------|
-| **Validated Code** | Code that passes Aether has been checked against defined contracts |
+| **Validated Code** | Code that passes Synward has been checked against defined contracts |
 | **Tamper-Proof Certificates** | Certificates cannot be forged (Ed25519 signatures) |
 | **Audit Trail** | All validations are logged and traceable |
 | **Revocation** | Compromised certificates can be revoked |
 
-### What Aether Does NOT Guarantee
+### What Synward Does NOT Guarantee
 
 | Non-Guarantee | Reason |
 |---------------|--------|
@@ -108,7 +108,7 @@ action: flag_for_review  # or reject_immediately
 
 ### 3. Validation Bypass
 
-**Attack:** Developer commits code without running Aether.
+**Attack:** Developer commits code without running Synward.
 
 **Mitigation:**
 - Pre-commit hooks (can be bypassed)
@@ -117,8 +117,8 @@ action: flag_for_review  # or reject_immediately
 - Deployment requires valid certificate
 
 ```yaml
-# .github/workflows/aether-required.yml
-name: Aether Check
+# .github/workflows/synward-required.yml
+name: Synward Check
 
 on:
   pull_request:
@@ -131,12 +131,12 @@ jobs:
       - name: Verify Certificates
         run: |
           # Fail if any changed file lacks certificate
-          aether verify-changed --require-certificate
+          synward verify-changed --require-certificate
 ```
 
 ### 4. Supply Chain Attack
 
-**Attack:** Attacker compromises Aether itself (binary, contracts, keys).
+**Attack:** Attacker compromises Synward itself (binary, contracts, keys).
 
 **Mitigation:**
 - Reproducible builds
@@ -170,7 +170,7 @@ jobs:
 - Monitoring for suspicious certificates
 
 ```cpp
-namespace aether::security {
+namespace synward::security {
 
 class KeyRotationManager {
 public:
@@ -251,7 +251,7 @@ All security-relevant events are logged:
   "event": "certificate_issued",
   "level": "info",
   "details": {
-    "certificate_id": "AETHER-2026-03-08-ABC12345",
+    "certificate_id": "SYNWARD-2026-03-08-ABC12345",
     "file": "src/enemy.cpp",
     "hash": "e3b0c44...",
     "agent": "claude-3-opus",
@@ -278,7 +278,7 @@ Rate limit response:
   "limit": 1000,
   "used": 1000,
   "resets_at": "2026-04-01T00:00:00Z",
-  "upgrade_url": "https://aether.dev/pricing"
+  "upgrade_url": "https://synward.dev/pricing"
 }
 ```
 
@@ -287,7 +287,7 @@ Rate limit response:
 All inputs are validated before processing:
 
 ```cpp
-namespace aether::security {
+namespace synward::security {
 
 class InputValidator {
 public:
@@ -327,7 +327,7 @@ private:
 ## Security Configuration
 
 ```yaml
-# .aether/security.yaml
+# .synward/security.yaml
 version: "1.0"
 
 # Certificate settings
@@ -339,7 +339,7 @@ certificates:
 # Revocation
 revocation:
   enabled: true
-  crl_url: https://crl.aether.dev/latest.json
+  crl_url: https://crl.synward.dev/latest.json
   check_on_verify: true
   
 # Audit
@@ -416,7 +416,7 @@ For critical infrastructure, government.
 
 ### Standards Alignment
 
-| Standard | Relevance | Aether Support |
+| Standard | Relevance | Synward Support |
 |----------|-----------|----------------|
 | **SOC 2** | Service org controls | Audit logging, access control |
 | **ISO 27001** | Information security | Security policies, risk management |
@@ -426,17 +426,17 @@ For critical infrastructure, government.
 
 ### Audit Reports
 
-Aether can generate compliance reports:
+Synward can generate compliance reports:
 
 ```bash
 # Generate SOC 2 compliance report
-aether audit report --format soc2 --period 2026-Q1
+synward audit report --format soc2 --period 2026-Q1
 
 # Generate certificate inventory
-aether audit certificates --format csv --output certs.csv
+synward audit certificates --format csv --output certs.csv
 
 # Generate security posture report
-aether audit security --format pdf
+synward audit security --format pdf
 ```
 
 ---
@@ -481,16 +481,16 @@ aether audit security --format pdf
 
 ```bash
 # 1. Generate new key
-aether keys generate --output ./new-key.pem
+synward keys generate --output ./new-key.pem
 
 # 2. Activate new key (old key still valid during transition)
-aether keys activate ./new-key.pem --transition-period 24h
+synward keys activate ./new-key.pem --transition-period 24h
 
 # 3. After transition, revoke old key
-aether keys revoke old-key-id --reason "Scheduled rotation"
+synward keys revoke old-key-id --reason "Scheduled rotation"
 
 # 4. Update CRL
-aether crl update
+synward crl update
 ```
 
 ---
@@ -503,7 +503,7 @@ aether crl update
 2. **Verify certificates in CI/CD** — Don't skip validation
 3. **Review flagged code** — Don't ignore warnings
 4. **Keep contracts updated** — New vulnerability patterns emerge
-5. **Report suspicious behavior** — Security issues to security@aether.dev
+5. **Report suspicious behavior** — Security issues to security@synward.dev
 
 ### For Administrators
 
@@ -525,7 +525,7 @@ aether crl update
 
 ## Summary
 
-Aether's security model is built on:
+Synward's security model is built on:
 
 1. **Cryptographic Guarantees** — Ed25519 signatures, hash verification
 2. **Defense in Depth** — Multiple layers of protection
@@ -533,4 +533,4 @@ Aether's security model is built on:
 4. **Revocation Capability** — Compromised certificates can be invalidated
 5. **Configurable Security Levels** — From basic to paranoid
 
-Security is not optional — it's the core value proposition of Aether.
+Security is not optional — it's the core value proposition of Synward.

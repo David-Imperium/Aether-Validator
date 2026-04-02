@@ -1,21 +1,21 @@
-# Aether — Code Validation & Certification
+# Synward — Code Validation & Certification
 # Workspace configuration
 
 [workspace]
 resolver = "2"
 members = [
-    "crates/aether-core",
-    "crates/aether-parsers",
-    "crates/aether-validation",
-    "crates/aether-contracts",
-    "crates/aether-certification",
-    "crates/aether-api",
-    "crates/aether-sdk",
-    "crates/aether-cli",
-    "crates/aether-mcp",
-    "crates/aether-mcp-test",
-    "crates/aether-intelligence",
-    "crates/aether-contract-importer",
+    "crates/synward-core",
+    "crates/synward-parsers",
+    "crates/synward-validation",
+    "crates/synward-contracts",
+    "crates/synward-certification",
+    "crates/synward-api",
+    "crates/synward-sdk",
+    "crates/synward-cli",
+    "crates/synward-mcp",
+    "crates/synward-mcp-test",
+    "crates/synward-intelligence",
+    "crates/synward-contract-importer",
 ]
 
 [workspace.package]
@@ -25,7 +25,7 @@ rust-version = "1.75"
 authors = ["David <david@imperium.dev>"]
 license = "BUSL-1.1"
 # Change License: AGPL-3.0-only (effective 2029-04-01)
-repository = "https://github.com/David-Imperium/aether"
+repository = "https://github.com/David-Imperium/synward"
 
 [workspace.dependencies]
 # Parser
@@ -72,7 +72,7 @@ criterion = "0.5"
 pretty_assertions = "1.4"
 regex = "1.10"
 
-# === AETHER INTELLIGENCE (Phase 11-15) ===
+# === SYNWARD INTELLIGENCE (Phase 11-15) ===
 # Light mode: no ML deps, rule-based algorithms
 
 # HTTP client (for external LLM APIs - optional)
@@ -94,7 +94,7 @@ parking_lot = "0.12"
 ratatui = "0.28"
 crossterm = "0.28"
 
-# === AETHER NEURAL (Phase Neural Native) ===
+# === SYNWARD NEURAL (Phase Neural Native) ===
 # Burn framework — backend-agnostic ML inference (pre-release: ONNX import only available in 0.21+)
 burn = { version = "0.21.0-pre.2" }
 burn-store = { version = "0.21.0-pre.2", features = ["burnpack"] }

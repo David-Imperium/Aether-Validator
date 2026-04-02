@@ -1,0 +1,41 @@
+id = "8f2aa84a-9eeb-4483-8854-c8a026271a95"
+project_root = ""
+last_updated = "2026-03-20T00:59:43.009576700Z"
+confidence = 1.0
+custom_rules = []
+
+[thresholds]
+"complexity.max_cognitive" = 15.0
+"function.max_lines" = 50.0
+"file.max_lines" = 500.0
+"function.max_params" = 5.0
+"complexity.max_nesting" = 4.0
+"function.max_returns" = 3.0
+"file.max_functions" = 30.0
+"complexity.max_cyclomatic" = 10.0
+"security.max_severity" = 2.0
+
+[[security_whitelist]]
+pattern_id = "No path traversal"
+file_pattern = "crates/synward-cli/src/main.rs"
+reason = "Accepted by user"
+approved_by = "user"
+approved_at = "2026-03-20T00:50:40.142381500Z"
+
+[conventions.naming]
+function_prefixes = []
+type_suffixes = []
+
+[conventions.formatting]
+
+[conventions.idioms]
+
+[conventions.imports]
+group_order = []
+
+[stats]
+sample_count = 2
+application_count = 0
+update_count = 0
+baseline_violation_rate = 0.0
+current_violation_rate = 8.670000076293945

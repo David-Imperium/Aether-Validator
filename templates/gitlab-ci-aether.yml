@@ -1,30 +1,30 @@
-# Aether Code Validation for GitLab CI/CD
+# Synward Code Validation for GitLab CI/CD
 #
 # Usage: Include this file in your .gitlab-ci.yml
 #
 # include:
-#   - remote: 'https://raw.githubusercontent.com/your-org/aether/main/templates/gitlab-ci-aether.yml'
+#   - remote: 'https://raw.githubusercontent.com/your-org/synward/main/templates/gitlab-ci-synward.yml'
 #
 # Or copy the job definitions below into your .gitlab-ci.yml
 
-.aether-base:
+.synward-base:
   image: rust:latest
   before_script:
-    - cargo build --release -p aether-cli || cargo install aether-cli
+    - cargo build --release -p synward-cli || cargo install synward-cli
   artifacts:
     reports:
-      codequality: aether-report.json
+      codequality: synward-report.json
     expire_in: 1 week
   allow_failure: false
 
-aether:validate:
-  extends: .aether-base
+synward:validate:
+  extends: .synward-base
   stage: test
   script:
-    - echo "Running Aether validation..."
+    - echo "Running Synward validation..."
     - |
       # Create results file
-      touch aether-results.jsonl
+      touch synward-results.jsonl
 
       # Find and validate all source files
       for file in $(find . -type f \( -name "*.rs" -o -name "*.py" -o -name "*.ts" -o -name "*.js" -o -name "*.c" -o -name "*.cpp" \) -not -path "./target/*" -not -path "./node_modules/*"); do
@@ -42,14 +42,14 @@ aether:validate:
         esac
 
         # Run validation
-        ./target/release/aether validate "$file" --lang "$lang" --format json >> aether-results.jsonl 2>/dev/null || true
+        ./target/release/synward validate "$file" --lang "$lang" --format json >> synward-results.jsonl 2>/dev/null || true
       done
     - |
       # Convert to GitLab Code Quality format
-      echo "[]" > aether-report.json
+      echo "[]" > synward-report.json
 
-      if [ -s aether-results.jsonl ]; then
-        cat aether-results.jsonl | while read line; do
+      if [ -s synward-results.jsonl ]; then
+        cat synward-results.jsonl | while read line; do
           file=$(echo "$line" | jq -r '.file // empty')
           id=$(echo "$line" | jq -r '.id // empty')
           severity=$(echo "$line" | jq -r '.severity // "info"')
@@ -79,21 +79,21 @@ aether:validate:
                   path: $location,
                   lines: { begin: $line }
                 }
-              }' >> aether-items.jsonl
+              }' >> synward-items.jsonl
           fi
         done
 
         # Combine into array
-        if [ -f aether-items.jsonl ]; then
-          jq -s '.' aether-items.jsonl > aether-report.json
+        if [ -f synward-items.jsonl ]; then
+          jq -s '.' synward-items.jsonl > synward-report.json
         fi
       fi
     - |
       # Print summary
-      critical=$(grep -c '"severity":"critical"' aether-results.jsonl 2>/dev/null || echo 0)
-      warning=$(grep -c '"severity":"warning"' aether-results.jsonl 2>/dev/null || echo 0)
+      critical=$(grep -c '"severity":"critical"' synward-results.jsonl 2>/dev/null || echo 0)
+      warning=$(grep -c '"severity":"warning"' synward-results.jsonl 2>/dev/null || echo 0)
 
-      echo "Aether Validation Summary:"
+      echo "Synward Validation Summary:"
       echo "  Critical: $critical"
       echo "  Warnings: $warning"
 
@@ -103,17 +103,17 @@ aether:validate:
       fi
   artifacts:
     paths:
-      - aether-results.jsonl
-      - aether-report.json
+      - synward-results.jsonl
+      - synward-report.json
     reports:
-      codequality: aether-report.json
+      codequality: synward-report.json
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 # Optional: Pre-commit validation job
-aether:pre-commit:
-  extends: .aether-base
+synward:pre-commit:
+  extends: .synward-base
   stage: test
   script:
     - |
@@ -135,7 +135,7 @@ aether:pre-commit:
       errors=0
       for file in $changed_files; do
         if [ -f "$file" ]; then
-          ./target/release/aether validate "$file" --format text
+          ./target/release/synward validate "$file" --format text
           if [ $? -ne 0 ]; then
             errors=$((errors + 1))
           fi

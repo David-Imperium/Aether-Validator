@@ -1,8 +1,8 @@
-# Aether Supported Languages
+# Synward Supported Languages
 
 ## Overview
 
-Aether validates code quality across multiple programming languages using tree-sitter parsers and custom analyzers.
+Synward validates code quality across multiple programming languages using tree-sitter parsers and custom analyzers.
 
 ## Currently Supported (23 public + Prism private)
 
@@ -35,7 +35,7 @@ Aether validates code quality across multiple programming languages using tree-s
 
 ## Unsupported Languages Fallback
 
-Aether provides **baseline security validation** even for languages without full AST support. The `FallbackSecurityLayer` applies regex-based pattern matching to detect critical vulnerabilities.
+Synward provides **baseline security validation** even for languages without full AST support. The `FallbackSecurityLayer` applies regex-based pattern matching to detect critical vulnerabilities.
 
 ### Supported Fallback Languages
 
@@ -73,10 +73,10 @@ val apiKey = "sk-abc123xyz"      // ← SEC002
 Runtime.getRuntime().exec(cmd)   // ← SEC004
 ```
 
-**Aether Output:**
+**Synward Output:**
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║  AETHER VALIDATION — config.kt                               ║
+║  SYNWARD VALIDATION — config.kt                               ║
 ╠══════════════════════════════════════════════════════════════╣
 ║  ⚠ [SEC001] Hardcoded password detected                      ║
 ║     Line 2: val password = "supersecret123"                  ║
@@ -100,10 +100,10 @@ DB.execute("SELECT * FROM users WHERE id = " + user_id)  # ← SEC010
 password = "admin123"                                    # ← SEC001
 ```
 
-**Aether Output:**
+**Synward Output:**
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║  AETHER VALIDATION — database.rb                              ║
+║  SYNWARD VALIDATION — database.rb                              ║
 ╠══════════════════════════════════════════════════════════════╣
 ║  ✗ [SEC010] SQL INJECTION: String concatenation in SQL       ║
 ║     Line 2: DB.execute("SELECT * FROM users WHERE id = " ... ║
@@ -173,10 +173,10 @@ To add complete AST-based validation for a new language, see:
 
 ## Adding a New Language
 
-1. Add tree-sitter dependency to `crates/aether-parsers/Cargo.toml`
-2. Create parser module in `crates/aether-parsers/src/<lang>.rs`
-3. Register parser in `crates/aether-parsers/src/lib.rs`
-4. Add language to `LANGUAGES` constant in `crates/aether-cli/src/platforms.rs`
+1. Add tree-sitter dependency to `crates/synward-parsers/Cargo.toml`
+2. Create parser module in `crates/synward-parsers/src/<lang>.rs`
+3. Register parser in `crates/synward-parsers/src/lib.rs`
+4. Add language to `LANGUAGES` constant in `crates/synward-cli/src/platforms.rs`
 5. Update this document
 
 ### Example: Adding CSS
@@ -206,4 +206,4 @@ impl Parser for CssParser {
 
 ## Validation Rules by Language
 
-Each language has specific validation rules. See `crates/aether-validation/src/rules/` for implementation details.
+Each language has specific validation rules. See `crates/synward-validation/src/rules/` for implementation details.

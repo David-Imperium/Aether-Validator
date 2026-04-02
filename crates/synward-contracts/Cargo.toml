@@ -1,0 +1,22 @@
+[package]
+name = "synward-contracts"
+description = "Contract engine for Synward"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+synward-parsers = { path = "../synward-parsers" }
+synward-validation = { path = "../synward-validation" }
+async-trait = { workspace = true }
+regex = { workspace = true }
+serde = { workspace = true }
+serde_yaml = { workspace = true }
+tracing = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+tokio = { workspace = true }

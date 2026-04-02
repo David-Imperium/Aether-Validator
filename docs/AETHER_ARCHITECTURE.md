@@ -1,14 +1,14 @@
-# Aether — Technical Architecture
+# Synward — Technical Architecture
 
 **Version:** 2.0 (Autonomous Design)
 **Implementation Language:** Rust
-**Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md), [AETHER_RUST_IMPLEMENTATION.md](./AETHER_RUST_IMPLEMENTATION.md), [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md)
+**Related:** [SYNWARD_MASTER_DESIGN.md](./SYNWARD_MASTER_DESIGN.md), [SYNWARD_RUST_IMPLEMENTATION.md](./SYNWARD_RUST_IMPLEMENTATION.md), [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md)
 
 ---
 
 ## Overview
 
-This document details the technical architecture of Aether, including:
+This document details the technical architecture of Synward, including:
 - Core engine components (**AI-Free Core**)
 - Data flow
 - Module interfaces
@@ -38,7 +38,7 @@ Based on market research (CodeRabbit "State of AI vs Human Code Generation Repor
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER VALIDATION                                          │
+│                    SYNWARD VALIDATION                                          │
 │                                                                              │
 │  ┌─────────────────────────────────────────────────────────────────────────┐ │
 │  │                      VALIDATORE STANDALONE                              │ │
@@ -71,7 +71,7 @@ Based on market research (CodeRabbit "State of AI vs Human Code Generation Repor
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                            AETHER RUNTIME                                    │
+│                            SYNWARD RUNTIME                                    │
 │                                                                              │
 │  ┌────────────────────────────────────────────────────────────────────────┐  │
 │  │                         ORCHESTRATOR (Rust)                           │  │
@@ -172,12 +172,12 @@ pub struct Orchestrator {
 
 impl Orchestrator {
     /// Create a new validation session
-    pub fn create_session(&mut self, config: SessionConfig) -> Result<SessionId, AetherError> {
+    pub fn create_session(&mut self, config: SessionConfig) -> Result<SessionId, SynwardError> {
         self.sessions.create(config)
     }
 
     /// Destroy a session
-    pub fn destroy_session(&mut self, id: SessionId) -> Result<(), AetherError> {
+    pub fn destroy_session(&mut self, id: SessionId) -> Result<(), SynwardError> {
         self.sessions.destroy(id)
     }
 
@@ -189,12 +189,12 @@ impl Orchestrator {
     }
 
     /// Get iteration count
-    pub fn iteration_count(&self, id: SessionId) -> Result<usize, AetherError> {
+    pub fn iteration_count(&self, id: SessionId) -> Result<usize, SynwardError> {
         self.state_tracker.iteration_count(id)
     }
 
     /// Check if retry is allowed
-    pub fn can_retry(&self, id: SessionId) -> Result<bool, AetherError> {
+    pub fn can_retry(&self, id: SessionId) -> Result<bool, SynwardError> {
         let session = self.sessions.get(id)?;
         Ok(self.state_tracker.iteration_count(id)? < session.config.max_iterations)
     }
@@ -333,7 +333,7 @@ pub struct TreeSitterParser {
 }
 
 impl TreeSitterParser {
-    pub fn new(language: tree_sitter::Language, lang_name: &str) -> Result<Self, AetherError> {
+    pub fn new(language: tree_sitter::Language, lang_name: &str) -> Result<Self, SynwardError> {
         let mut parser = Parser::new();
         parser.set_language(language)?;
         Ok(Self {
@@ -375,15 +375,15 @@ impl TreeSitterParser {
 pub struct TreeSitterLoader;
 
 impl TreeSitterLoader {
-    pub fn load_rust() -> Result<TreeSitterParser, AetherError> {
+    pub fn load_rust() -> Result<TreeSitterParser, SynwardError> {
         TreeSitterParser::new(tree_sitter_rust::language(), "rust")
     }
 
-    pub fn load_cpp() -> Result<TreeSitterParser, AetherError> {
+    pub fn load_cpp() -> Result<TreeSitterParser, SynwardError> {
         TreeSitterParser::new(tree_sitter_cpp::language(), "cpp")
     }
 
-    pub fn load_python() -> Result<TreeSitterParser, AetherError> {
+    pub fn load_python() -> Result<TreeSitterParser, SynwardError> {
         TreeSitterParser::new(tree_sitter_python::language(), "python")
     }
 }
@@ -491,7 +491,7 @@ impl ContractLayer {
     }
 
     fn load_contracts(&mut self, language: &str) -> Vec<ContractDef> {
-        // Load from ~/.aether/contracts/{language}/*.yaml
+        // Load from ~/.synward/contracts/{language}/*.yaml
         // Cache for subsequent calls
     }
 
@@ -526,14 +526,14 @@ impl ValidationLayer for ContractLayer {
 ```
 
 **Key Features:**
-- Loads YAML contracts from `~/.aether/contracts/{language}/*.yaml`
+- Loads YAML contracts from `~/.synward/contracts/{language}/*.yaml`
 - Regex patterns support multiline matching via `[\s\S]*?`
 - Severity mapping: `error`, `warning`, `info`
 - Caches loaded contracts per language
 
 **Contract File Example:**
 ```yaml
-# ~/.aether/contracts/python/error-handling.yaml
+# ~/.synward/contracts/python/error-handling.yaml
 contracts:
   - id: PYERR001
     name: silent-exception-caught
@@ -853,7 +853,7 @@ pub struct SourceRange {
 ## Configuration
 
 ```yaml
-# .aether/config.yaml
+# .synward/config.yaml
 version: "1.0"
 
 # Language settings
@@ -869,7 +869,7 @@ languages:
 contracts:
   paths:
     - "./contracts/"
-    - "./.aether/contracts/"
+    - "./.synward/contracts/"
   
 # Validation settings
 validation:
@@ -886,12 +886,12 @@ thresholds:
 # Learning
 learning:
   enabled: true
-  pattern_library: "./.aether/patterns/"
+  pattern_library: "./.synward/patterns/"
   
 # Certification
 certification:
   enabled: true
-  signing_key: "./.aether/keys/private.key"
+  signing_key: "./.synward/keys/private.key"
   level: "full"  # basic, standard, full
 
 # Output
@@ -937,7 +937,7 @@ output:
 
 ## Thread Safety
 
-Aether is designed for concurrent use:
+Synward is designed for concurrent use:
 
 ```rust
 use std::sync::Arc;
@@ -985,7 +985,7 @@ let (result1, result2) = tokio::try_join!(r1, r2)?;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
-pub enum AetherError {
+pub enum SynwardError {
     #[error("Parse error: {0}")]
     ParseError(String),
 
@@ -1008,11 +1008,11 @@ pub enum AetherError {
     YamlError(#[from] serde_yaml::Error),
 }
 
-impl AetherError {
+impl SynwardError {
     pub fn recoverable(&self) -> bool {
         matches!(self,
-            AetherError::ParseError(_) |
-            AetherError::ContractError(_)
+            SynwardError::ParseError(_) |
+            SynwardError::ContractError(_)
         )
     }
 }
@@ -1115,7 +1115,7 @@ contracts:
 ```toml
 # Cargo.toml
 [package]
-name = "aether"
+name = "synward"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
@@ -1123,12 +1123,12 @@ description = "AI Code Validation & Certification System"
 
 [workspace]
 members = [
-    "crates/aether-core",
-    "crates/aether-parsers",
-    "crates/aether-validation",
-    "crates/aether-contracts",
-    "crates/aether-certification",
-    "crates/aether-cli",
+    "crates/synward-core",
+    "crates/synward-parsers",
+    "crates/synward-validation",
+    "crates/synward-contracts",
+    "crates/synward-certification",
+    "crates/synward-cli",
 ]
 
 [dependencies]
@@ -1175,14 +1175,14 @@ harness = false
 ### Project Structure
 
 ```
-aether/
+synward/
 ├── crates/
-│   ├── aether-core/         # Core types and orchestrator
-│   ├── aether-parsers/      # Parser implementations
-│   ├── aether-validation/   # Validation layers
-│   ├── aether-contracts/     # Contract engine
-│   ├── aether-certification/ # Certificate generation
-│   └── aether-cli/          # CLI interface
+│   ├── synward-core/         # Core types and orchestrator
+│   ├── synward-parsers/      # Parser implementations
+│   ├── synward-validation/   # Validation layers
+│   ├── synward-contracts/     # Contract engine
+│   ├── synward-certification/ # Certificate generation
+│   └── synward-cli/          # CLI interface
 ├── contracts/               # Default contracts
 ├── benches/                # Benchmarks
 ├── tests/                   # Integration tests
@@ -1348,8 +1348,8 @@ Il Memory-Driven Core non si limita a memorizzare — **configura dinamicamente*
 │  │                     ON-PREMISE DEPLOYMENT                              │  │
 │  │                                                                        │  │
 │  │   docker-compose:                                                      │  │
-│  │   ├── aether-api      (validation service)                            │  │
-│  │   ├── aether-mcp      (MCP server)                                    │  │
+│  │   ├── synward-api      (validation service)                            │  │
+│  │   ├── synward-mcp      (MCP server)                                    │  │
 │  │   ├── postgres        (database)                                      │  │
 │  │   ├── redis           (rate limiting)                                 │  │
 │  │   └── qdrant          (vector storage)                                │  │
@@ -1373,5 +1373,5 @@ Il Memory-Driven Core non si limita a memorizzare — **configura dinamicamente*
 6. **Setup CI/CD** — GitHub Actions for build + test + release
 7. **Commercial Launch** — Billing, RAG, tier enforcement (Phase 10)
 
-For Rust-specific implementation details, see [AETHER_RUST_IMPLEMENTATION.md](./AETHER_RUST_IMPLEMENTATION.md).
+For Rust-specific implementation details, see [SYNWARD_RUST_IMPLEMENTATION.md](./SYNWARD_RUST_IMPLEMENTATION.md).
 For pricing strategy, see [PRICING_STRATEGY.md](./PRICING_STRATEGY.md).

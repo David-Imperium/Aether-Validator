@@ -1,4 +1,4 @@
-# Aether Language Scaling Strategy
+# Synward Language Scaling Strategy
 
 **Versione:** v1.0
 **Data:** 2026-03-10
@@ -186,7 +186,7 @@ contracts:
 ### Wrapper System
 
 ```rust
-// aether-validation/src/external/mod.rs
+// synward-validation/src/external/mod.rs
 pub struct ExternalLinterWrapper {
     linter: ExternalLinter,
     severity_map: HashMap<String, Severity>,
@@ -246,7 +246,7 @@ impl ExternalLinterWrapper {
 ### Configurazione
 
 ```yaml
-# aether.yaml
+# synward.yaml
 validation:
   layers:
     - syntax
@@ -280,7 +280,7 @@ validation:
 ### Pipeline
 
 ```rust
-// aether-contracts/src/generator.rs
+// synward-contracts/src/generator.rs
 pub struct ContractGenerator {
     model: AIModel,
 }
@@ -331,7 +331,7 @@ contracts:
 ## Auto-Detection Linguaggio
 
 ```rust
-// aether-parsers/src/detector.rs
+// synward-parsers/src/detector.rs
 pub struct LanguageDetector;
 
 impl LanguageDetector {
@@ -371,20 +371,20 @@ impl LanguageDetector {
 
 ```bash
 # 1. Abilita grammatica tree-sitter
-# aether-parsers/Cargo.toml
+# synward-parsers/Cargo.toml
 tree-sitter-kotlin = "0.3"
 
 # 2. Registra parser
-# aether-parsers/src/registry.rs
+# synward-parsers/src/registry.rs
 pub fn kotlin() -> Self {
     TreeSitterParser::new(tree_sitter_kotlin::language())
 }
 
 # 3. Genera contratti (AI-assisted)
-$ aether generate-contracts --language kotlin --from-docs
+$ synward generate-contracts --language kotlin --from-docs
 
 # 4. Test base
-$ aether test --language kotlin --sample test_samples/kotlin/
+$ synward test --language kotlin --sample test_samples/kotlin/
 ```
 
 **Tempo totale: ~1 giorno**

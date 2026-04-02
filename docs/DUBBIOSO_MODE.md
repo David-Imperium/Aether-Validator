@@ -1,18 +1,18 @@
-# Aether Dubbioso Mode
+# Synward Dubbioso Mode
 
 **Version:** 1.0
 **Last Updated:** 2026-03-19
 **Author:** David + Droid
 **Status:** 📋 Design Phase
-**See Also:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md), [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
+**See Also:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md), [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
 
 ---
 
 ## Executive Summary
 
-**Dubbioso Mode** è il cuore dell'intelligenza di Aether: non è un semplice validatore che dice "sì/no", ma un sistema che **sa quando non è sicuro** e chiede conferma.
+**Dubbioso Mode** è il cuore dell'intelligenza di Synward: non è un semplice validatore che dice "sì/no", ma un sistema che **sa quando non è sicuro** e chiede conferma.
 
-Il dubbio è il motore dell'apprendimento: ogni volta che Aether chiede e riceve risposta, impara. La memoria cresce, il confidence aumenta, le domande diminuiscono.
+Il dubbio è il motore dell'apprendimento: ogni volta che Synward chiede e riceve risposta, impara. La memoria cresce, il confidence aumenta, le domande diminuiscono.
 
 ---
 
@@ -41,7 +41,7 @@ Il dubbio è il motore dell'apprendimento: ogni volta che Aether chiede e riceve
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER DUBBIOSO MODE                                      │
+│                    SYNWARD DUBBIOSO MODE                                      │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  Output:                                                                    │
@@ -177,14 +177,14 @@ Dubbioso Mode è alimentato da 3 layer che lavorano insieme:
 
 ### Modalità di Interrogazione
 
-Quando confidence < ask_threshold, Aether chiede via MCP:
+Quando confidence < ask_threshold, Synward chiede via MCP:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  MCP Question Flow                                                          │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  1. Aether rileva violazione con confidence 65%                            │
+│  1. Synward rileva violazione con confidence 65%                            │
 │  2. MCP invia: {                                                            │
 │       "type": "ask",                                                        │
 │       "message": "Questa unwrap() può causare panic. Gestito altrove?",     │
@@ -236,7 +236,7 @@ Quando confidence < ask_threshold, Aether chiede via MCP:
 │       ↓                                                                     │
 │  8. Dopo N accettazioni: pattern diventa regola permanente                  │
 │                                                                             │
-│  Risultato: Aether impara le convenzioni del team                           │
+│  Risultato: Synward impara le convenzioni del team                           │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -245,7 +245,7 @@ Quando confidence < ask_threshold, Aether chiede via MCP:
 
 ## Configurazione
 
-### Thresholds (`.aether.toml`)
+### Thresholds (`.synward.toml`)
 
 ```toml
 [dubbioso]
@@ -271,7 +271,7 @@ enable_cli_questions = false
 ### Memoria Format
 
 ```toml
-# ~/.aether/learned_patterns.toml
+# ~/.synward/learned_patterns.toml
 
 [[patterns]]
 name = "unwrap_in_test_functions"
@@ -312,7 +312,7 @@ permanent = false
 - [ ] Tree-sitter queries per semantic analysis
 - [ ] Context scoring algorithm
 - [ ] MCP question protocol
-- [ ] Threshold configuration in `.aether.toml`
+- [ ] Threshold configuration in `.synward.toml`
 - [ ] Memory pattern persistence
 - [ ] Feedback loop integration
 
@@ -389,7 +389,7 @@ pub fn handle_request(req: Request) -> Response {
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  AETHER VALIDATION                                                          │
+│  SYNWARD VALIDATION                                                          │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ⚠️  src/handler.rs:3 - unwrap() in production code                        │
@@ -418,6 +418,6 @@ pub fn handle_request(req: Request) -> Response {
 
 ## Vedi Anche
 
-- [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md) — Decisioni architetturali
+- [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md) — Decisioni architetturali
 - [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md) — Architettura memoria
 - [ROADMAP_INDEX.md](./ROADMAP_INDEX.md) — Stato implementazione

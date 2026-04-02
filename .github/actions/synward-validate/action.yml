@@ -1,0 +1,112 @@
+name: 'Synward Validate'
+description: 'Validate source code with Synward contracts'
+author: 'Synward'
+
+inputs:
+  files:
+    description: 'Glob pattern for files to validate'
+    required: false
+    default: '**/*.{rs,py,ts,js,c,cpp,h,hpp}'
+  language:
+    description: 'Default language for validation'
+    required: false
+    default: ''
+  contracts:
+    description: 'Contracts to enforce (comma-separated)'
+    required: false
+    default: ''
+  severity:
+    description: 'Minimum severity to report (critical, warning, info)'
+    required: false
+    default: 'warning'
+  fail-on-critical:
+    description: 'Fail the action if critical errors are found'
+    required: false
+    default: 'true'
+
+outputs:
+  errors-count:
+    description: 'Total number of validation errors'
+  critical-count:
+    description: 'Number of critical errors'
+  warning-count:
+    description: 'Number of warnings'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      shell: bash
+
+    - name: Build Synward CLI
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}/../../..
+        cargo build --release -p synward-cli
+
+    - name: Run validation
+      shell: bash
+      run: |
+        SYNWARD_CLI="${{ github.action_path }}/../../../target/release/synward"
+        RESULTS_FILE="${{ runner.temp }}/synward-results.jsonl"
+
+        # Build command
+        CMD="$SYNWARD_CLI validate"
+
+        if [ -n "${{ inputs.contracts }}" ]; then
+          CMD="$CMD --contracts ${{ inputs.contracts }}"
+        fi
+
+        if [ -n "${{ inputs.severity }}" ]; then
+          CMD="$CMD --severity ${{ inputs.severity }}"
+        fi
+
+        # Find and validate files
+        TOTAL=0
+        CRITICAL=0
+        WARNING=0
+
+        for file in $(find . -name "*.rs" -o -name "*.py" -o -name "*.ts" -o -name "*.js" -o -name "*.c" -o -name "*.cpp" | grep -v target | grep -v node_modules); do
+          echo "Validating $file..."
+
+          LANG="${{ inputs.language }}"
+          if [ -z "$LANG" ]; then
+            case "$file" in
+              *.rs) LANG="rust" ;;
+              *.py) LANG="python" ;;
+              *.ts|*.tsx) LANG="typescript" ;;
+              *.js|*.jsx) LANG="javascript" ;;
+              *.c|*.h) LANG="c" ;;
+              *.cpp|*.hpp|*.cc) LANG="cpp" ;;
+              *) LANG="" ;;
+            esac
+          fi
+
+          if [ -n "$LANG" ]; then
+            $CMD "$file" --lang "$LANG" --format json >> "$RESULTS_FILE" 2>/dev/null || true
+          else
+            $CMD "$file" --format json >> "$RESULTS_FILE" 2>/dev/null || true
+          fi
+
+          TOTAL=$((TOTAL + 1))
+        done
+
+        # Count errors
+        if [ -f "$RESULTS_FILE" ]; then
+          CRITICAL=$(grep -c '"severity":"critical"' "$RESULTS_FILE" 2>/dev/null || echo 0)
+          WARNING=$(grep -c '"severity":"warning"' "$RESULTS_FILE" 2>/dev/null || echo 0)
+        fi
+
+        echo "errors-count=$(($CRITICAL + $WARNING))" >> $GITHUB_OUTPUT
+        echo "critical-count=$CRITICAL" >> $GITHUB_OUTPUT
+        echo "warning-count=$WARNING" >> $GITHUB_OUTPUT
+
+        # Print summary
+        echo "::notice::Validated $TOTAL files: $CRITICAL critical, $WARNING warnings"
+
+        # Fail if critical errors
+        if [ "${{ inputs.fail-on-critical }}" = "true" ] && [ "$CRITICAL" -gt 0 ]; then
+          echo "::error::Found $CRITICAL critical validation errors!"
+          exit 1
+        fi

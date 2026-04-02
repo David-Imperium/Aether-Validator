@@ -1,11 +1,11 @@
-# Aether C++ Contracts - Memory Safety
+# Synward C++ Contracts - Memory Safety
 # Version: 1.0
 
 meta:
   version: "1.0"
   language: cpp
   domain: memory-safety
-  author: Aether Team
+  author: Synward Team
 
 contracts:
   # CPP001: No owning raw pointers

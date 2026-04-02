@@ -1,4 +1,4 @@
-// Test file for Aether validation
+// Test file for Synward validation
 // This file contains various patterns to test the validation layers
 
 use std::collections::HashMap;

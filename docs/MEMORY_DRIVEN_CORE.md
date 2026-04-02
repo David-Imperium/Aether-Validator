@@ -1,15 +1,15 @@
-# Aether Memory-Driven Core
+# Synward Memory-Driven Core
 
 **Version:** 3.0
 **Last Updated:** 2026-03-20
 **Author:** Droid + David
-**See Also:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md)
+**See Also:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md)
 
 ---
 
 ## Executive Summary
 
-Aether non è un validatore statico con regole fisse. È un **sistema autonomo che evolve** con il tuo codebase attraverso la memoria. Ogni istanza di Aether diventa unica perché impara dal contesto in cui opera.
+Synward non è un validatore statico con regole fisse. È un **sistema autonomo che evolve** con il tuo codebase attraverso la memoria. Ogni istanza di Synward diventa unica perché impara dal contesto in cui opera.
 
 **Key Principles (v3.0):**
 - **AI-Free Core**: Funziona senza AI esterna. L'AI è opzionale, solo come "dizionario"
@@ -53,7 +53,7 @@ Aether non è un validatore statico con regole fisse. È un **sistema autonomo c
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER MEMORY-DRIVEN CORE (v3.0)                          │
+│                    SYNWARD MEMORY-DRIVEN CORE (v3.0)                          │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  MEMORIA HIERARCHICAL          CORE (DINAMICO)                              │
@@ -96,9 +96,9 @@ Aether non è un validatore statico con regole fisse. È un **sistema autonomo c
 
 ### Context
 
-La ricerca SOTA 2026 su agent memory ha identificato pattern che Aether attualmente non implementa:
+La ricerca SOTA 2026 su agent memory ha identificato pattern che Synward attualmente non implementa:
 
-| Feature | Aether v2.0 | SOTA 2026 | Impact |
+| Feature | Synward v2.0 | SOTA 2026 | Impact |
 |---------|-------------|-----------|--------|
 | **Temporal Fact Supersession** | ❌ | ✅ Zep | Decisioni obsolete non gestite |
 | **Multi-Signal Scoring** | ❌ Solo confidence | ✅ Mem0/Zep | Scoring monodimensionale |
@@ -156,7 +156,7 @@ impl DecisionNodeV3 {
 **Configurazione scoring:**
 
 ```toml
-# .aether/config.toml
+# .synward/config.toml
 [memory.scoring]
 alpha = 0.4   # Relevance weight
 beta = 0.3    # Recency weight  
@@ -398,11 +398,11 @@ impl DecisionLog {
 
 ## Autonomia AI-Free
 
-Aether funziona completamente senza AI esterna. L'apprendimento avviene tramite Graph RAG + Memory.
+Synward funziona completamente senza AI esterna. L'apprendimento avviene tramite Graph RAG + Memory.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER AUTONOMOUS LEARNING                                │
+│                    SYNWARD AUTONOMOUS LEARNING                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  1. Valida file A                                                           │
@@ -453,7 +453,7 @@ L'AI esterna può essere usata SOLO per:
 
 ## Dubbioso Mode (Confidence-Based)
 
-Aether non dice "questo è sbagliato", dice "questo è problematico con X% confidence".
+Synward non dice "questo è sbagliato", dice "questo è problematico con X% confidence".
 
 ### Confidence Thresholds
 
@@ -531,7 +531,7 @@ impl MultiSignalScore {
 ### Configurazione
 
 ```toml
-# aether.toml
+# synward.toml
 [doubt]
 ask_threshold = 0.5    # Sotto questo, chiede conferma
 warn_threshold = 0.3   # Sotto questo, warning forte
@@ -554,7 +554,7 @@ La memoria è salvata in TOML, leggibile e modificabile dall'utente.
 ### Struttura Directory (v3.0)
 
 ```
-~/.aether/                    # Memoria globale utente
+~/.synward/                    # Memoria globale utente
 ├── core/                     # Core layer (hot, sempre caricato)
 │   ├── decisions.toml        # Decisioni attive
 │   ├── patterns.toml         # Pattern ad alta frequenza
@@ -572,7 +572,7 @@ La memoria è salvata in TOML, leggibile e modificabile dall'utente.
     ├── python-style.toml
     └── ...
 
-project/.aether/              # Memoria locale (override)
+project/.synward/              # Memoria locale (override)
 ├── core/
 │   ├── learned_config.toml   # Config imparata per progetto
 │   ├── validation_state.toml # Stato validazione file
@@ -647,7 +647,7 @@ occurrence_count = 47
 
 ## Git Integration (Feedback Implicito)
 
-Aether si integra con Git per imparare dal workflow del developer.
+Synward si integra con Git per imparare dal workflow del developer.
 
 ### Hooks Configurabili
 
@@ -660,7 +660,7 @@ Aether si integra con Git per imparare dal workflow del developer.
 ### Configurazione
 
 ```toml
-# aether.toml
+# synward.toml
 [git]
 pre_commit = true
 block_on = ["error"]  # ["error", "warning", "style"]
@@ -673,13 +673,13 @@ pre_push = false
 ```
 Developer committa codice
     ↓
-pre-commit: Aether valida
+pre-commit: Synward valida
     ↓
 Se errori critici (configurabile) → blocca commit
     ↓
 Se proceede senza fixare certe violazioni →
     ↓
-post-commit: Aether nota pattern "accettato implicitamente"
+post-commit: Synward nota pattern "accettato implicitamente"
     ↓
 Dopo N volte → suggerisce whitelist automatica
     ↓
@@ -881,7 +881,7 @@ async fn validate_memory_driven_v3(
 │                                                                             │
 │  5. EVOLUZIONE                                                              │
 │     ┌─────────────────────────────────────────────────────────────────┐    │
-│     │  Con l'uso, Aether diventa:                                      │    │
+│     │  Con l'uso, Synward diventa:                                      │    │
 │     │    • Meno falsi positivi                                         │    │
 │     │    • Più rilevante per il progetto                               │    │
 │     │    • Allineato con convenzioni del team                          │    │
@@ -931,7 +931,7 @@ async fn validate_memory_driven_v3(
 │  • Decisioni temporali: 5 superseded, 15 attive                             │
 │                                                                             │
 │  ─────────────────────────────────────────────────────────────────────────  │
-│  Conclusione: Non puoi copiare l'Aether di un altro progetto.               │
+│  Conclusione: Non puoi copiare l'Synward di un altro progetto.               │
 │               La memoria è legata al codebase, il valore è unico.           │
 │               + Audit trail temporale per compliance enterprise.            │
 │  ─────────────────────────────────────────────────────────────────────────  │
@@ -996,58 +996,58 @@ async fn validate_memory_driven_v3(
 
 ```bash
 # Mostra configurazione appresa
-aether memory config show --project myproject
+synward memory config show --project myproject
 
 # Statistiche di apprendimento
-aether memory stats --project myproject
+synward memory stats --project myproject
 
 # v3.0: Mostra memory hierarchy stats
-aether memory hierarchy --project myproject
+synward memory hierarchy --project myproject
 
 # v3.0: Forza consolidation
-aether memory consolidate --project myproject
+synward memory consolidate --project myproject
 
 # v3.0: Mostra decisioni temporali
-aether memory decisions --project myproject --show-superseded
+synward memory decisions --project myproject --show-superseded
 
 # Proposte di regole pendenti
-aether memory rules pending
+synward memory rules pending
 
 # Approva una regola proposta
-aether memory rules approve CUSTOM001
+synward memory rules approve CUSTOM001
 
 # Rifiuta una regola proposta
-aether memory rules reject CUSTOM002
+synward memory rules reject CUSTOM002
 
 # v3.0: Supersede una decisione
-aether memory supersede DEC-001 "Nuova motivazione..." --project myproject
+synward memory supersede DEC-001 "Nuova motivazione..." --project myproject
 
 # Reset configurazione (ma non la memoria)
-aether memory config reset --project myproject
+synward memory config reset --project myproject
 
 # Esporta configurazione per backup (TOML)
-aether memory config export --project myproject -o aether-config.toml
+synward memory config export --project myproject -o synward-config.toml
 
 # Importa configurazione
-aether memory config import aether-config.toml --project myproject
+synward memory config import synward-config.toml --project myproject
 
 # Dubbioso mode: configura soglie
-aether doubt set --ask 0.5 --warn 0.3
+synward doubt set --ask 0.5 --warn 0.3
 
 # v3.0: Configura multi-signal weights
-aether doubt weights --alpha 0.4 --beta 0.3 --gamma 0.3
+synward doubt weights --alpha 0.4 --beta 0.3 --gamma 0.3
 
 # Git hooks: installa
-aether git hooks install
+synward git hooks install
 
 # Git hooks: configura blocking
-aether git set --block-on error,warning
+synward git set --block-on error,warning
 
 # Presets: lista disponibili
-aether presets list
+synward presets list
 
 # Presets: applica un preset
-aether presets apply rust-security --project myproject
+synward presets apply rust-security --project myproject
 ```
 
 ---
@@ -1067,4 +1067,4 @@ aether presets apply rust-security --project myproject
 | Git integration | No | Hooks | Hooks |
 | Enterprise appeal | Basso | Molto alto | Enterprise-ready |
 
-**Questo è il vero differentiator di Aether.**
+**Questo è il vero differentiator di Synward.**

@@ -1,4 +1,4 @@
-# Aether Custom Language Support
+# Synward Custom Language Support
 
 **Version:** 1.0
 **Last Updated:** 2026-03-16
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Aether supporta **23 linguaggi pubblici** out-of-the-box (+ Prism privato). Per aziende con linguaggi proprietari (DSL, internal tools, legacy code), offre 3 livelli di integrazione a complessità crescente.
+Synward supporta **23 linguaggi pubblici** out-of-the-box (+ Prism privato). Per aziende con linguaggi proprietari (DSL, internal tools, legacy code), offre 3 livelli di integrazione a complessità crescente.
 
 ---
 
@@ -88,7 +88,7 @@ Aether supporta **23 linguaggi pubblici** out-of-the-box (+ Prism privato). Per 
 
 ### Quando Si Attiva
 
-Aether ha un **FallbackSecurityLayer** automatico che si attiva per **qualsiasi linguaggio non supportato**. Questo significa che anche senza configurazione, ottieni security checks di base.
+Synward ha un **FallbackSecurityLayer** automatico che si attiva per **qualsiasi linguaggio non supportato**. Questo significa che anche senza configurazione, ottieni security checks di base.
 
 ### Architettura
 
@@ -154,10 +154,10 @@ class UserService {
 }
 ```
 
-**Output Aether:**
+**Output Synward:**
 
 ```bash
-$ aether validate UserService.kt
+$ synward validate UserService.kt
 
 [SEC001] CRITICAL: Hardcoded secret detected
   → UserService.kt:5:15
@@ -186,10 +186,10 @@ $ aether validate UserService.kt
 
 ```bash
 # Automatico per qualsiasi file
-aether validate mystery-file.xyz
+synward validate mystery-file.xyz
 
 # Verbose mode per vedere quale layer è attivo
-aether validate mystery-file.xyz --verbose
+synward validate mystery-file.xyz --verbose
 
 # Output:
 # [INFO] Language not recognized, using FallbackSecurityLayer (Level 0)
@@ -219,7 +219,7 @@ Per validazione completa, passa a Level 1+.
 ### Struttura File
 
 ```yaml
-# .aether/languages/custom-lang.yaml
+# .synward/languages/custom-lang.yaml
 
 metadata:
   name: "CustomLang"
@@ -325,19 +325,19 @@ severity_levels:
 
 ```bash
 # Validate con linguaggio custom
-aether validate config.cl --lang custom-lang
+synward validate config.cl --lang custom-lang
 
 # List available custom languages
-aether languages list --custom
+synward languages list --custom
 
 # Test custom language definition
-aether languages test custom-lang --file test.cl
+synward languages test custom-lang --file test.cl
 ```
 
 ### Esempio Pratico: Shader DSL
 
 ```yaml
-# .aether/languages/shader-dsl.yaml
+# .synward/languages/shader-dsl.yaml
 
 metadata:
   name: "ShaderDSL"
@@ -403,7 +403,7 @@ custom-lang/
 ├── test/
 │   └── corpus/
 │       └── test.txt     # Test cases
-└── aether-rules/
+└── synward-rules/
     ├── semantic.rs      # Semantic rules
     └── security.rs      # Security checks
 ```
@@ -478,12 +478,12 @@ module.exports = grammar({
 });
 ```
 
-### Aether Integration (Rust)
+### Synward Integration (Rust)
 
 ```rust
-// aether-rules/semantic.rs
+// synward-rules/semantic.rs
 
-use aether_parser::{Parser, Node, Tree};
+use synward_parser::{Parser, Node, Tree};
 
 /// Semantic validation for CustomLang
 pub struct CustomLangSemantic {
@@ -586,14 +586,14 @@ impl CustomLangSemantic {
 cd custom-lang
 tree-sitter generate
 
-# Build for Aether
+# Build for Synward
 cargo build --release
 
-# Install in Aether
-cp target/release/libcustom_lang_parser.so ~/.aether/parsers/
+# Install in Synward
+cp target/release/libcustom_lang_parser.so ~/.synward/parsers/
 
 # Register language
-aether languages register custom-lang --parser libcustom_lang_parser.so
+synward languages register custom-lang --parser libcustom_lang_parser.so
 ```
 
 ---
@@ -611,11 +611,11 @@ aether languages register custom-lang --parser libcustom_lang_parser.so
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    AETHER PLUGIN ARCHITECTURE                                │
+│                    SYNWARD PLUGIN ARCHITECTURE                                │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │  ┌───────────────────────────────────────────────────────────────────────┐ │
-│  │                      aether-core                                       │ │
+│  │                      synward-core                                       │ │
 │  │                                                                        │ │
 │  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────┐ │ │
 │  │  │ LanguageRegistry│  │ PluginLoader    │  │ ValidationPipeline     │ │ │
@@ -650,9 +650,9 @@ aether languages register custom-lang --parser libcustom_lang_parser.so
 ### Plugin Trait
 
 ```rust
-// aether-plugin/src/lib.rs
+// synward-plugin/src/lib.rs
 
-use aether_core::{ParseTree, Violation, Severity};
+use synward_core::{ParseTree, Violation, Severity};
 
 /// Plugin interface for custom languages
 pub trait LanguagePlugin: Send + Sync {
@@ -715,8 +715,8 @@ macro_rules! declare_plugin {
 ```rust
 // my-lang-plugin/src/lib.rs
 
-use aether_plugin::*;
-use aether_core::{ParseTree, Violation, Severity, ParseError};
+use synward_plugin::*;
+use synward_core::{ParseTree, Violation, Severity, ParseError};
 
 pub struct MyLangPlugin {
     parser: MyLangParser,
@@ -803,13 +803,13 @@ cargo build --release --crate-type cdylib
 #         target/release/libmy_lang_plugin.dylib (macOS)
 
 # Deploy
-cp target/release/my_lang_plugin.dll ~/.aether/plugins/
+cp target/release/my_lang_plugin.dll ~/.synward/plugins/
 
 # Register
-aether plugins register ~/.aether/plugins/my_lang_plugin.dll
+synward plugins register ~/.synward/plugins/my_lang_plugin.dll
 
 # Verify
-aether plugins list
+synward plugins list
 ```
 
 ---
@@ -833,7 +833,7 @@ Per clienti Enterprise, offriamo:
 3. **Integration**: CI/CD, IDE plugins
 4. **Training**: Workshop per team
 
-**Contatti:** enterprise@aether.dev
+**Contatti:** enterprise@synward.dev
 
 ---
 
@@ -856,17 +856,17 @@ Per clienti Enterprise, offriamo:
 
 ```bash
 # List languages
-aether languages list
+synward languages list
 
 # Validate with custom lang
-aether validate file.xyz --lang my-lang
+synward validate file.xyz --lang my-lang
 
 # Test custom language
-aether languages test my-lang --file samples/
+synward languages test my-lang --file samples/
 
 # Generate language template
-aether languages create my-lang --level 1
+synward languages create my-lang --level 1
 
 # Register plugin
-aether plugins register /path/to/plugin.dll
+synward plugins register /path/to/plugin.dll
 ```

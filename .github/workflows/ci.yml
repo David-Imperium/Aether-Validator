@@ -142,8 +142,8 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
-          name: aether-cli
-          path: target/release/aether
+          name: synward-cli
+          path: target/release/synward
 
   security:
     name: Security Audit

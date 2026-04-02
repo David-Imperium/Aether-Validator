@@ -1,21 +1,21 @@
-# Aether — Roadmap Index
+# Synward — Roadmap Index
 
 **Ultimo Aggiornamento:** 2026-03-19
 **Versione:** 2.0 (Autonomous Design)
 **Progresso:** 95% completato (Phase 0-8, 11-15 complete, ADR Phase 1.5 + 2 complete)
-**Vedi anche:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md)
+**Vedi anche:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md)
 
 ---
 
 ## Key Differentiator: Memory-Driven Core
 
-Il **Memory-Driven Core** è la rivoluzione di Aether: non memorizza solo — **configura dinamicamente** i validation layers basandosi sulla knowledge appresa dal progetto.
+Il **Memory-Driven Core** è la rivoluzione di Synward: non memorizza solo — **configura dinamicamente** i validation layers basandosi sulla knowledge appresa dal progetto.
 
 **Documento:** [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md)
 
-Ogni istanza Aether diventa unica attraverso i LearnedConfig accumulati. Il valore cresce col tempo, rendendo costoso il cambio di validatore.
+Ogni istanza Synward diventa unica attraverso i LearnedConfig accumulati. Il valore cresce col tempo, rendendo costoso il cambio di validatore.
 
-**ADR:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md) — 14 decisioni architetturali per Aether autonomo.
+**ADR:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md) — 14 decisioni architetturali per Synward autonomo.
 
 ---
 
@@ -29,7 +29,7 @@ Ogni istanza Aether diventa unica attraverso i LearnedConfig accumulati. Il valo
 
 ### Architettura: AI è Opzionale (Decisione Permanente)
 
-**Principio fondamentale:** Aether funzionerà **sempre** autonomamente senza AI. L'AI è e rimarrà una feature extra opzionale.
+**Principio fondamentale:** Synward funzionerà **sempre** autonomamente senza AI. L'AI è e rimarrà una feature extra opzionale.
 
 | Componente | Autonomo | AI Opzionale (futuro) |
 |------------|----------|----------------------|
@@ -47,7 +47,7 @@ Ogni istanza Aether diventa unica attraverso i LearnedConfig accumulati. Il valo
 - Non modifica codice, solo messaggi
 - Core rimane funzionale senza
 
-**Vedi ADR:** [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md) — Decision 1: Aether è Autonomo
+**Vedi ADR:** [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md) — Decision 1: Synward è Autonomo
 
 ---
 
@@ -58,7 +58,7 @@ Ogni istanza Aether diventa unica attraverso i LearnedConfig accumulati. Il valo
 
 **Fix:** Tutti i log ora vanno su stderr. MCP tools funzionanti (13 tools).
 
-**Verifica:** `aether___get_version` restituisce correttamente version, languages_count, tools_count.
+**Verifica:** `synward___get_version` restituisce correttamente version, languages_count, tools_count.
 
 ---
 
@@ -104,7 +104,7 @@ La roadmap completa è in questo documento (ROADMAP_INDEX.md).
 | n² attention competition | More tokens = less accuracy |
 | RAG: fragile chain, no feedback loop | Silent failures |
 
-**Soluzione Aether:** Hybrid Memory (Knowledge Graph + File-based + Time-series) — **Autonomo, senza AI**
+**Soluzione Synward:** Hybrid Memory (Knowledge Graph + File-based + Time-series) — **Autonomo, senza AI**
 
 ---
 
@@ -113,7 +113,7 @@ La roadmap completa è in questo documento (ROADMAP_INDEX.md).
 ## Prossimi Passi per Componente
 
 ### Core Architecture
-**Documento:** [AETHER_ARCHITECTURE.md](./AETHER_ARCHITECTURE.md)
+**Documento:** [SYNWARD_ARCHITECTURE.md](./SYNWARD_ARCHITECTURE.md)
 
 - [x] Implementare Core — Orchestrator, session management, pipeline (Rust)
 - [x] Implementare Rust Parser — syn integration (151 test passati)
@@ -123,19 +123,19 @@ La roadmap completa è in questo documento (ROADMAP_INDEX.md).
 ---
 
 ### Learner System
-**Documento:** [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md) (consolidato)
+**Documento:** [SYNWARD_INTELLIGENCE.md](./SYNWARD_INTELLIGENCE.md) (consolidato)
 
 - [x] Implementare `UserProfile` e storage TOML
 - [x] Implementare `StatsTracker`
 - [x] Implementare `MemoryStore`
 - [x] Implementare `PatternExtractor`
 - [x] Integrare con Pre-Guidance
-- [x] Test con scenari reali (aether-learner crate completo)
+- [x] Test con scenari reali (synward-learner crate completo)
 
 ---
 
 ### Pre-Guidance System
-**Documento:** [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md) (consolidato)
+**Documento:** [SYNWARD_INTELLIGENCE.md](./SYNWARD_INTELLIGENCE.md) (consolidato)
 
 - [x] Implementare `PreGuidance` core
 - [x] Integrare con `PromptAnalyzer` esistente
@@ -146,7 +146,7 @@ La roadmap completa è in questo documento (ROADMAP_INDEX.md).
 ---
 
 ### RAG System
-**Documento:** [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md) (consolidato)
+**Documento:** [SYNWARD_INTELLIGENCE.md](./SYNWARD_INTELLIGENCE.md) (consolidato)
 
 - [x] Implementare `KeywordIndex` con TF-IDF/BM25
 - [x] Implementare `SemanticSearch` con FastEmbed (BGE-small-en-v1.5)
@@ -187,7 +187,7 @@ Strategia per scalare a 50+ linguaggi con tree-sitter.
 
 **Status:** Documentato, non implementato
 
-- [ ] Creare directory `private/aether-prism-layer/`
+- [ ] Creare directory `private/synward-prism-layer/`
 - [ ] Definire contratti Prism (shader, memory)
 - [ ] Integrare con validation pipeline
 
@@ -198,7 +198,7 @@ Strategia per scalare a 50+ linguaggi con tree-sitter.
 
 **Status:** Architettura documentata, implementazione da iniziare
 
-- [ ] Creare repository `aether-ai/contracts`
+- [ ] Creare repository `synward-ai/contracts`
 - [ ] Implementare `ContractLoader` in Rust (auto-update da registry)
 - [ ] Creare TUI con `ratatui` (selezione linguaggi, piattaforme, livelli)
 - [ ] Implementare generatori per ogni piattaforma:
@@ -216,13 +216,13 @@ Strategia per scalare a 50+ linguaggi con tree-sitter.
 
 ---
 
-## Aether Intelligence (Phase 11-15)
+## Synward Intelligence (Phase 11-15)
 
 **Documenti:**
-- [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md) — Design architetturale (aggiornato con Context Rot research)
+- [SYNWARD_INTELLIGENCE.md](./SYNWARD_INTELLIGENCE.md) — Design architetturale (aggiornato con Context Rot research)
 - [INTELLIGENCE_IMPLEMENTATION.md](./INTELLIGENCE_IMPLEMENTATION.md) — **Piano operativo dettagliato**
 
-Evoluzione di Aether da validatore rule-based a sistema AI autonomo con memoria, apprendimento e capacità di scoprire nuovi pattern.
+Evoluzione di Synward da validatore rule-based a sistema AI autonomo con memoria, apprendimento e capacità di scoprire nuovi pattern.
 
 ### Il Problema: Context Rot
 
@@ -237,7 +237,7 @@ Ricerca Chroma/Manifold Group (2026) ha rivelato che gli agenti AI perdono conte
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      AETHER INTELLIGENCE ARCHITECTURE                        │
+│                      SYNWARD INTELLIGENCE ARCHITECTURE                        │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  Layer 5: Drift Detection (Temporal) — Analizza evoluzione codice            │
 │  Layer 4: Intent Inference (LLM-lite) — Capisce "perché" il codice esiste    │
@@ -253,7 +253,7 @@ Ricerca Chroma/Manifold Group (2026) ha rivelato che gli agenti AI perdono conte
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      AETHER MEMORY SYSTEM                                   │
+│                      SYNWARD MEMORY SYSTEM                                   │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  Layer 2A: Code Graph (AST-based)                                           │
 │    File → Functions → Calls → Dependencies                                  │
@@ -272,10 +272,10 @@ Ricerca Chroma/Manifold Group (2026) ha rivelato che gli agenti AI perdono conte
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Nuovo Crate: `aether-intelligence`
+### Nuovo Crate: `synward-intelligence`
 
 ```
-crates/aether-intelligence/
+crates/synward-intelligence/
 ├── src/
 │   ├── memory/     # Layer 2: Memory System (4 sub-layers)
 │   │   ├── code_graph.rs      # 2A: AST relationships
@@ -289,14 +289,14 @@ crates/aether-intelligence/
 ```
 
 ### Phase 11: Memory System Foundation ✅ COMPLETE (3 settimane, 31 ore)
-- [x] 11.1 Setup `aether-intelligence` crate
+- [x] 11.1 Setup `synward-intelligence` crate
 - [x] 11.2 Layer 2A: Code Graph (AST-based)
   - [x] `CodeNode`, `CodeEdge`, `CodeGraph` structs
   - [x] `who_calls()`, `what_depends_on()`, `impact_analysis()`
 - [x] 11.3 Layer 2C: Validation State (File-based)
   - [x] `ProjectState`, `FileState`, `ViolationRecord`
   - [x] TOML persistence
-- [x] 11.4 CLI command `aether memory`
+- [x] 11.4 CLI command `synward memory`
 - [x] 11.5 Unit tests
 
 **Milestone:** Code Graph e Validation State implementati
@@ -306,10 +306,10 @@ crates/aether-intelligence/
 - [x] 12.2 Implementare feature extraction (language-specific, rule-based)
 - [x] 12.3 Implementare `AnomalyDetector`
 - [x] 12.4 Implementare `RuleGenerator`
-- [x] 12.5 CLI command `aether discover`
+- [x] 12.5 CLI command `synward discover`
 - [x] 12.6 Integration tests (18/18 passing)
 
-**Milestone:** `aether discover src/` trova pattern e anomalie
+**Milestone:** `synward discover src/` trova pattern e anomalie
 
 ### Phase 13: Intent Inference ✅ COMPLETE (3 settimane, 36 ore)
 - [x] 13.1 Definire `Intent` struct
@@ -319,18 +319,18 @@ crates/aether-intelligence/
 - [x] 13.5 CLI flag `--intent`
 - [x] 13.6 Unit tests (23/23 passing)
 
-**Milestone:** `aether validate --intent` usa LLM esterno per inferenza
+**Milestone:** `synward validate --intent` usa LLM esterno per inferenza
 
 ### Phase 14: Drift Detection ✅ COMPLETE (2 settimane, 34 ore)
 - [x] 14.1 Definire `DriftMetrics`
 - [x] 14.2 Implementare metric extraction
 - [x] 14.3 Implementare `GitIntegration`
 - [x] 14.4 Implementare `TrendAnalyzer`
-- [x] 14.5 CLI command `aether drift`
+- [x] 14.5 CLI command `synward drift`
 - [x] 14.6 Layer 2D: Drift Snapshots structure
 - [x] 14.7 Integration tests (all tests passing)
 
-**Milestone:** `aether drift --commits 50` mostra trend degrado
+**Milestone:** `synward drift --commits 50` mostra trend degrado
 
 ### Phase 15: Memory System Enhancement ✅ COMPLETE (3 settimane, 36 ore)
 - [x] 15.1 Layer 2B: Decision Log (Knowledge Graph)
@@ -341,11 +341,11 @@ crates/aether-intelligence/
   - [x] Time-series storage
   - [x] `analyze_trend()` con regression
   - [x] Alerting automatico
-- [x] 15.3 API Unificata: `aether recall`
-  - [x] `AetherIntelligence` struct
+- [x] 15.3 API Unificata: `synward recall`
+  - [x] `SynwardIntelligence` struct
   - [x] `MemoryQuery` enum con 6 query types
 - [x] 15.4 Integration con validation pipeline
-- [x] 15.5 CLI command `aether memory recall`
+- [x] 15.5 CLI command `synward memory recall`
   - [x] `why-exists` - Perché esiste questo codice?
   - [x] `is-accepted` - Questa violazione è accettata?
   - [x] `search` - Ricerca semantica
@@ -353,10 +353,10 @@ crates/aether-intelligence/
   - [x] `impact-analysis` - Analisi impatto modifiche
   - [x] `who-calls` - Chi chiama questa funzione?
 - [x] 15.6 End-to-end tests (70 test passati)
-- [x] 15.7 Documentation (RAG_SYSTEM.md, AETHER_INTELLIGENCE.md)
+- [x] 15.7 Documentation (RAG_SYSTEM.md, SYNWARD_INTELLIGENCE.md)
 - [ ] 15.8 Release v0.2.0
 
-**Milestone:** `aether memory recall why-exists src/main.rs:42` restituisce decisioni passate
+**Milestone:** `synward memory recall why-exists src/main.rs:42` restituisce decisioni passate
 
 ### Phase 16: Memory-Driven Core (4 settimane) ✅ COMPLETE
 - [x] 16.1 Architettura Memory-Driven Core — Documento MEMORY_DRIVEN_CORE.md
@@ -370,16 +370,16 @@ crates/aether-intelligence/
   - [x] `update_config_from_feedback()` in MemoryStore
   - [ ] Pattern discovery integration (parziale)
   - [ ] Auto-tuning thresholds
-- [x] 16.4 Config file `.aether.toml` — Parsing e merge con LearnedConfig ✅
-- [x] 16.5 CLI commands: `aether config`, `aether memory apply` ✅
+- [x] 16.4 Config file `.synward.toml` — Parsing e merge con LearnedConfig ✅
+- [x] 16.5 CLI commands: `synward config`, `synward memory apply` ✅
 - [x] 16.6 End-to-end tests ✅ **8 test passati**
 
-**Codice verificato:** `crates/aether-intelligence/src/lib.rs` linee 300-400
+**Codice verificato:** `crates/synward-intelligence/src/lib.rs` linee 300-400
 - `load_config(&project_root) -> Result<LearnedConfig>`
 - `save_config(&config) -> Result<()>`
 - `record_feedback(&mut config, violations, accepted_ids) -> Result<()>`
 
-**Milestone:** `aether validate` usa LearnedConfig per configurare i layers dinamicamente
+**Milestone:** `synward validate` usa LearnedConfig per configurare i layers dinamicamente
 
 ### Phase 17: Integration & Polish (2 settimane)
 - [ ] Unificare pipeline (5 layers)
@@ -391,7 +391,7 @@ crates/aether-intelligence/
 - [ ] Benchmark suite
 - [ ] Release v0.3.0
 
-**Milestone:** `aether validate` con tutti i 5 layer attivi + Memory-Driven
+**Milestone:** `synward validate` con tutti i 5 layer attivi + Memory-Driven
 
 ### Performance Targets
 
@@ -412,7 +412,7 @@ crates/aether-intelligence/
 
 ### Media Priorità (da ADR)
 4. **ADR Phase 1.5: Bundled Presets** — TOML presets per linguaggi
-5. **ADR Phase 2: Git Integration** — `aether hooks install`
+5. **ADR Phase 2: Git Integration** — `synward hooks install`
 6. **ADR Phase 3: Dubbioso Mode** — MCP questioning
 
 ### Bassa Priorità
@@ -444,7 +444,7 @@ crates/aether-intelligence/
 │  [✓] Phase 8: Pre-Guidance         ───────────────────────────────────────  │
 │  [⚡] Phase 9: Polish & Launch      ───────────────────────────────────────  │
 │                                                                              │
-│  ─── AETHER INTELLIGENCE (v0.2.0) ─────────────────────────────────────────  │
+│  ─── SYNWARD INTELLIGENCE (v0.2.0) ─────────────────────────────────────────  │
 │                                                                              │
 │  [✓] Phase 11: Memory Foundation   ───────────────────────────────────────  │
 │  [✓] Phase 12: Pattern Discovery   ───────────────────────────────────────  │
@@ -454,7 +454,7 @@ crates/aether-intelligence/
 │  [⚡] Phase 16: Memory-Driven Core  ───────────────────────────────────────  │
 │  [ ] Phase 17: Integration & Polish ───────────────────────────────────────  │
 │                                                                              │
-│  ─── ADR IMPLEMENTATION (autonomous-aether) ──────────────────────────────── │
+│  ─── ADR IMPLEMENTATION (autonomous-synward) ──────────────────────────────── │
 │                                                                              │
 │  [✓] ADR Phase 1: Core Autonomo    ───────────────────────────────────────  │
 │  [ ] ADR Phase 1.5: Bundled Presets ───────────────────────────────────────  │
@@ -476,42 +476,42 @@ crates/aether-intelligence/
 
 | Documento | Descrizione | Stato |
 |-----------|-------------|-------|
-| [ADR_AUTONOMOUS_AETHER.md](./ADR_AUTONOMOUS_AETHER.md) | **14 decisioni architetturali Aether autonomo** | ✅ ADR |
+| [ADR_AUTONOMOUS_SYNWARD.md](./ADR_AUTONOMOUS_SYNWARD.md) | **14 decisioni architetturali Synward autonomo** | ✅ ADR |
 | [MEMORY_DRIVEN_CORE.md](./MEMORY_DRIVEN_CORE.md) | **Memory-Driven Core Architecture** | 📋 Phase 16 |
-| [AETHER_INTELLIGENCE.md](./AETHER_INTELLIGENCE.md) | AI-powered validation (5 layers) | ✅ Updated |
-| [AETHER_ARCHITECTURE.md](./AETHER_ARCHITECTURE.md) | Architettura tecnica | ✅ Implementata |
-| [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md) | Design complessivo | ✅ Updated |
-| [AETHER_CERTIFICATION.md](./AETHER_CERTIFICATION.md) | Sistema certificazione codice | ✅ |
-| [AETHER_CONTRACTS.md](./AETHER_CONTRACTS.md) | Contratti di validazione | ✅ |
-| [AETHER_SECURITY.md](./AETHER_SECURITY.md) | Security model e policies | ✅ |
-| [AETHER_RUST_IMPLEMENTATION.md](./AETHER_RUST_IMPLEMENTATION.md) | Dettagli implementazione Rust | ✅ |
+| [SYNWARD_INTELLIGENCE.md](./SYNWARD_INTELLIGENCE.md) | AI-powered validation (5 layers) | ✅ Updated |
+| [SYNWARD_ARCHITECTURE.md](./SYNWARD_ARCHITECTURE.md) | Architettura tecnica | ✅ Implementata |
+| [SYNWARD_MASTER_DESIGN.md](./SYNWARD_MASTER_DESIGN.md) | Design complessivo | ✅ Updated |
+| [SYNWARD_CERTIFICATION.md](./SYNWARD_CERTIFICATION.md) | Sistema certificazione codice | ✅ |
+| [SYNWARD_CONTRACTS.md](./SYNWARD_CONTRACTS.md) | Contratti di validazione | ✅ |
+| [SYNWARD_SECURITY.md](./SYNWARD_SECURITY.md) | Security model e policies | ✅ |
+| [SYNWARD_RUST_IMPLEMENTATION.md](./SYNWARD_RUST_IMPLEMENTATION.md) | Dettagli implementazione Rust | ✅ |
 | [USER_GUIDE.md](./USER_GUIDE.md) | Guida utente | ✅ |
 | [API_REFERENCE.md](./API_REFERENCE.md) | Riferimento API | ✅ |
 | [CONTRACTS_REGISTRY.md](./CONTRACTS_REGISTRY.md) | Sistema contratti automatici | 📋 Da implementare |
 | [LANGUAGES.md](./LANGUAGES.md) | Linguaggi supportati (24) | ✅ |
 | [LANGUAGE_SCALING_STRATEGY.md](./LANGUAGE_SCALING_STRATEGY.md) | Strategia scaling linguaggi | ✅ |
 | [CUSTOM_LANGUAGE_SUPPORT.md](./CUSTOM_LANGUAGE_SUPPORT.md) | 3 livelli per linguaggi custom | ✅ |
-| [aether-ui.md](./aether-ui.md) | VS Code Extension UI | ✅ Updated |
+| [synward-ui.md](./synward-ui.md) | VS Code Extension UI | ✅ Updated |
 | [VSCODE_EXTENSION_PLAN.md](./VSCODE_EXTENSION_PLAN.md) | Piano sviluppo VS Code Extension | 📋 |
 | [DUBBIOSO_MODE.md](./DUBBIOSO_MODE.md) | **Hyper-Context Engine + Confidence Intelligence** | 📋 Design |
 
 ## Documenti Consolidati
 
-I seguenti documenti sono stati consolidati in **AETHER_INTELLIGENCE.md**:
-- ~~AETHER_LEARNER.md~~ → Layer 2 (Semantic Memory)
-- ~~AETHER_PRE_GUIDANCE.md~~ → Integrato nel workflow
-- ~~AETHER_PROMPT_ANALYZER.md~~ → Integrato nel workflow
-- ~~AETHER_RAG.md~~ → Layer 2 (Semantic Memory)
+I seguenti documenti sono stati consolidati in **SYNWARD_INTELLIGENCE.md**:
+- ~~SYNWARD_LEARNER.md~~ → Layer 2 (Semantic Memory)
+- ~~SYNWARD_PRE_GUIDANCE.md~~ → Integrato nel workflow
+- ~~SYNWARD_PROMPT_ANALYZER.md~~ → Integrato nel workflow
+- ~~SYNWARD_RAG.md~~ → Layer 2 (Semantic Memory)
 
 ## Documenti Obsoleti (Eliminati 2026-03-18)
 
 - ~~RAG_SYSTEM.md~~ → Sostituito da MEMORY_DRIVEN_CORE.md
-- ~~PRIVATE_LAYERS_ARCHITECTURE.md~~ → Integrato in AETHER_ARCHITECTURE.md
-- ~~INTELLIGENCE_IMPLEMENTATION.md~~ → Consolidato in AETHER_INTELLIGENCE.md
-- ~~AETHER_INTEGRATION.md~~ → Consolidato in AETHER_ARCHITECTURE.md
-- ~~AETHER_ROADMAP.md~~ → Consolidato in ROADMAP_INDEX.md
+- ~~PRIVATE_LAYERS_ARCHITECTURE.md~~ → Integrato in SYNWARD_ARCHITECTURE.md
+- ~~INTELLIGENCE_IMPLEMENTATION.md~~ → Consolidato in SYNWARD_INTELLIGENCE.md
+- ~~SYNWARD_INTEGRATION.md~~ → Consolidato in SYNWARD_ARCHITECTURE.md
+- ~~SYNWARD_ROADMAP.md~~ → Consolidato in ROADMAP_INDEX.md
 
-## ADR Implementation Status (ADR_AUTONOMOUS_AETHER.md)
+## ADR Implementation Status (ADR_AUTONOMOUS_SYNWARD.md)
 
 Le seguenti fasi sono definite nell'ADR e devono essere tracciate nella roadmap:
 
@@ -521,23 +521,23 @@ Le seguenti fasi sono definite nell'ADR e devono essere tracciate nella roadmap:
 | 1.5 | Bundled Presets | ✅ | TOML presets + CLI commands |
 | 2 | Git Integration | ❌ | pre-commit, post-commit hooks |
 | 3 | Dubbioso Mode | ⚠️ Parziale | Confidence scoring, manca questioning via MCP |
-| 4 | CLI Wizard | ✅ | `aether init` implementato |
+| 4 | CLI Wizard | ✅ | `synward init` implementato |
 | 5 | Polish | ⚡ | Documentazione, VS Code Extension |
 
 ### ADR Phase 1.5: Bundled Presets ✅ COMPLETE
 - [x] Implementare formato TOML per bundled presets
-- [x] Creare `~/.aether/presets/` directory con defaults (10 presets)
+- [x] Creare `~/.synward/presets/` directory con defaults (10 presets)
 - [x] `PresetManager` per load/save/apply presets
 - [x] `export_as_preset()` per clean export (no personal info)
 - [x] `import_preset()` per import
-- [x] CLI: `aether preset list` — Lista presets disponibili
-- [x] CLI: `aether preset show <name>` — Dettagli preset
-- [x] CLI: `aether preset apply <name>` — Applica al progetto
-- [ ] CLI: `aether preset export` — Export current config as preset
-- [ ] CLI: `aether preset import <file>` — Import preset from file
+- [x] CLI: `synward preset list` — Lista presets disponibili
+- [x] CLI: `synward preset show <name>` — Dettagli preset
+- [x] CLI: `synward preset apply <name>` — Applica al progetto
+- [ ] CLI: `synward preset export` — Export current config as preset
+- [ ] CLI: `synward preset import <file>` — Import preset from file
 
 ### ADR Phase 2: Git Integration ✅
-- [x] `aether hooks install` — Installa git hooks nel progetto
+- [x] `synward hooks install` — Installa git hooks nel progetto
 - [x] pre-commit hook — Valida staged files (configurabile severity)
 - [x] post-commit hook — Aggiorna memoria dopo commit
 - [x] pre-push hook — Validazione completa (opzionale)
@@ -562,15 +562,15 @@ Le seguenti fasi sono definite nell'ADR e devono essere tracciate nella roadmap:
 
 1. ~~**Phase 16.2: LearnedConfig**~~ ✅ Verificato in codice (`memory/mod.rs`)
 2. ~~**Phase 16.3: Feedback Loop**~~ ✅ Verificato in codice (`lib.rs:record_feedback()`)
-3. **Phase 16.4: Config File** — Implementare `.aether.toml` parsing e merge
-4. **Phase 16.5: CLI Commands** — `aether config`, `aether memory apply`
-5. **Memory TOML Implementation** — `~/.aether/` structure con `learned_patterns.toml`, `global_whitelist.toml`, `stats.toml`
+3. **Phase 16.4: Config File** — Implementare `.synward.toml` parsing e merge
+4. **Phase 16.5: CLI Commands** — `synward config`, `synward memory apply`
+5. **Memory TOML Implementation** — `~/.synward/` structure con `learned_patterns.toml`, `global_whitelist.toml`, `stats.toml`
 6. **Memory → Core Loop** — Loop chiuso: validazione → memoria impara → core si adatta → validazione migliore
 7. ~~**ADR Phase 1.5: Bundled Presets**~~ ✅ TOML presets per linguaggi comuni
-8. ~~**ADR Phase 2: Git Hooks**~~ ✅ `aether hooks install` (hooks.rs completo)
+8. ~~**ADR Phase 2: Git Hooks**~~ ✅ `synward hooks install` (hooks.rs completo)
 9. **ADR Phase 3: Dubbioso Mode** — MCP questioning
-10. **Tier Separation** — Creare crate aether-core e aether-pro
-11. **RAG UI CLI** — Implementare `aether memory list/edit/delete`
+10. **Tier Separation** — Creare crate synward-core e synward-pro
+11. **RAG UI CLI** — Implementare `synward memory list/edit/delete`
 
 ---
 

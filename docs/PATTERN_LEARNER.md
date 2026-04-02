@@ -2,7 +2,7 @@
 
 ## Panoramica
 
-Il **PatternLearner** è il sistema di Aether che analizza automaticamente un codebase esistente per estrarre le convenzioni di codice. Questo permette ad Aether di "capire" lo stile del progetto e adattare la validazione di conseguenza.
+Il **PatternLearner** è il sistema di Synward che analizza automaticamente un codebase esistente per estrarre le convenzioni di codice. Questo permette ad Synward di "capire" lo stile del progetto e adattare la validazione di conseguenza.
 
 ## Architettura Completa
 
@@ -13,7 +13,7 @@ Il **PatternLearner** è il sistema di Aether che analizza automaticamente un co
 │                                                                  │
 │  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐        │
 │  │   CLI Layer  │───▶│  Core Layer  │───▶│ Output Layer │        │
-│  │ aether learn │    │ PatternExtractor    │ learned.toml │        │
+│  │ synward learn │    │ PatternExtractor    │ learned.toml │        │
 │  └──────────────┘    └──────────────┘    └──────────────┘        │
 │         │                   │                    │               │
 │         ▼                   ▼                    ▼               │
@@ -160,11 +160,11 @@ fn calculate_confidence(samples: usize, min_required: usize, files: usize) -> f6
 ```rust
 // Output TOML
 let output = patterns.to_toml()?;
-fs::write(".aether/learned.toml", output)?;
+fs::write(".synward/learned.toml", output)?;
 
 // Genera contracts YAML (opzionale)
 let contracts = ContractGenerator::from_patterns(&patterns);
-contracts.save(".aether/contracts/learned.yaml")?;
+contracts.save(".synward/contracts/learned.yaml")?;
 ```
 
 ---
@@ -226,7 +226,7 @@ Il learned.toml viene usato come baseline:
 
 ```rust
 // Durante validazione
-let learned = LearnedPatterns::load(".aether/learned.toml")?;
+let learned = LearnedPatterns::load(".synward/learned.toml")?;
 
 // Rileva anomalie rispetto al learned
 if !learned.naming.struct_suffixes.contains_key(&suffix) {
@@ -258,8 +258,8 @@ if learned.derives.debug_percentage > 80.0 {
 Genera automaticamente contracts YAML:
 
 ```yaml
-# .aether/contracts/learned-naming.yaml
-apiVersion: aether.dev/v1
+# .synward/contracts/learned-naming.yaml
+apiVersion: synward.dev/v1
 kind: NamingContract
 metadata:
   name: learned-naming
@@ -283,36 +283,36 @@ spec:
 
 ```bash
 # Analizza progetto Rust
-aether learn ./my-project --lang rust
+synward learn ./my-project --lang rust
 
 # Output in directory specifica
-aether learn ./my-project --output ./custom/learned.toml
+synward learn ./my-project --output ./custom/learned.toml
 ```
 
 ### Con Opzioni Avanzate
 
 ```bash
 # Multi-linguaggio
-aether learn ./fullstack-project --lang rust,typescript,python
+synward learn ./fullstack-project --lang rust,typescript,python
 
 # Con contract generation
-aether learn ./my-project --generate-contracts
+synward learn ./my-project --generate-contracts
 
 # Con tree-sitter (default)
-aether learn ./my-project --parser tree-sitter
+synward learn ./my-project --parser tree-sitter
 
 # Con regex (legacy)
-aether learn ./my-project --parser regex
+synward learn ./my-project --parser regex
 
 # Verbosità
-aether learn ./my-project -v --stats
+synward learn ./my-project -v --stats
 ```
 
 ### Output Esempio
 
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║ AETHER LEARN - Pattern Analysis                              ║
+║ SYNWARD LEARN - Pattern Analysis                              ║
 ╠══════════════════════════════════════════════════════════════╣
 ║ Project: clap-test                                           ║
 ║ Language: rust                                               ║
@@ -337,8 +337,8 @@ aether learn ./my-project -v --stats
 ║   Documentation: 100% ██████████████████████                 ║
 ╠══════════════════════════════════════════════════════════════╣
 ║ OUTPUT                                                        ║
-║   → .aether/learned.toml                                     ║
-║   → .aether/contracts/learned.yaml (--generate-contracts)    ║
+║   → .synward/learned.toml                                     ║
+║   → .synward/contracts/learned.yaml (--generate-contracts)    ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
 
@@ -388,7 +388,7 @@ let query = Query::new(
 ### Phase 1: Core Infrastructure ✅
 - [x] PatternLearner base con regex
 - [x] Output TOML
-- [x] CLI command `aether learn`
+- [x] CLI command `synward learn`
 - [x] Confidence scores
 
 ### Phase 2: Tree-Sitter Integration
@@ -497,4 +497,4 @@ impl ContractGenerator {
 
 *Versione: 2.0*
 *Ultimo aggiornamento: Marzo 2026*
-*Autore: Aether Intelligence Team*
+*Autore: Synward Intelligence Team*

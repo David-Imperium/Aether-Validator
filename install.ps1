@@ -1,9 +1,9 @@
-# Aether MCP Server Installer for Windows
-# Usage: irm https://raw.githubusercontent.com/YOUR_REPO/Aether/main/install.ps1 | iex
+# Synward MCP Server Installer for Windows
+# Usage: irm https://raw.githubusercontent.com/YOUR_REPO/Synward/main/install.ps1 | iex
 
 param(
     [string]$Version = "latest",
-    [string]$InstallDir = "$env:LOCALAPPDATA\Aether",
+    [string]$InstallDir = "$env:LOCALAPPDATA\Synward",
     [string]$ContractsDir = "",
     [switch]$FactoryCLI = $false,
     [switch]$GeminiCLI = $false,
@@ -21,13 +21,13 @@ function Write-Warning { param($msg) Write-Host "[WARN] $msg" -ForegroundColor Y
 # Help
 if ($Help) {
     Write-Host @"
-Aether MCP Server Installer
+Synward MCP Server Installer
 
 Usage: ./install.ps1 [options]
 
 Options:
     -Version       Version to install (default: latest)
-    -InstallDir    Installation directory (default: $env:LOCALAPPDATA\Aether)
+    -InstallDir    Installation directory (default: $env:LOCALAPPDATA\Synward)
     -ContractsDir  Custom contracts directory (default: bundled)
     -FactoryCLI    Configure for Factory CLI
     -GeminiCLI     Configure for Gemini CLI
@@ -36,7 +36,7 @@ Options:
 Examples:
     ./install.ps1 -FactoryCLI
     ./install.ps1 -GeminiCLI -Version v0.1.0
-    ./install.ps1 -InstallDir C:\Tools\Aether
+    ./install.ps1 -InstallDir C:\Tools\Synward
 "@
     exit 0
 }
@@ -59,7 +59,7 @@ if ($Version -eq "latest") {
     }
 }
 
-Write-Info "Installing Aether MCP $Version"
+Write-Info "Installing Synward MCP $Version"
 
 # Create installation directory
 if (-not (Test-Path $InstallDir)) {
@@ -68,9 +68,9 @@ if (-not (Test-Path $InstallDir)) {
 }
 
 # Download binary
-$BinaryName = "aether-mcp-server-$Target.exe"
-$DownloadUrl = "https://github.com/YOUR_REPO/Aether/releases/download/$Version/$BinaryName"
-$BinaryPath = Join-Path $InstallDir "aether-mcp-server.exe"
+$BinaryName = "synward-mcp-server-$Target.exe"
+$DownloadUrl = "https://github.com/YOUR_REPO/Synward/releases/download/$Version/$BinaryName"
+$BinaryPath = Join-Path $InstallDir "synward-mcp-server.exe"
 
 Write-Info "Downloading from: $DownloadUrl"
 
@@ -87,7 +87,7 @@ if (-not (Test-Path $ContractsPath)) {
     New-Item -ItemType Directory -Path $ContractsPath -Force | Out-Null
     
     # Download default contracts
-    $ContractsUrl = "https://raw.githubusercontent.com/YOUR_REPO/Aether/main/contracts/"
+    $ContractsUrl = "https://raw.githubusercontent.com/YOUR_REPO/Synward/main/contracts/"
     @("rust", "cpp", "lex") | ForEach-Object {
         $LangDir = Join-Path $ContractsPath $_
         New-Item -ItemType Directory -Path $LangDir -Force | Out-Null
@@ -107,7 +107,7 @@ if ($FactoryCLI) {
     }
     
     $McpConfig["mcpServers"] = @{
-        "aether" = @{
+        "synward" = @{
             "type" = "stdio"
             "command" = $BinaryPath
             "args" = @("--contracts", $ContractsPath)
@@ -131,7 +131,7 @@ if ($GeminiCLI) {
     }
     
     $GeminiConfig["mcpServers"] = @{
-        "aether" = @{
+        "synward" = @{
             "command" = $BinaryPath
             "args" = @("--contracts", $ContractsPath)
         }
@@ -145,7 +145,7 @@ if ($GeminiCLI) {
 Write-Info "Verifying installation..."
 $TestResult = & $BinaryPath --version 2>&1
 if ($LASTEXITCODE -eq 0) {
-    Write-Success "Aether MCP Server installed successfully!"
+    Write-Success "Synward MCP Server installed successfully!"
     Write-Host ""
     Write-Host "Binary: $BinaryPath"
     Write-Host "Contracts: $ContractsPath"
@@ -156,7 +156,7 @@ if ($LASTEXITCODE -eq 0) {
         Write-Host @"
 {
   "mcpServers": {
-    "aether": {
+    "synward": {
       "type": "stdio",
       "command": "$BinaryPath",
       "args": ["--contracts", "$ContractsPath"],

@@ -5,7 +5,7 @@ Proposed
 
 ## Context
 
-Aether serves two tiers with different memory requirements:
+Synward serves two tiers with different memory requirements:
 
 1. **Free Tier (MCP)**: Used as MCP server in limited environments. No access to project filesystem, only user home directory. Requires global memory for universal patterns and shared knowledge base.
 
@@ -27,8 +27,8 @@ Adopt a **Memory Hierarchy** architecture with two orchestrated stores:
 #### 1. MemoryScope Enum
 ```rust
 pub enum MemoryScope {
-    Global,   // ~/.aether/global/ - Universal patterns
-    Project,  // .aether/ - Project-specific decisions
+    Global,   // ~/.synward/global/ - Universal patterns
+    Project,  // .synward/ - Project-specific decisions
 }
 ```
 
@@ -61,7 +61,7 @@ impl MemoryHierarchy {
     pub fn mcp_only() -> Self {
         Self {
             global: Box::new(FileStore::new(
-                dirs::home_dir().unwrap().join(".aether/global")
+                dirs::home_dir().unwrap().join(".synward/global")
             )),
             project: None,
         }
@@ -71,15 +71,15 @@ impl MemoryHierarchy {
     pub fn full(with_git: bool) -> Self {
         let project_store: Box<dyn MemoryStore> = if with_git {
             Box::new(GitMemoryStore::new(
-                FileStore::new(PathBuf::from(".aether"))
+                FileStore::new(PathBuf::from(".synward"))
             ))
         } else {
-            Box::new(FileStore::new(PathBuf::from(".aether")))
+            Box::new(FileStore::new(PathBuf::from(".synward")))
         };
 
         Self {
             global: Box::new(FileStore::new(
-                dirs::home_dir().unwrap().join(".aether/global")
+                dirs::home_dir().unwrap().join(".synward/global")
             )),
             project: Some(project_store),
         }
@@ -131,7 +131,7 @@ MCP Tier:
   |         MemoryHierarchy             |
   |  +-------------+  +---------------+  |
   |  | GlobalStore |  |  project=None |  |
-  |  | ~/.aether/  |  |               |  |
+  |  | ~/.synward/  |  |               |  |
   |  |   global/   |  |               |  |
   |  +-------------+  +---------------+  |
   +-------------------------------------+
@@ -141,7 +141,7 @@ CLI Tier:
   |              MemoryHierarchy                   |
   |  +-------------+  +-------------------------+  |
   |  | GlobalStore |  | GitMemoryStore<Project>|  |
-  |  | ~/.aether/  |  | .aether/ (git tracked)  |  |
+  |  | ~/.synward/  |  | .synward/ (git tracked)  |  |
   |  |   global/   |  |                         |  |
   |  +-------------+  +-------------------------+  |
   +-----------------------------------------------+
@@ -152,7 +152,7 @@ CLI Tier:
 ### Positive
 - **API Consistency**: `MemoryHierarchy` provides unified interface
 - **Tier-appropriate**: MCP uses global only, CLI uses full
-- **Git sharing**: Team can share `.aether/` via repository
+- **Git sharing**: Team can share `.synward/` via repository
 - **Testability**: `MemoryStore` trait allows mocking
 - **Extensibility**: New tiers can add layers
 
@@ -162,7 +162,7 @@ CLI Tier:
 - **Sync**: Global changes not automatically visible to project
 
 ### Risks
-- **Git conflicts**: Possible merge conflicts in `.aether/`
+- **Git conflicts**: Possible merge conflicts in `.synward/`
   - Mitigation: JSON format with merge markers
 - **Global memory size**: Grows indefinitely
   - Mitigation: TTL or garbage collection
@@ -184,7 +184,7 @@ Project memory as temporary cache, not persistent.
 - Loses persistence of architectural decisions
 
 ### 3. Multi-repo with Submodule
-`.aether/` as separate git submodule.
+`.synward/` as separate git submodule.
 
 **Rejected because**:
 - Operational overhead for users
@@ -193,7 +193,7 @@ Project memory as temporary cache, not persistent.
 ## File Structure
 
 ```
-~/.aether/global/
+~/.synward/global/
 +-- memory.toml           # Global MemoryEntry
 +-- learned.toml          # Global LearnedConfig
 +-- presets/
@@ -202,7 +202,7 @@ Project memory as temporary cache, not persistent.
 +-- cache/
     +-- tfidf.index       # TF-IDF cache
 
-<project>/.aether/
+<project>/.synward/
 +-- memory.toml           # Project MemoryEntry
 +-- config.toml           # ProjectConfig
 +-- graph.json            # Serialized CodeGraph
@@ -212,7 +212,7 @@ Project memory as temporary cache, not persistent.
 +-- decisions/
 |   +-- {id}.toml         # DecisionEntry
 +-- .gitignore            # Exclude cache/*.tmp
-+-- README.md             # Explains .aether/
++-- README.md             # Explains .synward/
 ```
 
 ## Implementation Notes

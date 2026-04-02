@@ -1,14 +1,14 @@
-# Aether — Rust Implementation
+# Synward — Rust Implementation
 
 **Version:** 0.2.0
 **Last Updated:** 2026-03-16
-**Related:** [AETHER_MASTER_DESIGN.md](./AETHER_MASTER_DESIGN.md), [AETHER_ARCHITECTURE.md](./AETHER_ARCHITECTURE.md)
+**Related:** [SYNWARD_MASTER_DESIGN.md](./SYNWARD_MASTER_DESIGN.md), [SYNWARD_ARCHITECTURE.md](./SYNWARD_ARCHITECTURE.md)
 
 ---
 
 ## Why Rust?
 
-Aether is implemented in **Rust** for commercial and technical reasons:
+Synward is implemented in **Rust** for commercial and technical reasons:
 
 ### Commercial Advantages
 
@@ -38,7 +38,7 @@ Prism remains an internal tool for:
 - **Internal tools** — Parser, codegen, stdlib development
 - **Future open source** — When mature, Prism may be released
 
-For Aether (commercial product), using an unknown language would be a liability:
+For Synward (commercial product), using an unknown language would be a liability:
 - Customers would ask: "Who maintains this language?"
 - Security teams would flag it as "unknown risk"
 - No ecosystem, no hiring pool, no community support
@@ -48,13 +48,13 @@ For Aether (commercial product), using an unknown language would be a liability:
 ## Project Structure
 
 ```
-aether/
+synward/
 ├── Cargo.toml                  # Workspace configuration
 ├── Cargo.lock
 ├── README.md
 │
 ├── crates/
-│   ├── aether-core/           # Core types and orchestrator
+│   ├── synward-core/           # Core types and orchestrator
 │   │   ├── Cargo.toml
 │   │   └── src/
 │   │       ├── lib.rs
@@ -62,7 +62,7 @@ aether/
 │   │       ├── session.rs
 │   │       └── pipeline.rs
 │   │
-│   ├── aether-parsers/        # Parser implementations
+│   ├── synward-parsers/        # Parser implementations
 │   │   ├── Cargo.toml
 │   │   └── src/
 │   │       ├── lib.rs
@@ -72,7 +72,7 @@ aether/
 │   │       ├── cpp.rs         # C++ parser (tree-sitter)
 │   │       └── lex.rs         # Lex parser (custom)
 │   │
-│   ├── aether-validation/     # Validation layers
+│   ├── synward-validation/     # Validation layers
 │   │   ├── Cargo.toml
 │   │   └── src/
 │   │       ├── lib.rs
@@ -86,7 +86,7 @@ aether/
 │   │           ├── architecture.rs
 │   │           └── style.rs
 │   │
-│   ├── aether-contracts/       # Contract engine
+│   ├── synward-contracts/       # Contract engine
 │   │   ├── Cargo.toml
 │   │   └── src/
 │   │       ├── lib.rs
@@ -95,7 +95,7 @@ aether/
 │   │       ├── loader.rs       # YAML loader
 │   │       └── evaluator.rs    # Rule evaluator
 │   │
-│   ├── aether-certification/   # Certificate generation
+│   ├── synward-certification/   # Certificate generation
 │   │   ├── Cargo.toml
 │   │   └── src/
 │   │       ├── lib.rs
@@ -104,7 +104,7 @@ aether/
 │   │       ├── audit.rs        # Audit logging
 │   │       └── storage.rs     # Certificate storage
 │   │
-│   └── aether-cli/             # CLI interface
+│   └── synward-cli/             # CLI interface
 │       ├── Cargo.toml
 │       └── src/
 │           ├── main.rs
@@ -149,12 +149,12 @@ aether/
 # Cargo.toml (workspace)
 [workspace]
 members = [
-    "crates/aether-core",
-    "crates/aether-parsers",
-    "crates/aether-validation",
-    "crates/aether-contracts",
-    "crates/aether-certification",
-    "crates/aether-cli",
+    "crates/synward-core",
+    "crates/synward-parsers",
+    "crates/synward-validation",
+    "crates/synward-contracts",
+    "crates/synward-certification",
+    "crates/synward-cli",
 ]
 
 [workspace.dependencies]
@@ -195,7 +195,7 @@ tower-lsp = "0.20"
 ### Crate-Specific Dependencies
 
 ```toml
-# crates/aether-parsers/Cargo.toml
+# crates/synward-parsers/Cargo.toml
 [dependencies]
 syn = { workspace = true }
 tree-sitter = { workspace = true }
@@ -203,7 +203,7 @@ tree-sitter-rust = { workspace = true }
 tree-sitter-cpp = { workspace = true }
 thiserror = { workspace = true }
 
-# crates/aether-certification/Cargo.toml
+# crates/synward-certification/Cargo.toml
 [dependencies]
 ed25519-dalek = { workspace = true }
 rand = { workspace = true }
@@ -211,13 +211,13 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 
-# crates/aether-cli/Cargo.toml
+# crates/synward-cli/Cargo.toml
 [dependencies]
-aether-core = { path = "../aether-core" }
-aether-parsers = { path = "../aether-parsers" }
-aether-validation = { path = "../aether-validation" }
-aether-contracts = { path = "../aether-contracts" }
-aether-certification = { path = "../aether-certification" }
+synward-core = { path = "../synward-core" }
+synward-parsers = { path = "../synward-parsers" }
+synward-validation = { path = "../synward-validation" }
+synward-contracts = { path = "../synward-contracts" }
+synward-certification = { path = "../synward-certification" }
 clap = { workspace = true }
 tokio = { workspace = true }
 tracing = { workspace = true }
@@ -230,7 +230,7 @@ tracing = { workspace = true }
 ### Orchestrator
 
 ```rust
-// crates/aether-core/src/orchestrator.rs
+// crates/synward-core/src/orchestrator.rs
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -269,7 +269,7 @@ impl Orchestrator {
 ### Parser Trait
 
 ```rust
-// crates/aether-parsers/src/parser.rs
+// crates/synward-parsers/src/parser.rs
 use async_trait::async_trait;
 
 #[async_trait]
@@ -289,7 +289,7 @@ pub struct AST {
 ### Validation Layer
 
 ```rust
-// crates/aether-validation/src/layer.rs
+// crates/synward-validation/src/layer.rs
 use async_trait::async_trait;
 
 #[async_trait]
@@ -310,7 +310,7 @@ pub struct LayerResult {
 ### Contract
 
 ```rust
-// crates/aether-contracts/src/contract.rs
+// crates/synward-contracts/src/contract.rs
 use async_trait::async_trait;
 
 #[async_trait]
@@ -334,7 +334,7 @@ pub enum Severity {
 ### Certificate
 
 ```rust
-// crates/aether-certification/src/certificate.rs
+// crates/synward-certification/src/certificate.rs
 use ed25519_dalek::{Signature, Signer, VerifyingKey};
 use serde::{Serialize, Deserialize};
 
@@ -412,7 +412,7 @@ impl Certificate {
 cargo build --release
 
 # Build specific crate
-cargo build -p aether-core --release
+cargo build -p synward-core --release
 
 # Build with all features
 cargo build --all-features
@@ -425,7 +425,7 @@ cargo build --all-features
 cargo test
 
 # Run specific test
-cargo test -p aether-validation
+cargo test -p synward-validation
 
 # Run tests with coverage
 cargo tarpaulin --out Html
@@ -491,7 +491,7 @@ jobs:
       - run: cargo build --release
       - uses: softprops/action-gh-release@v1
         with:
-          files: target/release/aether
+          files: target/release/synward
 ```
 
 ---
@@ -536,7 +536,7 @@ Rust guarantees memory safety at compile time:
 
 ### WASM Target
 
-Aether can compile to WASM for:
+Synward can compile to WASM for:
 - Browser-based validation
 - CloudFlare Workers deployment
 - Deno/Node.js integration
@@ -561,7 +561,7 @@ Priority order for language support:
 
 ## Summary
 
-Aether is implemented in Rust because:
+Synward is implemented in Rust because:
 
 1. **Commercial** — "Built in Rust" is a trust marker
 2. **Technical** — Memory safety, performance, modern tooling

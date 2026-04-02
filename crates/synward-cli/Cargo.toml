@@ -1,0 +1,52 @@
+[package]
+name = "synward-cli"
+version = "0.1.0"
+edition = "2021"
+description = "Synward CLI - Real-time code validator and certifier"
+authors = ["David"]
+
+[[bin]]
+name = "synward"
+path = "src/main.rs"
+
+[dependencies]
+synward-core = { path = "../synward-core" }
+synward-sdk = { path = "../synward-sdk" }
+synward-parsers = { path = "../synward-parsers" }
+synward-validation = { path = "../synward-validation" }
+synward-certification = { path = "../synward-certification" }
+synward-contracts = { path = "../synward-contracts" }
+synward-intelligence = { path = "../synward-intelligence", optional = true, features = ["patterns"] }
+
+clap = { version = "4", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yaml = "0.9"
+colored = "2"
+anyhow = "1"
+dirs = "5"
+ed25519-dalek = { workspace = true }
+rand = { workspace = true }
+hex = "0.4"
+inquire = "0.7"
+reqwest = { version = "0.12", features = ["json"] }
+which = "6"
+walkdir = "2"
+chrono = "0.4"
+ratatui = { workspace = true }
+crossterm = { workspace = true }
+toml = "0.8"
+tracing = "0.1"
+
+[features]
+default = ["intelligence"]
+intelligence = ["synward-intelligence", "synward-validation/synward-intelligence"]
+intent-api = ["synward-intelligence/intent-api", "synward-validation/intent-api"]
+drift = ["synward-intelligence/drift", "synward-validation/drift"]
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+tempfile = "3"
+serde_json = "1"

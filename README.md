@@ -1,21 +1,21 @@
-# Aether — Universal AI Validation Layer
+# Synward — Universal AI Validation Layer
 
 **Version:** 0.1.0
 **Status:** MCP-Driven Architecture
 **Implementation Language:** Rust
-**Created:** 2026-03-08 (project directory), first file: `crates/aether-core/src/lib.rs` on 2026-03-10 (02:08 UTC)
+**Created:** 2026-03-08 (project directory), first file: `crates/synward-core/src/lib.rs` on 2026-03-10 (02:08 UTC)
 **First commit:** 2026-03-13 (13:45 CET)
 **Author:** David (Imperium)
 
 ---
 
-## What is Aether?
+## What is Synward?
 
-Aether ensures AI-generated code is trustworthy through formal validation. It acts as a **trust layer** between AI agents and production code.
+Synward ensures AI-generated code is trustworthy through formal validation. It acts as a **trust layer** between AI agents and production code.
 
 **Mission:** Don't trust AI — verify AI.
 
-**Approach:** MCP-driven — AI agents call Aether tools directly for validation.
+**Approach:** MCP-driven — AI agents call Synward tools directly for validation.
 
 ---
 
@@ -48,10 +48,10 @@ Aether ensures AI-generated code is trustworthy through formal validation. It ac
                               │ MCP Tool Call
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    AETHER MCP TOOLS                             │
+│                    SYNWARD MCP TOOLS                             │
 │                                                                 │
 │   ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐ │
-│   │ aether_validate │  │ aether_certify  │  │ aether_analyze  │ │
+│   │ synward_validate │  │ synward_certify  │  │ synward_analyze  │ │
 │   └────────┬────────┘  └────────┬────────┘  └────────┬────────┘ │
 │            │                    │                    │          │
 │            └────────────────────┼────────────────────┘          │
@@ -82,20 +82,20 @@ Aether ensures AI-generated code is trustworthy through formal validation. It ac
 **12 crates** organized in a Cargo workspace:
 
 ```
-Aether/
+Synward/
 ├── crates/
-│   ├── aether-core/           # Core types and orchestrator
-│   ├── aether-parsers/        # Parser implementations (24 languages)
-│   ├── aether-validation/     # Validation layers (20+ layers)
-│   ├── aether-contracts/      # Contract engine (118 YAML contracts)
-│   ├── aether-certification/  # Certificate generation (Ed25519)
-│   ├── aether-api/            # HTTP API (axum)
-│   ├── aether-sdk/            # Agent SDKs
-│   ├── aether-cli/            # CLI interface + RAG
-│   ├── aether-mcp/            # MCP server (24 tools)
-│   ├── aether-mcp-test/       # MCP integration tests
-│   ├── aether-intelligence/   # AI-powered analysis (feature-gated)
-│   └── aether-contract-importer/ # Import ESLint, Clippy, Pylint rules
+│   ├── synward-core/           # Core types and orchestrator
+│   ├── synward-parsers/        # Parser implementations (24 languages)
+│   ├── synward-validation/     # Validation layers (20+ layers)
+│   ├── synward-contracts/      # Contract engine (118 YAML contracts)
+│   ├── synward-certification/  # Certificate generation (Ed25519)
+│   ├── synward-api/            # HTTP API (axum)
+│   ├── synward-sdk/            # Agent SDKs
+│   ├── synward-cli/            # CLI interface + RAG
+│   ├── synward-mcp/            # MCP server (24 tools)
+│   ├── synward-mcp-test/       # MCP integration tests
+│   ├── synward-intelligence/   # AI-powered analysis (feature-gated)
+│   └── synward-contract-importer/ # Import ESLint, Clippy, Pylint rules
 │
 ├── contracts/                  # Default contracts (27 languages)
 │   ├── rust/
@@ -103,7 +103,7 @@ Aether/
 │   └── lex/
 │
 ├── templates/                  # CI/CD templates
-│   └── gitlab-ci-aether.yml
+│   └── gitlab-ci-synward.yml
 │
 └── test_samples/               # Test code samples
 ```
@@ -127,7 +127,7 @@ Aether/
 ### Info
 | Tool | Description |
 |------|-------------|
-| `get_version` | Get Aether version and capabilities |
+| `get_version` | Get Synward version and capabilities |
 | `list_languages` | List all supported languages with extensions |
 | `list_contracts` | List available validation contracts |
 | `get_language_info` | Get supported features for a specific language |
@@ -171,7 +171,7 @@ Aether/
 
 **24 parsers implemented:** bash, c, cpp, cuda, glsl, go, java, javascript, typescript, python, rust, sql, graphql, html, css, markdown, json, yaml, toml, cmake, lex, lua, prism, triton, notebook
 
-See [crates/aether-mcp/docs/languages.md](crates/aether-mcp/docs/languages.md) for full details.
+See [crates/synward-mcp/docs/languages.md](crates/synward-mcp/docs/languages.md) for full details.
 
 ### Validation Layers
 
@@ -197,17 +197,17 @@ See [crates/aether-mcp/docs/languages.md](crates/aether-mcp/docs/languages.md) f
 
 | Crate | Features |
 |-------|----------|
-| **aether-validation** | `aether-intelligence`, `memory`, `patterns`, `intent-api`, `drift`, `intelligence-full` |
-| **aether-cli** | `intelligence` (default), `intent-api`, `drift` |
-| **aether-intelligence** | `memory` (default), `patterns`, `tree-sitter`, `tree-sitter-multi`, `intent-api`, `drift`, `semantic-search`, `full` |
+| **synward-validation** | `synward-intelligence`, `memory`, `patterns`, `intent-api`, `drift`, `intelligence-full` |
+| **synward-cli** | `intelligence` (default), `intent-api`, `drift` |
+| **synward-intelligence** | `memory` (default), `patterns`, `tree-sitter`, `tree-sitter-multi`, `intent-api`, `drift`, `semantic-search`, `full` |
 
 ### MCP Tools Reference
 
-See [crates/aether-mcp/docs/MCP_TOOLS.md](crates/aether-mcp/docs/MCP_TOOLS.md) for complete tool documentation.
+See [crates/synward-mcp/docs/MCP_TOOLS.md](crates/synward-mcp/docs/MCP_TOOLS.md) for complete tool documentation.
 
 ### MCP Features
 
-**Sampling (AI Suggestions):** Aether can request AI suggestions from the connected LLM client for fixing validation errors. Use `suggest_fixes` tool to get intelligent, context-aware fix recommendations.
+**Sampling (AI Suggestions):** Synward can request AI suggestions from the connected LLM client for fixing validation errors. Use `suggest_fixes` tool to get intelligent, context-aware fix recommendations.
 
 **Progress Reporting:** Long-running operations report progress in real-time via MCP notifications. Track batch validation progress with progress tokens.
 
@@ -226,7 +226,7 @@ See [crates/aether-mcp/docs/MCP_TOOLS.md](crates/aether-mcp/docs/MCP_TOOLS.md) f
 When you generate or write code, follow this workflow:
 
 1. Generate Code: Write the code as requested
-2. Validate: Call aether_validate with the generated code
+2. Validate: Call synward_validate with the generated code
 3. Fix: If validation fails, fix the code
 4. Iterate: Repeat validation until it passes (max 3)
 5. Present: Only show validated code to the user
@@ -238,19 +238,19 @@ When you generate or write code, follow this workflow:
 
 ```bash
 # Validate a file
-aether validate src/enemy.rs --lang rust
+synward validate src/enemy.rs --lang rust
 
 # Analyze AST structure
-aether analyze src/enemy.rs
+synward analyze src/enemy.rs
 
 # Generate certificate
-aether certify src/enemy.rs --output cert.json
+synward certify src/enemy.rs --output cert.json
 
 # RAG: Search for similar corrections
-aether rag search "unwrap panic" --lang rust
+synward rag search "unwrap panic" --lang rust
 
 # RAG: Show statistics
-aether rag stats
+synward rag stats
 ```
 
 ---
@@ -259,43 +259,43 @@ aether rag stats
 
 ### GitHub Releases (Recommended)
 
-Download the latest binary from [GitHub Releases](https://github.com/aether-ai/aether/releases):
+Download the latest binary from [GitHub Releases](https://github.com/synward-ai/synward/releases):
 
-**Free Tier (aether-mcp):**
+**Free Tier (synward-mcp):**
 ```bash
 # Linux/macOS
-curl -sL https://github.com/aether-ai/aether/releases/latest/download/aether-mcp-linux-x86_64 -o aether-mcp
-chmod +x aether-mcp
+curl -sL https://github.com/synward-ai/synward/releases/latest/download/synward-mcp-linux-x86_64 -o synward-mcp
+chmod +x synward-mcp
 
 # Windows (PowerShell)
-Invoke-WebRequest -Uri https://github.com/aether-ai/aether/releases/latest/download/aether-mcp-windows-x86_64.exe -OutFile aether-mcp.exe
+Invoke-WebRequest -Uri https://github.com/synward-ai/synward/releases/latest/download/synward-mcp-windows-x86_64.exe -OutFile synward-mcp.exe
 ```
 
-**Pro Tier (aether-cli):**
+**Pro Tier (synward-cli):**
 ```bash
 # Linux/macOS
-curl -sL https://github.com/aether-ai/aether/releases/latest/download/aether-cli-linux-x86_64 -o aether
-chmod +x aether
+curl -sL https://github.com/synward-ai/synward/releases/latest/download/synward-cli-linux-x86_64 -o synward
+chmod +x synward
 
 # Windows (PowerShell)
-Invoke-WebRequest -Uri https://github.com/aether-ai/aether/releases/latest/download/aether-cli-windows-x86_64.exe -OutFile aether.exe
+Invoke-WebRequest -Uri https://github.com/synward-ai/synward/releases/latest/download/synward-cli-windows-x86_64.exe -OutFile synward.exe
 ```
 
 ### Build from Source
 
 ```bash
-cd Aether
+cd Synward
 cargo build --release
 ```
 
-The MCP server binary is at `target/release/aether-mcp.exe` (Windows) or `target/release/aether-mcp` (Unix).
+The MCP server binary is at `target/release/synward-mcp.exe` (Windows) or `target/release/synward-mcp` (Unix).
 
 ### VS Code Extension
 
-Aether includes a VS Code extension for real-time validation:
+Synward includes a VS Code extension for real-time validation:
 
 ```bash
-cd extensions/vscode-aether
+cd extensions/vscode-synward
 npm install
 npm run compile
 ```
@@ -317,9 +317,9 @@ Add to your MCP configuration file:
 ```json
 {
   "mcpServers": {
-    "aether": {
+    "synward": {
       "type": "stdio",
-      "command": "/path/to/aether-mcp",
+      "command": "/path/to/synward-mcp",
       "args": [],
       "disabled": false
     }
@@ -331,7 +331,7 @@ Add to your MCP configuration file:
 
 ### Protocol Version
 
-Aether MCP uses protocol version `2024-11-05` and requires clients to send `clientInfo` in the initialize request (per MCP specification).
+Synward MCP uses protocol version `2024-11-05` and requires clients to send `clientInfo` in the initialize request (per MCP specification).
 
 ---
 
@@ -339,11 +339,11 @@ Aether MCP uses protocol version `2024-11-05` and requires clients to send `clie
 
 | Project | Relationship |
 |---------|--------------|
-| **Aegis Validation** | Predecessor. Aether is the universal evolution. |
+| **Aegis Validation** | Predecessor. Synward is the universal evolution. |
 | **Aegis (Security)** | Built in Prism — "unknown language = inviolable" is a feature |
-| **Aether** | Built in Rust — MCP-driven, trusted, memory-safe |
-| **Lex Compiler** | Aether validates `.lex` files via Lex adapter |
-| **Prism** | Internal language. Aether uses Rust for commercial reasons |
+| **Synward** | Built in Rust — MCP-driven, trusted, memory-safe |
+| **Lex Compiler** | Synward validates `.lex` files via Lex adapter |
+| **Prism** | Internal language. Synward uses Rust for commercial reasons |
 
 ---
 

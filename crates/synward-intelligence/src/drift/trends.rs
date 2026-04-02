@@ -1,6 +1,6 @@
 //! Trend Analysis - Analyze trends in code metrics
 
-use crate::drift::{CodeSnapshot, SnapshotMetrics};
+use crate::drift::CodeSnapshot;
 use serde::{Deserialize, Serialize};
 
 /// A detected trend

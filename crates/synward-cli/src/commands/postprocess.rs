@@ -48,15 +48,19 @@ pub fn show_memory_context(path: &Path) -> Result<()> {
 
 /// Handle intent analysis
 #[cfg(feature = "intent-api")]
-pub fn show_intent_analysis(path: &Path) -> Result<()> {
+pub async fn show_intent_analysis(path: &Path) -> Result<()> {
     use synward_intelligence::IntentInferrer;
     
     println!("\n--- Intent Analysis ---");
     let code = std::fs::read_to_string(path)?;
-    let inferred = IntentInferrer::new(None)?.infer(&code)?;
-    println!("Primary intent: {:?}", inferred.primary);
-    if !inferred.secondary.is_empty() {
-        println!("Secondary intents: {:?}", inferred.secondary);
+    let inferred = IntentInferrer::new(None).infer(&code).await?;
+    println!("Summary: {}", inferred.summary);
+    println!("Purpose: {}", inferred.purpose);
+    if !inferred.invariants.is_empty() {
+        println!("Invariants: {:?}", inferred.invariants);
+    }
+    if !inferred.side_effects.is_empty() {
+        println!("Side effects: {:?}", inferred.side_effects);
     }
     println!("-----------------------");
     Ok(())
@@ -159,7 +163,7 @@ pub async fn postprocess(
 
     #[cfg(feature = "intent-api")]
     if options.intent {
-        show_intent_analysis(path)?;
+        show_intent_analysis(path).await?;
     }
 
     if options.save_state || options.accept_ids.is_some() {

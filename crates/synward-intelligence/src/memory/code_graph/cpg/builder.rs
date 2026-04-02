@@ -123,7 +123,7 @@ impl ScopeStack {
 pub struct CPGBuilder;
 
 #[cfg(feature = "tree-sitter")]
-use tree_sitter::{Node as TsNode, Parser, TreeCursor};
+use tree_sitter::{Node as TsNode, Parser};
 
 #[cfg(feature = "tree-sitter")]
 impl CPGBuilder {
@@ -477,6 +477,7 @@ impl CPGBuilder {
             .max(1); // avoid division by zero
 
         // Write features [26..33] into each node's feature vector.
+        let entry_points = cpg.entry_points.clone();
         for (idx, node) in cpg.nodesMut().iter_mut().enumerate() {
             let in_d = in_degree[idx] as f32;
             let out_d = out_degree[idx] as f32;
@@ -495,7 +496,7 @@ impl CPGBuilder {
             // [31] has_call_edge
             node.features[31] = if has_call[idx] { 1.0 } else { 0.0 };
             // [32] is_entry_point
-            node.features[32] = if cpg.isEntryPoint(node.id) { 1.0 } else { 0.0 };
+            node.features[32] = if entry_points.contains(&node.id) { 1.0 } else { 0.0 };
             // [33] degree_centrality
             node.features[33] = total_d / max_degree as f32;
         }

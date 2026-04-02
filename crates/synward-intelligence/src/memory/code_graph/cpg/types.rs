@@ -152,7 +152,7 @@ pub struct CodePropertyGraph {
     /// Maps node id → index in `nodes` vec.
     pub(crate) node_index: HashMap<usize, usize>,
     /// Entry points (main, public API handlers, etc.).
-    entry_points: Vec<usize>,
+    pub(crate) entry_points: Vec<usize>,
 }
 
 impl Default for CodePropertyGraph {

@@ -112,15 +112,15 @@ impl ValidationLayer for IntelligenceLayer {
     }
 
     #[cfg(feature = "synward-intelligence")]
-    async fn validate(&self, _ctx: &ValidationContext) -> LayerResult {
-        let violations: Vec<Violation> = Vec::new();
-        let infos = Vec::new();
+    async fn validate(&self, ctx: &ValidationContext) -> LayerResult {
+        let mut violations: Vec<Violation> = Vec::new();
+        let mut infos: Vec<String> = Vec::new();
 
         // Layer 2: Memory - Check for similar issues in memory
         #[cfg(feature = "memory")]
         if self.config.memory {
             if let Some(ref file_path) = ctx.file_path {
-                let file_str = file_path.to_string_lossy();
+                let file_str: std::borrow::Cow<'_, str> = file_path.to_string_lossy();
                 infos.push(format!("Memory: Checking {} for known issues", file_str));
             }
         }
@@ -168,7 +168,8 @@ impl ValidationLayer for IntelligenceLayer {
         #[cfg(feature = "drift")]
         if self.config.drift {
             if let Some(ref file_path) = ctx.file_path {
-                infos.push(format!("Drift: Analyzing {}...", file_path.display()));
+                let path: &std::path::Path = file_path.as_path();
+                infos.push(format!("Drift: Analyzing {}...", path.display()));
             }
         }
 

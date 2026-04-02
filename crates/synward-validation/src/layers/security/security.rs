@@ -5,7 +5,7 @@
 
 use std::collections::HashSet;
 use async_trait::async_trait;
-use crate::layer::{ValidationLayer, LayerResult};
+use crate::layer::{ValidationLayer, LayerResult, LayerConfig};
 use crate::context::ValidationContext;
 use crate::violation::{Violation, Severity, deduplicate_violations};
 
@@ -709,7 +709,7 @@ impl ValidationLayer for SecurityLayer {
             // Try to parse config as LearnedConfig
             if let Ok(learned) = serde_json::from_value::<LearnedConfig>(cfg.clone()) {
                 if let Some(ref file_path) = ctx.file_path {
-                    let file_path = file_path.to_string_lossy();
+                    let file_path: std::borrow::Cow<'_, str> = file_path.to_string_lossy();
                     return result.filter_whitelisted(|v| learned.is_whitelisted(&v.id, &file_path));
                 }
             }

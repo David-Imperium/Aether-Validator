@@ -150,7 +150,7 @@ pub struct CodePropertyGraph {
     nodes: Vec<CPGNode>,
     edges: Vec<CPGEdge>,
     /// Maps node id → index in `nodes` vec.
-    node_index: HashMap<usize, usize>,
+    pub(crate) node_index: HashMap<usize, usize>,
     /// Entry points (main, public API handlers, etc.).
     entry_points: Vec<usize>,
 }
